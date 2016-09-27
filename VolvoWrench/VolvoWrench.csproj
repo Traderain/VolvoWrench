@@ -46,6 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="hotkey.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="hotkey.Designer.cs">
+      <DependentUpon>hotkey.cs</DependentUpon>
+    </Compile>
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -58,6 +64,7 @@
     <Compile Include="About.Designer.cs">
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
+    <Compile Include="Netdec\GoldSourceParser.cs" />
     <Compile Include="Update.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -77,6 +84,9 @@
     <Compile Include="Netdec\Packet.cs" />
     <Compile Include="DG\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="hotkey.resx">
+      <DependentUpon>hotkey.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
     </EmbeddedResource>

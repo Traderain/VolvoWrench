@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.IO;
 using VolvoWrench.Netdec;
+using System.Diagnostics;
 
 namespace VolvoWrench
 {
@@ -51,29 +46,32 @@ namespace VolvoWrench
 
         public void PrintSetails(DemoFile d)
         {
-            richTextBox1.Text = "Analyzed source engine demo file:" + "\n"
-                      + "----------------------------------------------------------" + "\n"
-                      + "Demo protocol: " + CurrentDemoFile.Info.DemoProtocol + "\n"
-                      + "Net protocol: " + CurrentDemoFile.Info.NetProtocol + "\n"
-                      + "Server name: " + CurrentDemoFile.Info.ServerName + "\n"
-                      + "Client name: " + CurrentDemoFile.Info.ClientName + "\n"
-                      + "Map name: " + CurrentDemoFile.Info.MapName + "\n"
-                      + "Game directory: " + CurrentDemoFile.Info.GameDirectory + "\n"
-                      + "Length in seconds: " + CurrentDemoFile.Info.Seconds + "\n"
-                      + "Tick count: " + CurrentDemoFile.Info.TickCount + "\n"
-                      + "Frame count: " + CurrentDemoFile.Info.FrameCount + "\n"
-                      + "----------------------------------------------------------" + "\n";
-            foreach (var f in CurrentDemoFile.Info.Flags)
+            if (CurrentDemoFile != null)
             {
-                if (f.Name == "#SAVE#")
+                richTextBox1.Text = "Analyzed source engine demo file:" + "\n"
+                          + "----------------------------------------------------------" + "\n"
+                          + "Demo protocol: " + CurrentDemoFile.Info.DemoProtocol + "\n"
+                          + "Net protocol: " + CurrentDemoFile.Info.NetProtocol + "\n"
+                          + "Server name: " + CurrentDemoFile.Info.ServerName + "\n"
+                          + "Client name: " + CurrentDemoFile.Info.ClientName + "\n"
+                          + "Map name: " + CurrentDemoFile.Info.MapName + "\n"
+                          + "Game directory: " + CurrentDemoFile.Info.GameDirectory + "\n"
+                          + "Length in seconds: " + CurrentDemoFile.Info.Seconds + "\n"
+                          + "Tick count: " + CurrentDemoFile.Info.TickCount + "\n"
+                          + "Frame count: " + CurrentDemoFile.Info.FrameCount + "\n"
+                          + "----------------------------------------------------------" + "\n";
+                foreach (var f in CurrentDemoFile.Info.Flags)
                 {
-                    richTextBox1.Text += $"#SAVE# flag at Tick: {f.Tick} -> {f.Time}s" + "\n";
-                    HighlightLastLine(richTextBox1,Color.Yellow);
-                }
-                if (f.Name == "autosave")
-                {
-                    richTextBox1.Text += $"Autosave at Tick: {f.Tick} -> {f.Time}s" + "\n";
-                    HighlightLastLine(richTextBox1, Color.DarkOrange);
+                    if (f.Name == "#SAVE#")
+                    {
+                        richTextBox1.Text += $"#SAVE# flag at Tick: {f.Tick} -> {f.Time}s" + "\n";
+                        HighlightLastLine(richTextBox1, Color.Yellow);
+                    }
+                    if (f.Name == "autosave")
+                    {
+                        richTextBox1.Text += $"Autosave at Tick: {f.Tick} -> {f.Time}s" + "\n";
+                        HighlightLastLine(richTextBox1, Color.DarkOrange);
+                    }
                 }
             }
         }
@@ -156,12 +154,15 @@ namespace VolvoWrench
         {
             if (CurrentFile != null)
             {
-                if (Path.GetExtension(CurrentFile) == ".dem")
+                if (File.Exists(CurrentFile))
                 {
-                    using (Stream cfs = File.Open(CurrentFile, FileMode.Open))
-                    using (DemoDecoder nd = new DemoDecoder(cfs))
+                    if (Path.GetExtension(CurrentFile) == ".dem")
                     {
-                        nd.ShowDialog();
+                        using (Stream cfs = File.Open(CurrentFile, FileMode.Open))
+                        using (DemoDecoder nd = new DemoDecoder(cfs))
+                        {
+                            nd.ShowDialog();
+                        }
                     }
                 }
             }
@@ -183,9 +184,33 @@ namespace VolvoWrench
             {
                 if (of.ShowDialog() == DialogResult.OK)
                 {
-                    if (Path.GetExtension(of.FileName) == ".dem")
+                    if (CurrentFile != null)
                     {
-                        CurrentFile = of.FileName;
+                        if (File.Exists(CurrentFile))
+                        {
+                            if (Path.GetExtension(CurrentFile) == ".dem")
+                            {
+                                CurrentFile = of.FileName;
+                                Stream cfs = File.Open(CurrentFile, FileMode.Open);
+                                CurrentDemoFile = new DemoFile(cfs);
+                                cfs.Close();
+                                PrintSetails(CurrentDemoFile);
+                                toolsToolStripMenuItem.Enabled = true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private void rescanFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (CurrentFile != null)
+            {
+                if (File.Exists(CurrentFile))
+                {
+                    if (Path.GetExtension(CurrentFile) == ".dem")
+                    {
                         Stream cfs = File.Open(CurrentFile, FileMode.Open);
                         CurrentDemoFile = new DemoFile(cfs);
                         cfs.Close();
@@ -196,17 +221,60 @@ namespace VolvoWrench
             }
         }
 
-        private void rescanFileToolStripMenuItem_Click(object sender, EventArgs e)
+        private void exportDemoDataToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (CurrentFile != null)
+            var a = new SaveFileDialog();
+            if(a.ShowDialog() == DialogResult.OK)
             {
-                if (Path.GetExtension(CurrentFile) == ".dem")
+                File.WriteAllLines(a.FileName, richTextBox1.Lines);
+            }
+        }
+
+        private void showLogToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ProcessStartInfo psi = new ProcessStartInfo("cmd.exe")
+            {
+                RedirectStandardError = true,
+                RedirectStandardInput = true,
+                RedirectStandardOutput = true,
+                UseShellExecute = false
+            };
+
+            Process p = Process.Start(psi);
+
+            StreamWriter sw = p.StandardInput;
+            StreamReader sr = p.StandardOutput;
+
+            sw.WriteLine("Hello world!");
+            sr.Close();
+        }
+
+        private void hotkeysToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (hotkey a = new hotkey())
+            {
+                a.ShowDialog();
+            }
+        }
+
+        private void renameDemoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if(CurrentFile != null)
+            {
+                if(File.Exists(CurrentFile))
                 {
-                    Stream cfs = File.Open(CurrentFile, FileMode.Open);
-                    CurrentDemoFile = new DemoFile(cfs);
-                    cfs.Close();
-                    PrintSetails(CurrentDemoFile);
-                    toolsToolStripMenuItem.Enabled = true;
+                    if (Path.GetExtension(CurrentFile) == ".dem")
+                    {
+                        Stream cfs = File.Open(CurrentFile, FileMode.Open);
+                        CurrentDemoFile = new DemoFile(cfs);
+                        cfs.Close();
+
+                        var time = (CurrentDemoFile.Info.Flags.Count(x => x.Name == "#SAVE#") == 0)
+                                ? CurrentDemoFile.Info.Seconds.ToString("#,0.000")
+                                : CurrentDemoFile.Info.Flags.Last(x=> x.Name == "#SAVE#").Time.ToString("#,0.000");
+                        File.Move(CurrentFile, Path.GetDirectoryName(CurrentFile) + "\\" + CurrentDemoFile.Info.MapName.Substring(3, CurrentDemoFile.Info.MapName.Length - 3) + "-" +
+                                            $"{time}" + "-" + CurrentDemoFile.Info.ClientName + ".dem");
+                    }
                 }
             }
         }
