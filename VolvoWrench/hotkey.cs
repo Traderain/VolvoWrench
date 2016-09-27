@@ -47,5 +47,11 @@ namespace VolvoWrench
         {
 
         }
+
+        private void richTextBox1_SelectionChanged(object sender, EventArgs e)
+        {
+            
+
+        }
     }
 }

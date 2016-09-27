@@ -184,13 +184,13 @@ namespace VolvoWrench
             {
                 if (of.ShowDialog() == DialogResult.OK)
                 {
+                    CurrentFile = of.FileName;
                     if (CurrentFile != null)
                     {
                         if (File.Exists(CurrentFile))
                         {
                             if (Path.GetExtension(CurrentFile) == ".dem")
                             {
-                                CurrentFile = of.FileName;
                                 Stream cfs = File.Open(CurrentFile, FileMode.Open);
                                 CurrentDemoFile = new DemoFile(cfs);
                                 cfs.Close();
@@ -230,33 +230,6 @@ namespace VolvoWrench
             }
         }
 
-        private void showLogToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ProcessStartInfo psi = new ProcessStartInfo("cmd.exe")
-            {
-                RedirectStandardError = true,
-                RedirectStandardInput = true,
-                RedirectStandardOutput = true,
-                UseShellExecute = false
-            };
-
-            Process p = Process.Start(psi);
-
-            StreamWriter sw = p.StandardInput;
-            StreamReader sr = p.StandardOutput;
-
-            sw.WriteLine("Hello world!");
-            sr.Close();
-        }
-
-        private void hotkeysToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            using (hotkey a = new hotkey())
-            {
-                a.ShowDialog();
-            }
-        }
-
         private void renameDemoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if(CurrentFile != null)
@@ -277,6 +250,26 @@ namespace VolvoWrench
                     }
                 }
             }
+        }
+
+        private void hotkeysToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            using (hotkey a = new hotkey())
+            {
+                a.ShowDialog();
+                
+            }
+        }
+        public static void Log(string s)
+        {
+            var ns = DateTime.Now.ToString("yyyy-MM-ddTHH\\:mm\\:ss.fffffffzzz") + " " + $"[{System.Security.Principal.WindowsIdentity.GetCurrent().Name}]" + ": " + s;
+            File.AppendAllLines(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\" + "VWLog.log",new string[] { ns });
+        }
+
+        private void showLogToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Log("Log opened");
+            System.Diagnostics.Process.Start(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\" + "VWLog.log");
         }
     }
 }

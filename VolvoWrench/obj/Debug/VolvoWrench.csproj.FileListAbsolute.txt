@@ -38,3 +38,13 @@ F:\VolvoWrench-master\VolvoWrench\obj\Debug\VolvoWrench.hotkey.resources
 F:\Githubrepos\VolvoWrench\VolvoWrench\bin\Debug\VolvoWrench.exe.config
 F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.exe
 F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.pdb
+F:\Githubrepos\VolvoWrench\VolvoWrench\bin\Debug\VolvoWrench.exe
+F:\Githubrepos\VolvoWrench\VolvoWrench\bin\Debug\VolvoWrench.pdb
+F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.csprojResolveAssemblyReference.cache
+F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.hotkey.resources
+F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.Main.resources
+F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.About.resources
+F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.Update.resources
+F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.Netdec.DemoDecoder.resources
+F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.Properties.Resources.resources
+F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.csproj.GenerateResource.Cache
