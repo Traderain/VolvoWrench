@@ -8,14 +8,14 @@ namespace VolvoWrench.Netdec
 {
     public partial class DemoDecoder : Form
     {
-        public DemoFile CurrentFile;
+        public SourceParser CurrentFile;
         public Stream File;
         public DemoDecoder(Stream f)
         {
             InitializeComponent();
                 File = f;
                 messageList.Items.Clear();
-                CurrentFile = new DemoFile(f);
+                CurrentFile = new SourceParser(f);
                 f.Close();
 
                 foreach (var msg in CurrentFile.Messages)
@@ -24,7 +24,7 @@ namespace VolvoWrench.Netdec
                 }
         }
 
-        private void ParseIntoTree(DemoFile.DemoMessage msg)
+        private void ParseIntoTree(SourceParser.DemoMessage msg)
         {
             var node = new TreeNode($"{msg.Type}, tick {msg.Tick}, {msg.Data.Length} bytes");
             node.Expand();
@@ -32,20 +32,20 @@ namespace VolvoWrench.Netdec
 
             switch (msg.Type)
             {
-                case DemoFile.MessageType.ConsoleCmd:
+                case SourceParser.MessageType.ConsoleCmd:
                     node.Nodes.Add(Encoding.ASCII.GetString(msg.Data));
                     break;
-                case DemoFile.MessageType.UserCmd:
+                case SourceParser.MessageType.UserCmd:
                     UserCmd.ParseIntoTreeNode(msg.Data, node);
                     break;
-                case DemoFile.MessageType.Signon:
-                case DemoFile.MessageType.Packet:
+                case SourceParser.MessageType.Signon:
+                case SourceParser.MessageType.Packet:
                     Packet.Parse(msg.Data, node);
                     break;
-                case DemoFile.MessageType.DataTables:
+                case SourceParser.MessageType.DataTables:
                     DataTables.Parse(msg.Data, node);
                     break;
-                case DemoFile.MessageType.SyncTick:
+                case SourceParser.MessageType.SyncTick:
                     node.Nodes.Add("Sync client clock to demo tick");
                     break;
                 default:
@@ -69,9 +69,9 @@ namespace VolvoWrench.Netdec
 
     class DemoMessageItem : ListViewItem
     {
-        public DemoFile.DemoMessage Msg;
+        public SourceParser.DemoMessage Msg;
 
-        public DemoMessageItem(DemoFile.DemoMessage msg)
+        public DemoMessageItem(SourceParser.DemoMessage msg)
         {
             Msg = msg;
 
@@ -81,15 +81,15 @@ namespace VolvoWrench.Netdec
             SubItems.Add(Msg.Data.Length.ToString());
         }
 
-        public static Color GetTypeColor(DemoFile.MessageType type)
+        public static Color GetTypeColor(SourceParser.MessageType type)
         {
             switch(type) {
-                case DemoFile.MessageType.Signon:
-                case DemoFile.MessageType.Packet:
+                case SourceParser.MessageType.Signon:
+                case SourceParser.MessageType.Packet:
                     return Color.Indigo;
-                case DemoFile.MessageType.UserCmd:
+                case SourceParser.MessageType.UserCmd:
                     return Color.DarkGreen;
-                case DemoFile.MessageType.ConsoleCmd:
+                case SourceParser.MessageType.ConsoleCmd:
                     return Color.DarkRed;
                 default:
                     return Color.Black;

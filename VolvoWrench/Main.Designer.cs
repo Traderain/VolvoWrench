@@ -52,9 +52,10 @@
             this.checkForUpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sourcerunsWikiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sourcerunsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.HotkeyTimer = new System.Windows.Forms.Timer(this.components);
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hotkeysToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.HotkeyTimer = new System.Windows.Forms.Timer(this.components);
+            this.goldSourceToolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -138,6 +139,7 @@
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
+            this.goldSourceToolsToolStripMenuItem,
             this.toolsToolStripMenuItem,
             this.helpToolStripMenuItem,
             this.helpToolStripMenuItem1,
@@ -185,8 +187,9 @@
             this.heatmapGeneratorToolStripMenuItem});
             this.toolsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(56, 24);
-            this.toolsToolStripMenuItem.Text = "Tools";
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(105, 24);
+            this.toolsToolStripMenuItem.Text = "Source Tools";
+            this.toolsToolStripMenuItem.Click += new System.EventHandler(this.toolsToolStripMenuItem_Click);
             // 
             // netdecodeToolStripMenuItem
             // 
@@ -286,11 +289,6 @@
             this.sourcerunsToolStripMenuItem.Text = "Sourceruns";
             this.sourcerunsToolStripMenuItem.Click += new System.EventHandler(this.sourcerunsToolStripMenuItem_Click);
             // 
-            // HotkeyTimer
-            // 
-            this.HotkeyTimer.Enabled = true;
-            this.HotkeyTimer.Tick += new System.EventHandler(this.HotkeyTimer_Tick);
-            // 
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -305,9 +303,22 @@
             this.hotkeysToolStripMenuItem.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.hotkeysToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.hotkeysToolStripMenuItem.Name = "hotkeysToolStripMenuItem";
-            this.hotkeysToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.hotkeysToolStripMenuItem.Size = new System.Drawing.Size(137, 26);
             this.hotkeysToolStripMenuItem.Text = "Hotkeys";
             this.hotkeysToolStripMenuItem.Click += new System.EventHandler(this.hotkeysToolStripMenuItem_Click_1);
+            // 
+            // HotkeyTimer
+            // 
+            this.HotkeyTimer.Enabled = true;
+            this.HotkeyTimer.Tick += new System.EventHandler(this.HotkeyTimer_Tick);
+            // 
+            // goldSourceToolsToolStripMenuItem
+            // 
+            this.goldSourceToolsToolStripMenuItem.BackColor = System.Drawing.Color.Black;
+            this.goldSourceToolsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.goldSourceToolsToolStripMenuItem.Name = "goldSourceToolsToolStripMenuItem";
+            this.goldSourceToolsToolStripMenuItem.Size = new System.Drawing.Size(137, 24);
+            this.goldSourceToolsToolStripMenuItem.Text = "GoldSource Tools";
             // 
             // Main
             // 
@@ -358,6 +369,7 @@
         private System.Windows.Forms.ToolStripMenuItem sourcerunsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem hotkeysToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem goldSourceToolsToolStripMenuItem;
     }
 }
 

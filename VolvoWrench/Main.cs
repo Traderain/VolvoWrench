@@ -10,13 +10,27 @@ namespace VolvoWrench
 {
     public partial class Main : Form
     {
+        public enum DemoType
+        {
+            None,
+            GoldSource,
+            Source
+        }
+        public DemoType CurrentDemoType;
         public string CurrentFile;
-        public DemoFile CurrentDemoFile;
+        public SourceParser CurrentDemoFile;
+        public static string LogPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\" + "VWLog.log";
 
         public Main()
         {
             InitializeComponent();
             HotkeyTimer.Start();
+            goldSourceToolsToolStripMenuItem.Enabled = false;
+            toolsToolStripMenuItem.Enabled = false;
+            if(File.Exists(LogPath))
+            {
+                File.Delete(LogPath);
+            }
             string DropFile = (Environment.GetCommandLineArgs().Any(x=>Path.GetExtension(x) == ".dem")) ? Environment.GetCommandLineArgs().First(x=>Path.GetExtension(x) == ".dem"):null;
             if (DropFile == null)
             {
@@ -30,10 +44,11 @@ namespace VolvoWrench
                 {
                     CurrentFile = DropFile;
                     Stream cfs = File.Open(CurrentFile, FileMode.Open);
-                    CurrentDemoFile = new DemoFile(cfs);
+                    CurrentDemoFile = new SourceParser(cfs);
                     cfs.Close();
                     PrintSetails(CurrentDemoFile);
                     toolsToolStripMenuItem.Enabled = true;
+                    Log(Path.GetFileName(CurrentFile + " opened"));
                 }
                 else
                 {
@@ -44,7 +59,7 @@ namespace VolvoWrench
             }
         }
 
-        public void PrintSetails(DemoFile d)
+        public void PrintSetails(SourceParser d)
         {
             if (CurrentDemoFile != null)
             {
@@ -79,6 +94,7 @@ namespace VolvoWrench
         {
             using (About a = new About())
             {
+                Log("About");
                 a.ShowDialog();
             }
         }
@@ -103,6 +119,7 @@ namespace VolvoWrench
             using (Update a = new Update())
             {
                 a.ShowDialog();
+                Log("Updatecheck");
             }
         }
 
@@ -117,10 +134,11 @@ namespace VolvoWrench
                         richTextBox1.Font = fd.Font;
                     }
                 }
+                Log("Font changed");
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                Log(ex.Message);
             }
         }
 
@@ -147,6 +165,7 @@ namespace VolvoWrench
 
         private void copyAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            Log("Copyall");
             Clipboard.SetText(richTextBox1.Text);
         }
 
@@ -161,7 +180,9 @@ namespace VolvoWrench
                         using (Stream cfs = File.Open(CurrentFile, FileMode.Open))
                         using (DemoDecoder nd = new DemoDecoder(cfs))
                         {
+                            Log("Netdecode opened");
                             nd.ShowDialog();
+
                         }
                     }
                 }
@@ -192,10 +213,11 @@ namespace VolvoWrench
                             if (Path.GetExtension(CurrentFile) == ".dem")
                             {
                                 Stream cfs = File.Open(CurrentFile, FileMode.Open);
-                                CurrentDemoFile = new DemoFile(cfs);
+                                CurrentDemoFile = new SourceParser(cfs);
                                 cfs.Close();
                                 PrintSetails(CurrentDemoFile);
                                 toolsToolStripMenuItem.Enabled = true;
+                                Log(Path.GetFileName(CurrentFile) + " opened!");
                             }
                         }
                     }
@@ -212,10 +234,11 @@ namespace VolvoWrench
                     if (Path.GetExtension(CurrentFile) == ".dem")
                     {
                         Stream cfs = File.Open(CurrentFile, FileMode.Open);
-                        CurrentDemoFile = new DemoFile(cfs);
+                        CurrentDemoFile = new SourceParser(cfs);
                         cfs.Close();
                         PrintSetails(CurrentDemoFile);
                         toolsToolStripMenuItem.Enabled = true;
+                        Log(Path.GetFileName(CurrentFile + " rescanned."));
                     }
                 }
             }
@@ -239,7 +262,7 @@ namespace VolvoWrench
                     if (Path.GetExtension(CurrentFile) == ".dem")
                     {
                         Stream cfs = File.Open(CurrentFile, FileMode.Open);
-                        CurrentDemoFile = new DemoFile(cfs);
+                        CurrentDemoFile = new SourceParser(cfs);
                         cfs.Close();
 
                         var time = (CurrentDemoFile.Info.Flags.Count(x => x.Name == "#SAVE#") == 0)
@@ -263,13 +286,18 @@ namespace VolvoWrench
         public static void Log(string s)
         {
             var ns = DateTime.Now.ToString("yyyy-MM-ddTHH\\:mm\\:ss.fffffffzzz") + " " + $"[{System.Security.Principal.WindowsIdentity.GetCurrent().Name}]" + ": " + s;
-            File.AppendAllLines(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\" + "VWLog.log",new string[] { ns });
+            File.AppendAllLines(LogPath, new string[] { ns });
         }
 
         private void showLogToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Log("Log opened");
             System.Diagnostics.Process.Start(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\" + "VWLog.log");
+        }
+
+        private void toolsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

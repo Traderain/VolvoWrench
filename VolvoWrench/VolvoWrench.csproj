@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Demo stuff\CrossDemoParser.cs" />
     <Compile Include="hotkey.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -64,7 +65,7 @@
     <Compile Include="About.Designer.cs">
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
-    <Compile Include="Netdec\GoldSourceParser.cs" />
+    <Compile Include="Demo stuff\GoldSourceParser.cs" />
     <Compile Include="Update.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -72,16 +73,16 @@
       <DependentUpon>Update.cs</DependentUpon>
     </Compile>
     <Compile Include="KeyInput.cs" />
-    <Compile Include="Netdec\BitBuffer.cs" />
-    <Compile Include="Netdec\DataTables.cs" />
-    <Compile Include="Netdec\DemoFile.cs" />
-    <Compile Include="Netdec\DemoDecoder.cs">
+    <Compile Include="Demo stuff\BitBuffer.cs" />
+    <Compile Include="Demo stuff\DataTables.cs" />
+    <Compile Include="Demo stuff\SourceParser.cs" />
+    <Compile Include="Demo stuff\DemoDecoder.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Netdec\DemoDecoder.Designer.cs">
+    <Compile Include="Demo stuff\DemoDecoder.Designer.cs">
       <DependentUpon>DemoDecoder.cs</DependentUpon>
     </Compile>
-    <Compile Include="Netdec\Packet.cs" />
+    <Compile Include="Demo stuff\Packet.cs" />
     <Compile Include="DG\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="hotkey.resx">
@@ -96,7 +97,7 @@
     <EmbeddedResource Include="Update.resx">
       <DependentUpon>Update.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Netdec\DemoDecoder.resx">
+    <EmbeddedResource Include="Demo stuff\DemoDecoder.resx">
       <DependentUpon>DemoDecoder.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">

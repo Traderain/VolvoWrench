@@ -50,6 +50,10 @@ namespace VolvoWrench.Netdec
 
 
     }
+    public struct GoldSourceDemoInfo
+    {
+        //TODO: Implement this
+    }
     class GoldSourceParser
     {
         void ParseDemo()//Add error out
@@ -80,6 +84,7 @@ namespace VolvoWrench.Netdec
                     //Demo directory entries parsed... now we parse the frames.
                     foreach (var entry in GDemo.DirectoryEntries)
                     {
+                        //TODO: Finnish this.
                     }
                 }
                 else

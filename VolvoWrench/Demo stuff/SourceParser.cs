@@ -7,22 +7,22 @@ using System.Windows.Forms;
 
 namespace VolvoWrench.Netdec
 {
-    public class DemoFile
+    public struct Saveflag
     {
-        public struct DemoInfo
-        {
-            public int DemoProtocol, NetProtocol, TickCount, FrameCount, SignonLength;
-            public string ServerName, ClientName, MapName, GameDirectory;
-            public float Seconds;
-            public List<Saveflag> Flags;
-        }
-        public struct Saveflag
-        {
-            public int Tick;
-            public float Time;
-            public string Name;
-        }
+        public int Tick;
+        public float Time;
+        public string Name;
+    }
 
+    public struct SourceDemoInfo
+    {
+        public int DemoProtocol, NetProtocol, TickCount, FrameCount, SignonLength;
+        public string ServerName, ClientName, MapName, GameDirectory;
+        public float Seconds;
+        public List<Saveflag> Flags;
+    }
+    public class SourceParser
+    {
         public enum MessageType
         {
             Signon = 1,
@@ -44,10 +44,10 @@ namespace VolvoWrench.Netdec
         }
 
         Stream _fstream;
-        public DemoInfo Info;
+        public SourceDemoInfo Info;
         public List<DemoMessage> Messages;
 
-        public DemoFile(Stream s)
+        public SourceParser(Stream s)
         {
             _fstream = s;
             Messages = new List<DemoMessage>();
