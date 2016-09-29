@@ -3,22 +3,21 @@ using System.Windows.Forms;
 
 namespace VolvoWrench
 {
-
-    class KeyInputApi
+    internal class KeyInputApi
     {
         [DllImport("user32.dll")]
         public static extern int GetKeyState(int vKey);
     }
 
-
     public class KeyInput
     {
         #region Keys
+
         [DllImport("user32.dll")]
         public static extern short GetKeyState(Keys nVirtKey);
 
 
-        public enum VirtualKeyStates : int
+        public enum VirtualKeyStates
         {
             VkAbntC1 = 0xC1,
             VkAbntC2 = 0xC2,
@@ -213,14 +212,11 @@ namespace VolvoWrench
             VkXbutton1 = 0x05,
             VkXbutton2 = 0x06
         }
+
         public bool Keystate(Keys key)
         {
             int state = GetKeyState(key);
-            if (state == -127 || state == -128)
-            {
-                return true;
-            }
-            return false;
+            return state == -127 || state == -128;
         }
         #endregion
     }

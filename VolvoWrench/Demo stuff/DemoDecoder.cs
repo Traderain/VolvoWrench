@@ -10,18 +10,19 @@ namespace VolvoWrench.Netdec
     {
         public SourceParser CurrentFile;
         public Stream File;
+
         public DemoDecoder(Stream f)
         {
             InitializeComponent();
-                File = f;
-                messageList.Items.Clear();
-                CurrentFile = new SourceParser(f);
-                f.Close();
+            File = f;
+            messageList.Items.Clear();
+            CurrentFile = new SourceParser(f);
+            f.Close();
 
-                foreach (var msg in CurrentFile.Messages)
-                {
-                    messageList.Items.Add(new DemoMessageItem(msg));
-                }
+            foreach (var msg in CurrentFile.Messages)
+            {
+                messageList.Items.Add(new DemoMessageItem(msg));
+            }
         }
 
         private void ParseIntoTree(SourceParser.DemoMessage msg)
@@ -61,13 +62,14 @@ namespace VolvoWrench.Netdec
         {
             messageTree.Nodes.Clear();
 
-            foreach(DemoMessageItem item in messageList.SelectedItems) {
+            foreach (DemoMessageItem item in messageList.SelectedItems)
+            {
                 ParseIntoTree(item.Msg);
             }
         }
     }
 
-    class DemoMessageItem : ListViewItem
+    internal class DemoMessageItem : ListViewItem
     {
         public SourceParser.DemoMessage Msg;
 
@@ -83,7 +85,8 @@ namespace VolvoWrench.Netdec
 
         public static Color GetTypeColor(SourceParser.MessageType type)
         {
-            switch(type) {
+            switch (type)
+            {
                 case SourceParser.MessageType.Signon:
                 case SourceParser.MessageType.Packet:
                     return Color.Indigo;

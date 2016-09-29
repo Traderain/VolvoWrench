@@ -5,12 +5,11 @@ using System.Text;
 
 namespace VolvoWrench.Netdec
 {
-    class BitBuffer
+    internal class BitBuffer
     {
-        readonly byte[] _buf;
-        uint _pos;
-
-        static readonly byte[] Mtbl = { 0, 1, 3, 7, 15, 31, 63, 127, 255 };
+        private static readonly byte[] Mtbl = {0, 1, 3, 7, 15, 31, 63, 127, 255};
+        private readonly byte[] _buf;
+        private uint _pos;
 
         public BitBuffer(byte[] data)
         {
@@ -33,8 +32,8 @@ namespace VolvoWrench.Netdec
                 var bit = _pos & 7;
                 var toget = Math.Min(8 - bit, left);
 
-                var nib = (uint)(_buf[idx] >> (int)bit & Mtbl[toget]);
-                ret |= nib << (int)(bits - left);
+                var nib = (uint) (_buf[idx] >> (int) bit & Mtbl[toget]);
+                ret |= nib << (int) (bits - left);
 
                 _pos += toget;
                 left -= toget;
@@ -48,18 +47,9 @@ namespace VolvoWrench.Netdec
             return ReadBits(1) != 0;
         }
 
-        [StructLayout(LayoutKind.Explicit)]
-        struct UIntFloat
-        {
-            [FieldOffset(0)]
-            public uint intvalue;
-            [FieldOffset(0)]
-            public float floatvalue;
-        }
-
         public float ReadFloat()
         {
-            return new UIntFloat { intvalue = ReadBits(32) }.floatvalue;
+            return new UIntFloat {intvalue = ReadBits(32)}.floatvalue;
         }
 
         public string ReadString()
@@ -67,8 +57,8 @@ namespace VolvoWrench.Netdec
             var temp = new List<byte>();
             while (true)
             {
-                var c = (byte)ReadBits(8);
-                if (c == 0) 
+                var c = (byte) ReadBits(8);
+                if (c == 0)
                     break;
                 temp.Add(c);
             }
@@ -87,7 +77,7 @@ namespace VolvoWrench.Netdec
                 if (hasint)
                     value += ReadBits(14) + 1;
                 if (hasfract)
-                    value += ReadBits(5) * (1 / 32f);
+                    value += ReadBits(5)*(1/32f);
                 if (sign)
                     value = -value;
             }
@@ -101,7 +91,8 @@ namespace VolvoWrench.Netdec
             var hasy = ReadBool();
             var hasz = ReadBool();
 
-            return new[] {
+            return new[]
+            {
                 hasx ? ReadCoord() : 0,
                 hasy ? ReadCoord() : 0,
                 hasz ? ReadCoord() : 0
@@ -110,7 +101,14 @@ namespace VolvoWrench.Netdec
 
         public uint BitsLeft()
         {
-            return (uint)(_buf.Length << 3) - _pos;
+            return (uint) (_buf.Length << 3) - _pos;
+        }
+
+        [StructLayout(LayoutKind.Explicit)]
+        private struct UIntFloat
+        {
+            [FieldOffset(0)] public uint intvalue;
+            [FieldOffset(0)] public readonly float floatvalue;
         }
     }
 }

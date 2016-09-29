@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.IO;
+using System.Text;
 
 namespace VolvoWrench.Netdec
 {
-    class Frame
+    internal class Frame
     {
-        string type;
-        float time;
-        int tick;
-        enum DemoFrameType
+        private int tick;
+        private float time;
+        private string type;
+
+        private enum DemoFrameType
         {
             STARTUP_PACKET = 1,
             NETWORK_PACKET = 2,
@@ -24,42 +22,44 @@ namespace VolvoWrench.Netdec
             NEXT_SECTION = 8
         }
     }
-    class GoldSourceDemo
+
+    internal class GoldSourceDemo
     {
-        public struct DemoHeader
-        {
-            public string magic;
-            public int demoProtocol;
-            public int netprotocol;
-            public string MapName;
-            public string GameDirectory;
-            public int DirectoryOffset;
-        }
-        public struct DemoDirectoryEntry
-        {
-            public int type;
-            public float playbackTime;
-            public int offset;
-            public int frameCount;
-            public int filelength;
-        }
+        public List<DemoDirectoryEntry> DirectoryEntries;
+        public int EntryCount;
         public DemoHeader header;
         public List<string> ParsingErrors;
-        public int EntryCount;
-        public List<DemoDirectoryEntry> DirectoryEntries;
 
+        public struct DemoHeader
+        {
+            public int demoProtocol;
+            public int DirectoryOffset;
+            public string GameDirectory;
+            public string magic;
+            public string MapName;
+            public int netprotocol;
+        }
 
+        public struct DemoDirectoryEntry
+        {
+            public int filelength;
+            public int frameCount;
+            public int offset;
+            public float playbackTime;
+            public int type;
+        }
     }
+
     public struct GoldSourceDemoInfo
     {
-        //TODO: Implement this
     }
-    class GoldSourceParser
+
+    internal class GoldSourceParser
     {
-        void ParseDemo()//Add error out
+        private void ParseDemo() //Add error out
         {
-            GoldSourceDemo GDemo = new GoldSourceDemo();
-            using (BinaryReader br = new BinaryReader(new FileStream("file.dem", FileMode.Open))) //TODO: Add file
+            var GDemo = new GoldSourceDemo();
+            using (var br = new BinaryReader(new FileStream("file.dem", FileMode.Open))) //TODO: Add file
             {
                 var mw = Encoding.ASCII.GetString(br.ReadBytes(8)).Trim('\0');
                 if (mw == "HLDEMO")
@@ -70,9 +70,9 @@ namespace VolvoWrench.Netdec
                     GDemo.header.GameDirectory = Encoding.ASCII.GetString(br.ReadBytes(260));
                     GDemo.header.DirectoryOffset = br.ReadInt32();
                     //Header Parsed... now we read the directory entries
-                    br.BaseStream.Seek(GDemo.header.DirectoryOffset,SeekOrigin.Begin);
+                    br.BaseStream.Seek(GDemo.header.DirectoryOffset, SeekOrigin.Begin);
                     GDemo.EntryCount = br.ReadInt32();
-                    for (int i = 0; i < GDemo.EntryCount; i++)
+                    for (var i = 0; i < GDemo.EntryCount; i++)
                     {
                         var tempvar = new GoldSourceDemo.DemoDirectoryEntry();
                         tempvar.type = br.ReadInt32();
@@ -91,14 +91,8 @@ namespace VolvoWrench.Netdec
                 {
                     GDemo.ParsingErrors.Add("Non goldsource demo file");
                     br.Close();
-
                 }
-
             }
         }
-
-
-
-
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
@@ -9,18 +8,19 @@ namespace VolvoWrench.Netdec
 {
     public struct Saveflag
     {
+        public string Name;
         public int Tick;
         public float Time;
-        public string Name;
     }
 
     public struct SourceDemoInfo
     {
         public int DemoProtocol, NetProtocol, TickCount, FrameCount, SignonLength;
-        public string ServerName, ClientName, MapName, GameDirectory;
-        public float Seconds;
         public List<Saveflag> Flags;
+        public float Seconds;
+        public string ServerName, ClientName, MapName, GameDirectory;
     }
+
     public class SourceParser
     {
         public enum MessageType
@@ -36,14 +36,7 @@ namespace VolvoWrench.Netdec
             StringTables
         }
 
-        public class DemoMessage
-        {
-            public MessageType Type;
-            public int Tick;
-            public byte[] Data;
-        }
-
-        Stream _fstream;
+        private readonly Stream _fstream;
         public SourceDemoInfo Info;
         public List<DemoMessage> Messages;
 
@@ -54,7 +47,7 @@ namespace VolvoWrench.Netdec
             Parse();
         }
 
-        void Parse()
+        private void Parse()
         {
             var reader = new BinaryReader(_fstream);
             Info.Flags = new List<Saveflag>();
@@ -105,33 +98,40 @@ namespace VolvoWrench.Netdec
                         msg.Data = new byte[0]; // lol wut
                         break;
                     default:
-                        throw new Exception("Unknown demo message type encountered.");//TODO: fix this bs
+                        throw new Exception("Unknown demo message type encountered."); //TODO: fix this bs
                 }
 
-                    if (msg.Data != null)
+                if (msg.Data != null)
+                {
+                    if (Encoding.ASCII.GetString(msg.Data).Contains("#SAVE#") ||
+                        Encoding.ASCII.GetString(msg.Data).Contains("autosave"))
                     {
-                            if (Encoding.ASCII.GetString(msg.Data).Contains("#SAVE#")|| Encoding.ASCII.GetString(msg.Data).Contains("autosave"))
-                            {
-                                Saveflag tempf = new Saveflag
-                                {
-                                    Tick = msg.Tick,
-                                    Time = (float) (msg.Tick*0.015)
-                                };
-                                if (Encoding.ASCII.GetString(msg.Data).Contains("#SAVE#"))
-                                    tempf.Name = "#SAVE#";
-                                if (Encoding.ASCII.GetString(msg.Data).Contains("autosave"))
-                                    tempf.Name = "autosave";
-                                Info.Flags.Add(tempf);
-                            }
+                        var tempf = new Saveflag
+                        {
+                            Tick = msg.Tick,
+                            Time = (float) (msg.Tick*0.015)
+                        };
+                        if (Encoding.ASCII.GetString(msg.Data).Contains("#SAVE#"))
+                            tempf.Name = "#SAVE#";
+                        if (Encoding.ASCII.GetString(msg.Data).Contains("autosave"))
+                            tempf.Name = "autosave";
+                        Info.Flags.Add(tempf);
                     }
+                }
                 Messages.Add(msg);
             }
+        }
+
+        public class DemoMessage
+        {
+            public byte[] Data;
+            public int Tick;
+            public MessageType Type;
         }
     }
 
     public class UserCmd
     {
-
         public static void ParseIntoTreeNode(byte[] data, TreeNode node)
         {
             var bb = new BitBuffer(data);
@@ -142,11 +142,10 @@ namespace VolvoWrench.Netdec
             if (bb.ReadBool()) node.Nodes.Add("Viewangle roll: " + bb.ReadFloat());
             if (bb.ReadBool()) node.Nodes.Add("Foward move: " + bb.ReadFloat());
             if (bb.ReadBool()) node.Nodes.Add("Side move: " + bb.ReadFloat());
-            if (bb.ReadBool()) node.Nodes.Add("Up move: " + bb.ReadFloat().ToString());
-            if (bb.ReadBool()) node.Nodes.Add("Buttons: " + Enum.GetName(typeof(Keys),bb.ReadBits(32)));
+            if (bb.ReadBool()) node.Nodes.Add("Up move: " + bb.ReadFloat());
+            if (bb.ReadBool()) node.Nodes.Add("Buttons: " + Enum.GetName(typeof (Keys), bb.ReadBits(32)));
             if (bb.ReadBool()) node.Nodes.Add("Impulse: " + bb.ReadBits(8));
             // TODO: weaponselect/weaponsubtype, mousedx/dy
         }
     }
-
 }

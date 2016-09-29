@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using VolvoWrench.Netdec;
+﻿using VolvoWrench.Netdec;
 
 namespace VolvoWrench.Demo_stuff
 {
@@ -13,45 +8,47 @@ namespace VolvoWrench.Demo_stuff
         GoldSource,
         Source
     }
+
     public struct CROSS_PARSE
     {
+        public GoldSourceDemoInfo GDI;
         public parseresult res;
         public SourceDemoInfo SDI;
-        public GoldSourceDemoInfo GDI;
     }
 
-    class CrossDemoParser
+    internal class CrossDemoParser
     {
         public CROSS_PARSE Parse(string filename)
         {
-            switch(CheckDemoType(filename))
+            switch (CheckDemoType(filename))
             {
                 case parseresult.GoldSource:
-                    {
-                        break;
-                    }
+                {
+                    break;
+                }
                 case parseresult.unsupported_file:
-                    {
-                        break;
-                    }
+                {
+                    break;
+                }
                 case parseresult.Source:
-                    {
-                        break;
-                    }
+                {
+                    break;
+                }
                 default:
-                    {
-                        Main.Log("No idea how the fuck did this happen but default happened at switch(CheckDemoType(filename))");
-                        break;
-                    }
+                {
+                    Main.Log(
+                        "No idea how the fuck did this happen but default happened at switch(CheckDemoType(filename))");
+                    break;
+                }
             }
             //TODO: Implement this.
             return new CROSS_PARSE();
         }
+
         public parseresult CheckDemoType(string filename)
         {
             //TODO: Implement this.
             return parseresult.unsupported_file;
         }
     }
-
 }
