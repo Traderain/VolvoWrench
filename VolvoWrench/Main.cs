@@ -9,7 +9,7 @@ using VolvoWrench.Netdec;
 
 namespace VolvoWrench
 {
-    public partial class Main : Form
+    public sealed partial class Main : Form
     {
         public enum DemoType
         {
@@ -28,6 +28,7 @@ namespace VolvoWrench
         public Main()
         {
             InitializeComponent();
+            AllowDrop = true;
             HotkeyTimer.Start();
             goldSourceToolsToolStripMenuItem.Enabled = false;
             toolsToolStripMenuItem.Enabled = false;
@@ -268,6 +269,36 @@ namespace VolvoWrench
 
         private void toolsToolStripMenuItem_Click(object sender, EventArgs e)
         {
+        }
+
+        private void Main_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Main_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy;
+        }
+
+        private void Main_DragDrop(object sender, DragEventArgs e)
+        {
+            var dropfiles = (string[])e.Data.GetData(DataFormats.FileDrop);
+            var dropfile = (dropfiles.Any(x => Path.GetExtension(x) == ".dem"))
+                 ? dropfiles.First(x => Path.GetExtension(x) == ".dem")
+                 : null;
+            if (dropfile != null) CurrentFile = dropfile;
+            if (CurrentFile != null && (File.Exists(CurrentFile) && Path.GetExtension(CurrentFile) == ".dem"))
+            {
+                Stream cfs = File.Open(CurrentFile, FileMode.Open);
+                CurrentDemoFile = new SourceParser(cfs);
+                cfs.Close();
+                PrintSetails(CurrentDemoFile);
+                toolsToolStripMenuItem.Enabled = true;
+                Log(Path.GetFileName(CurrentFile) + " opened!");
+            }
+
+
         }
     }
 }
