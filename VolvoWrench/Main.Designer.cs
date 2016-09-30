@@ -334,6 +334,7 @@
             this.MaximumSize = new System.Drawing.Size(1000, 1000);
             this.Name = "Main";
             this.Text = "VolvoWrench";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Main_FormClosing);
             this.Load += new System.EventHandler(this.Main_Load);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.Main_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.Main_DragEnter);

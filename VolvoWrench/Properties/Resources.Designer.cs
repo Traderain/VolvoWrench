@@ -39,7 +39,7 @@ namespace VolvoWrench.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("VolvoWrench.Properties.Resources", typeof(Resources).Assembly);
+                    var temp = new global::System.Resources.ResourceManager("VolvoWrench.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -65,7 +65,7 @@ namespace VolvoWrench.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap _lock {
             get {
-                object obj = ResourceManager.GetObject("lock", resourceCulture);
+                var obj = ResourceManager.GetObject("lock", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -75,7 +75,7 @@ namespace VolvoWrench.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap _params {
             get {
-                object obj = ResourceManager.GetObject("params", resourceCulture);
+                var obj = ResourceManager.GetObject("params", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -85,7 +85,7 @@ namespace VolvoWrench.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap banknote {
             get {
-                object obj = ResourceManager.GetObject("banknote", resourceCulture);
+                var obj = ResourceManager.GetObject("banknote", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -95,7 +95,7 @@ namespace VolvoWrench.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap bubble {
             get {
-                object obj = ResourceManager.GetObject("bubble", resourceCulture);
+                var obj = ResourceManager.GetObject("bubble", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -105,7 +105,7 @@ namespace VolvoWrench.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap bulb {
             get {
-                object obj = ResourceManager.GetObject("bulb", resourceCulture);
+                var obj = ResourceManager.GetObject("bulb", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -115,7 +115,7 @@ namespace VolvoWrench.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap calendar_ {
             get {
-                object obj = ResourceManager.GetObject("calendar@", resourceCulture);
+                var obj = ResourceManager.GetObject("calendar@", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -125,7 +125,7 @@ namespace VolvoWrench.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap camera {
             get {
-                object obj = ResourceManager.GetObject("camera", resourceCulture);
+                var obj = ResourceManager.GetObject("camera", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -135,7 +135,7 @@ namespace VolvoWrench.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap clip {
             get {
-                object obj = ResourceManager.GetObject("clip", resourceCulture);
+                var obj = ResourceManager.GetObject("clip", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -145,7 +145,7 @@ namespace VolvoWrench.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap clock {
             get {
-                object obj = ResourceManager.GetObject("clock", resourceCulture);
+                var obj = ResourceManager.GetObject("clock", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -155,7 +155,7 @@ namespace VolvoWrench.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap cloud {
             get {
-                object obj = ResourceManager.GetObject("cloud", resourceCulture);
+                var obj = ResourceManager.GetObject("cloud", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -165,7 +165,7 @@ namespace VolvoWrench.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap cup {
             get {
-                object obj = ResourceManager.GetObject("cup", resourceCulture);
+                var obj = ResourceManager.GetObject("cup", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -175,7 +175,7 @@ namespace VolvoWrench.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap data {
             get {
-                object obj = ResourceManager.GetObject("data", resourceCulture);
+                var obj = ResourceManager.GetObject("data", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -185,7 +185,7 @@ namespace VolvoWrench.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap diamond {
             get {
-                object obj = ResourceManager.GetObject("diamond", resourceCulture);
+                var obj = ResourceManager.GetObject("diamond", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -195,7 +195,7 @@ namespace VolvoWrench.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap display {
             get {
-                object obj = ResourceManager.GetObject("display", resourceCulture);
+                var obj = ResourceManager.GetObject("display", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -205,7 +205,7 @@ namespace VolvoWrench.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap eye {
             get {
-                object obj = ResourceManager.GetObject("eye", resourceCulture);
+                var obj = ResourceManager.GetObject("eye", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -215,7 +215,7 @@ namespace VolvoWrench.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap favicon {
             get {
-                object obj = ResourceManager.GetObject("favicon", resourceCulture);
+                var obj = ResourceManager.GetObject("favicon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -225,7 +225,7 @@ namespace VolvoWrench.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap fire {
             get {
-                object obj = ResourceManager.GetObject("fire", resourceCulture);
+                var obj = ResourceManager.GetObject("fire", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -235,7 +235,7 @@ namespace VolvoWrench.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap food {
             get {
-                object obj = ResourceManager.GetObject("food", resourceCulture);
+                var obj = ResourceManager.GetObject("food", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -245,7 +245,7 @@ namespace VolvoWrench.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap heart {
             get {
-                object obj = ResourceManager.GetObject("heart", resourceCulture);
+                var obj = ResourceManager.GetObject("heart", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -255,7 +255,7 @@ namespace VolvoWrench.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap key {
             get {
-                object obj = ResourceManager.GetObject("key", resourceCulture);
+                var obj = ResourceManager.GetObject("key", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -265,7 +265,7 @@ namespace VolvoWrench.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap lab {
             get {
-                object obj = ResourceManager.GetObject("lab", resourceCulture);
+                var obj = ResourceManager.GetObject("lab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -275,7 +275,7 @@ namespace VolvoWrench.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap like {
             get {
-                object obj = ResourceManager.GetObject("like", resourceCulture);
+                var obj = ResourceManager.GetObject("like", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -285,7 +285,7 @@ namespace VolvoWrench.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap location {
             get {
-                object obj = ResourceManager.GetObject("location", resourceCulture);
+                var obj = ResourceManager.GetObject("location", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -295,7 +295,7 @@ namespace VolvoWrench.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap mail {
             get {
-                object obj = ResourceManager.GetObject("mail", resourceCulture);
+                var obj = ResourceManager.GetObject("mail", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -305,7 +305,7 @@ namespace VolvoWrench.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap megaphone {
             get {
-                object obj = ResourceManager.GetObject("megaphone", resourceCulture);
+                var obj = ResourceManager.GetObject("megaphone", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -315,7 +315,7 @@ namespace VolvoWrench.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap music {
             get {
-                object obj = ResourceManager.GetObject("music", resourceCulture);
+                var obj = ResourceManager.GetObject("music", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -325,7 +325,7 @@ namespace VolvoWrench.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap news {
             get {
-                object obj = ResourceManager.GetObject("news", resourceCulture);
+                var obj = ResourceManager.GetObject("news", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -335,7 +335,7 @@ namespace VolvoWrench.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap note {
             get {
-                object obj = ResourceManager.GetObject("note", resourceCulture);
+                var obj = ResourceManager.GetObject("note", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -345,7 +345,7 @@ namespace VolvoWrench.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap paperplane {
             get {
-                object obj = ResourceManager.GetObject("paperplane", resourceCulture);
+                var obj = ResourceManager.GetObject("paperplane", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -355,7 +355,7 @@ namespace VolvoWrench.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap pen {
             get {
-                object obj = ResourceManager.GetObject("pen", resourceCulture);
+                var obj = ResourceManager.GetObject("pen", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -365,7 +365,7 @@ namespace VolvoWrench.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap phone {
             get {
-                object obj = ResourceManager.GetObject("phone", resourceCulture);
+                var obj = ResourceManager.GetObject("phone", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -375,7 +375,7 @@ namespace VolvoWrench.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap photo {
             get {
-                object obj = ResourceManager.GetObject("photo", resourceCulture);
+                var obj = ResourceManager.GetObject("photo", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -385,7 +385,7 @@ namespace VolvoWrench.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap search {
             get {
-                object obj = ResourceManager.GetObject("search", resourceCulture);
+                var obj = ResourceManager.GetObject("search", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -395,7 +395,7 @@ namespace VolvoWrench.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap settings {
             get {
-                object obj = ResourceManager.GetObject("settings", resourceCulture);
+                var obj = ResourceManager.GetObject("settings", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -405,7 +405,7 @@ namespace VolvoWrench.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap shop {
             get {
-                object obj = ResourceManager.GetObject("shop", resourceCulture);
+                var obj = ResourceManager.GetObject("shop", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -415,7 +415,7 @@ namespace VolvoWrench.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap sound {
             get {
-                object obj = ResourceManager.GetObject("sound", resourceCulture);
+                var obj = ResourceManager.GetObject("sound", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -425,7 +425,7 @@ namespace VolvoWrench.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap stack {
             get {
-                object obj = ResourceManager.GetObject("stack", resourceCulture);
+                var obj = ResourceManager.GetObject("stack", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -435,7 +435,7 @@ namespace VolvoWrench.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap star {
             get {
-                object obj = ResourceManager.GetObject("star", resourceCulture);
+                var obj = ResourceManager.GetObject("star", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -445,7 +445,7 @@ namespace VolvoWrench.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap study {
             get {
-                object obj = ResourceManager.GetObject("study", resourceCulture);
+                var obj = ResourceManager.GetObject("study", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -455,7 +455,7 @@ namespace VolvoWrench.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap t_shirt {
             get {
-                object obj = ResourceManager.GetObject("t-shirt", resourceCulture);
+                var obj = ResourceManager.GetObject("t-shirt", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -465,7 +465,7 @@ namespace VolvoWrench.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap tag {
             get {
-                object obj = ResourceManager.GetObject("tag", resourceCulture);
+                var obj = ResourceManager.GetObject("tag", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -475,7 +475,7 @@ namespace VolvoWrench.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap trash {
             get {
-                object obj = ResourceManager.GetObject("trash", resourceCulture);
+                var obj = ResourceManager.GetObject("trash", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -485,7 +485,7 @@ namespace VolvoWrench.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap truck {
             get {
-                object obj = ResourceManager.GetObject("truck", resourceCulture);
+                var obj = ResourceManager.GetObject("truck", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -495,7 +495,7 @@ namespace VolvoWrench.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap tv {
             get {
-                object obj = ResourceManager.GetObject("tv", resourceCulture);
+                var obj = ResourceManager.GetObject("tv", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -505,7 +505,7 @@ namespace VolvoWrench.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap user {
             get {
-                object obj = ResourceManager.GetObject("user", resourceCulture);
+                var obj = ResourceManager.GetObject("user", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -515,7 +515,7 @@ namespace VolvoWrench.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap vallet {
             get {
-                object obj = ResourceManager.GetObject("vallet", resourceCulture);
+                var obj = ResourceManager.GetObject("vallet", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -525,7 +525,7 @@ namespace VolvoWrench.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap video {
             get {
-                object obj = ResourceManager.GetObject("video", resourceCulture);
+                var obj = ResourceManager.GetObject("video", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -535,7 +535,7 @@ namespace VolvoWrench.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap vynil {
             get {
-                object obj = ResourceManager.GetObject("vynil", resourceCulture);
+                var obj = ResourceManager.GetObject("vynil", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -545,7 +545,7 @@ namespace VolvoWrench.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap world {
             get {
-                object obj = ResourceManager.GetObject("world", resourceCulture);
+                var obj = ResourceManager.GetObject("world", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

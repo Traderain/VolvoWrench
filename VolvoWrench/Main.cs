@@ -250,7 +250,7 @@ namespace VolvoWrench
 
         private void hotkeysToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
-            using (var a = new hotkey())
+            using (var a = new Hotkey())
                 a.ShowDialog();
         }
 
@@ -299,6 +299,14 @@ namespace VolvoWrench
             }
 
 
+        }
+
+        private void Main_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (MessageBox.Show("Are you sure you would like to close the program?","Confirm!",MessageBoxButtons.YesNo,MessageBoxIcon.Question) == DialogResult.No)
+            {
+               // e.Cancel = true;    //TODO: Uncomment this when releasing but its annoying so I won't leave this in while testing. :p
+            }
         }
     }
 }

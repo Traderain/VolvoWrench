@@ -1,6 +1,6 @@
 ﻿namespace VolvoWrench
 {
-    partial class hotkey
+    partial class Hotkey
     {
         /// <summary>
         /// Required designer variable.
@@ -95,13 +95,10 @@
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.ForeColor = System.Drawing.Color.CornflowerBlue;
-            this.Name = "hotkey";
+            this.Name = "Hotkey";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.Text = "Hotkeys";
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.hotkey_KeyDown);
-            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.hotkey_KeyPress);
-            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.hotkey_KeyUp);
             this.ResumeLayout(false);
             this.PerformLayout();
 
