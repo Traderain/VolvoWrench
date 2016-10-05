@@ -45,9 +45,6 @@
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.netdecodeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.heatmapGeneratorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.fontToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.sizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.checkForUpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -56,6 +53,7 @@
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hotkeysToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.HotkeyTimer = new System.Windows.Forms.Timer(this.components);
+            this.fontToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -141,7 +139,6 @@
             this.fileToolStripMenuItem,
             this.goldSourceToolsToolStripMenuItem,
             this.toolsToolStripMenuItem,
-            this.helpToolStripMenuItem,
             this.helpToolStripMenuItem1,
             this.settingsToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
@@ -197,7 +194,6 @@
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(105, 24);
             this.toolsToolStripMenuItem.Text = "Source Tools";
-            this.toolsToolStripMenuItem.Click += new System.EventHandler(this.toolsToolStripMenuItem_Click);
             // 
             // netdecodeToolStripMenuItem
             // 
@@ -215,33 +211,7 @@
             this.heatmapGeneratorToolStripMenuItem.Name = "heatmapGeneratorToolStripMenuItem";
             this.heatmapGeneratorToolStripMenuItem.Size = new System.Drawing.Size(215, 26);
             this.heatmapGeneratorToolStripMenuItem.Text = "Heatmap generator";
-            // 
-            // helpToolStripMenuItem
-            // 
-            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fontToolStripMenuItem,
-            this.sizeToolStripMenuItem});
-            this.helpToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
-            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
-            this.helpToolStripMenuItem.Text = "View";
-            // 
-            // fontToolStripMenuItem
-            // 
-            this.fontToolStripMenuItem.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.fontToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
-            this.fontToolStripMenuItem.Name = "fontToolStripMenuItem";
-            this.fontToolStripMenuItem.Size = new System.Drawing.Size(130, 26);
-            this.fontToolStripMenuItem.Text = "Font";
-            this.fontToolStripMenuItem.Click += new System.EventHandler(this.fontToolStripMenuItem_Click);
-            // 
-            // sizeToolStripMenuItem
-            // 
-            this.sizeToolStripMenuItem.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.sizeToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
-            this.sizeToolStripMenuItem.Name = "sizeToolStripMenuItem";
-            this.sizeToolStripMenuItem.Size = new System.Drawing.Size(130, 26);
-            this.sizeToolStripMenuItem.Text = "Graphs";
+            this.heatmapGeneratorToolStripMenuItem.Click += new System.EventHandler(this.heatmapGeneratorToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem1
             // 
@@ -300,7 +270,8 @@
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.hotkeysToolStripMenuItem});
+            this.hotkeysToolStripMenuItem,
+            this.fontToolStripMenuItem1});
             this.settingsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
             this.settingsToolStripMenuItem.Size = new System.Drawing.Size(74, 24);
@@ -311,7 +282,7 @@
             this.hotkeysToolStripMenuItem.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.hotkeysToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.hotkeysToolStripMenuItem.Name = "hotkeysToolStripMenuItem";
-            this.hotkeysToolStripMenuItem.Size = new System.Drawing.Size(137, 26);
+            this.hotkeysToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.hotkeysToolStripMenuItem.Text = "Hotkeys";
             this.hotkeysToolStripMenuItem.Click += new System.EventHandler(this.hotkeysToolStripMenuItem_Click_1);
             // 
@@ -319,6 +290,15 @@
             // 
             this.HotkeyTimer.Enabled = true;
             this.HotkeyTimer.Tick += new System.EventHandler(this.HotkeyTimer_Tick);
+            // 
+            // fontToolStripMenuItem1
+            // 
+            this.fontToolStripMenuItem1.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.fontToolStripMenuItem1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.fontToolStripMenuItem1.Name = "fontToolStripMenuItem1";
+            this.fontToolStripMenuItem1.Size = new System.Drawing.Size(181, 26);
+            this.fontToolStripMenuItem1.Text = "Font";
+            this.fontToolStripMenuItem1.Click += new System.EventHandler(this.fontToolStripMenuItem1_Click);
             // 
             // Main
             // 
@@ -335,7 +315,6 @@
             this.Name = "Main";
             this.Text = "VolvoWrench";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Main_FormClosing);
-            this.Load += new System.EventHandler(this.Main_Load);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.Main_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.Main_DragEnter);
             this.contextMenuStrip1.ResumeLayout(false);
@@ -352,7 +331,6 @@
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem checkForUpdateToolStripMenuItem;
@@ -364,8 +342,6 @@
         private System.Windows.Forms.ToolStripMenuItem renameDemoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem netdecodeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem heatmapGeneratorToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem fontToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem sizeToolStripMenuItem;
         private System.Windows.Forms.Timer HotkeyTimer;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
@@ -374,6 +350,7 @@
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem hotkeysToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem goldSourceToolsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem fontToolStripMenuItem1;
     }
 }
 
