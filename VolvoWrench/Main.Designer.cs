@@ -52,8 +52,9 @@
             this.sourcerunsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hotkeysToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.HotkeyTimer = new System.Windows.Forms.Timer(this.components);
             this.fontToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.HotkeyTimer = new System.Windows.Forms.Timer(this.components);
+            this.openAsavToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -153,7 +154,8 @@
             this.fileToolStripMenuItem.BackColor = System.Drawing.Color.Black;
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openToolStripMenuItem,
-            this.exportToolStripMenuItem});
+            this.exportToolStripMenuItem,
+            this.openAsavToolStripMenuItem});
             this.fileToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(44, 24);
@@ -164,7 +166,7 @@
             this.openToolStripMenuItem.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.openToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(127, 26);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
@@ -173,7 +175,7 @@
             this.exportToolStripMenuItem.BackColor = System.Drawing.Color.Black;
             this.exportToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-            this.exportToolStripMenuItem.Size = new System.Drawing.Size(127, 26);
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.exportToolStripMenuItem.Text = "Export";
             // 
             // goldSourceToolsToolStripMenuItem
@@ -282,23 +284,32 @@
             this.hotkeysToolStripMenuItem.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.hotkeysToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.hotkeysToolStripMenuItem.Name = "hotkeysToolStripMenuItem";
-            this.hotkeysToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.hotkeysToolStripMenuItem.Size = new System.Drawing.Size(137, 26);
             this.hotkeysToolStripMenuItem.Text = "Hotkeys";
             this.hotkeysToolStripMenuItem.Click += new System.EventHandler(this.hotkeysToolStripMenuItem_Click_1);
-            // 
-            // HotkeyTimer
-            // 
-            this.HotkeyTimer.Enabled = true;
-            this.HotkeyTimer.Tick += new System.EventHandler(this.HotkeyTimer_Tick);
             // 
             // fontToolStripMenuItem1
             // 
             this.fontToolStripMenuItem1.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.fontToolStripMenuItem1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.fontToolStripMenuItem1.Name = "fontToolStripMenuItem1";
-            this.fontToolStripMenuItem1.Size = new System.Drawing.Size(181, 26);
+            this.fontToolStripMenuItem1.Size = new System.Drawing.Size(137, 26);
             this.fontToolStripMenuItem1.Text = "Font";
             this.fontToolStripMenuItem1.Click += new System.EventHandler(this.fontToolStripMenuItem1_Click);
+            // 
+            // HotkeyTimer
+            // 
+            this.HotkeyTimer.Enabled = true;
+            this.HotkeyTimer.Tick += new System.EventHandler(this.HotkeyTimer_Tick);
+            // 
+            // openAsavToolStripMenuItem
+            // 
+            this.openAsavToolStripMenuItem.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.openAsavToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
+            this.openAsavToolStripMenuItem.Name = "openAsavToolStripMenuItem";
+            this.openAsavToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.openAsavToolStripMenuItem.Text = "Open a *.sav";
+            this.openAsavToolStripMenuItem.Click += new System.EventHandler(this.openAsavToolStripMenuItem_Click);
             // 
             // Main
             // 
@@ -351,6 +362,7 @@
         private System.Windows.Forms.ToolStripMenuItem hotkeysToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem goldSourceToolsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem fontToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem openAsavToolStripMenuItem;
     }
 }
 

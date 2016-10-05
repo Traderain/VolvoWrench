@@ -50,6 +50,12 @@
   <ItemGroup>
     <Compile Include="Demo stuff\CrossDemoParser.cs" />
     <Compile Include="Demo stuff\DemoFrame.cs" />
+    <Compile Include="Save analyzer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Save analyzer.Designer.cs">
+      <DependentUpon>Save analyzer.cs</DependentUpon>
+    </Compile>
     <Compile Include="hotkey.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -90,6 +96,9 @@
     <Compile Include="Demo stuff\Packet.cs" />
     <Compile Include="DG\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Save analyzer.resx">
+      <DependentUpon>Save analyzer.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="hotkey.resx">
       <DependentUpon>hotkey.cs</DependentUpon>
     </EmbeddedResource>

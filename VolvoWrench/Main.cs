@@ -38,6 +38,7 @@ namespace VolvoWrench
                         if ((short)m.WParam == hotkey.HotkeyID)
                         {
                             // do your thing
+                            MessageBox.Show("ALT+D");
                         }
                         break;
                     }
@@ -334,6 +335,14 @@ namespace VolvoWrench
                                 + "Length in seconds: " + CurrentDemoFile.Info.Seconds + "\n"
                                 + "Tick count: " + CurrentDemoFile.Info.TickCount + "\n"
                                 + "Frame count: " + CurrentDemoFile.Info.FrameCount);
+        }
+
+        private void openAsavToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var sa = new saveanalyzerform())
+            {
+                sa.ShowDialog();
+            }
         }
     }
 }

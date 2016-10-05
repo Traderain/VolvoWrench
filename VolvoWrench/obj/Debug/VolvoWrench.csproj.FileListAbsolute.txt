@@ -48,3 +48,4 @@ F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.Update.resources
 F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.Properties.Resources.resources
 F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.csproj.GenerateResource.Cache
 F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.Demo_stuff.DemoDecoder.resources
+F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.saveanalyzerform.resources
