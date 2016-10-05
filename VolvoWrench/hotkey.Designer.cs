@@ -100,7 +100,6 @@
             this.ShowInTaskbar = false;
             this.Text = "Hotkeys";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Hotkey_KeyDown);
-            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Hotkey_KeyPress);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Hotkey_KeyUp);
             this.ResumeLayout(false);
             this.PerformLayout();

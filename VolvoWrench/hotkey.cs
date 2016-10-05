@@ -14,13 +14,13 @@ namespace VolvoWrench
     {
         public class KeyboardKey
         {
-            public int vkeycode;
-            public bool state;
+            public int Vkeycode;
+            public bool State;
 
             public KeyboardKey(int vk,bool state)
             {
-                this.vkeycode = vk;
-                this.state = state;
+                this.Vkeycode = vk;
+                this.State = state;
             }
         }
         public int InfoPopupHotkey;
@@ -40,8 +40,9 @@ namespace VolvoWrench
             button1.Enabled = false;
             button2.Enabled = false;
             button3.Enabled = false;
-            label1.Text = @"Press any key!";
-            
+            this.Text = @"Press any key!";
+            label1.Text = "";
+
         }
 
         public void PickInfoHotkey()
@@ -51,31 +52,24 @@ namespace VolvoWrench
 
         private void Hotkey_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
         {
-            if (KeyStates.Any(x => x.vkeycode == KeyInterop.VirtualKeyFromKey((Key)e.KeyCode)))
+            if (KeyStates.Any(x => x.Vkeycode == KeyInterop.VirtualKeyFromKey((Key)e.KeyCode)))
             {
-                KeyStates.First(x => x.vkeycode == KeyInterop.VirtualKeyFromKey((Key)e.KeyCode)).state = true;
+                KeyStates.First(x => x.Vkeycode == KeyInterop.VirtualKeyFromKey((Key)e.KeyCode)).State = true;
             }
             else
             {
                 KeyStates.Add(new KeyboardKey(KeyInterop.VirtualKeyFromKey((Key) e.KeyCode),true));
             }
-        }
 
-        private void Hotkey_KeyPress(object sender, System.Windows.Forms.KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Escape) return;
-            button1.Enabled = true;
-            button2.Enabled = true;
-            button3.Enabled = true;
-            label1.Text = @"Infopopup: None";
         }
 
         private void Hotkey_KeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
         {
-            if (KeyStates.Any(x => x.vkeycode == KeyInterop.VirtualKeyFromKey((Key)e.KeyCode)))
+            if (KeyStates.Any(x => x.Vkeycode == KeyInterop.VirtualKeyFromKey((Key)e.KeyCode)))
             {
-                KeyStates.First(x => x.vkeycode == KeyInterop.VirtualKeyFromKey((Key)e.KeyCode)).state = false;
+                KeyStates.First(x => x.Vkeycode == KeyInterop.VirtualKeyFromKey((Key)e.KeyCode)).State = false;
             }
+            label1.Text = KeyInterop.KeyFromVirtualKey(e.KeyValue).ToString();
         }
 
         //TODO:Make a Dictionary<VKEYCODE,BOOL> and handle keys in keydown.
