@@ -7,16 +7,17 @@ namespace VolvoWrench.Demo_stuff
     {
         UnsupportedFile,
         GoldSource,
+        Hlsooe,
         Source
     }
 
     public class CrossParse
     {
-        public GoldSourceDemoInfo Gdi;
+        public GoldSourceDemoInfoHlsooe Gdi;
         public Parseresult Res = Parseresult.UnsupportedFile;
         public SourceDemoInfo Sdi;
 
-        public CrossParse(GoldSourceDemoInfo gsdi, Parseresult pr, SourceDemoInfo sdi)
+        public CrossParse(GoldSourceDemoInfoHlsooe gsdi, Parseresult pr, SourceDemoInfo sdi)
         {
             this.Gdi = gsdi;
             this.Res = pr;
@@ -34,7 +35,7 @@ namespace VolvoWrench.Demo_stuff
             {
                 case Parseresult.GoldSource:
                 {
-                    GoldSourceParser.ParseDemo(filename);
+                    GoldSourceParser.ParseDemoHlsooe(filename);
                     break;
                 }
                 case Parseresult.UnsupportedFile:
@@ -63,23 +64,23 @@ namespace VolvoWrench.Demo_stuff
         public Parseresult CheckDemoType(string file)
         {
             Parseresult dt;
-            string mw;
             using (var fs = new FileStream(file, FileMode.Open, FileAccess.Read))
             using (var br = new BinaryReader(fs))
             {
-                mw = Encoding.ASCII.GetString(br.ReadBytes(8)).TrimEnd('\0');
-            }
-            switch (mw)
-            {
-                case "HLDEMO":
-                    dt = Parseresult.GoldSource;
-                    break;
-                case "HL2DEMO":
-                    dt = Parseresult.Source;
-                    break;
-                default:
-                    dt = Parseresult.UnsupportedFile;
-                    break;
+                var mw = Encoding.ASCII.GetString(br.ReadBytes(8)).TrimEnd('\0');
+                switch (mw)
+                {
+                    case "HLDEMO":
+                        
+                        dt = Parseresult.GoldSource;
+                        break;
+                    case "HL2DEMO":
+                        dt = Parseresult.Source;
+                        break;
+                    default:
+                        dt = Parseresult.UnsupportedFile;
+                        break;
+                }
             }
             return dt;
             //TODO: Implement this.

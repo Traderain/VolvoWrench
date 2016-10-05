@@ -25,7 +25,7 @@ namespace VolvoWrench
         public SourceParser CurrentDemoFile;
         public DemoType CurrentDemoType;
         public string CurrentFile;
-        GlobalHotkeys hotkey = new GlobalHotkeys();
+        readonly GlobalHotkeys _hotkey = new GlobalHotkeys();
 
         protected override void WndProc(ref Message m)
         {
@@ -35,7 +35,7 @@ namespace VolvoWrench
             {
                 case WM_HOTKEY:
                     {
-                        if ((short)m.WParam == hotkey.HotkeyID)
+                        if ((short)m.WParam == _hotkey.HotkeyID)
                         {
                             // do your thing
                             MessageBox.Show("ALT+D");
@@ -57,8 +57,8 @@ namespace VolvoWrench
             HotkeyTimer.Start();
             goldSourceToolsToolStripMenuItem.Enabled = false;
             toolsToolStripMenuItem.Enabled = false;
-            GlobalHotkeys.RegisterHotKey(Handle, hotkey.HotkeyID, (int)global::GlobalHotkeys.MOD_ALT, (int)Keys.D);
-            hotkey.UnregisterGlobalHotKey();
+            GlobalHotkeys.RegisterHotKey(Handle, _hotkey.HotkeyID, (int)global::GlobalHotkeys.MOD_ALT, (int)Keys.D);
+            _hotkey.UnregisterGlobalHotKey();
             if (File.Exists(LogPath))
             {
                 File.Delete(LogPath);
@@ -235,6 +235,13 @@ namespace VolvoWrench
                         richTextBox1.Font = fd.Font;
                     }
                 }
+                if (CurrentFile == null || (!File.Exists(CurrentFile) || Path.GetExtension(CurrentFile) != ".dem")) return;
+                Stream cfs = File.Open(CurrentFile, FileMode.Open);
+                CurrentDemoFile = new SourceParser(cfs);
+                cfs.Close();
+                PrintSetails(CurrentDemoFile);
+                toolsToolStripMenuItem.Enabled = true;
+                Log(Path.GetFileName(CurrentFile + " rescanned for font change.")); //Terribble hack for recolor.
                 Log("Font changed");
             }
             catch (Exception ex)
@@ -257,17 +264,13 @@ namespace VolvoWrench
                  ? dropfiles.First(x => Path.GetExtension(x) == ".dem")
                  : null;
             if (dropfile != null) CurrentFile = dropfile;
-            if (CurrentFile != null && (File.Exists(CurrentFile) && Path.GetExtension(CurrentFile) == ".dem"))
-            {
-                Stream cfs = File.Open(CurrentFile, FileMode.Open);
-                CurrentDemoFile = new SourceParser(cfs);
-                cfs.Close();
-                PrintSetails(CurrentDemoFile);
-                toolsToolStripMenuItem.Enabled = true;
-                Log(Path.GetFileName(CurrentFile) + " opened!");
-            }
-
-
+            if (CurrentFile == null || (!File.Exists(CurrentFile) || Path.GetExtension(CurrentFile) != ".dem")) return;
+            Stream cfs = File.Open(CurrentFile, FileMode.Open);
+            CurrentDemoFile = new SourceParser(cfs);
+            cfs.Close();
+            PrintSetails(CurrentDemoFile);
+            toolsToolStripMenuItem.Enabled = true;
+            Log(Path.GetFileName(CurrentFile) + " opened!");
         }
         #endregion
 
