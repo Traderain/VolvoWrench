@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Windows.Media.Media3D;
-using static System.Windows.Media.Media3D.Point3D;
 
 namespace VolvoWrench.Demo_stuff
 {
-        public enum DemoFrameType
+    public enum DemoFrameType
         {
             StartupPacket = 1,
             NetworkPacket = 2,
@@ -22,7 +22,7 @@ namespace VolvoWrench.Demo_stuff
         {
             public DemoFrameType Type;
             public float Time;
-            public int Frame;
+            public int tick;
         }
         public struct ConsoleCommandFrame
         {
@@ -65,35 +65,31 @@ namespace VolvoWrench.Demo_stuff
             public List<string> Msg;
         };
 
-    internal class GoldSourceDemo
+    public struct DemoHeader
     {
-        public List<DemoDirectoryEntry> DirectoryEntries;
-        public int EntryCount;
-        public DemoHeader Header;
-        public List<string> ParsingErrors;
+        public int DemoProtocol;
+        public int DirectoryOffset;
+        public string GameDirectory;
+        public string Magic;
+        public string MapName;
+        public int Netprotocol;
+    }
 
-        public struct DemoHeader
-        {
-            public int DemoProtocol;
-            public int DirectoryOffset;
-            public string GameDirectory;
-            public string Magic;
-            public string MapName;
-            public int Netprotocol;
-        }
-
-        public struct DemoDirectoryEntry
-        {
-            public int Filelength;
-            public int FrameCount;
-            public int Offset;
-            public float PlaybackTime;
-            public int Type;
-        }
+    public struct DemoDirectoryEntry
+    {
+        public int Filelength;
+        public int FrameCount;
+        public int Offset;
+        public float PlaybackTime;
+        public int Type;
+        public List<DemoFrame> Frames;
     }
 
     public struct GoldSourceDemoInfo
     {
+        public DemoHeader Header;
+        public List<DemoDirectoryEntry> DirectoryEntries;
+        public List<string> ParsingErrors;
         //TODO: fix
     }
 
@@ -101,7 +97,9 @@ namespace VolvoWrench.Demo_stuff
     {
         public static GoldSourceDemoInfo ParseDemo(string s) //Add error out
         {
-            var gDemo = new GoldSourceDemo();
+            var gDemo = new GoldSourceDemoInfo();
+            gDemo.Header = new DemoHeader();
+            var EntryCount = 0;
             using (var br = new BinaryReader(new FileStream(s, FileMode.Open))) //TODO: Add file
             {
                 var mw = Encoding.ASCII.GetString(br.ReadBytes(8)).Trim('\0');
@@ -114,20 +112,58 @@ namespace VolvoWrench.Demo_stuff
                     gDemo.Header.DirectoryOffset = br.ReadInt32();
                     //Header Parsed... now we read the directory entries
                     br.BaseStream.Seek(gDemo.Header.DirectoryOffset, SeekOrigin.Begin);
-                    gDemo.EntryCount = br.ReadInt32();
-                    for (var i = 0; i < gDemo.EntryCount; i++)
+                    EntryCount = br.ReadInt32();
+                    for (var i = 0; i < EntryCount; i++)
                     {
-                        var tempvar = new GoldSourceDemo.DemoDirectoryEntry();
+                        var tempvar = new DemoDirectoryEntry();
                         tempvar.Type = br.ReadInt32();
                         tempvar.PlaybackTime = br.ReadSingle();
                         tempvar.FrameCount = br.ReadInt32();
                         tempvar.Offset = br.ReadInt32();
                         tempvar.Filelength = br.ReadInt32();
+                        gDemo.DirectoryEntries.Add(tempvar);
+
                     }
                     //Demo directory entries parsed... now we parse the frames.
                     foreach (var entry in gDemo.DirectoryEntries)
                     {
-                        //TODO: Finnish this.
+                        var nextSectionRead = false;
+                        for (var i = 0; i < entry.FrameCount; i++)
+                        {
+                            var frameType = (DemoFrameType)br.ReadSByte();
+                            var time = br.ReadSingle();
+                            var tick = br.ReadInt32();
+                            if (!nextSectionRead)
+                            {
+                                switch (frameType)
+                                {
+                                    case DemoFrameType.StartupPacket:
+                                        break;
+                                    case DemoFrameType.NetworkPacket:
+                                        break;
+                                    case DemoFrameType.Jumptime:
+                                        break;
+                                    case DemoFrameType.ConsoleCommand:
+                                        break;
+                                    case DemoFrameType.Usercmd:
+                                        break;
+                                    case DemoFrameType.Stringtables:
+                                        break;
+                                    case DemoFrameType.NetworkDataTable:
+                                        break;
+                                    case DemoFrameType.NextSection:
+                                        nextSectionRead = true;
+                                        break;
+                                    default:
+                                        Main.Log($"Error: Frame type: + {frameType} at parsing.");
+                                        break;
+                                }
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
                     }
                 }
                 else
