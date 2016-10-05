@@ -1,4 +1,4 @@
-﻿namespace VolvoWrench.Netdec
+﻿namespace VolvoWrench.Demo_stuff
 {
     partial class DemoDecoder
     {
@@ -44,6 +44,7 @@
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.splitContainer1.Name = "splitContainer1";
             this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -54,8 +55,9 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.messageTree);
-            this.splitContainer1.Size = new System.Drawing.Size(620, 573);
-            this.splitContainer1.SplitterDistance = 205;
+            this.splitContainer1.Size = new System.Drawing.Size(827, 705);
+            this.splitContainer1.SplitterDistance = 252;
+            this.splitContainer1.SplitterWidth = 5;
             this.splitContainer1.TabIndex = 1;
             // 
             // messageList
@@ -70,8 +72,9 @@
             this.messageList.ForeColor = System.Drawing.SystemColors.Info;
             this.messageList.FullRowSelect = true;
             this.messageList.Location = new System.Drawing.Point(0, 0);
+            this.messageList.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.messageList.Name = "messageList";
-            this.messageList.Size = new System.Drawing.Size(620, 205);
+            this.messageList.Size = new System.Drawing.Size(827, 252);
             this.messageList.TabIndex = 0;
             this.messageList.UseCompatibleStateImageBehavior = false;
             this.messageList.View = System.Windows.Forms.View.Details;
@@ -99,17 +102,21 @@
             this.messageTree.ForeColor = System.Drawing.SystemColors.Info;
             this.messageTree.FullRowSelect = true;
             this.messageTree.Location = new System.Drawing.Point(0, 0);
+            this.messageTree.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.messageTree.Name = "messageTree";
             this.messageTree.ShowLines = false;
-            this.messageTree.Size = new System.Drawing.Size(620, 364);
+            this.messageTree.Size = new System.Drawing.Size(827, 448);
             this.messageTree.TabIndex = 0;
             // 
             // DemoDecoder
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(620, 573);
+            this.ClientSize = new System.Drawing.Size(827, 705);
             this.Controls.Add(this.splitContainer1);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "DemoDecoder";
             this.ShowIcon = false;
             this.Text = "Demo decoder";

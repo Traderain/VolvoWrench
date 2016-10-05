@@ -4,7 +4,7 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 
-namespace VolvoWrench.Netdec
+namespace VolvoWrench.Demo_stuff
 {
     public struct Saveflag
     {
@@ -19,6 +19,7 @@ namespace VolvoWrench.Netdec
         public List<Saveflag> Flags;
         public float Seconds;
         public string ServerName, ClientName, MapName, GameDirectory;
+        public List<SourceParser.DemoMessage> Messages;
     }
 
     public class SourceParser
@@ -38,12 +39,11 @@ namespace VolvoWrench.Netdec
 
         private readonly Stream _fstream;
         public SourceDemoInfo Info;
-        public List<DemoMessage> Messages;
 
         public SourceParser(Stream s)
         {
             _fstream = s;
-            Messages = new List<DemoMessage>();
+            Info.Messages = new List<DemoMessage>();
             Parse();
         }
 
@@ -118,7 +118,7 @@ namespace VolvoWrench.Netdec
                         Info.Flags.Add(tempf);
                     }
                 }
-                Messages.Add(msg);
+                Info.Messages.Add(msg);
             }
         }
 

@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Principal;
 using System.Windows.Forms;
-using VolvoWrench.Netdec;
+using VolvoWrench.Demo_stuff;
 
 namespace VolvoWrench
 {
@@ -106,19 +106,19 @@ namespace VolvoWrench
             }
         }
 
-        public void HighlightLastLine(RichTextBox TextControl, Color HighlightColor)
+        public void HighlightLastLine(RichTextBox textControl, Color highlightColor)
         {
-            TextControl.Text = TextControl.Text.Trim();
-            TextControl.SelectionStart = 0;
-            TextControl.SelectionLength = 0;
-            TextControl.SelectionColor = Color.Black;
-            var LastLineText = TextControl.Lines[richTextBox1.Lines.Count() - 1];
-            var LastLineStartIndex = richTextBox1.Text.LastIndexOf(LastLineText);
-            TextControl.SelectionStart = LastLineStartIndex;
-            TextControl.SelectionLength = TextControl.Text.Length - 1;
-            TextControl.SelectionColor = HighlightColor;
-            TextControl.DeselectAll();
-            TextControl.Select(TextControl.Text.Length, 0);
+            textControl.Text = textControl.Text.Trim();
+            textControl.SelectionStart = 0;
+            textControl.SelectionLength = 0;
+            textControl.SelectionColor = Color.Black;
+            var lastLineText = textControl.Lines[richTextBox1.Lines.Count() - 1];
+            var lastLineStartIndex = richTextBox1.Text.LastIndexOf(lastLineText);
+            textControl.SelectionStart = lastLineStartIndex;
+            textControl.SelectionLength = textControl.Text.Length - 1;
+            textControl.SelectionColor = highlightColor;
+            textControl.DeselectAll();
+            textControl.Select(textControl.Text.Length, 0);
         }
 
         private void checkForUpdateToolStripMenuItem_Click(object sender, EventArgs e)
@@ -195,6 +195,8 @@ namespace VolvoWrench
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
             using (var of = new OpenFileDialog())
+            {
+                of.Filter = "Demo files | *.dem";
                 switch (of.ShowDialog())
                 {
                     case DialogResult.OK:
@@ -210,6 +212,8 @@ namespace VolvoWrench
                         }
                         break;
                 }
+            }
+                
         }
 
         private void rescanFileToolStripMenuItem_Click(object sender, EventArgs e)

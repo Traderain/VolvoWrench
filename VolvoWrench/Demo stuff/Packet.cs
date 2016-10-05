@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace VolvoWrench.Netdec
+namespace VolvoWrench.Demo_stuff
 {
     internal class Packet
     {

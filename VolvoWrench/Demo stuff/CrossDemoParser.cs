@@ -1,37 +1,53 @@
-﻿using VolvoWrench.Netdec;
+﻿using System.IO;
+using System.Text;
 
 namespace VolvoWrench.Demo_stuff
 {
-    public enum parseresult
+    public enum Parseresult
     {
-        unsupported_file,
+        UnsupportedFile,
         GoldSource,
         Source
     }
 
-    public struct CROSS_PARSE
+    public class CrossParse
     {
-        public GoldSourceDemoInfo GDI;
-        public parseresult res;
-        public SourceDemoInfo SDI;
+        public GoldSourceDemoInfo Gdi;
+        public Parseresult Res = Parseresult.UnsupportedFile;
+        public SourceDemoInfo Sdi;
+
+        public CrossParse(GoldSourceDemoInfo gsdi, Parseresult pr, SourceDemoInfo sdi)
+        {
+            this.Gdi = gsdi;
+            this.Res = pr;
+            this.Sdi = sdi;
+        }
+        public CrossParse() {}
     }
 
     internal class CrossDemoParser
     {
-        public CROSS_PARSE Parse(string filename)
+        public CrossParse Parse(string filename)
         {
+            CrossParse cpr = new CrossParse();
             switch (CheckDemoType(filename))
             {
-                case parseresult.GoldSource:
+                case Parseresult.GoldSource:
                 {
+                    GoldSourceParser.ParseDemo(filename);
                     break;
                 }
-                case parseresult.unsupported_file:
+                case Parseresult.UnsupportedFile:
                 {
+                    Main.Log("Demotype check resulted in an unsupported file.");
                     break;
                 }
-                case parseresult.Source:
+                case Parseresult.Source:
                 {
+                    Stream cfs = File.Open(filename, FileMode.Open);
+                    var a = new SourceParser(cfs);
+                    cpr.Sdi = a.Info;
+                    cfs.Close();
                     break;
                 }
                 default:
@@ -41,14 +57,33 @@ namespace VolvoWrench.Demo_stuff
                     break;
                 }
             }
-            //TODO: Implement this.
-            return new CROSS_PARSE();
+            return new CrossParse();
         }
 
-        public parseresult CheckDemoType(string filename)
+        public Parseresult CheckDemoType(string file)
         {
+            Parseresult dt;
+            string mw;
+            using (var fs = new FileStream(file, FileMode.Open, FileAccess.Read))
+            using (var br = new BinaryReader(fs))
+            {
+                mw = Encoding.ASCII.GetString(br.ReadBytes(8)).TrimEnd('\0');
+            }
+            switch (mw)
+            {
+                case "HLDEMO":
+                    dt = Parseresult.GoldSource;
+                    break;
+                case "HL2DEMO":
+                    dt = Parseresult.Source;
+                    break;
+                default:
+                    dt = Parseresult.UnsupportedFile;
+                    break;
+            }
+            return dt;
             //TODO: Implement this.
-            return parseresult.unsupported_file;
+            return Parseresult.UnsupportedFile;
         }
     }
 }

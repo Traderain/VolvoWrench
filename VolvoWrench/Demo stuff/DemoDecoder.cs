@@ -4,7 +4,7 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 
-namespace VolvoWrench.Netdec
+namespace VolvoWrench.Demo_stuff
 {
     public partial class DemoDecoder : Form
     {
@@ -19,7 +19,7 @@ namespace VolvoWrench.Netdec
             CurrentFile = new SourceParser(f);
             f.Close();
 
-            foreach (var msg in CurrentFile.Messages)
+            foreach (var msg in CurrentFile.Info.Messages)
             {
                 messageList.Items.Add(new DemoMessageItem(msg));
             }

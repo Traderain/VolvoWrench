@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace VolvoWrench.Netdec
+namespace VolvoWrench.Demo_stuff
 {
     internal class DataTables
     {

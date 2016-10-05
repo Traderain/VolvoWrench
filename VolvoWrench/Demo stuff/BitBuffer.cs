@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace VolvoWrench.Netdec
+namespace VolvoWrench.Demo_stuff
 {
     internal class BitBuffer
     {
@@ -16,10 +16,7 @@ namespace VolvoWrench.Netdec
             _buf = data;
         }
 
-        public void Seek(uint bits)
-        {
-            _pos += bits;
-        }
+        public void Seek(uint bits) => _pos += bits;
 
         public uint ReadBits(uint bits)
         {
@@ -28,11 +25,11 @@ namespace VolvoWrench.Netdec
 
             while (left > 0)
             {
-                var idx = _pos >> 3;
-                var bit = _pos & 7;
+                var idx = _pos >> 3; // Divide by 2^3 / 3 nulla az elejére
+                var bit = _pos & 7;  //111-t
                 var toget = Math.Min(8 - bit, left);
 
-                var nib = (uint) (_buf[idx] >> (int) bit & Mtbl[toget]);
+                var nib = (uint) (_buf[idx] >> (int) bit & Mtbl[toget]); //BUG: When signon is negative but only when its at index 0.
                 ret |= nib << (int) (bits - left);
 
                 _pos += toget;
@@ -47,10 +44,7 @@ namespace VolvoWrench.Netdec
             return ReadBits(1) != 0;
         }
 
-        public float ReadFloat()
-        {
-            return new UIntFloat {intvalue = ReadBits(32)}.floatvalue;
-        }
+        public float ReadFloat() => new UIntFloat {intvalue = ReadBits(32)}.floatvalue;
 
         public string ReadString()
         {
@@ -99,10 +93,7 @@ namespace VolvoWrench.Netdec
             };
         }
 
-        public uint BitsLeft()
-        {
-            return (uint) (_buf.Length << 3) - _pos;
-        }
+        public uint BitsLeft() => (uint) (_buf.Length << 3) - _pos;
 
         [StructLayout(LayoutKind.Explicit)]
         private struct UIntFloat

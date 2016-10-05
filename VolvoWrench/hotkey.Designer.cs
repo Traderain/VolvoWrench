@@ -83,7 +83,7 @@
             this.label1.TabIndex = 4;
             this.label1.Text = "Info popup: None";
             // 
-            // hotkey
+            // Hotkey
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -99,6 +99,9 @@
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.Text = "Hotkeys";
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Hotkey_KeyDown);
+            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Hotkey_KeyPress);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Hotkey_KeyUp);
             this.ResumeLayout(false);
             this.PerformLayout();
 

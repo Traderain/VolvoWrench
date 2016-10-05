@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Demo stuff\CrossDemoParser.cs" />
+    <Compile Include="Demo stuff\DemoFrame.cs" />
     <Compile Include="hotkey.cs">
       <SubType>Form</SubType>
     </Compile>
