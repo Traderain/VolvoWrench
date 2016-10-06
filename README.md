@@ -46,4 +46,6 @@ Thanks to:
   - asherki
   - Didrole
   - YaLTeR
+  
+ <h3>And special thanks to Valve:<h3>
   ![alt_tag](http://i.imgur.com/GRSBOdl.jpg)
