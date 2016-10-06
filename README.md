@@ -46,3 +46,4 @@ Thanks to:
   - asherki
   - Didrole
   - YaLTeR
+  ![alt_tag](http://i.imgur.com/GRSBOdl.jpg)
