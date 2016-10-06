@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Windows.Media.Media3D;
@@ -19,6 +20,8 @@ namespace VolvoWrench.Demo_stuff
             NextSection = 8
         };
 
+        public interface IFrame { }
+
         public class DemoFrame
         {
             public int Tick;
@@ -26,29 +29,53 @@ namespace VolvoWrench.Demo_stuff
             public DemoFrameType Type;
         }
 
-        public struct ConsoleCommandFrame
+        public class ConsoleCommandFrame : IFrame
         {
             public string Command;
-        };
+        }
 
-        public struct StringTablesFrame
+        public class StringTablesFrame : IFrame
         {
             public string Data;
-        };
+        }
 
-        public struct NetworkDataTableFrame
+        public class JumpTimeFrame : IFrame { }
+
+        public class NextSectionFrame : IFrame { }
+
+        public class ErrorFrame : IFrame
+        {
+            public string ErrorData;
+            public int Flags;
+            public int IncomingAcknowledged;
+            public int IncomingReliableAcknowledged;
+            public int IncomingReliableSequence;
+            public int IncomingSequence;
+            public int LastReliableSequence;
+            public Point3D LocalViewAngles;
+            public Point3D LocalViewAngles2;
+            public string Msg;
+            public int OutgoingSequence;
+            public int ReliableSequence;
+            public Point3D ViewAngles;
+            public Point3D ViewAngles2;
+            public Point3D ViewOrigin2;
+            public Point3D ViewOrigins;
+        }
+
+        public class NetworkDataTableFrame : IFrame
         {
             public string Data;
-        };
+        }
 
-        public struct UserCmdFrame
+        public class UserCmdFrame : IFrame
         {
             public string Data;
             public int OutgoingSequence;
             public int Slot;
-        };
+        }
 
-        public struct NetMsgFrame
+        public class NetMsgFrame : IFrame
         {
             public int Flags;
             public int IncomingAcknowledged;
@@ -65,9 +92,28 @@ namespace VolvoWrench.Demo_stuff
             public Point3D ViewAngles2;
             public Point3D ViewOrigin2;
             public Point3D ViewOrigins;
-        };
+        }
 
-        public struct DemoHeader
+        public class StartupPacketFrame : IFrame
+        {
+            public int Flags;
+            public int IncomingAcknowledged;
+            public int IncomingReliableAcknowledged;
+            public int IncomingReliableSequence;
+            public int IncomingSequence;
+            public int LastReliableSequence;
+            public Point3D LocalViewAngles;
+            public Point3D LocalViewAngles2;
+            public string Msg;
+            public int OutgoingSequence;
+            public int ReliableSequence;
+            public Point3D ViewAngles;
+            public Point3D ViewAngles2;
+            public Point3D ViewOrigin2;
+            public Point3D ViewOrigins;
+        }
+
+        public class DemoHeader : IFrame
         {
             public int DemoProtocol;
             public int DirectoryOffset;
@@ -77,18 +123,18 @@ namespace VolvoWrench.Demo_stuff
             public int Netprotocol;
         }
 
-        public struct DemoDirectoryEntry
+        public class DemoDirectoryEntry
         {
             public int Filelength;
             public int FrameCount;
-            public List<DemoFrame> Frames;
+            public Dictionary<DemoFrame,IFrame> Frames;
             public int Offset;
             public float PlaybackTime;
             public int Type;
         }
     }
 
-    public struct GoldSourceDemoInfoHlsooe
+    public class GoldSourceDemoInfoHlsooe
     {
         public List<Hlsooe.DemoDirectoryEntry> DirectoryEntries;
         public Hlsooe.DemoHeader Header;
@@ -97,7 +143,7 @@ namespace VolvoWrench.Demo_stuff
 
     public class GoldSource
     {
-        public struct DemoHeader
+        public class DemoHeader
         {
             public int NetProtocol;
             public int DemoProtocol;
@@ -322,16 +368,21 @@ namespace VolvoWrench.Demo_stuff
     {
         public static GoldSourceDemoInfoHlsooe ParseDemoHlsooe(string s) //Add error out
         {
-            var gDemo = new GoldSourceDemoInfoHlsooe {Header = new Hlsooe.DemoHeader()};
+            var gDemo = new GoldSourceDemoInfoHlsooe
+            {
+                Header = new Hlsooe.DemoHeader(),
+                ParsingErrors = new List<string>(),
+                DirectoryEntries = new List<Hlsooe.DemoDirectoryEntry>()
+            };
             using (var br = new BinaryReader(new FileStream(s, FileMode.Open)))
             {
-                var mw = Encoding.ASCII.GetString(br.ReadBytes(8)).Trim('\0');
+                var mw = Encoding.ASCII.GetString(br.ReadBytes(8)).Trim('\0').Replace("\0",string.Empty);
                 if (mw == "HLDEMO")
                 {
                     gDemo.Header.DemoProtocol = br.ReadInt32();
                     gDemo.Header.Netprotocol = br.ReadInt32();
-                    gDemo.Header.MapName = Encoding.ASCII.GetString(br.ReadBytes(260));
-                    gDemo.Header.GameDirectory = Encoding.ASCII.GetString(br.ReadBytes(260));
+                    gDemo.Header.MapName = Encoding.ASCII.GetString(br.ReadBytes(260)).Trim('\0').Replace("\0",string.Empty);
+                    gDemo.Header.GameDirectory = Encoding.ASCII.GetString(br.ReadBytes(260)).Trim('\0').Replace("\0",string.Empty);
                     gDemo.Header.DirectoryOffset = br.ReadInt32();
                     //Header Parsed... now we read the directory entries
                     br.BaseStream.Seek(gDemo.Header.DirectoryOffset, SeekOrigin.Begin);
@@ -344,24 +395,48 @@ namespace VolvoWrench.Demo_stuff
                             PlaybackTime = br.ReadSingle(),
                             FrameCount = br.ReadInt32(),
                             Offset = br.ReadInt32(),
-                            Filelength = br.ReadInt32()
+                            Filelength = br.ReadInt32(),
+                            Frames = new Dictionary<Hlsooe.DemoFrame, Hlsooe.IFrame>()
                         };
                         gDemo.DirectoryEntries.Add(tempvar);
                     }
                     //Demo directory entries parsed... now we parse the frames.
                     foreach (var entry in gDemo.DirectoryEntries)
                     {
+                        br.BaseStream.Seek(entry.Offset, SeekOrigin.Begin);
                         var nextSectionRead = false;
                         for (var i = 0; i < entry.FrameCount; i++)
                         {
-                            var frameType = (Hlsooe.DemoFrameType) br.ReadSByte();
-                            var time = br.ReadSingle();
-                            var tick = br.ReadInt32();
                             if (!nextSectionRead)
                             {
-                                switch (frameType)
+                                var brpos = br.BaseStream.Position;
+                                var bpleft = br.BaseStream.Length - brpos;
+                                var currentDemoFrame = new Hlsooe.DemoFrame
+                                {
+                                    Type = (Hlsooe.DemoFrameType) br.ReadSByte(),
+                                    Time = br.ReadSingle(),
+                                    Tick = br.ReadInt32()
+                                };
+                                switch (currentDemoFrame.Type)
                                 {
                                     case Hlsooe.DemoFrameType.StartupPacket:
+                                        var g = new Hlsooe.StartupPacketFrame
+                                        {
+                                            Flags = br.ReadInt32(),
+                                            ViewOrigins = new Point3D(br.ReadDouble(), br.ReadDouble(), br.ReadDouble()),
+                                            ViewAngles = new Point3D(br.ReadDouble(), br.ReadDouble(), br.ReadDouble()),
+                                            LocalViewAngles = new Point3D(br.ReadDouble(), br.ReadDouble(), br.ReadDouble()),
+                                            ViewOrigin2 = new Point3D(br.ReadDouble(), br.ReadDouble(), br.ReadDouble()),
+                                            IncomingSequence = br.ReadInt32(),
+                                            IncomingAcknowledged = br.ReadInt32(),
+                                            IncomingReliableAcknowledged = br.ReadInt32(),
+                                            IncomingReliableSequence = br.ReadInt32(),
+                                            OutgoingSequence = br.ReadInt32(),
+                                            ReliableSequence = br.ReadInt32(),
+                                            LastReliableSequence = br.ReadInt32()
+                                        };
+                                        entry.Frames.Add(currentDemoFrame,g);
+                                        break;
                                     case Hlsooe.DemoFrameType.NetworkPacket:
                                         var b = new Hlsooe.NetMsgFrame
                                         {
@@ -379,14 +454,17 @@ namespace VolvoWrench.Demo_stuff
                                             ReliableSequence = br.ReadInt32(),
                                             LastReliableSequence = br.ReadInt32()
                                         };
+                                        entry.Frames.Add(currentDemoFrame,b);
                                         break;
                                     case Hlsooe.DemoFrameType.Jumptime:
                                         //No extra stuff
+                                        entry.Frames.Add(currentDemoFrame,new Hlsooe.JumpTimeFrame());
                                         break;
                                     case Hlsooe.DemoFrameType.ConsoleCommand:
                                         var a = new Hlsooe.ConsoleCommandFrame();
-                                        br.ReadInt32(); //But we don't need it in theory since c# is clewer c:
-                                        a.Command = br.ReadString();
+                                        var commandlength = br.ReadInt32();
+                                        a.Command = new string(br.ReadChars(commandlength)).Trim('\0');
+                                        entry.Frames.Add(currentDemoFrame,a);
                                         break;
                                     case Hlsooe.DemoFrameType.Usercmd:
                                         var c = new Hlsooe.UserCmdFrame
@@ -394,24 +472,49 @@ namespace VolvoWrench.Demo_stuff
                                             OutgoingSequence = br.ReadInt32(),
                                             Slot = br.ReadInt32()
                                         };
-                                        br.ReadInt32(); //But we don't need it in theory since c# is clewer c:
-                                        c.Data = br.ReadString();
+                                        var usercmdlength = br.ReadInt32();
+                                        c.Data = Encoding.ASCII.GetString(br.ReadBytes(usercmdlength)).Trim('\0').Replace("\0", string.Empty);
+                                        entry.Frames.Add(currentDemoFrame,c);
                                         break;
                                     case Hlsooe.DemoFrameType.Stringtables:
                                         var e = new Hlsooe.StringTablesFrame();
-                                        br.ReadInt32(); //But we don't need it in theory since c# is clewer c:
-                                        e.Data = br.ReadString();
+                                        var stringtablelength = br.ReadInt32();
+                                        var edata =
+                                            Encoding.ASCII.GetString(br.ReadBytes(stringtablelength))
+                                                .Trim('\0')
+                                                .Replace("\0", string.Empty)
+                                                .Split('?');
+                                        e.Data = edata[0];
+                                        entry.Frames.Add(currentDemoFrame,e);
                                         break;
                                     case Hlsooe.DemoFrameType.NetworkDataTable:
                                         var d = new Hlsooe.NetworkDataTableFrame();
-                                        br.ReadInt32(); //But we don't need it in theory since c# is clewer c:
-                                        d.Data = br.ReadString();
+                                        var networktablelength = br.ReadInt32();
+                                        d.Data = new string(br.ReadChars(networktablelength)).Trim('\0'); //TODO: Somehow read u8[]
+                                        entry.Frames.Add(currentDemoFrame,d);
                                         break;
                                     case Hlsooe.DemoFrameType.NextSection:
                                         nextSectionRead = true;
+                                        entry.Frames.Add(currentDemoFrame,new Hlsooe.NextSectionFrame());
                                         break;
                                     default:
-                                        Main.Log($"Error: Frame type: + {frameType} at parsing.");
+                                        Main.Log($"Error: Frame type: + {currentDemoFrame.Type} at parsing.");
+                                        var err = new Hlsooe.ErrorFrame()
+                                        {
+                                            Flags = br.ReadInt32(),
+                                            ViewOrigins = new Point3D(br.ReadDouble(), br.ReadDouble(), br.ReadDouble()),
+                                            ViewAngles = new Point3D(br.ReadDouble(), br.ReadDouble(), br.ReadDouble()),
+                                            LocalViewAngles = new Point3D(br.ReadDouble(), br.ReadDouble(), br.ReadDouble()),
+                                            ViewOrigin2 = new Point3D(br.ReadDouble(), br.ReadDouble(), br.ReadDouble()),
+                                            IncomingSequence = br.ReadInt32(),
+                                            IncomingAcknowledged = br.ReadInt32(),
+                                            IncomingReliableAcknowledged = br.ReadInt32(),
+                                            IncomingReliableSequence = br.ReadInt32(),
+                                            OutgoingSequence = br.ReadInt32(),
+                                            ReliableSequence = br.ReadInt32(),
+                                            LastReliableSequence = br.ReadInt32()
+                                        };
+                                        entry.Frames.Add(currentDemoFrame,err);
                                         break;
                                 }
                             }

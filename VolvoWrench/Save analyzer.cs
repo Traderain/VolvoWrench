@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using VolvoWrench.Demo_stuff;
 
 namespace VolvoWrench
 {
@@ -20,12 +21,20 @@ namespace VolvoWrench
 
         private void button1_Click(object sender, EventArgs e)
         {
+            label1.Text = "";
             using (OpenFileDialog of = new OpenFileDialog())
             {
-                of.Filter = "Save files (*.sav) | *.sav";
+                of.Multiselect = true;
+                // of.Filter = "Save files (*.sav) | *.sav";
                 if (of.ShowDialog() == DialogResult.OK)
                 {
                     label1.Text = Path.GetFileName(of.FileName);
+                    foreach (var VARIABLE in of.FileNames)
+                    {
+                        GoldSourceParser.ParseDemoHlsooe(VARIABLE);
+                        richTextBox1.Text += CrossDemoParser.CheckDemoType(VARIABLE) +" - " + Path.GetFileName(VARIABLE) + "\n";
+                    }
+                    
                     //TODO: Add Freelancer.com parser
                 }
                 else

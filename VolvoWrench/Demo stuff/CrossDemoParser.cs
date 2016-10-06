@@ -13,24 +13,26 @@ namespace VolvoWrench.Demo_stuff
 
     public class CrossParse
     {
-        public GoldSourceDemoInfoHlsooe Gdi;
-        public Parseresult Res = Parseresult.UnsupportedFile;
+        public GoldSourceDemoInfoHlsooe HlsooeDemoInfo;
+        public GoldSourceDemoInfo GsDemoInfo;
         public SourceDemoInfo Sdi;
+        public Parseresult Res = Parseresult.UnsupportedFile;
 
-        public CrossParse(GoldSourceDemoInfoHlsooe gsdi, Parseresult pr, SourceDemoInfo sdi)
+        public CrossParse(GoldSourceDemoInfoHlsooe gsdi, Parseresult pr, SourceDemoInfo sdi,GoldSourceDemoInfo gd)
         {
-            this.Gdi = gsdi;
+            this.HlsooeDemoInfo = gsdi;
             this.Res = pr;
             this.Sdi = sdi;
+            this.GsDemoInfo = gd;
         }
         public CrossParse() {}
     }
 
-    internal class CrossDemoParser
+    public static class CrossDemoParser
     {
-        public CrossParse Parse(string filename)
+        public static CrossParse Parse(string filename)
         {
-            CrossParse cpr = new CrossParse();
+            var cpr = new CrossParse();
             switch (CheckDemoType(filename))
             {
                 case Parseresult.GoldSource:
@@ -61,7 +63,7 @@ namespace VolvoWrench.Demo_stuff
             return new CrossParse();
         }
 
-        public Parseresult CheckDemoType(string file)
+        public static Parseresult CheckDemoType(string file)
         {
             Parseresult dt;
             using (var fs = new FileStream(file, FileMode.Open, FileAccess.Read))
@@ -71,8 +73,7 @@ namespace VolvoWrench.Demo_stuff
                 switch (mw)
                 {
                     case "HLDEMO":
-                        
-                        dt = Parseresult.GoldSource;
+                        dt = br.ReadByte() <= 2 ? Parseresult.Hlsooe : Parseresult.GoldSource;
                         break;
                     case "HL2DEMO":
                         dt = Parseresult.Source;
@@ -83,8 +84,6 @@ namespace VolvoWrench.Demo_stuff
                 }
             }
             return dt;
-            //TODO: Implement this.
-            return Parseresult.UnsupportedFile;
         }
     }
 }
