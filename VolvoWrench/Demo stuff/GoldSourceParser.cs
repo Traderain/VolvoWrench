@@ -476,7 +476,7 @@ namespace VolvoWrench.Demo_stuff
                                         c.Data = Encoding.ASCII.GetString(br.ReadBytes(usercmdlength)).Trim('\0').Replace("\0", string.Empty);
                                         entry.Frames.Add(currentDemoFrame,c);
                                         break;
-                                    case Hlsooe.DemoFrameType.Stringtables:
+                                    case Hlsooe.DemoFrameType.Stringtables: //TODO: This is horribly broken. Do something.
                                         var e = new Hlsooe.StringTablesFrame();
                                         var stringtablelength = br.ReadInt32();
                                         var edata =

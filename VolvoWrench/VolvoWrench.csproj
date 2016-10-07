@@ -48,21 +48,32 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CDP\demo parser\DemoParser.cs" />
+    <Compile Include="CDP\demo parser\HalfLifeDelta.cs" />
+    <Compile Include="CDP\demo parser\HalfLifeDemoParser.cs" />
+    <Compile Include="CDP\demo parser\SourceDemoParser.cs" />
+    <Compile Include="CDP\demo\Demo.cs" />
+    <Compile Include="CDP\demo\DemoFactory.cs" />
+    <Compile Include="CDP\demo\HalfLifeDemo.cs" />
+    <Compile Include="CDP\demo\HalfLifeDemoConverter.cs" />
+    <Compile Include="CDP\demo\HalfLifeDemoWriter.cs" />
+    <Compile Include="CDP\demo\HalfLifeDemoWriterInterface.cs" />
+    <Compile Include="CDP\demo\SourceDemo.cs" />
     <Compile Include="Demo stuff\CrossDemoParser.cs" />
     <Compile Include="Demo stuff\DemoFrame.cs" />
-    <Compile Include="Save analyzer.cs">
+    <Compile Include="SaveStuff\Save analyzer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Save analyzer.Designer.cs">
+    <Compile Include="SaveStuff\Save analyzer.Designer.cs">
       <DependentUpon>Save analyzer.cs</DependentUpon>
     </Compile>
-    <Compile Include="hotkey.cs">
+    <Compile Include="Hotkey\hotkey.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="hotkey.Designer.cs">
+    <Compile Include="Hotkey\hotkey.Designer.cs">
       <DependentUpon>hotkey.cs</DependentUpon>
     </Compile>
-    <Compile Include="GlobalHotkeys.cs" />
+    <Compile Include="Hotkey\GlobalHotkeys.cs" />
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -83,7 +94,7 @@
     <Compile Include="Update.Designer.cs">
       <DependentUpon>Update.cs</DependentUpon>
     </Compile>
-    <Compile Include="KeyInput.cs" />
+    <Compile Include="Hotkey\KeyInput.cs" />
     <Compile Include="Demo stuff\BitBuffer.cs" />
     <Compile Include="Demo stuff\DataTables.cs" />
     <Compile Include="Demo stuff\SourceParser.cs" />
@@ -96,10 +107,10 @@
     <Compile Include="Demo stuff\Packet.cs" />
     <Compile Include="DG\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Save analyzer.resx">
+    <EmbeddedResource Include="SaveStuff\Save analyzer.resx">
       <DependentUpon>Save analyzer.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="hotkey.resx">
+    <EmbeddedResource Include="Hotkey\hotkey.resx">
       <DependentUpon>hotkey.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Main.resx">
@@ -284,6 +295,7 @@
   <ItemGroup>
     <None Include="Resources\banknote.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
