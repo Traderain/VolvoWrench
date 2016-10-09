@@ -480,7 +480,7 @@ namespace VolvoWrench.Demo_stuff
                                         var e = new Hlsooe.StringTablesFrame();
                                         var stringtablelength = br.ReadInt32();
                                         var edata =
-                                            Encoding.ASCII.GetString(br.ReadBytes(stringtablelength))
+                                        Encoding.ASCII.GetString(br.ReadBytes(stringtablelength))
                                                 .Trim('\0')
                                                 .Replace("\0", string.Empty)
                                                 .Split('?');
