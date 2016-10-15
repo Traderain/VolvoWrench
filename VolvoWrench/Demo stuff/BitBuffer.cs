@@ -93,7 +93,14 @@ namespace VolvoWrench.Demo_stuff
             };
         }
 
-        public uint BitsLeft() => (uint) (_buf.Length << 3) - _pos;
+        public uint BitsLeft()
+        {
+            // Protected from overflow
+            if ((_buf.Length << 3) >= _pos)
+                return (uint)(_buf.Length << 3) - _pos;
+            else
+                return 0;
+        }
 
         [StructLayout(LayoutKind.Explicit)]
         private struct UIntFloat
