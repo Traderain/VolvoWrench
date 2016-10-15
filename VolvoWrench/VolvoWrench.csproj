@@ -48,17 +48,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CDP\demo parser\DemoParser.cs" />
-    <Compile Include="CDP\demo parser\HalfLifeDelta.cs" />
-    <Compile Include="CDP\demo parser\HalfLifeDemoParser.cs" />
-    <Compile Include="CDP\demo parser\SourceDemoParser.cs" />
-    <Compile Include="CDP\demo\Demo.cs" />
-    <Compile Include="CDP\demo\DemoFactory.cs" />
-    <Compile Include="CDP\demo\HalfLifeDemo.cs" />
-    <Compile Include="CDP\demo\HalfLifeDemoConverter.cs" />
-    <Compile Include="CDP\demo\HalfLifeDemoWriter.cs" />
-    <Compile Include="CDP\demo\HalfLifeDemoWriterInterface.cs" />
-    <Compile Include="CDP\demo\SourceDemo.cs" />
     <Compile Include="Demo stuff\CrossDemoParser.cs" />
     <Compile Include="Demo stuff\DemoFrame.cs" />
     <Compile Include="SaveStuff\Save analyzer.cs">
@@ -73,7 +62,6 @@
     <Compile Include="Hotkey\hotkey.Designer.cs">
       <DependentUpon>hotkey.cs</DependentUpon>
     </Compile>
-    <Compile Include="Hotkey\GlobalHotkeys.cs" />
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
     </Compile>

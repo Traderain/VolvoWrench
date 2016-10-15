@@ -9,7 +9,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using VolvoWrench.Demo_stuff;
-using VolvoWrench.SaveStuff;
 
 namespace VolvoWrench
 {
@@ -26,18 +25,11 @@ namespace VolvoWrench
             using (OpenFileDialog of = new OpenFileDialog())
             {
                 of.Multiselect = true;
-                of.Filter = @"Save files (*.sav) | *.sav";
+                of.Filter = @"Save files (*.dem) | *.dem";
                 if (of.ShowDialog() == DialogResult.OK)
                 {
-                    var a = Listsave.ParseFile(of.FileName);
-                    richTextBox1.Text = $@"
-File name:		{Path.GetFileName(of.FileName)}
-Chapter:		{a.Chapter}
-Map:		    {a.Map}
-Version:		{a.SaveVersion}
-Tokencount:		{a.TokenCount}
-Tokensize:		{a.Tokensize}
-";
+                    label1.Text = CrossDemoParser.CheckDemoType(of.FileName).ToString();
+                    var b = GoldSourceParser.ParseDemoHlsooe(of.FileName);
                     //TODO: Make the parser myself because that guy is autistic.
                 }
                 else
