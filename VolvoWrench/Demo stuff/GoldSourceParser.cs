@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.CodeDom;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Windows.Media.Media3D;
@@ -139,13 +140,6 @@ namespace VolvoWrench.Demo_stuff
         }
     }
 
-    public class GoldSourceDemoInfoHlsooe
-    {
-        public List<Hlsooe.DemoDirectoryEntry> DirectoryEntries;
-        public Hlsooe.DemoHeader Header;
-        public List<string> ParsingErrors;
-    }
-
     public class GoldSource
     {
         public enum DemoFrameType
@@ -263,6 +257,7 @@ namespace VolvoWrench.Demo_stuff
             public int FrameIndex;
             public float Time;
             public DemoFrameType Type;
+            public int Index;
         };
 
         // DEMO_START: no extra data.
@@ -290,6 +285,7 @@ namespace VolvoWrench.Demo_stuff
             public float Delay;
             public int Flags;
             public int Index;
+            public EventArgs EventArguments;
 
             public struct EventArgs
             {
@@ -326,6 +322,7 @@ namespace VolvoWrench.Demo_stuff
 
         public struct DemoBufferFrame : IFrame
         {
+            public string Buffer;
         };
 
         // Otherwise, netmsg.
@@ -340,11 +337,13 @@ namespace VolvoWrench.Demo_stuff
             public int OutgoingSequence;
             public int ReliableSequence;
 
-            public struct DemoInfo
-            {
-                public float Timestamp;
-                public Point3D View;
-                public int Viewmodel;
+            public float Timestamp;
+            public Point3D View;
+            public int Viewmodel;
+           
+            public RefParams RParms;
+            public UserCmd UCmd;
+            public MoveVars MVars;
 
                 public struct RefParams
                 {
@@ -389,7 +388,7 @@ namespace VolvoWrench.Demo_stuff
                     public sbyte Align2;
                     public sbyte Align3;
                     public sbyte Align4;
-                    public uint Buttons;
+                    public int Buttons;
                     public float Forwardmove;
                     public int ImpactIndex;
                     public Point3D ImpactPosition;
@@ -431,7 +430,6 @@ namespace VolvoWrench.Demo_stuff
                     public float Waterfriction;
                     public float WaveHeight;
                     public float Zmax;
-                }
             }
         }
     }
@@ -443,9 +441,16 @@ namespace VolvoWrench.Demo_stuff
         public List<string> ParsingErrors;
     }
 
+    public class GoldSourceDemoInfoHlsooe
+    {
+        public List<Hlsooe.DemoDirectoryEntry> DirectoryEntries;
+        public Hlsooe.DemoHeader Header;
+        public List<string> ParsingErrors;
+    }
+
     public class GoldSourceParser
     {
-        public static GoldSourceDemoInfoHlsooe ParseDemoHlsooe(string s) //Add error out
+        public static GoldSourceDemoInfoHlsooe ParseDemoHlsooe(string s)
         {
             var hlsooeDemo = new GoldSourceDemoInfoHlsooe
             {
@@ -665,8 +670,10 @@ namespace VolvoWrench.Demo_stuff
                     {
                         br.BaseStream.Seek(entry.Offset, SeekOrigin.Begin);
                         var nextSectionRead = false;
+                        var ind = 0;
                         for (var i = 0; i < entry.FrameCount; i++)
                         {
+                            ind++;
                             nextSectionRead = false;
                             if (!nextSectionRead)
                             {
@@ -674,7 +681,8 @@ namespace VolvoWrench.Demo_stuff
                                 {
                                     Type = (GoldSource.DemoFrameType) br.ReadSByte(),
                                     Time = br.ReadSingle(),
-                                    FrameIndex = br.ReadInt32()
+                                    FrameIndex = br.ReadInt32(),
+                                    Index = ind
                                 };
                                 switch (currentDemoFrame.Type)
                                 {
@@ -690,23 +698,220 @@ namespace VolvoWrench.Demo_stuff
                                         entry.Frames.Add(currentDemoFrame, ccframe);
                                         break;
                                     case GoldSource.DemoFrameType.ClientData:
-
+                                        var cdframe = new GoldSource.ClientDataFrame
+                                        {
+                                            Origin =
+                                            {
+                                                X = br.ReadSingle(),
+                                                Y = br.ReadSingle(),
+                                                Z = br.ReadSingle()
+                                            },
+                                            Viewangles =
+                                            {
+                                                X = br.ReadSingle(),
+                                                Y = br.ReadSingle(),
+                                                Z = br.ReadSingle()
+                                            },
+                                            WeaponBits = br.ReadInt32(),
+                                            Fov = br.ReadSingle()
+                                        };
                                         break;
                                     case GoldSource.DemoFrameType.NextSection:
                                         nextSectionRead = true;
                                         entry.Frames.Add(currentDemoFrame, new GoldSource.NextSectionFrame());
                                         break;
                                     case GoldSource.DemoFrameType.Event:
+                                        var eframe = new GoldSource.EventFrame
+                                        {
+                                            Flags = br.ReadInt32(),
+                                            Index = br.ReadInt32(),
+                                            Delay = br.ReadSingle(),
+                                            EventArguments =
+                                            {
+                                                Flags = br.ReadInt32(),
+                                                EntityIndex = br.ReadInt32(),
+                                                Origin =
+                                                {
+                                                    X = br.ReadSingle(),
+                                                    Y = br.ReadSingle(),
+                                                    Z = br.ReadSingle()
+                                                },
+                                                Angles =
+                                                {
+                                                    X = br.ReadSingle(),
+                                                    Y = br.ReadSingle(),
+                                                    Z = br.ReadSingle()
+                                                },
+                                                Velocity =
+                                                {
+                                                    X = br.ReadSingle(),
+                                                    Y = br.ReadSingle(),
+                                                    Z = br.ReadSingle()
+                                                },
+                                                Ducking = br.ReadInt32(),
+                                                Fparam1 = br.ReadSingle(),
+                                                Fparam2 = br.ReadSingle(),
+                                                Iparam1 = br.ReadInt32(),
+                                                Iparam2 = br.ReadInt32(),
+                                                Bparam1 = br.ReadInt32(),
+                                                Bparam2 = br.ReadInt32()
+                                            }
+                                        };
+                                        entry.Frames.Add(currentDemoFrame,eframe);
                                         break;
                                     case GoldSource.DemoFrameType.WeaponAnim:
+                                        var waframe = new GoldSource.WeaponAnimFrame
+                                        {
+                                            Anim = br.ReadInt32(),
+                                            Body = br.ReadInt32()
+                                        };
+                                        entry.Frames.Add(currentDemoFrame,waframe);
                                         break;
                                     case GoldSource.DemoFrameType.Sound:
+                                        var sframe = new GoldSource.SoundFrame();
+                                        sframe.Channel = br.ReadInt32();
+                                        var sfl = br.ReadInt32();
+                                        br.ReadBytes(sfl); //200930
+                                        sframe.Sample = Encoding
+                                            .ASCII
+                                            .GetString(br.ReadBytes(sfl))
+                                                        .Trim('\0')
+                                                        .Replace("\0", string.Empty);
+                                        sframe.Attenuation = br.ReadSingle();
+                                        sframe.Volume = br.ReadSingle();
+                                        sframe.Flags = br.ReadInt32();
+                                        sframe.Pitch = br.ReadInt32();
+                                        entry.Frames.Add(currentDemoFrame,sframe);
                                         break;
                                     case GoldSource.DemoFrameType.DemoBuffer:
+                                        var bframe = new GoldSource.DemoBufferFrame();
+                                        var bufferlength = br.ReadInt32();
+                                        bframe.Buffer = new string(br.ReadChars(bufferlength));
+                                        entry.Frames.Add(currentDemoFrame,bframe);
                                         break;
                                     default:
                                         Main.Log("Unknow frame type read at " + br.BaseStream.Position);
-                                            //Todo: https://github.com/YaLTeR/DemTools/blob/master/HLDemo/src/DemoFile.cpp#L234 
+                                        var nf = new GoldSource.NetMsgFrame();
+                                        nf.Timestamp = br.ReadSingle();
+                                        nf.RParms.Vieworg.X = br.ReadSingle();
+                                        nf.RParms.Vieworg.Y = br.ReadSingle();
+                                        nf.RParms.Vieworg.Z = br.ReadSingle();
+                                        nf.RParms.Viewangles.X = br.ReadSingle();
+                                        nf.RParms.Viewangles.Y = br.ReadSingle();
+                                        nf.RParms.Viewangles.Z = br.ReadSingle();
+                                        nf.RParms.Forward.X = br.ReadSingle();
+                                        nf.RParms.Forward.Y = br.ReadSingle();
+                                        nf.RParms.Forward.Z = br.ReadSingle();
+                                        nf.RParms.Right.X = br.ReadSingle();
+                                        nf.RParms.Right.Y = br.ReadSingle();
+                                        nf.RParms.Right.Z = br.ReadSingle();
+                                        nf.RParms.Up.X = br.ReadSingle();
+                                        nf.RParms.Up.Y = br.ReadSingle();
+                                        nf.RParms.Up.Z = br.ReadSingle();
+                                        nf.RParms.Frametime = br.ReadSingle();
+                                        nf.RParms.Time = br.ReadSingle();
+                                        nf.RParms.Intermission = br.ReadInt32();
+                                        nf.RParms.Paused = br.ReadInt32();
+                                        nf.RParms.Spectator = br.ReadInt32();
+                                        nf.RParms.Onground = br.ReadInt32();
+                                        nf.RParms.Waterlevel = br.ReadInt32();
+                                        nf.RParms.Simvel.X = br.ReadSingle();
+                                        nf.RParms.Simvel.Y = br.ReadSingle();
+                                        nf.RParms.Simvel.Z = br.ReadSingle();
+                                        nf.RParms.Simorg.X = br.ReadSingle();
+                                        nf.RParms.Simorg.Y = br.ReadSingle();
+                                        nf.RParms.Simorg.Z = br.ReadSingle();
+                                        nf.RParms.Viewheight.X = br.ReadSingle();
+                                        nf.RParms.Viewheight.Y = br.ReadSingle();
+                                        nf.RParms.Viewheight.Z = br.ReadSingle();
+                                        nf.RParms.Idealpitch = br.ReadSingle();
+                                        nf.RParms.ClViewangles.X = br.ReadSingle();
+                                        nf.RParms.ClViewangles.Y = br.ReadSingle();
+                                        nf.RParms.ClViewangles.Z = br.ReadSingle();
+                                        nf.RParms.Health = br.ReadInt32();
+                                        nf.RParms.Crosshairangle.X = br.ReadSingle();
+                                        nf.RParms.Crosshairangle.Y = br.ReadSingle();
+                                        nf.RParms.Crosshairangle.Z = br.ReadSingle();
+                                        nf.RParms.Viewsize = br.ReadSingle();
+                                        nf.RParms.Punchangle.X = br.ReadSingle();
+                                        nf.RParms.Punchangle.Y = br.ReadSingle();
+                                        nf.RParms.Punchangle.Z = br.ReadSingle();
+                                        nf.RParms.Maxclients = br.ReadInt32();
+                                        nf.RParms.Viewentity = br.ReadInt32();
+                                        nf.RParms.Playernum = br.ReadInt32();
+                                        nf.RParms.MaxEntities = br.ReadInt32();
+                                        nf.RParms.Demoplayback = br.ReadInt32();
+                                        nf.RParms.Hardware = br.ReadInt32();
+                                        nf.RParms.Smoothing = br.ReadInt32();
+                                        nf.RParms.PtrCmd = br.ReadInt32();
+                                        nf.RParms.PtrMovevars = br.ReadInt32();
+                                        nf.RParms.Viewport.X = br.ReadInt32();
+                                        nf.RParms.Viewport.Y = br.ReadInt32();
+                                        nf.RParms.Viewport.Z = br.ReadInt32();
+                                        nf.RParms.Viewport.W = br.ReadInt32();
+                                        nf.RParms.NextView = br.ReadInt32();
+                                        nf.RParms.OnlyClientDraw = br.ReadInt32();
+                                        nf.UCmd.LerpMsec = br.ReadInt32();
+                                        nf.UCmd.Msec = br.ReadSByte();
+                                        nf.UCmd.Align1 = br.ReadSByte();
+                                        nf.UCmd.Viewangles.X = br.ReadSingle();
+                                        nf.UCmd.Viewangles.Y = br.ReadSingle();
+                                        nf.UCmd.Viewangles.Z = br.ReadSingle();
+                                        nf.UCmd.Forwardmove = br.ReadSingle();
+                                        nf.UCmd.Sidemove = br.ReadSingle();
+                                        nf.UCmd.Upmove = br.ReadSingle();
+                                        nf.UCmd.Lightlevel = br.ReadSByte();
+                                        nf.UCmd.Align2 = br.ReadSByte();
+                                        nf.UCmd.Buttons = br.ReadInt16();
+                                        nf.UCmd.Impulse = br.ReadSByte();
+                                        nf.UCmd.Weaponselect = br.ReadSByte();
+                                        nf.UCmd.Align3 = br.ReadSByte();
+                                        nf.UCmd.Align4 = br.ReadSByte();
+                                        nf.UCmd.ImpactIndex = br.ReadInt32();
+                                        nf.UCmd.ImpactPosition.X = br.ReadSingle();
+                                        nf.UCmd.ImpactPosition.Y = br.ReadSingle();
+                                        nf.UCmd.ImpactPosition.Z = br.ReadSingle();
+                                        nf.MVars.Gravity = br.ReadSingle();
+                                        nf.MVars.Stopspeed = br.ReadSingle();
+                                        nf.MVars.Maxspeed = br.ReadSingle();
+                                        nf.MVars.Spectatormaxspeed = br.ReadSingle();
+                                        nf.MVars.Accelerate = br.ReadSingle();
+                                        nf.MVars.Airaccelerate = br.ReadSingle();
+                                        nf.MVars.Wateraccelerate = br.ReadSingle();
+                                        nf.MVars.Friction = br.ReadSingle();
+                                        nf.MVars.Edgefriction = br.ReadSingle();
+                                        nf.MVars.Waterfriction = br.ReadSingle();
+                                        nf.MVars.Entgravity = br.ReadSingle();
+                                        nf.MVars.Bounce = br.ReadSingle();
+                                        nf.MVars.Stepsize = br.ReadSingle();
+                                        nf.MVars.Maxvelocity = br.ReadSingle();
+                                        nf.MVars.Zmax = br.ReadSingle();
+                                        nf.MVars.WaveHeight = br.ReadSingle();
+                                        nf.MVars.Footsteps = br.ReadInt32();
+                                        nf.MVars.SkyName = Encoding
+                                            .ASCII
+                                            .GetString(br.ReadBytes(32))
+                                                        .Trim('\0')
+                                                        .Replace("\0", string.Empty);
+                                        nf.MVars.Rollangle = br.ReadSingle();
+                                        nf.MVars.Rollspeed = br.ReadSingle();
+                                        nf.MVars.SkycolorR = br.ReadSingle();
+                                        nf.MVars.SkycolorG = br.ReadSingle();
+                                        nf.MVars.SkycolorB = br.ReadSingle();
+                                        nf.MVars.SkyvecX = br.ReadSingle();
+                                        nf.MVars.SkyvecY = br.ReadSingle();
+                                        nf.MVars.SkyvecZ = br.ReadSingle();
+                                        nf.View.X = br.ReadSingle();
+                                        nf.View.Y = br.ReadSingle();
+                                        nf.View.Z = br.ReadSingle();
+                                        nf.IncomingSequence = br.ReadInt32();
+                                        nf.IncomingAcknowledged = br.ReadInt32();
+                                        nf.IncomingReliableAcknowledged = br.ReadInt32();
+                                        nf.IncomingReliableSequence = br.ReadInt32();
+                                        nf.OutgoingSequence = br.ReadInt32();
+                                        nf.ReliableSequence = br.ReadInt32();
+                                        nf.LastReliableSequence = br.ReadInt32();
+                                        entry.Frames.Add(currentDemoFrame,nf);
                                         break;
                                 }
                             }

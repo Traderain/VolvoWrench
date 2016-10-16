@@ -25,12 +25,11 @@ namespace VolvoWrench.Demo_stuff
 
             while (left > 0)
             {
-                var idx = _pos >> 3; // Divide by 2^3 / 3 nulla az elejére
-                var bit = _pos & 7; //111-t
+                var idx = _pos >> 3; 
+                var bit = _pos & 7; 
                 var toget = Math.Min(8 - bit, left);
 
                 var nib = (uint) (_buf[idx] >> (int) bit & Mtbl[toget]);
-                    //BUG: When signon is negative but only when its at index 0.
                 ret |= nib << (int) (bits - left);
 
                 _pos += toget;

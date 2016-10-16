@@ -20,27 +20,33 @@ namespace VolvoWrench
                 of.Filter = @"Demo files (*.dem) | *.dem";
                 if (of.ShowDialog() == DialogResult.OK)
                 {
-                    var mp = CrossDemoParser.Parse(of.FileName);
-                    switch (mp.Res)
+                    foreach (var f in of.FileNames)
                     {
-                        case Parseresult.UnsupportedFile:
-                            richTextBox1.Text = "Sorry but this file is not supported";
-                            break;
-                        case Parseresult.GoldSource:
-                            richTextBox1.Text = $"Goldsource engine demo file:" +
-                                               $"{mp.GsDemoInfo.Header.MapName}";
-                            break;
-                        case Parseresult.Hlsooe:
-                            richTextBox1.Text = $"HLSOOE engine demo file:" +
-                                               $"{mp.HlsooeDemoInfo.Header.MapName}";
-                            break;
-                        case Parseresult.Source:
-                            richTextBox1.Text = $"Source engine demo file:" +
-                                                $"{mp.Sdi.Seconds}";
-                            break;
-                        default:
-                            Main.Log("Error when multiparsing");
-                            break;
+                        var mp = CrossDemoParser.Parse(f);
+                        switch (mp.Res)
+                        {
+                            case Parseresult.UnsupportedFile:
+                                richTextBox1.Text += "Sorry but this file is not supported";
+                                break;
+                            case Parseresult.GoldSource:
+                                richTextBox1.Text += $"Goldsource engine demo file:" +
+                                                     $"{mp.GsDemoInfo.Header.MapName}" +
+                                                     $"";
+                                break;
+                            case Parseresult.Hlsooe:
+                                richTextBox1.Text += $"HLSOOE engine demo file:" +
+                                                     $"{mp.HlsooeDemoInfo.Header.MapName}" +
+                                                     $"";
+                                break;
+                            case Parseresult.Source:
+                                richTextBox1.Text += $"Source engine demo file:" +
+                                                     $"{mp.Sdi.Seconds}" +
+                                                     $"";
+                                break;
+                            default:
+                                Main.Log("Error when multiparsing");
+                                break;
+                        }
                     }
                     //TODO: Make the parser myself because that guy is autistic.
                 }
