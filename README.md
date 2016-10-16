@@ -16,8 +16,6 @@ Supported:
 * Team Fortress 2
 * Garry's Mod
 * Portal 2
-
-In progress:
 * Counter-Strike
 * Team Fortress Classic
 * Day of Defeat
@@ -32,6 +30,10 @@ In progress:
 * Half-Life: Source
 * Day of Defeat: Source
 * Left 4 Dead 
+
+In progress:
+Counter-Strike: Global Offensive
+Dota 2
 
 
 Coming soon™:
