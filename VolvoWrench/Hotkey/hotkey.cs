@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading;
-using System.Threading.Tasks;
+using System.Diagnostics;
 using System.Windows.Forms;
 using System.Windows.Input;
 
@@ -14,7 +9,7 @@ namespace VolvoWrench
     {
         public Hotkey()
         {
-            this.KeyPreview = true;
+            KeyPreview = true;
             InitializeComponent();
             label1.Text = @"Demo info popup: " + KeyInterop.KeyFromVirtualKey(Main.Demo_Popup_Key);
         }
@@ -38,7 +33,7 @@ namespace VolvoWrench
 
         private void button4_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(Main.SettingsPath);
+            Process.Start(Main.SettingsPath);
         }
     }
 }

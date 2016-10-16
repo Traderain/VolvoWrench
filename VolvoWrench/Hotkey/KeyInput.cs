@@ -218,6 +218,7 @@ namespace VolvoWrench
             int state = GetKeyState(key);
             return state == -127 || state == -128;
         }
+
         #endregion
     }
 }

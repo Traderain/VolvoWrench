@@ -17,9 +17,9 @@ namespace VolvoWrench.Demo_stuff
     {
         public int DemoProtocol, NetProtocol, TickCount, FrameCount, SignonLength;
         public List<Saveflag> Flags;
+        public List<SourceParser.DemoMessage> Messages;
         public float Seconds;
         public string ServerName, ClientName, MapName, GameDirectory;
-        public List<SourceParser.DemoMessage> Messages;
     }
 
     public class SourceParser
@@ -98,7 +98,8 @@ namespace VolvoWrench.Demo_stuff
                         msg.Data = new byte[0]; // lol wut
                         break;
                     default:
-                        Main.Log("Unknown demo message type encountered: " + msg.Type); //TODO: fix this bs -- kinda fixed
+                        Main.Log("Unknown demo message type encountered: " + msg.Type);
+                            //TODO: fix this bs -- kinda fixed
                         throw new Exception("Unknown demo type");
                         break;
                 }
@@ -148,8 +149,8 @@ namespace VolvoWrench.Demo_stuff
             if (bb.ReadBool())
             {
                 var k = Enum.GetName(typeof (Keys), bb.ReadBits(32));
-                if(k.Length > 0)
-                node.Nodes.Add("Buttons: " + k);
+                if (k.Length > 0)
+                    node.Nodes.Add("Buttons: " + k);
             }
             if (bb.ReadBool()) node.Nodes.Add("Impulse: " + bb.ReadBits(8));
             // TODO: weaponselect/weaponsubtype, mousedx/dy

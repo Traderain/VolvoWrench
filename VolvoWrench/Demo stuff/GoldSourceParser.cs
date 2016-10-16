@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Windows.Media.Media3D;
 
@@ -21,7 +19,9 @@ namespace VolvoWrench.Demo_stuff
             NextSection = 8
         };
 
-        public interface IFrame { }
+        public interface IFrame
+        {
+        }
 
         public class DemoFrame
         {
@@ -40,9 +40,13 @@ namespace VolvoWrench.Demo_stuff
             public string Data;
         }
 
-        public class JumpTimeFrame : IFrame { }
+        public class JumpTimeFrame : IFrame
+        {
+        }
 
-        public class NextSectionFrame : IFrame { }
+        public class NextSectionFrame : IFrame
+        {
+        }
 
         public class ErrorFrame : IFrame
         {
@@ -128,7 +132,7 @@ namespace VolvoWrench.Demo_stuff
         {
             public int Filelength;
             public int FrameCount;
-            public Dictionary<DemoFrame,IFrame> Frames;
+            public Dictionary<DemoFrame, IFrame> Frames;
             public int Offset;
             public float PlaybackTime;
             public int Type;
@@ -144,35 +148,6 @@ namespace VolvoWrench.Demo_stuff
 
     public class GoldSource
     {
-        public class DemoHeader
-        {
-            public int NetProtocol;
-            public int DemoProtocol;
-            public string MapName;
-            public string GameDir;
-            public int MapCrc;
-            public int DirectoryOffset;
-        };
-
-        public struct DemoDirectoryEntry
-        {
-            public int Type;
-            public string Description;
-            public int Flags;
-            public int CdTrack;
-            public float TrackTime;
-            public int FrameCount;
-            public int Offset;
-            public int FileLength;
-        }
-
-        public struct Point4D
-        {
-            public int X;
-            public int Y;
-            public int Z;
-            public int W;
-        }
         public enum DemoFrameType
         {
             DemoStart = 2,
@@ -185,21 +160,122 @@ namespace VolvoWrench.Demo_stuff
             DemoBuffer = 9
         }
 
+        public enum EngineVersions
+        {
+            Unknown,
+            HalfLife1104,
+            HalfLife1106,
+            HalfLife1107,
+            HalfLife1108,
+            HalfLife1109,
+            HalfLife1108or1109,
+            HalfLife1110,
+            HalfLife1111, // Steam
+            HalfLife1110or1111
+        }
+
+        public string EngineName(int name)
+        {
+            var s = "Half-Life v";
+
+            switch ((EngineVersions) name)
+            {
+                case EngineVersions.HalfLife1104:
+                    s += "1.1.0.4";
+                    break;
+
+                case EngineVersions.HalfLife1106:
+                    s += "1.1.0.6";
+                    break;
+
+                case EngineVersions.HalfLife1107:
+                    s += "1.1.0.7";
+                    break;
+
+                case EngineVersions.HalfLife1108:
+                    s += "1.1.0.8";
+                    break;
+
+                case EngineVersions.HalfLife1109:
+                    s += "1.1.0.9";
+                    break;
+
+                case EngineVersions.HalfLife1108or1109:
+                    s += "1.1.0.8 or v1.1.0.9";
+                    break;
+
+                case EngineVersions.HalfLife1110:
+                    s += "1.1.1.0";
+                    break;
+
+                case EngineVersions.HalfLife1111:
+                    s += "1.1.1.1";
+                    break;
+
+                case EngineVersions.HalfLife1110or1111:
+                    s += "1.1.1.0 or v1.1.1.1";
+                    break;
+
+                default:
+                    return "Half-Life Unknown Version";
+            }
+
+            return s;
+        }
+
+        public class DemoHeader
+        {
+            public int DemoProtocol;
+            public int DirectoryOffset;
+            public string GameDir;
+            public uint MapCrc;
+            public string MapName;
+            public int NetProtocol;
+        };
+
+        public struct DemoDirectoryEntry
+        {
+            public int CdTrack;
+            public string Description;
+            public int FileLength;
+            public int Flags;
+            public int FrameCount;
+            public Dictionary<DemoFrame, IFrame> Frames;
+            public int Offset;
+            public float TrackTime;
+            public int Type;
+        }
+
+        public interface IFrame
+        {
+        }
+
+        public struct Point4D
+        {
+            public int W;
+            public int X;
+            public int Y;
+            public int Z;
+        }
+
         public struct DemoFrame
         {
-            public int Frame;
+            public int FrameIndex;
             public float Time;
             public DemoFrameType Type;
         };
 
         // DEMO_START: no extra data.
+        public struct NextSectionFrame : IFrame
+        {
+        }
 
-        public struct ConsoleCommandFrame
+        public struct ConsoleCommandFrame : IFrame
         {
             public string Command;
         };
 
-        public struct ClientDataFrame
+        public struct ClientDataFrame : IFrame
         {
             public float Fov;
             public Point3D Origin;
@@ -209,7 +285,7 @@ namespace VolvoWrench.Demo_stuff
 
         // NEXT_SECTION: no extra data.
 
-        public struct EventFrame
+        public struct EventFrame : IFrame
         {
             public float Delay;
             public int Flags;
@@ -232,13 +308,13 @@ namespace VolvoWrench.Demo_stuff
             }
         };
 
-        public struct WeaponAnimFrame
+        public struct WeaponAnimFrame : IFrame
         {
             public int Anim;
             public int Body;
         };
 
-        public struct SoundFrame
+        public struct SoundFrame : IFrame
         {
             public float Attenuation;
             public int Channel;
@@ -248,21 +324,21 @@ namespace VolvoWrench.Demo_stuff
             public float Volume;
         };
 
-        public struct DemoBufferFrame
+        public struct DemoBufferFrame : IFrame
         {
         };
 
         // Otherwise, netmsg.
-        public struct NetMsgFrame
+        public struct NetMsgFrame : IFrame
         {
             public int IncomingAcknowledged;
             public int IncomingReliableAcknowledged;
             public int IncomingReliableSequence;
             public int IncomingSequence;
             public int LastReliableSequence;
+            public string Msg;
             public int OutgoingSequence;
             public int ReliableSequence;
-            public string Msg;
 
             public struct DemoInfo
             {
@@ -281,8 +357,8 @@ namespace VolvoWrench.Demo_stuff
                     public int Health;
                     public float Idealpitch;
                     public int Intermission;
-                    public int MaxEntities;
                     public int Maxclients;
+                    public int MaxEntities;
                     public int NextView;
                     public int Onground;
                     public int OnlyClientDraw;
@@ -362,14 +438,16 @@ namespace VolvoWrench.Demo_stuff
 
     public struct GoldSourceDemoInfo
     {
-         
+        public List<GoldSource.DemoDirectoryEntry> DirectoryEntries;
+        public GoldSource.DemoHeader Header;
+        public List<string> ParsingErrors;
     }
 
     public class GoldSourceParser
     {
         public static GoldSourceDemoInfoHlsooe ParseDemoHlsooe(string s) //Add error out
         {
-            var gDemo = new GoldSourceDemoInfoHlsooe
+            var hlsooeDemo = new GoldSourceDemoInfoHlsooe
             {
                 Header = new Hlsooe.DemoHeader(),
                 ParsingErrors = new List<string>(),
@@ -377,16 +455,19 @@ namespace VolvoWrench.Demo_stuff
             };
             using (var br = new BinaryReader(new FileStream(s, FileMode.Open)))
             {
-                var mw = Encoding.ASCII.GetString(br.ReadBytes(8)).Trim('\0').Replace("\0",string.Empty);
+                var mw = Encoding.ASCII.GetString(br.ReadBytes(8)).Trim('\0').Replace("\0", string.Empty);
                 if (mw == "HLDEMO")
                 {
-                    gDemo.Header.DemoProtocol = br.ReadInt32();
-                    gDemo.Header.Netprotocol = br.ReadInt32();
-                    gDemo.Header.MapName = Encoding.ASCII.GetString(br.ReadBytes(260)).Trim('\0').Replace("\0",string.Empty);
-                    gDemo.Header.GameDirectory = Encoding.ASCII.GetString(br.ReadBytes(260)).Trim('\0').Replace("\0",string.Empty);
-                    gDemo.Header.DirectoryOffset = br.ReadInt32();
+                    hlsooeDemo.Header.DemoProtocol = br.ReadInt32();
+                    hlsooeDemo.Header.Netprotocol = br.ReadInt32();
+                    hlsooeDemo.Header.MapName = Encoding.ASCII.GetString(br.ReadBytes(260))
+                        .Trim('\0')
+                        .Replace("\0", string.Empty);
+                    hlsooeDemo.Header.GameDirectory =
+                        Encoding.ASCII.GetString(br.ReadBytes(260)).Trim('\0').Replace("\0", string.Empty);
+                    hlsooeDemo.Header.DirectoryOffset = br.ReadInt32();
                     //Header Parsed... now we read the directory entries
-                    br.BaseStream.Seek(gDemo.Header.DirectoryOffset, SeekOrigin.Begin);
+                    br.BaseStream.Seek(hlsooeDemo.Header.DirectoryOffset, SeekOrigin.Begin);
                     var entryCount = br.ReadInt32();
                     for (var i = 0; i < entryCount; i++)
                     {
@@ -399,10 +480,10 @@ namespace VolvoWrench.Demo_stuff
                             Filelength = br.ReadInt32(),
                             Frames = new Dictionary<Hlsooe.DemoFrame, Hlsooe.IFrame>()
                         };
-                        gDemo.DirectoryEntries.Add(tempvar);
+                        hlsooeDemo.DirectoryEntries.Add(tempvar);
                     }
                     //Demo directory entries parsed... now we parse the frames.
-                    foreach (var entry in gDemo.DirectoryEntries)
+                    foreach (var entry in hlsooeDemo.DirectoryEntries)
                     {
                         br.BaseStream.Seek(entry.Offset, SeekOrigin.Begin);
                         var nextSectionRead = false;
@@ -424,7 +505,8 @@ namespace VolvoWrench.Demo_stuff
                                             Flags = br.ReadInt32(),
                                             ViewOrigins = new Point3D(br.ReadDouble(), br.ReadDouble(), br.ReadDouble()),
                                             ViewAngles = new Point3D(br.ReadDouble(), br.ReadDouble(), br.ReadDouble()),
-                                            LocalViewAngles = new Point3D(br.ReadDouble(), br.ReadDouble(), br.ReadDouble()),
+                                            LocalViewAngles =
+                                                new Point3D(br.ReadDouble(), br.ReadDouble(), br.ReadDouble()),
                                             ViewOrigin2 = new Point3D(br.ReadDouble(), br.ReadDouble(), br.ReadDouble()),
                                             IncomingSequence = br.ReadInt32(),
                                             IncomingAcknowledged = br.ReadInt32(),
@@ -434,7 +516,7 @@ namespace VolvoWrench.Demo_stuff
                                             ReliableSequence = br.ReadInt32(),
                                             LastReliableSequence = br.ReadInt32()
                                         };
-                                        entry.Frames.Add(currentDemoFrame,g);
+                                        entry.Frames.Add(currentDemoFrame, g);
                                         break;
                                     case Hlsooe.DemoFrameType.NetworkPacket:
                                         var b = new Hlsooe.NetMsgFrame
@@ -453,17 +535,17 @@ namespace VolvoWrench.Demo_stuff
                                             ReliableSequence = br.ReadInt32(),
                                             LastReliableSequence = br.ReadInt32()
                                         };
-                                        entry.Frames.Add(currentDemoFrame,b);
+                                        entry.Frames.Add(currentDemoFrame, b);
                                         break;
                                     case Hlsooe.DemoFrameType.Jumptime:
                                         //No extra stuff
-                                        entry.Frames.Add(currentDemoFrame,new Hlsooe.JumpTimeFrame());
+                                        entry.Frames.Add(currentDemoFrame, new Hlsooe.JumpTimeFrame());
                                         break;
                                     case Hlsooe.DemoFrameType.ConsoleCommand:
                                         var a = new Hlsooe.ConsoleCommandFrame();
                                         var commandlength = br.ReadInt32();
                                         a.Command = new string(br.ReadChars(commandlength)).Trim('\0');
-                                        entry.Frames.Add(currentDemoFrame,a);
+                                        entry.Frames.Add(currentDemoFrame, a);
                                         break;
                                     case Hlsooe.DemoFrameType.Usercmd:
                                         var c = new Hlsooe.UserCmdFrame
@@ -472,34 +554,40 @@ namespace VolvoWrench.Demo_stuff
                                             Slot = br.ReadInt32()
                                         };
                                         var usercmdlength = br.ReadInt16();
-                                        c.Data = Encoding.ASCII.GetString(br.ReadBytes(usercmdlength)).Trim('\0').Replace("\0", string.Empty);
-                                        entry.Frames.Add(currentDemoFrame,c);
+                                        c.Data =
+                                            Encoding.ASCII.GetString(br.ReadBytes(usercmdlength))
+                                                .Trim('\0')
+                                                .Replace("\0", string.Empty);
+                                        entry.Frames.Add(currentDemoFrame, c);
                                         break;
-                                    case Hlsooe.DemoFrameType.Stringtables: //TODO: This is horribly broken. Do something.
+                                    case Hlsooe.DemoFrameType.Stringtables:
+                                        //TODO: This is horribly broken. Do something.
                                         var e = new Hlsooe.StringTablesFrame();
                                         var stringtablelength = br.ReadInt32();
                                         var edata = new string(br.ReadChars(stringtablelength));
                                         e.Data = edata;
-                                        entry.Frames.Add(currentDemoFrame,e);
+                                        entry.Frames.Add(currentDemoFrame, e);
                                         break;
                                     case Hlsooe.DemoFrameType.NetworkDataTable:
                                         var d = new Hlsooe.NetworkDataTableFrame();
                                         var networktablelength = br.ReadInt32();
-                                        d.Data = new string(br.ReadChars(networktablelength)).Trim('\0'); //TODO: Somehow read u8[]
-                                        entry.Frames.Add(currentDemoFrame,d);
+                                        d.Data = new string(br.ReadChars(networktablelength)).Trim('\0');
+                                            //TODO: Somehow read u8[]
+                                        entry.Frames.Add(currentDemoFrame, d);
                                         break;
                                     case Hlsooe.DemoFrameType.NextSection:
                                         nextSectionRead = true;
-                                        entry.Frames.Add(currentDemoFrame,new Hlsooe.NextSectionFrame());
+                                        entry.Frames.Add(currentDemoFrame, new Hlsooe.NextSectionFrame());
                                         break;
                                     default:
                                         Main.Log($"Error: Frame type: + {currentDemoFrame.Type} at parsing.");
-                                        var err = new Hlsooe.ErrorFrame()
+                                        var err = new Hlsooe.ErrorFrame
                                         {
                                             Flags = br.ReadInt32(),
                                             ViewOrigins = new Point3D(br.ReadDouble(), br.ReadDouble(), br.ReadDouble()),
                                             ViewAngles = new Point3D(br.ReadDouble(), br.ReadDouble(), br.ReadDouble()),
-                                            LocalViewAngles = new Point3D(br.ReadDouble(), br.ReadDouble(), br.ReadDouble()),
+                                            LocalViewAngles =
+                                                new Point3D(br.ReadDouble(), br.ReadDouble(), br.ReadDouble()),
                                             ViewOrigin2 = new Point3D(br.ReadDouble(), br.ReadDouble(), br.ReadDouble()),
                                             IncomingSequence = br.ReadInt32(),
                                             IncomingAcknowledged = br.ReadInt32(),
@@ -509,7 +597,7 @@ namespace VolvoWrench.Demo_stuff
                                             ReliableSequence = br.ReadInt32(),
                                             LastReliableSequence = br.ReadInt32()
                                         };
-                                        entry.Frames.Add(currentDemoFrame,err);
+                                        entry.Frames.Add(currentDemoFrame, err);
                                         break;
                                 }
                             }
@@ -522,17 +610,116 @@ namespace VolvoWrench.Demo_stuff
                 }
                 else
                 {
+                    hlsooeDemo.ParsingErrors.Add("Non goldsource demo file");
+                    br.Close();
+                }
+            }
+            return hlsooeDemo;
+        }
+
+        public static GoldSourceDemoInfo ParseGoldSourceDemo(string s)
+        {
+            var gDemo = new GoldSourceDemoInfo
+            {
+                Header = new GoldSource.DemoHeader(),
+                ParsingErrors = new List<string>(),
+                DirectoryEntries = new List<GoldSource.DemoDirectoryEntry>()
+            };
+            using (var br = new BinaryReader(new FileStream(s, FileMode.Open)))
+            {
+                var mw = Encoding.ASCII.GetString(br.ReadBytes(8)).Trim('\0').Replace("\0", string.Empty);
+                if (mw == "HLDEMO")
+                {
+                    gDemo.Header.DemoProtocol = br.ReadInt32();
+                    gDemo.Header.NetProtocol = br.ReadInt32();
+                    gDemo.Header.MapName = Encoding.ASCII.GetString(br.ReadBytes(260))
+                        .Trim('\0')
+                        .Replace("\0", string.Empty);
+                    gDemo.Header.GameDir = Encoding.ASCII.GetString(br.ReadBytes(260))
+                        .Trim('\0')
+                        .Replace("\0", string.Empty);
+                    gDemo.Header.MapCrc = br.ReadUInt32();
+                    gDemo.Header.DirectoryOffset = br.ReadInt32();
+                    //Header Parsed... now we read the directory entries
+                    br.BaseStream.Seek(gDemo.Header.DirectoryOffset, SeekOrigin.Begin);
+                    var entryCount = br.ReadInt32();
+                    for (var i = 0; i < entryCount; i++)
+                    {
+                        var tempvar = new GoldSource.DemoDirectoryEntry
+                        {
+                            Type = br.ReadInt32(),
+                            Description =
+                                Encoding.ASCII.GetString(br.ReadBytes(64)).Trim('\0').Replace("\0", string.Empty),
+                            Flags = br.ReadInt32(),
+                            CdTrack = br.ReadInt32(),
+                            TrackTime = br.ReadSingle(),
+                            FrameCount = br.ReadInt32(),
+                            Offset = br.ReadInt32(),
+                            FileLength = br.ReadInt32(),
+                            Frames = new Dictionary<GoldSource.DemoFrame, GoldSource.IFrame>()
+                        };
+                        gDemo.DirectoryEntries.Add(tempvar);
+                    }
+                    //Demo directory entries parsed... now we parse the frames.
+                    foreach (var entry in gDemo.DirectoryEntries)
+                    {
+                        br.BaseStream.Seek(entry.Offset, SeekOrigin.Begin);
+                        var nextSectionRead = false;
+                        for (var i = 0; i < entry.FrameCount; i++)
+                        {
+                            nextSectionRead = false;
+                            if (!nextSectionRead)
+                            {
+                                var currentDemoFrame = new GoldSource.DemoFrame
+                                {
+                                    Type = (GoldSource.DemoFrameType) br.ReadSByte(),
+                                    Time = br.ReadSingle(),
+                                    FrameIndex = br.ReadInt32()
+                                };
+                                switch (currentDemoFrame.Type)
+                                {
+                                    case GoldSource.DemoFrameType.DemoStart: //No extra data
+                                        break;
+                                    case GoldSource.DemoFrameType.ConsoleCommand:
+                                        var ccframe = new GoldSource.ConsoleCommandFrame
+                                        {
+                                            Command = Encoding.ASCII.GetString(br.ReadBytes(64))
+                                                .Trim('\0')
+                                                .Replace("\0", string.Empty)
+                                        };
+                                        entry.Frames.Add(currentDemoFrame, ccframe);
+                                        break;
+                                    case GoldSource.DemoFrameType.ClientData:
+
+                                        break;
+                                    case GoldSource.DemoFrameType.NextSection:
+                                        nextSectionRead = true;
+                                        entry.Frames.Add(currentDemoFrame, new GoldSource.NextSectionFrame());
+                                        break;
+                                    case GoldSource.DemoFrameType.Event:
+                                        break;
+                                    case GoldSource.DemoFrameType.WeaponAnim:
+                                        break;
+                                    case GoldSource.DemoFrameType.Sound:
+                                        break;
+                                    case GoldSource.DemoFrameType.DemoBuffer:
+                                        break;
+                                    default:
+                                        Main.Log("Unknow frame type read at " + br.BaseStream.Position);
+                                            //Todo: https://github.com/YaLTeR/DemTools/blob/master/HLDemo/src/DemoFile.cpp#L234 
+                                        break;
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
                     gDemo.ParsingErrors.Add("Non goldsource demo file");
                     br.Close();
                 }
             }
             return gDemo;
-        }
-
-        public static GoldSourceParser Parsedemo(string s)
-        {
-            //TODO: Implement this. Nearly copy paste of hlsooe.
-            return new GoldSourceParser();
         }
     }
 }

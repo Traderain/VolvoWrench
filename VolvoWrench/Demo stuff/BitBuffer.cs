@@ -26,10 +26,11 @@ namespace VolvoWrench.Demo_stuff
             while (left > 0)
             {
                 var idx = _pos >> 3; // Divide by 2^3 / 3 nulla az elejére
-                var bit = _pos & 7;  //111-t
+                var bit = _pos & 7; //111-t
                 var toget = Math.Min(8 - bit, left);
 
-                var nib = (uint) (_buf[idx] >> (int) bit & Mtbl[toget]); //BUG: When signon is negative but only when its at index 0.
+                var nib = (uint) (_buf[idx] >> (int) bit & Mtbl[toget]);
+                    //BUG: When signon is negative but only when its at index 0.
                 ret |= nib << (int) (bits - left);
 
                 _pos += toget;
@@ -97,9 +98,8 @@ namespace VolvoWrench.Demo_stuff
         {
             // Protected from overflow
             if ((_buf.Length << 3) >= _pos)
-                return (uint)(_buf.Length << 3) - _pos;
-            else
-                return 0;
+                return (uint) (_buf.Length << 3) - _pos;
+            return 0;
         }
 
         [StructLayout(LayoutKind.Explicit)]
