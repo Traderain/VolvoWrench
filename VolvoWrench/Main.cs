@@ -150,13 +150,7 @@ namespace VolvoWrench
 
         private void rescanFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (CurrentFile == null || (!File.Exists(CurrentFile) || Path.GetExtension(CurrentFile) != ".dem")) return;
-            Stream cfs = File.Open(CurrentFile, FileMode.Open);
-            CurrentDemoFile = new SourceParser(cfs);
-            cfs.Close();
-            PrintSetails(CurrentDemoFile);
-            toolsToolStripMenuItem.Enabled = true;
-            Log(Path.GetFileName(CurrentFile + " rescanned."));
+            RescanFile();
         }
 
         private void showLogToolStripMenuItem_Click(object sender, EventArgs e)
@@ -335,15 +329,27 @@ namespace VolvoWrench
             if (CurrentDemoFile == null) return;
             var popupkey = KeyInputApi.GetKeyState(Demo_Popup_Key);
             if ((popupkey & 0x8000) != 0)
+            {
+                if (WindowState == FormWindowState.Minimized)
+                    WindowState = FormWindowState.Normal;
+                else
+                {
+                    TopMost = true;
+                    Focus();
+                    BringToFront();
+                    TopMost = false;
+                }
+                RescanFile();
                 MessageBox.Show("Demo protocol: " + CurrentDemoFile.Info.DemoProtocol + "\n"
-                                + "Net protocol: " + CurrentDemoFile.Info.NetProtocol + "\n"
-                                + "Server name: " + CurrentDemoFile.Info.ServerName + "\n"
-                                + "Client name: " + CurrentDemoFile.Info.ClientName + "\n"
-                                + "Map name: " + CurrentDemoFile.Info.MapName + "\n"
-                                + "Game directory: " + CurrentDemoFile.Info.GameDirectory + "\n"
-                                + "Length in seconds: " + CurrentDemoFile.Info.Seconds + "\n"
-                                + "Tick count: " + CurrentDemoFile.Info.TickCount + "\n"
-                                + "Frame count: " + CurrentDemoFile.Info.FrameCount);
+                               + "Net protocol: " + CurrentDemoFile.Info.NetProtocol + "\n"
+                               + "Server name: " + CurrentDemoFile.Info.ServerName + "\n"
+                               + "Client name: " + CurrentDemoFile.Info.ClientName + "\n"
+                               + "Map name: " + CurrentDemoFile.Info.MapName + "\n"
+                               + "Game directory: " + CurrentDemoFile.Info.GameDirectory + "\n"
+                               + "Length in seconds: " + CurrentDemoFile.Info.Seconds + "\n"
+                               + "Tick count: " + CurrentDemoFile.Info.TickCount + "\n"
+                               + "Frame count: " + CurrentDemoFile.Info.FrameCount);
+            }
         }
 
         public static void SettingsManager(bool reset)
@@ -367,7 +373,18 @@ namespace VolvoWrench
             } 
         }
 
-    private void openAsavToolStripMenuItem_Click(object sender, EventArgs e)
+        public void RescanFile()
+        {
+            if (CurrentFile == null || (!File.Exists(CurrentFile) || Path.GetExtension(CurrentFile) != ".dem")) return;
+            Stream cfs = File.Open(CurrentFile, FileMode.Open);
+            CurrentDemoFile = new SourceParser(cfs);
+            cfs.Close();
+            PrintSetails(CurrentDemoFile);
+            toolsToolStripMenuItem.Enabled = true;
+            Log(Path.GetFileName(CurrentFile + " rescanned."));
+        }
+
+        private void openAsavToolStripMenuItem_Click(object sender, EventArgs e)
         {
             using (var sa = new saveanalyzerform())
             {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Windows.Media.Media3D;
 
@@ -409,8 +410,6 @@ namespace VolvoWrench.Demo_stuff
                         {
                             if (!nextSectionRead)
                             {
-                                var brpos = br.BaseStream.Position;
-                                var bpleft = br.BaseStream.Length - brpos;
                                 var currentDemoFrame = new Hlsooe.DemoFrame
                                 {
                                     Type = (Hlsooe.DemoFrameType) br.ReadSByte(),
@@ -472,19 +471,15 @@ namespace VolvoWrench.Demo_stuff
                                             OutgoingSequence = br.ReadInt32(),
                                             Slot = br.ReadInt32()
                                         };
-                                        var usercmdlength = br.ReadInt32();
+                                        var usercmdlength = br.ReadInt16();
                                         c.Data = Encoding.ASCII.GetString(br.ReadBytes(usercmdlength)).Trim('\0').Replace("\0", string.Empty);
                                         entry.Frames.Add(currentDemoFrame,c);
                                         break;
                                     case Hlsooe.DemoFrameType.Stringtables: //TODO: This is horribly broken. Do something.
                                         var e = new Hlsooe.StringTablesFrame();
                                         var stringtablelength = br.ReadInt32();
-                                        var edata =
-                                        Encoding.ASCII.GetString(br.ReadBytes(stringtablelength))
-                                                .Trim('\0')
-                                                .Replace("\0", string.Empty)
-                                                .Split('?');
-                                        e.Data = edata[0];
+                                        var edata = new string(br.ReadChars(stringtablelength));
+                                        e.Data = edata;
                                         entry.Frames.Add(currentDemoFrame,e);
                                         break;
                                     case Hlsooe.DemoFrameType.NetworkDataTable:

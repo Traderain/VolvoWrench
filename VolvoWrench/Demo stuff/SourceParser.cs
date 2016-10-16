@@ -98,7 +98,9 @@ namespace VolvoWrench.Demo_stuff
                         msg.Data = new byte[0]; // lol wut
                         break;
                     default:
-                        throw new Exception("Unknown demo message type encountered."); //TODO: fix this bs
+                        Main.Log("Unknown demo message type encountered: " + msg.Type); //TODO: fix this bs -- kinda fixed
+                        throw new Exception("Unknown demo type");
+                        break;
                 }
 
                 if (msg.Data != null)
@@ -143,7 +145,12 @@ namespace VolvoWrench.Demo_stuff
             if (bb.ReadBool()) node.Nodes.Add("Foward move: " + bb.ReadFloat());
             if (bb.ReadBool()) node.Nodes.Add("Side move: " + bb.ReadFloat());
             if (bb.ReadBool()) node.Nodes.Add("Up move: " + bb.ReadFloat());
-            if (bb.ReadBool()) node.Nodes.Add("Buttons: " + Enum.GetName(typeof (Keys), bb.ReadBits(32)));
+            if (bb.ReadBool())
+            {
+                var k = Enum.GetName(typeof (Keys), bb.ReadBits(32));
+                if(k.Length > 0)
+                node.Nodes.Add("Buttons: " + k);
+            }
             if (bb.ReadBool()) node.Nodes.Add("Impulse: " + bb.ReadBits(8));
             // TODO: weaponselect/weaponsubtype, mousedx/dy
         }
