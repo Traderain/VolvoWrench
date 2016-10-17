@@ -30,8 +30,6 @@ Supported:
 * Half-Life: Source
 * Day of Defeat: Source
 * Left 4 Dead 
-
-In progress:
 * Counter-Strike: Global Offensive
 * Dota 2
 
@@ -39,7 +37,7 @@ In progress:
 Coming soon™:
   - Heatmap generation
   - Exporting demo data as XML
-  - Source sava analyzer
+  - Source save analyzer
   - Goldsource save analyzer
   - HLAE Integration?
   - Auto update
