@@ -369,11 +369,10 @@ Language = EN;"
 ----------------------------------------------------------
 Demo protocol:              {demo.GsDemoInfo.Header.DemoProtocol}
 Net protocol:               {demo.GsDemoInfo.Header.NetProtocol}
-MapCRC:                     {demo.GsDemoInfo.Header.MapCrc}
 Directory Offset:           {demo.GsDemoInfo.Header.DirectoryOffset}
 Map name:                   {demo.GsDemoInfo.Header.MapName}
 Game directory:             {demo.GsDemoInfo.Header.GameDir}
-Length in seconds:          {demo.GsDemoInfo.DirectoryEntries.Last().TrackTime.ToString("#,0.000")}s
+Length in seconds:          {demo.GsDemoInfo.DirectoryEntries.Sum(x=> x.TrackTime).ToString("n3")}s
 Frame count:                {demo.GsDemoInfo.DirectoryEntries.Sum(x=> x.FrameCount)}
 ----------------------------------------------------------";
                     break;
@@ -385,7 +384,7 @@ Net protocol:               {demo.HlsooeDemoInfo.Header.Netprotocol}
 Directory offset:           {demo.HlsooeDemoInfo.Header.DirectoryOffset}
 Map name:                   {demo.HlsooeDemoInfo.Header.MapName}
 Game directory:             {demo.HlsooeDemoInfo.Header.GameDirectory}
-Length in seconds:          {demo.HlsooeDemoInfo.DirectoryEntries.Last().Frames.Last().Key.Time.ToString("n2")}s
+Length in seconds:          {demo.HlsooeDemoInfo.DirectoryEntries.Sum(x => x.PlaybackTime).ToString("n3")}s
 Frame count:                {demo.HlsooeDemoInfo.DirectoryEntries.Sum(x => x.FrameCount)}
 ----------------------------------------------------------";
                     break;
