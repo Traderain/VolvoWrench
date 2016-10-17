@@ -441,7 +441,6 @@ namespace VolvoWrench.Demo_stuff
         public List<GoldSource.DemoDirectoryEntry> DirectoryEntries;
         public GoldSource.DemoHeader Header;
         public List<string> ParsingErrors;
-        public Dictionary<GoldSource.DemoFrame, string> Flags;
     }
 
     public class GoldSourceDemoInfoHlsooe
@@ -449,7 +448,6 @@ namespace VolvoWrench.Demo_stuff
         public List<Hlsooe.DemoDirectoryEntry> DirectoryEntries;
         public Hlsooe.DemoHeader Header;
         public List<string> ParsingErrors;
-        public Dictionary<Hlsooe.DemoFrame, string> Flags;
     }
 
     public class GoldSourceParser
@@ -554,10 +552,6 @@ namespace VolvoWrench.Demo_stuff
                                         var a = new Hlsooe.ConsoleCommandFrame();
                                         var commandlength = br.ReadInt32();
                                         a.Command = new string(br.ReadChars(commandlength)).Trim('\0');
-                                        if (a.Command.Contains("#SAVE#") || a.Command.Contains("#SAVE#"))
-                                        {
-                                            hlsooeDemo.Flags.Add(currentDemoFrame,a.Command);
-                                        }
                                         entry.Frames.Add(currentDemoFrame, a);
                                         break;
                                     case Hlsooe.DemoFrameType.Usercmd:
@@ -701,8 +695,6 @@ namespace VolvoWrench.Demo_stuff
                                         ccframe.Command = Encoding.ASCII.GetString(br.ReadBytes(64))
                                             .Trim('\0')
                                             .Replace("\0", string.Empty);
-                                        if (ccframe.Command.Contains("#SAVE#") || ccframe.Command.Contains("autosave"))
-                                            gDemo.Flags.Add(currentDemoFrame, ccframe.Command);
                                         entry.Frames.Add(currentDemoFrame, ccframe);
                                         break;
                                     case GoldSource.DemoFrameType.ClientData:

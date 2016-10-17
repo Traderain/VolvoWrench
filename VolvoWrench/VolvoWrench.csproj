@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -76,6 +77,7 @@
     </Compile>
     <Compile Include="Demo stuff\GoldSourceParser.cs" />
     <Compile Include="Properties\hotkeymanager.cs" />
+    <Compile Include="SaveStuff\SaveParser.cs" />
     <Compile Include="Update.cs">
       <SubType>Form</SubType>
     </Compile>

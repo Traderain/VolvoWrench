@@ -19,15 +19,10 @@ namespace VolvoWrench
             Source
         }
 
-        public static readonly string LogPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) +
-                                                "\\" + "VolvoWrench" + "\\" +
-                                                "VWLog.log";
+        public static readonly string LogPath = string.Format("{0}\\" + "VolvoWrench" + "\\" + "VWLog.log", Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
+        public static readonly string SettingsPath = string.Format("{0}\\" + "VolvoWrench" + "\\" + "VWSettings.config", Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
 
-        public static readonly string SettingsPath =
-            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\" + "VolvoWrench" + "\\" +
-            "VWSettings.config";
-
-        public static int Demo_Popup_Key = 0x70; //F1
+        public static int DemoPopupKey = 0x70; //F1
         public CrossParseResult CurrentDemoFile;
         public DemoType CurrentDemoType;
         public string CurrentFile;
@@ -41,10 +36,7 @@ namespace VolvoWrench
             goldSourceToolsToolStripMenuItem.Enabled = false;
             toolsToolStripMenuItem.Enabled = false;
             if (File.Exists(LogPath))
-            {
                 File.Delete(LogPath);
-            }
-
             #region OpenedWithFile check
 
             var dropFile = (Environment.GetCommandLineArgs().Any(x => Path.GetExtension(x) == ".dem"))
@@ -53,29 +45,37 @@ namespace VolvoWrench
             if (dropFile == null)
             {
                 toolsToolStripMenuItem.Enabled = false;
-                richTextBox1.Text = "^ Use File->Open to open a correct \".dem\" file!" + "\n" +
-                                    "No file dropped!";
+                goldSourceToolsToolStripMenuItem.Enabled = false;
+                richTextBox1.Text = @"^ Use File->Open to open a correct .dem file or drop the file here!";
             }
             else
             {
-                if (dropFile == null || (!File.Exists(dropFile) || Path.GetExtension(dropFile) != ".dem"))
+                if ((!File.Exists(dropFile) || Path.GetExtension(dropFile) != ".dem"))
                 {
                     CurrentFile = dropFile;
-                    richTextBox1.Text = "Analyzing file...";
+                    richTextBox1.Text = @"Analyzing file...";
                     CurrentDemoFile = CrossDemoParser.Parse(CurrentFile);
-                    PrintSetails(CurrentDemoFile);
-                    toolsToolStripMenuItem.Enabled = true;
+                    PrintDemoDetails(CurrentDemoFile);
                     Log(Path.GetFileName(CurrentFile + " opened"));
                 }
                 else
                 {
                     toolsToolStripMenuItem.Enabled = false;
-                    richTextBox1.Text = "^ Use File->Open to open a correct \".dem\" file!" + "\n" +
-                                        "No file dropped!";
+                    goldSourceToolsToolStripMenuItem.Enabled = false;
+                    richTextBox1.Text = @"^ Use File->Open to open a correct .dem file or drop the file here!";
                 }
             }
-
             #endregion
+        }
+
+
+        #region File ToolStrip stuff
+        private void openAsavToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var sa = new saveanalyzerform())
+            {
+                sa.ShowDialog();
+            }
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -99,192 +99,7 @@ namespace VolvoWrench
                 }
             }
         }
-
-        public static void Log(string s)
-        {
-            Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\" +
-                                      "VolvoWrench");
-            File.AppendAllLines(LogPath, new[]
-            {
-                (DateTime.Now.ToString("yyyy-MM-ddTHH\\:mm\\:ss.fffffffzzz") + " " +
-                 $"[{WindowsIdentity.GetCurrent()?.Name}]" + ": " + s)
-            });
-        }
-
-        public void PrintSetails(CrossParseResult demo)
-        {
-            if (demo == null) return;
-            switch (demo.Type)
-            {
-                case Parseresult.UnsupportedFile:
-                    richTextBox1.Text = "Unsupported file!";
-                    break;
-                case Parseresult.GoldSource:
-                    goldSourceToolsToolStripMenuItem.Enabled = true;
-                    richTextBox1.Text =
-                        $"Analyzed Goldsource demo file ({demo.GsDemoInfo.Header.GameDir}):\n" +
-                        $"----------------------------------------------------------" +
-                        $"{$"\n{$"Demo protocol: {demo.GsDemoInfo.Header.DemoProtocol}\n"}{$"Net protocol: {demo.GsDemoInfo.Header.NetProtocol}\n"}{$"Map name: {demo.GsDemoInfo.Header.MapName}\n"}{$"Game directory: {demo.GsDemoInfo.Header.GameDir}\n"}{$"Length in seconds: {demo.GsDemoInfo.DirectoryEntries.Last().Frames.Last().Key.Time}s\n"}{$"Tick count: {demo.GsDemoInfo.DirectoryEntries.Last().Frames.Last().Key.Index}\n"}{$"Frame count: {demo.GsDemoInfo.DirectoryEntries.Last().FrameCount}\n"}----------------------------------------------------------"}\n";
-                        foreach (var f in demo.GsDemoInfo.Flags)
-                            switch (f.Value)
-                            {
-                                case "#SAVE#":
-                                    richTextBox1.Text += $"#SAVE# flag at Tick: {f.Key.Index} -> {f.Key.Time}s" + "\n";
-                                    HighlightLastLine(richTextBox1, Color.Yellow);
-                                    break;
-                                case "autosave":
-                                    richTextBox1.Text += $"Autosave at Tick: {f.Key.Index} -> {f.Key.Time}s" + "\n";
-                                    HighlightLastLine(richTextBox1, Color.DarkOrange);
-                                    break;
-                            }
-                        break;
-                case Parseresult.Hlsooe:
-                    goldSourceToolsToolStripMenuItem.Enabled = true;
-                    richTextBox1.Text =
-                        $"Analyzed HLS:OOE demo file ({demo.HlsooeDemoInfo.Header.GameDirectory}):\n" +
-                        $"----------------------------------------------------------" +
-                        $"{$"\n{$"Demo protocol: {demo.HlsooeDemoInfo.Header.DemoProtocol}\n"}{$"Net protocol: {demo.HlsooeDemoInfo.Header.Netprotocol}\n"}{$"Map name: {demo.HlsooeDemoInfo.Header.MapName}\n"}{$"Game directory: {demo.HlsooeDemoInfo.Header.GameDirectory}\n"}{$"Length in seconds: {demo.HlsooeDemoInfo.DirectoryEntries.Last().PlaybackTime}s\n"}{$"Tick count: {demo.HlsooeDemoInfo.DirectoryEntries.Last().Frames.Last().Key.Tick}\n"}{$"Frame count: {demo.HlsooeDemoInfo.DirectoryEntries.Last().FrameCount}\n"}----------------------------------------------------------"}\n";
-                        foreach (var f in demo.HlsooeDemoInfo.Flags)
-                            switch (f.Value)
-                            {
-                                case "#SAVE#":
-                                    richTextBox1.Text += $"#SAVE# flag at Tick: {f.Key.Tick} -> {f.Key.Time}s" + "\n";
-                                    HighlightLastLine(richTextBox1, Color.Yellow);
-                                    break;
-                                case "autosave":
-                                    richTextBox1.Text += $"Autosave at Tick: {f.Key.Tick} -> {f.Key.Time}s" + "\n";
-                                    HighlightLastLine(richTextBox1, Color.DarkOrange);
-                                    break;
-                            }
-                    break;
-                case Parseresult.Source:
-                    toolsToolStripMenuItem.Enabled = true;
-                    richTextBox1.Text =
-                        $"Analyzed source engine demo file ({demo.Sdi.GameDirectory}):\n" + 
-                        $"----------------------------------------------------------" +
-                        $"{$"\n{$"Demo protocol: {demo.Sdi.DemoProtocol}\n"}{$"Net protocol: {demo.Sdi.NetProtocol}\n"}{$"Server name: {demo.Sdi.ServerName}\n"}{$"Client name: {demo.Sdi.ClientName}\n"}{$"Map name: {demo.Sdi.MapName}\n"}{$"Game directory: {demo.Sdi.GameDirectory}\n"}{$"Length in seconds: {demo.Sdi.Seconds}\n"}{$"Tick count: {demo.Sdi.TickCount}\n"}{$"Frame count: {demo.Sdi.FrameCount}\n"}----------------------------------------------------------"}\n";
-                        foreach (var f in demo.Sdi.Flags)
-                            switch (f.Name)
-                            {
-                                case "#SAVE#":
-                                    richTextBox1.Text += $"#SAVE# flag at Tick: {f.Tick} -> {f.Time}s" + "\n";
-                                    HighlightLastLine(richTextBox1, Color.Yellow);
-                                    break;
-                                case "autosave":
-                                    richTextBox1.Text += $"Autosave at Tick: {f.Tick} -> {f.Time}s" + "\n";
-                                    HighlightLastLine(richTextBox1, Color.DarkOrange);
-                                    break;
-                            }
-                    break;
-            }
-        }
-
-        private void Main_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            // if (MessageBox.Show("Are you sure you would like to close the program?","Confirm!",MessageBoxButtons.YesNo,MessageBoxIcon.Question) == DialogResult.No)
-            {
-                //TODO: Uncomment this when releasing but its annoying so I won't leave this in while testing. :p
-            }
-        }
-
-        public void HighlightLastLine(RichTextBox textControl, Color highlightColor)
-        {
-            textControl.Text = textControl.Text.Trim();
-            textControl.SelectionStart = 0;
-            textControl.SelectionLength = 0;
-            textControl.SelectionColor = Color.Black;
-            var lastLineText = textControl.Lines[richTextBox1.Lines.Count() - 1];
-            var lastLineStartIndex = richTextBox1.Text.LastIndexOf(lastLineText, StringComparison.Ordinal);
-            textControl.SelectionStart = lastLineStartIndex;
-            textControl.SelectionLength = textControl.Text.Length - 1;
-            textControl.SelectionColor = highlightColor;
-            textControl.DeselectAll();
-            textControl.Select(textControl.Text.Length, 0);
-        }
-
-        private void HotkeyTimer_Tick(object sender, EventArgs e)
-        {
-            if (CurrentDemoFile == null) return;
-            var popupkey = KeyInputApi.GetKeyState(Demo_Popup_Key);
-            if ((popupkey & 0x8000) != 0)
-            {
-                if (WindowState == FormWindowState.Minimized)
-                    WindowState = FormWindowState.Normal;
-                else
-                {
-                    TopMost = true;
-                    Focus();
-                    BringToFront();
-                    TopMost = false;
-                }
-                RescanFile();
-                switch (CurrentDemoFile.Type)
-                {
-                    case Parseresult.UnsupportedFile:
-                        break;
-                    case Parseresult.GoldSource:
-                        break;
-                    case Parseresult.Hlsooe:
-                        break;
-                    case Parseresult.Source:
-                        MessageBox.Show("Demo protocol: " + CurrentDemoFile.Sdi.DemoProtocol + "\n"
-                        + "Net protocol: " + CurrentDemoFile.Sdi.NetProtocol + "\n"
-                        + "Server name: " + CurrentDemoFile.Sdi.ServerName + "\n"
-                        + "Client name: " + CurrentDemoFile.Sdi.ClientName + "\n"
-                        + "Map name: " + CurrentDemoFile.Sdi.MapName + "\n"
-                        + "Game directory: " + CurrentDemoFile.Sdi.GameDirectory + "\n"
-                        + "Length in seconds: " + CurrentDemoFile.Sdi.Seconds + "\n"
-                        + "Tick count: " + CurrentDemoFile.Sdi.TickCount + "\n"
-                        + "Frame count: " + CurrentDemoFile.Sdi.FrameCount);
-                        break;
-                }
-            }
-        }
-
-        public static void SettingsManager(bool reset)
-        {
-            Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\" +
-                                      "VolvoWrench");
-            if (!File.Exists(SettingsPath) || reset)
-            {
-                File.WriteAllLines(SettingsPath,
-                    new[]
-                    {
-                        ";[VolvoWrench config file]\r\n; Here are your hotkeys for the program.\r\n; Every line which starts with a semicolon(\';\') is ignored.\r\n; Please keep that in mind.\r\n[HOTKEYS]\r\n;You can modify these keys. Google VKEY\r\ndemo_popup = 0x70;\r\n[SETTINGS]\r\nLanguage = EN;"
-                    });
-                Demo_Popup_Key = 0x70; //F1
-            }
-            else
-            {
-                var filteredArray = File.ReadAllLines(SettingsPath).Where(x => !x.StartsWith(";")).ToArray();
-                Demo_Popup_Key = ToInt32(filteredArray
-                    .First(x => x
-                        .Contains("demo_popup"))
-                    .Replace(" ", string.Empty)
-                    .Replace(";", string.Empty)
-                    .Trim()
-                    .Split('=')[1], 16);
-            }
-        }
-
-        public void RescanFile()
-        {
-            if (CurrentFile == null || (!File.Exists(CurrentFile) || Path.GetExtension(CurrentFile) != ".dem")) return;
-            {
-                richTextBox1.Text = "Analyzing file...";
-                CurrentDemoFile = CrossDemoParser.Parse(CurrentFile);
-            }           
-            PrintSetails(CurrentDemoFile);
-            Log(Path.GetFileName(CurrentFile + " rescanned."));
-        }
-
-        private void openAsavToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            using (var sa = new saveanalyzerform())
-            {
-                sa.ShowDialog();
-            }
-        }
+        #endregion
 
         #region Help Toolstrip Stuff
 
@@ -352,17 +167,24 @@ namespace VolvoWrench
         {
             if (CurrentFile == null || !File.Exists(CurrentFile) || Path.GetExtension(CurrentFile) != ".dem") return;
             {
-                richTextBox1.Text = "Analyzing file...";
+                richTextBox1.Text = @"Analyzing file...";
                 CurrentDemoFile = CrossDemoParser.Parse(CurrentFile);
             }
             switch (CurrentDemoFile.Type)
             {
-                //TODO: Renaming for everything
                 case Parseresult.UnsupportedFile:
                     break;
                 case Parseresult.GoldSource:
+                    File.Move(CurrentFile,
+                        Path.GetDirectoryName(CurrentFile) + "\\" +
+                        CurrentDemoFile.GsDemoInfo.Header.MapName + "-" +
+                        $"{CurrentDemoFile.GsDemoInfo.DirectoryEntries.Last().TrackTime.ToString("#,0.000")}" + "-" + Environment.UserName + ".dem");
                     break;
                 case Parseresult.Hlsooe:
+                    File.Move(CurrentFile,
+                        Path.GetDirectoryName(CurrentFile) + "\\" +
+                        CurrentDemoFile.HlsooeDemoInfo.Header.MapName + "-" +
+                        $"{CurrentDemoFile.HlsooeDemoInfo.DirectoryEntries.Last().PlaybackTime.ToString("#,0.000")}" + "-" + Environment.UserName + ".dem");
                     break;
                 case Parseresult.Source:
                     var stime = (CurrentDemoFile.Sdi.Flags.Count(x => x.Name == "#SAVE#") == 0)
@@ -373,8 +195,6 @@ namespace VolvoWrench
                         CurrentDemoFile.Sdi.MapName.Substring(3, CurrentDemoFile.Sdi.MapName.Length - 3) + "-" +
                         $"{stime}" + "-" + CurrentDemoFile.Sdi.ClientName + ".dem");
                     break;
-                default:
-                    throw new ArgumentOutOfRangeException();
             }
         }
 
@@ -400,12 +220,54 @@ namespace VolvoWrench
 
         #endregion
 
-        #region Settings
+        #region Settings and hotkeys stuff
 
         private void hotkeysToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
             using (var a = new Hotkey())
                 a.ShowDialog();
+        }
+
+        private void HotkeyTimer_Tick(object sender, EventArgs e)
+        {
+            if (CurrentDemoFile == null) return;
+            var popupkey = KeyInputApi.GetKeyState(DemoPopupKey);
+            if ((popupkey & 0x8000) != 0)
+            {
+                if (WindowState == FormWindowState.Minimized)
+                    WindowState = FormWindowState.Normal;
+                else
+                {
+                    TopMost = true;
+                    Focus();
+                    BringToFront();
+                    TopMost = false;
+                }
+                RescanFile();
+                switch (CurrentDemoFile.Type)
+                {
+                    case Parseresult.UnsupportedFile:
+                        break;
+                    case Parseresult.GoldSource:
+                        break;
+                    case Parseresult.Hlsooe:
+                        break;
+                    case Parseresult.Source:
+                        #region Mbox
+                        MessageBox.Show(@"
+Demo protocol: " + CurrentDemoFile.Sdi.DemoProtocol + @"
+Net protocol: " + CurrentDemoFile.Sdi.NetProtocol + @"
+Server name: " + CurrentDemoFile.Sdi.ServerName + @"
+Client name: " + CurrentDemoFile.Sdi.ClientName + @"
+Map name: " + CurrentDemoFile.Sdi.MapName + @"
+Game directory: " + CurrentDemoFile.Sdi.GameDirectory + @"
+Length in seconds: " + CurrentDemoFile.Sdi.Seconds + @"
+Tick count: " + CurrentDemoFile.Sdi.TickCount + @"
+Frame count: " + CurrentDemoFile.Sdi.FrameCount);
+                        #endregion
+                        break;
+                }
+            }
         }
 
         private void fontToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -421,15 +283,51 @@ namespace VolvoWrench
                 }
                 if (CurrentFile == null || (!File.Exists(CurrentFile) || Path.GetExtension(CurrentFile) != ".dem"))
                     return;
-                richTextBox1.Text = "Analyzing file...";
+                richTextBox1.Text = @"Analyzing file...";
                 CurrentDemoFile = CrossDemoParser.Parse(CurrentFile);
-                PrintSetails(CurrentDemoFile);
+                PrintDemoDetails(CurrentDemoFile);
                 Log(Path.GetFileName(CurrentFile + " rescanned for font change.")); //Terribble hack for recolor.
                 Log("Font changed");
             }
             catch (Exception ex)
             {
                 Log(ex.Message);
+            }
+        }
+
+        public static void SettingsManager(bool reset)
+        {
+            Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\" +
+                                      "VolvoWrench");
+            if (!File.Exists(SettingsPath) || reset)
+            {
+                #region Config text
+                File.WriteAllLines(SettingsPath,
+                    new[]
+                    {
+                        @";[VolvoWrench config file]
+; Here are your hotkeys for the program.
+; Every line which starts with a semicolon(';') is ignored.
+; Please keep that in mind.
+[HOTKEYS]
+;You can modify these keys. Google VKEY
+demo_popup = 0x70;
+[SETTINGS]
+Language = EN;"
+                    });
+                #endregion
+                DemoPopupKey = 0x70; //F1
+            }
+            else
+            {
+                var filteredArray = File.ReadAllLines(SettingsPath).Where(x => !x.StartsWith(";")).ToArray();
+                DemoPopupKey = ToInt32(filteredArray
+                    .First(x => x
+                        .Contains("demo_popup"))
+                    .Replace(" ", string.Empty)
+                    .Replace(";", string.Empty)
+                    .Trim()
+                    .Split('=')[1], 16);
             }
         }
 
@@ -450,11 +348,139 @@ namespace VolvoWrench
                 : null;
             if (dropfile != null) CurrentFile = dropfile;
             if (CurrentFile == null || (!File.Exists(CurrentFile) || Path.GetExtension(CurrentFile) != ".dem")) return;
-            richTextBox1.Text = "Analyzing file...";
+            richTextBox1.Text = @"Analyzing file...";
             CurrentDemoFile = CrossDemoParser.Parse(CurrentFile);
-            PrintSetails(CurrentDemoFile);
+            PrintDemoDetails(CurrentDemoFile);
             Log(Path.GetFileName(CurrentFile) + " opened!");
         }
         #endregion
+
+        public void PrintDemoDetails(CrossParseResult demo)
+        {
+            if (demo == null) return;
+            StripEnabler(demo);
+            switch (demo.Type)
+            {
+                case Parseresult.UnsupportedFile:
+                    richTextBox1.Text = @"Unsupported file!";
+                    break;
+                case Parseresult.GoldSource:
+                    richTextBox1.Text = $@"Analyzed GoldSource engine demo file ({demo.GsDemoInfo.Header.GameDir}):
+----------------------------------------------------------
+Demo protocol:              {demo.GsDemoInfo.Header.DemoProtocol}
+Net protocol:               {demo.GsDemoInfo.Header.NetProtocol}
+MapCRC:                     {demo.GsDemoInfo.Header.MapCrc}
+Directory Offset:           {demo.GsDemoInfo.Header.DirectoryOffset}
+Map name:                   {demo.GsDemoInfo.Header.MapName}
+Game directory:             {demo.GsDemoInfo.Header.GameDir}
+Length in seconds:          {demo.GsDemoInfo.DirectoryEntries.Last().TrackTime.ToString("#,0.000")}s
+Frame count:                {demo.GsDemoInfo.DirectoryEntries.Sum(x=> x.FrameCount)}
+----------------------------------------------------------";
+                    break;
+                case Parseresult.Hlsooe:
+                    richTextBox1.Text = $@"Analyzed HLS:OOE engine demo file ({demo.HlsooeDemoInfo.Header.GameDirectory}):
+----------------------------------------------------------
+Demo protocol:              {demo.HlsooeDemoInfo.Header.DemoProtocol}
+Net protocol:               {demo.HlsooeDemoInfo.Header.Netprotocol}
+Directory offset:           {demo.HlsooeDemoInfo.Header.DirectoryOffset}
+Map name:                   {demo.HlsooeDemoInfo.Header.MapName}
+Game directory:             {demo.HlsooeDemoInfo.Header.GameDirectory}
+Length in seconds:          {demo.HlsooeDemoInfo.DirectoryEntries.Last().Frames.Last().Key.Time.ToString("n2")}s
+Frame count:                {demo.HlsooeDemoInfo.DirectoryEntries.Sum(x => x.FrameCount)}
+----------------------------------------------------------";
+                    break;
+                case Parseresult.Source:
+                    richTextBox1.Text = $@"Analyzed source engine demo file ({demo.Sdi.GameDirectory}):
+----------------------------------------------------------
+Demo protocol:              {demo.Sdi.DemoProtocol}
+Net protocol:               {demo.Sdi.NetProtocol}
+Server name:                {demo.Sdi.ServerName}
+Client name:                {demo.Sdi.ClientName}
+Map name:                   {demo.Sdi.MapName}
+Game directory:             {demo.Sdi.GameDirectory}
+Length in seconds:          {demo.Sdi.Seconds.ToString("#,0.000")}s
+Tick count:                 {demo.Sdi.TickCount}
+Frame count:                {demo.Sdi.FrameCount}
+----------------------------------------------------------";
+                    foreach (var f in demo.Sdi.Flags)
+                        switch (f.Name)
+                        {
+                            case "#SAVE#":
+                                richTextBox1.Text += $"#SAVE# flag at Tick: {f.Tick} -> {f.Time}s\n";
+                                HighlightLastLine(richTextBox1, Color.Yellow);
+                                break;
+                            case "autosave":
+                                richTextBox1.Text += $"Autosave at Tick: {f.Tick} -> {f.Time}s\n";
+                                HighlightLastLine(richTextBox1, Color.DarkOrange);
+                                break;
+                        }
+                    break;
+            }
+        }
+
+        public void RescanFile()
+        {
+            if (CurrentFile == null || (!File.Exists(CurrentFile) || Path.GetExtension(CurrentFile) != ".dem")) return;
+            {
+                richTextBox1.Text = @"Analyzing file...";
+                CurrentDemoFile = CrossDemoParser.Parse(CurrentFile);
+            }
+            PrintDemoDetails(CurrentDemoFile);
+            Log(Path.GetFileName(CurrentFile + " rescanned."));
+        }
+
+        public void HighlightLastLine(RichTextBox textControl, Color highlightColor)
+        {
+            textControl.Text = textControl.Text.Trim();
+            textControl.SelectionStart = 0;
+            textControl.SelectionLength = 0;
+            textControl.SelectionColor = Color.Black;
+            var lastLineText = textControl.Lines[richTextBox1.Lines.Count() - 1];
+            var lastLineStartIndex = richTextBox1.Text.LastIndexOf(lastLineText, StringComparison.Ordinal);
+            textControl.SelectionStart = lastLineStartIndex;
+            textControl.SelectionLength = textControl.Text.Length - 1;
+            textControl.SelectionColor = highlightColor;
+            textControl.DeselectAll();
+            textControl.Select(textControl.Text.Length, 0);
+        }
+
+        public static void Log(string s)
+        {
+            Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\" +
+                                      "VolvoWrench");
+            File.AppendAllLines(LogPath, new[]
+            {
+                (DateTime.Now.ToString("yyyy-MM-ddTHH\\:mm\\:ss.fffffffzzz") + " " +
+                 $"[{WindowsIdentity.GetCurrent().Name}]" + ": " + s)
+            });
+        }
+
+        private void Main_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            // if (MessageBox.Show("Are you sure you would like to close the program?","Confirm!",MessageBoxButtons.YesNo,MessageBoxIcon.Question) == DialogResult.No)
+            {
+                //e.Cancel//TODO: Uncomment this when releasing but its annoying so I won't leave this in while testing. :p
+            }
+        }
+
+        public void StripEnabler(CrossParseResult cpr)
+        {
+            switch (cpr.Type)
+            {
+                case Parseresult.UnsupportedFile:
+                    goldSourceToolsToolStripMenuItem.Enabled = false;
+                    toolsToolStripMenuItem.Enabled = false;
+                    break;
+                case Parseresult.Hlsooe:
+                case Parseresult.GoldSource:
+                    goldSourceToolsToolStripMenuItem.Enabled = true;
+                    toolsToolStripMenuItem.Enabled = false;
+                    break;
+                case Parseresult.Source:
+                    goldSourceToolsToolStripMenuItem.Enabled = false;
+                    toolsToolStripMenuItem.Enabled = true;
+                    break;
+            }
+        }
     }
 }

@@ -11,7 +11,7 @@ namespace VolvoWrench
         {
             KeyPreview = true;
             InitializeComponent();
-            label1.Text = @"Demo info popup: " + KeyInterop.KeyFromVirtualKey(Main.Demo_Popup_Key);
+            label1.Text = @"Demo info popup: " + KeyInterop.KeyFromVirtualKey(Main.DemoPopupKey);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -22,13 +22,13 @@ namespace VolvoWrench
         private void button3_Click(object sender, EventArgs e)
         {
             Main.SettingsManager(false);
-            label1.Text = @"Demo info popup: " + KeyInterop.KeyFromVirtualKey(Main.Demo_Popup_Key);
+            label1.Text = @"Demo info popup: " + KeyInterop.KeyFromVirtualKey(Main.DemoPopupKey);
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             Main.SettingsManager(true);
-            label1.Text = @"Demo info popup: " + KeyInterop.KeyFromVirtualKey(Main.Demo_Popup_Key);
+            label1.Text = @"Demo info popup: " + KeyInterop.KeyFromVirtualKey(Main.DemoPopupKey);
         }
 
         private void button4_Click(object sender, EventArgs e)

@@ -18,7 +18,7 @@ namespace VolvoWrench
             using (var of = new OpenFileDialog())
             {
                 of.Multiselect = true;
-                of.Filter = @"Demo files (*.dem) | *.dem";
+                of.Filter = @"Demo files (*.sav) | *.sav";
                 if (of.ShowDialog() == DialogResult.OK)
                 {
                     richTextBox1.Text = @"Sorry fam not yet :c";
