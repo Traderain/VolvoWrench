@@ -23,23 +23,23 @@ namespace VolvoWrench
                     foreach (var f in of.FileNames)
                     {
                         var mp = CrossDemoParser.Parse(f);
-                        switch (mp.Res)
+                        switch (mp.Type)
                         {
                             case Parseresult.UnsupportedFile:
-                                richTextBox1.Text += "Sorry but this file is not supported";
+                                richTextBox1.Text += "\nSorry but this file is not supported";
                                 break;
                             case Parseresult.GoldSource:
-                                richTextBox1.Text += $"Goldsource engine demo file:" +
+                                richTextBox1.Text += $"\nGoldsource engine demo file, map:" +
                                                      $"{mp.GsDemoInfo.Header.MapName}" +
                                                      $"";
                                 break;
                             case Parseresult.Hlsooe:
-                                richTextBox1.Text += $"HLSOOE engine demo file:" +
+                                richTextBox1.Text += $"\nHLSOOE engine demo file, map:" +
                                                      $"{mp.HlsooeDemoInfo.Header.MapName}" +
                                                      $"";
                                 break;
                             case Parseresult.Source:
-                                richTextBox1.Text += $"Source engine demo file:" +
+                                richTextBox1.Text += $"\nSource engine demo file, time:" +
                                                      $"{mp.Sdi.Seconds}" +
                                                      $"";
                                 break;

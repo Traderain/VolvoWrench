@@ -316,14 +316,16 @@ namespace VolvoWrench.Demo_stuff
             public int Channel;
             public int Flags;
             public int Pitch;
-            public string Sample;
+            public byte[] Sample;
             public float Volume;
         };
 
         public struct DemoBufferFrame : IFrame
         {
-            public string Buffer;
+            public byte[] Buffer;
         };
+
+        public struct DemoStartFrame : IFrame { }
 
         // Otherwise, netmsg.
         public struct NetMsgFrame : IFrame
@@ -686,97 +688,66 @@ namespace VolvoWrench.Demo_stuff
                                 };
                                 switch (currentDemoFrame.Type)
                                 {
-                                    case GoldSource.DemoFrameType.DemoStart: //No extra data
+                                    case GoldSource.DemoFrameType.DemoStart: //No extra dat
                                         break;
                                     case GoldSource.DemoFrameType.ConsoleCommand:
-                                        var ccframe = new GoldSource.ConsoleCommandFrame
-                                        {
-                                            Command = Encoding.ASCII.GetString(br.ReadBytes(64))
-                                                .Trim('\0')
-                                                .Replace("\0", string.Empty)
-                                        };
+                                        var ccframe = new GoldSource.ConsoleCommandFrame();
+                                        ccframe.Command = Encoding.ASCII.GetString(br.ReadBytes(64))
+                                            .Trim('\0')
+                                            .Replace("\0", string.Empty);
                                         entry.Frames.Add(currentDemoFrame, ccframe);
                                         break;
                                     case GoldSource.DemoFrameType.ClientData:
-                                        var cdframe = new GoldSource.ClientDataFrame
-                                        {
-                                            Origin =
-                                            {
-                                                X = br.ReadSingle(),
-                                                Y = br.ReadSingle(),
-                                                Z = br.ReadSingle()
-                                            },
-                                            Viewangles =
-                                            {
-                                                X = br.ReadSingle(),
-                                                Y = br.ReadSingle(),
-                                                Z = br.ReadSingle()
-                                            },
-                                            WeaponBits = br.ReadInt32(),
-                                            Fov = br.ReadSingle()
-                                        };
+                                        var cdframe = new GoldSource.ClientDataFrame();             
+                                        cdframe.Origin.X = br.ReadSingle();
+                                        cdframe.Origin.Y = br.ReadSingle();
+                                        cdframe.Origin.Z = br.ReadSingle();
+                                        cdframe.Viewangles.X = br.ReadSingle();
+                                        cdframe.Viewangles.Y = br.ReadSingle();
+                                        cdframe.Viewangles.Z = br.ReadSingle();
+                                        cdframe.WeaponBits = br.ReadInt32();
+                                        cdframe.Fov = br.ReadSingle();
+                                        entry.Frames.Add(currentDemoFrame,cdframe);
                                         break;
                                     case GoldSource.DemoFrameType.NextSection:
                                         nextSectionRead = true;
                                         entry.Frames.Add(currentDemoFrame, new GoldSource.NextSectionFrame());
                                         break;
                                     case GoldSource.DemoFrameType.Event:
-                                        var eframe = new GoldSource.EventFrame
-                                        {
-                                            Flags = br.ReadInt32(),
-                                            Index = br.ReadInt32(),
-                                            Delay = br.ReadSingle(),
-                                            EventArguments =
-                                            {
-                                                Flags = br.ReadInt32(),
-                                                EntityIndex = br.ReadInt32(),
-                                                Origin =
-                                                {
-                                                    X = br.ReadSingle(),
-                                                    Y = br.ReadSingle(),
-                                                    Z = br.ReadSingle()
-                                                },
-                                                Angles =
-                                                {
-                                                    X = br.ReadSingle(),
-                                                    Y = br.ReadSingle(),
-                                                    Z = br.ReadSingle()
-                                                },
-                                                Velocity =
-                                                {
-                                                    X = br.ReadSingle(),
-                                                    Y = br.ReadSingle(),
-                                                    Z = br.ReadSingle()
-                                                },
-                                                Ducking = br.ReadInt32(),
-                                                Fparam1 = br.ReadSingle(),
-                                                Fparam2 = br.ReadSingle(),
-                                                Iparam1 = br.ReadInt32(),
-                                                Iparam2 = br.ReadInt32(),
-                                                Bparam1 = br.ReadInt32(),
-                                                Bparam2 = br.ReadInt32()
-                                            }
-                                        };
+                                        var eframe = new GoldSource.EventFrame();
+                                        eframe.Flags = br.ReadInt32();
+                                        eframe.Index = br.ReadInt32();
+                                        eframe.Delay = br.ReadSingle();
+                                        eframe.EventArguments.Flags = br.ReadInt32();
+                                        eframe.EventArguments.EntityIndex = br.ReadInt32();
+                                        eframe.EventArguments.Origin.X = br.ReadSingle();
+                                        eframe.EventArguments.Origin.Y = br.ReadSingle();
+                                        eframe.EventArguments.Origin.Z = br.ReadSingle();
+                                        eframe.EventArguments.Angles.X = br.ReadSingle();
+                                        eframe.EventArguments.Angles.Y = br.ReadSingle();
+                                        eframe.EventArguments.Angles.Z = br.ReadSingle();
+                                        eframe.EventArguments.Velocity.X = br.ReadSingle();
+                                        eframe.EventArguments.Velocity.Y = br.ReadSingle();
+                                        eframe.EventArguments.Velocity.Z = br.ReadSingle();
+                                        eframe.EventArguments.Ducking = br.ReadInt32();
+                                        eframe.EventArguments.Fparam1 = br.ReadSingle();
+                                        eframe.EventArguments.Fparam2 = br.ReadSingle();
+                                        eframe.EventArguments.Iparam1 = br.ReadInt32();
+                                        eframe.EventArguments.Iparam2 = br.ReadInt32();
+                                        eframe.EventArguments.Bparam1 = br.ReadInt32();
+                                        eframe.EventArguments.Bparam2 = br.ReadInt32();
                                         entry.Frames.Add(currentDemoFrame,eframe);
                                         break;
                                     case GoldSource.DemoFrameType.WeaponAnim:
-                                        var waframe = new GoldSource.WeaponAnimFrame
-                                        {
-                                            Anim = br.ReadInt32(),
-                                            Body = br.ReadInt32()
-                                        };
+                                        var waframe = new GoldSource.WeaponAnimFrame();
+                                        waframe.Anim = br.ReadInt32();
+                                        waframe.Body = br.ReadInt32();
                                         entry.Frames.Add(currentDemoFrame,waframe);
                                         break;
                                     case GoldSource.DemoFrameType.Sound:
                                         var sframe = new GoldSource.SoundFrame();
                                         sframe.Channel = br.ReadInt32();
-                                        var sfl = br.ReadInt32();
-                                        br.ReadBytes(sfl); //200930
-                                        sframe.Sample = Encoding
-                                            .ASCII
-                                            .GetString(br.ReadBytes(sfl))
-                                                        .Trim('\0')
-                                                        .Replace("\0", string.Empty);
+                                        sframe.Sample = br.ReadBytes(br.ReadInt32());
                                         sframe.Attenuation = br.ReadSingle();
                                         sframe.Volume = br.ReadSingle();
                                         sframe.Flags = br.ReadInt32();
@@ -785,14 +756,14 @@ namespace VolvoWrench.Demo_stuff
                                         break;
                                     case GoldSource.DemoFrameType.DemoBuffer:
                                         var bframe = new GoldSource.DemoBufferFrame();
-                                        var bufferlength = br.ReadInt32();
-                                        bframe.Buffer = new string(br.ReadChars(bufferlength));
+                                        bframe.Buffer = br.ReadBytes(br.ReadInt32());
                                         entry.Frames.Add(currentDemoFrame,bframe);
                                         break;
                                     default:
                                         Main.Log("Unknow frame type read at " + br.BaseStream.Position);
                                         var nf = new GoldSource.NetMsgFrame();
                                         nf.Timestamp = br.ReadSingle();
+
                                         nf.RParms.Vieworg.X = br.ReadSingle();
                                         nf.RParms.Vieworg.Y = br.ReadSingle();
                                         nf.RParms.Vieworg.Z = br.ReadSingle();
@@ -851,7 +822,8 @@ namespace VolvoWrench.Demo_stuff
                                         nf.RParms.Viewport.W = br.ReadInt32();
                                         nf.RParms.NextView = br.ReadInt32();
                                         nf.RParms.OnlyClientDraw = br.ReadInt32();
-                                        nf.UCmd.LerpMsec = br.ReadInt32();
+
+                                        nf.UCmd.LerpMsec = br.ReadInt16();
                                         nf.UCmd.Msec = br.ReadSByte();
                                         nf.UCmd.Align1 = br.ReadSByte();
                                         nf.UCmd.Viewangles.X = br.ReadSingle();
@@ -871,6 +843,7 @@ namespace VolvoWrench.Demo_stuff
                                         nf.UCmd.ImpactPosition.X = br.ReadSingle();
                                         nf.UCmd.ImpactPosition.Y = br.ReadSingle();
                                         nf.UCmd.ImpactPosition.Z = br.ReadSingle();
+
                                         nf.MVars.Gravity = br.ReadSingle();
                                         nf.MVars.Stopspeed = br.ReadSingle();
                                         nf.MVars.Maxspeed = br.ReadSingle();
@@ -891,8 +864,8 @@ namespace VolvoWrench.Demo_stuff
                                         nf.MVars.SkyName = Encoding
                                             .ASCII
                                             .GetString(br.ReadBytes(32))
-                                                        .Trim('\0')
-                                                        .Replace("\0", string.Empty);
+                                            .Trim('\0')
+                                            .Replace("\0", string.Empty);
                                         nf.MVars.Rollangle = br.ReadSingle();
                                         nf.MVars.Rollspeed = br.ReadSingle();
                                         nf.MVars.SkycolorR = br.ReadSingle();
@@ -901,9 +874,12 @@ namespace VolvoWrench.Demo_stuff
                                         nf.MVars.SkyvecX = br.ReadSingle();
                                         nf.MVars.SkyvecY = br.ReadSingle();
                                         nf.MVars.SkyvecZ = br.ReadSingle();
+
                                         nf.View.X = br.ReadSingle();
                                         nf.View.Y = br.ReadSingle();
                                         nf.View.Z = br.ReadSingle();
+                                        nf.Viewmodel = br.ReadInt32();
+
                                         nf.IncomingSequence = br.ReadInt32();
                                         nf.IncomingAcknowledged = br.ReadInt32();
                                         nf.IncomingReliableAcknowledged = br.ReadInt32();
@@ -911,6 +887,12 @@ namespace VolvoWrench.Demo_stuff
                                         nf.OutgoingSequence = br.ReadInt32();
                                         nf.ReliableSequence = br.ReadInt32();
                                         nf.LastReliableSequence = br.ReadInt32();
+                                        var msglength = br.ReadInt32();
+                                        nf.Msg = Encoding
+                                            .ASCII
+                                            .GetString(br.ReadBytes(msglength))
+                                            .Trim('\0')
+                                            .Replace("\0", string.Empty);
                                         entry.Frames.Add(currentDemoFrame,nf);
                                         break;
                                 }

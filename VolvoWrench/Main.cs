@@ -28,7 +28,7 @@ namespace VolvoWrench
             "VWSettings.config";
 
         public static int Demo_Popup_Key = 0x70; //F1
-        public SourceParser CurrentDemoFile;
+        public CrossParseResult CurrentDemoFile;
         public DemoType CurrentDemoType;
         public string CurrentFile;
 
@@ -58,12 +58,10 @@ namespace VolvoWrench
             }
             else
             {
-                if (Path.GetExtension(dropFile) == ".dem")
+                if (dropFile == null || (!File.Exists(dropFile) || Path.GetExtension(dropFile) != ".dem"))
                 {
                     CurrentFile = dropFile;
-                    Stream cfs = File.Open(CurrentFile, FileMode.Open);
-                    CurrentDemoFile = new SourceParser(cfs);
-                    cfs.Close();
+                    CurrentDemoFile = CrossDemoParser.Parse(CurrentFile);
                     PrintSetails(CurrentDemoFile);
                     toolsToolStripMenuItem.Enabled = true;
                     Log(Path.GetFileName(CurrentFile + " opened"));
@@ -91,11 +89,8 @@ namespace VolvoWrench
                         if (CurrentFile != null &&
                             (File.Exists(CurrentFile) && Path.GetExtension(CurrentFile) == ".dem"))
                         {
-                            Stream cfs = File.Open(CurrentFile, FileMode.Open);
-                            CurrentDemoFile = new SourceParser(cfs);
-                            cfs.Close();
-                            PrintSetails(CurrentDemoFile);
-                            toolsToolStripMenuItem.Enabled = true;
+                            CurrentDemoFile = CrossDemoParser.Parse(of.FileName);
+                            //TODO: Add print
                             Log(Path.GetFileName(CurrentFile) + " opened!");
                         }
                         break;
@@ -114,26 +109,36 @@ namespace VolvoWrench
             });
         }
 
-        public void PrintSetails(SourceParser d)
+        public void PrintSetails(CrossParseResult demo)
         {
-            if (CurrentDemoFile == null) return;
-            richTextBox1.Text =
-                string.Format(
-                    "Analyzed source engine demo file:" + "\n" +
-                    "----------------------------------------------------------{0}\n",
-                    $"\n{$"Demo protocol: {CurrentDemoFile.Info.DemoProtocol}\n"}{$"Net protocol: {CurrentDemoFile.Info.NetProtocol}\n"}{$"Server name: {CurrentDemoFile.Info.ServerName}\n"}{$"Client name: {CurrentDemoFile.Info.ClientName}\n"}{$"Map name: {CurrentDemoFile.Info.MapName}\n"}{$"Game directory: {CurrentDemoFile.Info.GameDirectory}\n"}{$"Length in seconds: {CurrentDemoFile.Info.Seconds}\n"}{$"Tick count: {CurrentDemoFile.Info.TickCount}\n"}{$"Frame count: {CurrentDemoFile.Info.FrameCount}\n"}----------------------------------------------------------");
-            foreach (var f in CurrentDemoFile.Info.Flags)
-                switch (f.Name)
-                {
-                    case "#SAVE#":
-                        richTextBox1.Text += $"#SAVE# flag at Tick: {f.Tick} -> {f.Time}s" + "\n";
-                        HighlightLastLine(richTextBox1, Color.Yellow);
-                        break;
-                    case "autosave":
-                        richTextBox1.Text += $"Autosave at Tick: {f.Tick} -> {f.Time}s" + "\n";
-                        HighlightLastLine(richTextBox1, Color.DarkOrange);
-                        break;
-                }
+            if (demo == null) return;
+            switch (demo.Type)
+            {
+                case Parseresult.UnsupportedFile:
+                    break;
+                case Parseresult.GoldSource:
+                    break;
+                case Parseresult.Hlsooe:
+                    break;
+                case Parseresult.Source:
+                    richTextBox1.Text =
+                        "Analyzed source engine demo file:" + 
+                        $"----------------------------------------------------------" +
+                        $"{$"\n{$"Demo protocol: {demo.Sdi.DemoProtocol}\n"}{$"Net protocol: {demo.Sdi.NetProtocol}\n"}{$"Server name: {demo.Sdi.ServerName}\n"}{$"Client name: {demo.Sdi.ClientName}\n"}{$"Map name: {demo.Sdi.MapName}\n"}{$"Game directory: {demo.Sdi.GameDirectory}\n"}{$"Length in seconds: {demo.Sdi.Seconds}\n"}{$"Tick count: {demo.Sdi.TickCount}\n"}{$"Frame count: {demo.Sdi.FrameCount}\n"}----------------------------------------------------------"}\n";
+                        foreach (var f in demo.Sdi.Flags)
+                            switch (f.Name)
+                            {
+                                case "#SAVE#":
+                                    richTextBox1.Text += $"#SAVE# flag at Tick: {f.Tick} -> {f.Time}s" + "\n";
+                                    HighlightLastLine(richTextBox1, Color.Yellow);
+                                    break;
+                                case "autosave":
+                                    richTextBox1.Text += $"Autosave at Tick: {f.Tick} -> {f.Time}s" + "\n";
+                                    HighlightLastLine(richTextBox1, Color.DarkOrange);
+                                    break;
+                            }
+                    break;
+            }
         }
 
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
@@ -175,15 +180,26 @@ namespace VolvoWrench
                     TopMost = false;
                 }
                 RescanFile();
-                MessageBox.Show("Demo protocol: " + CurrentDemoFile.Info.DemoProtocol + "\n"
-                                + "Net protocol: " + CurrentDemoFile.Info.NetProtocol + "\n"
-                                + "Server name: " + CurrentDemoFile.Info.ServerName + "\n"
-                                + "Client name: " + CurrentDemoFile.Info.ClientName + "\n"
-                                + "Map name: " + CurrentDemoFile.Info.MapName + "\n"
-                                + "Game directory: " + CurrentDemoFile.Info.GameDirectory + "\n"
-                                + "Length in seconds: " + CurrentDemoFile.Info.Seconds + "\n"
-                                + "Tick count: " + CurrentDemoFile.Info.TickCount + "\n"
-                                + "Frame count: " + CurrentDemoFile.Info.FrameCount);
+                switch (CurrentDemoFile.Type)
+                {
+                    case Parseresult.UnsupportedFile:
+                        break;
+                    case Parseresult.GoldSource:
+                        break;
+                    case Parseresult.Hlsooe:
+                        break;
+                    case Parseresult.Source:
+                        MessageBox.Show("Demo protocol: " + CurrentDemoFile.Sdi.DemoProtocol + "\n"
+                        + "Net protocol: " + CurrentDemoFile.Sdi.NetProtocol + "\n"
+                        + "Server name: " + CurrentDemoFile.Sdi.ServerName + "\n"
+                        + "Client name: " + CurrentDemoFile.Sdi.ClientName + "\n"
+                        + "Map name: " + CurrentDemoFile.Sdi.MapName + "\n"
+                        + "Game directory: " + CurrentDemoFile.Sdi.GameDirectory + "\n"
+                        + "Length in seconds: " + CurrentDemoFile.Sdi.Seconds + "\n"
+                        + "Tick count: " + CurrentDemoFile.Sdi.TickCount + "\n"
+                        + "Frame count: " + CurrentDemoFile.Sdi.FrameCount);
+                        break;
+                }
             }
         }
 
@@ -216,9 +232,7 @@ namespace VolvoWrench
         public void RescanFile()
         {
             if (CurrentFile == null || (!File.Exists(CurrentFile) || Path.GetExtension(CurrentFile) != ".dem")) return;
-            Stream cfs = File.Open(CurrentFile, FileMode.Open);
-            CurrentDemoFile = new SourceParser(cfs);
-            cfs.Close();
+            CurrentDemoFile = CrossDemoParser.Parse(CurrentFile);
             PrintSetails(CurrentDemoFile);
             toolsToolStripMenuItem.Enabled = true;
             Log(Path.GetFileName(CurrentFile + " rescanned."));
@@ -297,17 +311,28 @@ namespace VolvoWrench
         private void renameDemoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (CurrentFile == null || !File.Exists(CurrentFile) || Path.GetExtension(CurrentFile) != ".dem") return;
-            Stream cfs = File.Open(CurrentFile, FileMode.Open);
-            CurrentDemoFile = new SourceParser(cfs);
-            cfs.Close();
-
-            var time = (CurrentDemoFile.Info.Flags.Count(x => x.Name == "#SAVE#") == 0)
-                ? CurrentDemoFile.Info.Seconds.ToString("#,0.000")
-                : CurrentDemoFile.Info.Flags.Last(x => x.Name == "#SAVE#").Time.ToString("#,0.000");
-            File.Move(CurrentFile,
-                Path.GetDirectoryName(CurrentFile) + "\\" +
-                CurrentDemoFile.Info.MapName.Substring(3, CurrentDemoFile.Info.MapName.Length - 3) + "-" +
-                $"{time}" + "-" + CurrentDemoFile.Info.ClientName + ".dem");
+            CurrentDemoFile = CrossDemoParser.Parse(CurrentFile);
+            switch (CurrentDemoFile.Type)
+            {
+                //TODO: Renaming for everything
+                case Parseresult.UnsupportedFile:
+                    break;
+                case Parseresult.GoldSource:
+                    break;
+                case Parseresult.Hlsooe:
+                    break;
+                case Parseresult.Source:
+                    var stime = (CurrentDemoFile.Sdi.Flags.Count(x => x.Name == "#SAVE#") == 0)
+                    ? CurrentDemoFile.Sdi.Seconds.ToString("#,0.000")
+                    : CurrentDemoFile.Sdi.Flags.Last(x => x.Name == "#SAVE#").Time.ToString("#,0.000");
+                    File.Move(CurrentFile,
+                        Path.GetDirectoryName(CurrentFile) + "\\" +
+                        CurrentDemoFile.Sdi.MapName.Substring(3, CurrentDemoFile.Sdi.MapName.Length - 3) + "-" +
+                        $"{stime}" + "-" + CurrentDemoFile.Sdi.ClientName + ".dem");
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
         #endregion
@@ -327,6 +352,7 @@ namespace VolvoWrench
 
         private void heatmapGeneratorToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //TODO: Finish this.
         }
 
         #endregion
@@ -352,9 +378,7 @@ namespace VolvoWrench
                 }
                 if (CurrentFile == null || (!File.Exists(CurrentFile) || Path.GetExtension(CurrentFile) != ".dem"))
                     return;
-                Stream cfs = File.Open(CurrentFile, FileMode.Open);
-                CurrentDemoFile = new SourceParser(cfs);
-                cfs.Close();
+                CurrentDemoFile = CrossDemoParser.Parse(CurrentFile);
                 PrintSetails(CurrentDemoFile);
                 toolsToolStripMenuItem.Enabled = true;
                 Log(Path.GetFileName(CurrentFile + " rescanned for font change.")); //Terribble hack for recolor.
@@ -383,14 +407,11 @@ namespace VolvoWrench
                 : null;
             if (dropfile != null) CurrentFile = dropfile;
             if (CurrentFile == null || (!File.Exists(CurrentFile) || Path.GetExtension(CurrentFile) != ".dem")) return;
-            Stream cfs = File.Open(CurrentFile, FileMode.Open);
-            CurrentDemoFile = new SourceParser(cfs);
-            cfs.Close();
+            CurrentDemoFile = CrossDemoParser.Parse(CurrentFile);
             PrintSetails(CurrentDemoFile);
             toolsToolStripMenuItem.Enabled = true;
             Log(Path.GetFileName(CurrentFile) + " opened!");
         }
-
         #endregion
     }
 }

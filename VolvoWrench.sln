@@ -8,7 +8,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CA721D96-CDB3-44BE-BECE-ECC91EDE9BB3}"
 	ProjectSection(SolutionItems) = preProject
 		..\..\Desktop\favicon.ico = ..\..\Desktop\favicon.ico
-		hotkeymanager.cs = hotkeymanager.cs
 		..\..\Desktop\wrench.ico = ..\..\Desktop\wrench.ico
 	EndProjectSection
 EndProject

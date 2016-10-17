@@ -12,52 +12,52 @@ namespace VolvoWrench.Demo_stuff
         Source
     }
 
-    public class CrossParse
+    public class CrossParseResult
     {
         public SourceDemoInfo Sdi;
         public GoldSourceDemoInfo GsDemoInfo;
         public GoldSourceDemoInfoHlsooe HlsooeDemoInfo;
-        public Parseresult Res;
+        public Parseresult Type;
 
-        public CrossParse(GoldSourceDemoInfoHlsooe gsdi, Parseresult pr, SourceDemoInfo sdi, GoldSourceDemoInfo gd)
+        public CrossParseResult(GoldSourceDemoInfoHlsooe gsdi, Parseresult pr, SourceDemoInfo sdi, GoldSourceDemoInfo gd)
         {
             HlsooeDemoInfo = gsdi;
-            Res = pr;
+            Type = pr;
             Sdi = sdi;
             GsDemoInfo = gd;
         }
 
-        public CrossParse() { }
+        public CrossParseResult() { }
     }
 
     public static class CrossDemoParser
     {
-        public static CrossParse Parse(string filename)
+        public static CrossParseResult Parse(string filename)
         {
-            var cpr = new CrossParse();
+            var cpr = new CrossParseResult();
             switch (CheckDemoType(filename))
             {
                 case Parseresult.GoldSource:
-                    cpr.Res = Parseresult.GoldSource;
+                    cpr.Type = Parseresult.GoldSource;
                     cpr.GsDemoInfo = GoldSourceParser.ParseGoldSourceDemo(filename);
                     break;
                 case Parseresult.UnsupportedFile:
-                    cpr.Res = Parseresult.UnsupportedFile;
+                    cpr.Type = Parseresult.UnsupportedFile;
                     Main.Log("Demotype check resulted in an unsupported file.");
                     break;
                 case Parseresult.Source:
-                    cpr.Res = Parseresult.Source;
+                    cpr.Type = Parseresult.Source;
                     Stream cfs = File.Open(filename, FileMode.Open);
                     var a = new SourceParser(cfs);
                     cpr.Sdi = a.Info;
                     cfs.Close();
                     break;
                 case Parseresult.Hlsooe:
-                    cpr.Res = Parseresult.Hlsooe;
+                    cpr.Type = Parseresult.Hlsooe;
                     cpr.HlsooeDemoInfo = GoldSourceParser.ParseDemoHlsooe(filename);
                     break;
                 default:
-                    cpr.Res = Parseresult.UnsupportedFile;
+                    cpr.Type = Parseresult.UnsupportedFile;
                     Main.Log(
                         "No idea how the fuck did this happen but default happened at switch(CheckDemoType(filename))");
                     break;
