@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Forms;
 using VolvoWrench.Demo_stuff;
 
@@ -20,47 +21,16 @@ namespace VolvoWrench
                 of.Filter = @"Demo files (*.dem) | *.dem";
                 if (of.ShowDialog() == DialogResult.OK)
                 {
-                    foreach (var f in of.FileNames)
-                    {
-                        var mp = CrossDemoParser.Parse(f);
-                        switch (mp.Type)
-                        {
-                            case Parseresult.UnsupportedFile:
-                                richTextBox1.Text += "\nSorry but this file is not supported";
-                                break;
-                            case Parseresult.GoldSource:
-                                richTextBox1.Text += $"\nGoldsource engine demo file, map:" +
-                                                     $"{mp.GsDemoInfo.Header.MapName}" +
-                                                     $"";
-                                break;
-                            case Parseresult.Hlsooe:
-                                richTextBox1.Text += $"\nHLSOOE engine demo file, map:" +
-                                                     $"{mp.HlsooeDemoInfo.Header.MapName}" +
-                                                     $"";
-                                break;
-                            case Parseresult.Source:
-                                richTextBox1.Text += $"\nSource engine demo file, time:" +
-                                                     $"{mp.Sdi.Seconds}" +
-                                                     $"";
-                                break;
-                            default:
-                                Main.Log("Error when multiparsing");
-                                break;
-                        }
-                    }
+                    richTextBox1.Text = @"Sorry fam not yet :c";
                     //TODO: Make the parser myself because that guy is autistic.
                 }
                 else
                 {
-                    label1.Text = "Bad file!";
-                    richTextBox1.Text = "Select a correct file please.";
+                    label1.Text = @"Bad file!";
+                    richTextBox1.Text = @"Select a correct file please.";
                     Main.Log("Save parse open failed.");
                 }
             }
-        }
-
-        private void label1_TextChanged(object sender, EventArgs e)
-        {
         }
     }
 }

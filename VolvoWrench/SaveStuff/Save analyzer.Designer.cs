@@ -66,7 +66,6 @@
             this.label1.Size = new System.Drawing.Size(100, 17);
             this.label1.TabIndex = 1;
             this.label1.Text = "No file opened";
-            this.label1.TextChanged += new System.EventHandler(this.label1_TextChanged);
             // 
             // saveanalyzerform
             // 
