@@ -1,5 +1,5 @@
 # VolvoWrench
-This tool will be a cross engine fully featured demo analyzing tool. It will work with GoldSource and Source-engine demos. Only Source engine demos supported at the moment.
+This tool is a cross engine fully featured demo analyzing tool. It works with GoldSource and Source-engine demos.
 ![alt tag](http://i.imgur.com/hfzwuRL.png)
 Features:
   - Changing font
@@ -32,13 +32,19 @@ Supported:
 * Left 4 Dead 
 
 In progress:
-Counter-Strike: Global Offensive
-Dota 2
+* Counter-Strike: Global Offensive
+* Dota 2
 
 
 Coming soon™:
   - Heatmap generation
   - Exporting demo data as XML
+  - Source sava analyzer
+  - Goldsource save analyzer
+  - HLAE Integration?
+  - Auto update
+  - Demo editor? (Might not be a good idea idk yet)
+  - Demo doctor
   
   If you have any idea for a feature please make an Issue and I will most likely add it.
 
