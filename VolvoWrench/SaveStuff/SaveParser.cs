@@ -115,7 +115,7 @@ namespace VolvoWrench.SaveStuff
                 result.TokenTableSize = br.ReadInt32();
                 br.BaseStream.Seek(result.TokenTableSize + result.TokenTableFileTableOffset, SeekOrigin.Current);
                 var endoffile = false;
-                while (!endoffile)
+                while (!endoffile || result.SaveVersion == 115)
                 {
                     if (UnexpectedEof(br, 260))
                     {

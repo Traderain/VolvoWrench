@@ -60,5 +60,13 @@ Size:                   {valvFile.Data.Length} bytes
                 }
             }
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            using (var a = new SaveFileExplorer())
+            {
+                a.ShowDialog();
+            }
+        }
     }
 }

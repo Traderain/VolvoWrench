@@ -86,6 +86,12 @@
     </Compile>
     <Compile Include="Demo stuff\CrossDemoParser.cs" />
     <Compile Include="Demo stuff\DemoFrame.cs" />
+    <Compile Include="SaveStuff\SaveFileExplorer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SaveStuff\SaveFileExplorer.Designer.cs">
+      <DependentUpon>SaveFileExplorer.cs</DependentUpon>
+    </Compile>
     <Compile Include="SaveStuff\CLZSS.cs" />
     <Compile Include="SaveStuff\Save analyzer.cs">
       <SubType>Form</SubType>
@@ -138,6 +144,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SaveStuff\SaveFileExplorer.resx">
+      <DependentUpon>SaveFileExplorer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Update.resx">
       <DependentUpon>Update.cs</DependentUpon>
