@@ -6,8 +6,14 @@ F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Release\VolvoWrench.hotkey.resources
 F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Release\VolvoWrench.Main.resources
 F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Release\VolvoWrench.About.resources
 F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Release\VolvoWrench.Update.resources
-F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Release\VolvoWrench.Netdec.DemoDecoder.resources
 F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Release\VolvoWrench.Properties.Resources.resources
 F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Release\VolvoWrench.csproj.GenerateResource.Cache
 F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Release\VolvoWrench.exe
 F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Release\VolvoWrench.pdb
+F:\Githubrepos\VolvoWrench\VolvoWrench\bin\Release\VolvoWrench.exe.manifest
+F:\Githubrepos\VolvoWrench\VolvoWrench\bin\Release\VolvoWrench.application
+F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Release\VolvoWrench.saveanalyzerform.resources
+F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Release\VolvoWrench.Demo_stuff.DemoDecoder.resources
+F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Release\VolvoWrench.TrustInfo.xml
+F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Release\VolvoWrench.exe.manifest
+F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Release\VolvoWrench.application

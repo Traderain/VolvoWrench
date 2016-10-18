@@ -452,6 +452,10 @@ namespace VolvoWrench.Demo_stuff
 
     public class GoldSourceParser
     {
+        public static bool UnexpectedEof(BinaryReader b, int lengthtocheck)
+        {
+            return b.BaseStream.Position + lengthtocheck < b.BaseStream.Length;
+        }
         public static GoldSourceDemoInfoHlsooe ParseDemoHlsooe(string s)
         {
             var hlsooeDemo = new GoldSourceDemoInfoHlsooe
@@ -568,7 +572,6 @@ namespace VolvoWrench.Demo_stuff
                                         entry.Frames.Add(currentDemoFrame, c);
                                         break;
                                     case Hlsooe.DemoFrameType.Stringtables:
-                                        //TODO: This is horribly broken. Do something.
                                         var e = new Hlsooe.StringTablesFrame();
                                         var stringtablelength = br.ReadInt32();
                                         var edata = new string(br.ReadChars(stringtablelength));
@@ -579,7 +582,6 @@ namespace VolvoWrench.Demo_stuff
                                         var d = new Hlsooe.NetworkDataTableFrame();
                                         var networktablelength = br.ReadInt32();
                                         d.Data = new string(br.ReadChars(networktablelength)).Trim('\0');
-                                            //TODO: Somehow read u8[]
                                         entry.Frames.Add(currentDemoFrame, d);
                                         break;
                                     case Hlsooe.DemoFrameType.NextSection:

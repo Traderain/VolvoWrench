@@ -49,3 +49,8 @@ F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.Properties.Resource
 F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.csproj.GenerateResource.Cache
 F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.Demo_stuff.DemoDecoder.resources
 F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.saveanalyzerform.resources
+F:\Githubrepos\VolvoWrench\VolvoWrench\bin\Debug\VolvoWrench.exe.manifest
+F:\Githubrepos\VolvoWrench\VolvoWrench\bin\Debug\VolvoWrench.application
+F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.TrustInfo.xml
+F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.exe.manifest
+F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.application

@@ -35,11 +35,11 @@ namespace VolvoWrench.SaveStuff
     public class Listsave
     {
 
-        public int SAVEGAME_MAPNAME_LEN = 32;
-        public int SAVEGAME_COMMENT_LEN = 80;
-        public int SAVEGAME_ELAPSED_LEN = 32;
-        public int SECTION_MAGIC_NUMBER = 0x54541234;
-        public int SECTION_VERSION_NUMBER = 2;
+        public const int SAVEGAME_MAPNAME_LEN = 32;
+        public const int SAVEGAME_COMMENT_LEN = 80;
+        public const int SAVEGAME_ELAPSED_LEN = 32;
+        public const int SECTION_MAGIC_NUMBER = 0x54541234;
+        public const int SECTION_VERSION_NUMBER = 2;
 
         unsafe struct GAME_HEADER
         {
@@ -51,7 +51,20 @@ namespace VolvoWrench.SaveStuff
             fixed char landmark[256];
         };
 
-        unsafe struct SAVE_HEADER
+        unsafe struct SaveGameDescription_t
+        {
+            fixed char szShortName[64];
+            fixed char szFileName[128];
+            fixed char szMapName[SAVEGAME_MAPNAME_LEN];
+            fixed char szComment[SAVEGAME_COMMENT_LEN];
+            fixed char szType[64];
+            fixed char szElapsedTime[SAVEGAME_ELAPSED_LEN];
+            fixed char szFileTime[32];
+            int iTimestamp;
+            int iSize;
+        };
+
+        unsafe struct SaveHeader
         {
             int saveId;
             int version;
@@ -93,14 +106,57 @@ namespace VolvoWrench.SaveStuff
             using (var fs = new FileStream(file, FileMode.Open, FileAccess.Read))
             using (var br = new BinaryReader(fs))
             {
-                result.Header = (Encoding.ASCII.GetString(br.ReadBytes(sizeof(int))));
+                result.FileName = Path.GetFileName(file);
+                result.Files = new List<ValvFile>();
+                result.Header = (Encoding.ASCII.GetString(br.ReadBytes(sizeof (int))));
                 result.SaveVersion = br.ReadInt32();
-                result.Size = br.ReadInt32();
+                result.TokenTableFileTableOffset = br.ReadInt32();
                 result.TokenCount = br.ReadInt32();
-                result.Tokensize = br.ReadInt32();
-
-                return new SaveFile(); //TODO: return
+                result.TokenTableSize = br.ReadInt32();
+                br.BaseStream.Seek(result.TokenTableSize + result.TokenTableFileTableOffset, SeekOrigin.Current);
+                var endoffile = false;
+                while (!endoffile)
+                {
+                    if (UnexpectedEof(br, 260))
+                    {
+                        var tempvalv = new ValvFile();
+                        tempvalv.Data = new byte[0];
+                        tempvalv.FileName = Encoding.ASCII.GetString(br.ReadBytes(260))
+                        .Trim('\0')
+                        .Replace("\0", string.Empty);
+                        if (UnexpectedEof(br, 8))
+                        {
+                            var filelength = br.ReadInt32();
+                            tempvalv.MagicWord  = Encoding.ASCII.GetString(br.ReadBytes(4))
+                                .Trim('\0')
+                                .Replace("\0", string.Empty);
+                            if (UnexpectedEof(br, 8) && filelength > 0)
+                            {
+                                tempvalv.Data = br.ReadBytes(filelength - 4);
+                            }
+                            else
+                            {
+                                endoffile = true;
+                            }
+                        }
+                        else
+                        {
+                            endoffile = true;
+                        }
+                        result.Files.Add(tempvalv);
+                    }
+                    else
+                    {
+                        endoffile = true;
+                    }
+                }
+                return result;
             }
+        }
+
+        public static bool UnexpectedEof(BinaryReader b, int lengthtocheck)
+        {
+            return b.BaseStream.Position + lengthtocheck < b.BaseStream.Length;
         }
     }
 
@@ -110,24 +166,25 @@ namespace VolvoWrench.SaveStuff
         public string FileName { get; set; }
         public string Header { get; set; }
         public int SaveVersion { get; set; }
-        public int Size { get; set; }
-        public int Tokensize { get; set; }
+        public int TokenTableFileTableOffset { get; set; }
+        public int TokenTableSize { get; set; }
         public int TokenCount { get; set; }
-        public List<Token> Tokentable { get; set; }
-        public string Chapter { get; set; }
-        public string Map { get; set; }
+        public List<ValvFile> Files { get; set; }
 
     }
 
-    public class Token
+    public enum Hlfile
     {
-        public string Name;
-        public string Value;
-
-        public Token(string n, string v)
-        {
-            Name = n;
-            Value = v;
-        }
+        Hl1,
+        Hl2,
+        Hl3
+    }
+    public class ValvFile
+    {
+        public string MagicWord;
+        public int Length;
+        public byte[] Data;
+        public string FileName;
+        public Hlfile StateType;
     }
 }

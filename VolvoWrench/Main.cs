@@ -384,9 +384,10 @@ Net protocol:               {demo.HlsooeDemoInfo.Header.Netprotocol}
 Directory offset:           {demo.HlsooeDemoInfo.Header.DirectoryOffset}
 Map name:                   {demo.HlsooeDemoInfo.Header.MapName}
 Game directory:             {demo.HlsooeDemoInfo.Header.GameDirectory}
-Length in seconds:          {demo.HlsooeDemoInfo.DirectoryEntries.Sum(x => x.PlaybackTime).ToString("n3")}s
+Length in seconds:          {demo.HlsooeDemoInfo.DirectoryEntries.Skip(1).Sum(x=> x.PlaybackTime).ToString("n3")}s
 Frame count:                {demo.HlsooeDemoInfo.DirectoryEntries.Sum(x => x.FrameCount)}
 ----------------------------------------------------------";
+                    //TODO: Bug in time print
                     break;
                 case Parseresult.Source:
                     richTextBox1.Text = $@"Analyzed source engine demo file ({demo.Sdi.GameDirectory}):

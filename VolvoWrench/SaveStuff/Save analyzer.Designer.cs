@@ -48,10 +48,11 @@
             // richTextBox1
             // 
             this.richTextBox1.BackColor = System.Drawing.SystemColors.InfoText;
+            this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.richTextBox1.ForeColor = System.Drawing.SystemColors.Menu;
-            this.richTextBox1.Location = new System.Drawing.Point(12, 73);
+            this.richTextBox1.Location = new System.Drawing.Point(0, 64);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(529, 429);
+            this.richTextBox1.Size = new System.Drawing.Size(784, 492);
             this.richTextBox1.TabIndex = 2;
             this.richTextBox1.Text = "No file opened. Open one!";
             // 
@@ -72,7 +73,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.ClientSize = new System.Drawing.Size(553, 514);
+            this.ClientSize = new System.Drawing.Size(784, 556);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.button1);

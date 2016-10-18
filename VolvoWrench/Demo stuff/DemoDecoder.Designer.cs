@@ -91,7 +91,7 @@
             // 
             // MsgSize
             // 
-            this.MsgSize.Text = "Size";
+            this.MsgSize.Text = "TokenTableFileTableOffset";
             this.MsgSize.Width = 87;
             // 
             // messageTree
