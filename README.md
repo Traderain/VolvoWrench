@@ -30,8 +30,6 @@ Supported:
 * Half-Life: Source
 * Day of Defeat: Source
 * Left 4 Dead 
-
-In progress:
 * Counter-Strike: Global Offensive
 * Dota 2
 
@@ -39,12 +37,13 @@ In progress:
 Coming soon™:
   - Heatmap generation
   - Exporting demo data as XML
-  - Source sava analyzer
+  - Source save analyzer
   - Goldsource save analyzer
   - HLAE Integration?
   - Auto update
   - Demo editor? (Might not be a good idea idk yet)
   - Demo doctor
+  Check the roadmap file for more info! (I will try to update it)
   
   If you have any idea for a feature please make an Issue and I will most likely add it.
 
