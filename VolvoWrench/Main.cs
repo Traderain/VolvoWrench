@@ -1,10 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Security.Principal;
 using System.Windows.Forms;
+using System.Xml;
+using System.Xml.Serialization;
 using VolvoWrench.Demo_stuff;
 using static System.Convert;
 
@@ -156,10 +160,10 @@ namespace VolvoWrench
         private void exportDemoDataToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var a = new SaveFileDialog();
-            if (a.ShowDialog() == DialogResult.OK)
+            a.Filter = "XML Files | *.xml";
+            if (a.ShowDialog() == DialogResult.OK && CurrentDemoFile != null)
             {
-                File.WriteAllLines(a.FileName, richTextBox1.Lines);
-                //TODO: EXPORT AS XML
+                CurrentDemoFile.Save(a.FileName);
             }
         }
 
@@ -384,7 +388,7 @@ Net protocol:               {demo.HlsooeDemoInfo.Header.Netprotocol}
 Directory offset:           {demo.HlsooeDemoInfo.Header.DirectoryOffset}
 Map name:                   {demo.HlsooeDemoInfo.Header.MapName}
 Game directory:             {demo.HlsooeDemoInfo.Header.GameDirectory}
-Length in seconds:          {demo.HlsooeDemoInfo.DirectoryEntries.Skip(1).Sum(x=> x.Frames.Last().Key.Tick).ToString("n3")}s
+Length in seconds:          {demo.HlsooeDemoInfo.DirectoryEntries.Skip(1).Sum(x=> x.Frames.Last().Key.Time).ToString("n3")}s
 Frame count:                {demo.HlsooeDemoInfo.DirectoryEntries.Sum(x => x.FrameCount)}
 ----------------------------------------------------------";
                     //TODO: Bug in time print
@@ -406,11 +410,11 @@ Frame count:                {demo.Sdi.FrameCount}
                         switch (f.Name)
                         {
                             case "#SAVE#":
-                                richTextBox1.Text += $"#SAVE# flag at Tick: {f.Tick} -> {f.Time}s\n";
+                                richTextBox1.Text += $"\n#SAVE# flag at Tick: {f.Tick} -> {f.Time}s";
                                 HighlightLastLine(richTextBox1, Color.Yellow);
                                 break;
                             case "autosave":
-                                richTextBox1.Text += $"Autosave at Tick: {f.Tick} -> {f.Time}s\n";
+                                richTextBox1.Text += $"\nAutosave at Tick: {f.Tick} -> {f.Time}s";
                                 HighlightLastLine(richTextBox1, Color.DarkOrange);
                                 break;
                         }
@@ -480,6 +484,21 @@ Frame count:                {demo.Sdi.FrameCount}
                     goldSourceToolsToolStripMenuItem.Enabled = false;
                     toolsToolStripMenuItem.Enabled = true;
                     break;
+            }
+        }
+
+        private void heatmapGeneratorToolStripMenuItem1_Click_1(object sender, EventArgs e)
+        {
+            var CoordList = new List<Point>();
+            CoordList.Add(new Point(10,1));
+            CoordList.Add(new Point(8,1));
+            CoordList.Add(new Point(3,1));
+            CoordList.Add(new Point(10,17));
+            CoordList.Add(new Point(120,1));
+            CoordList.Add(new Point(100,16));
+            using (var hmw = new Heatmap.Heatmap(CoordList, new Bitmap(560, 560)))
+            {
+                hmw.ShowDialog();
             }
         }
     }

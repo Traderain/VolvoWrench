@@ -45,7 +45,6 @@
             this.goldSourceToolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.netdecodeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.heatmapGeneratorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.checkForUpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -55,6 +54,7 @@
             this.hotkeysToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fontToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.HotkeyTimer = new System.Windows.Forms.Timer(this.components);
+            this.heatmapGeneratorToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -200,7 +200,7 @@
             this.toolsToolStripMenuItem.BackColor = System.Drawing.Color.Black;
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.netdecodeToolStripMenuItem,
-            this.heatmapGeneratorToolStripMenuItem});
+            this.heatmapGeneratorToolStripMenuItem1});
             this.toolsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(105, 24);
@@ -214,15 +214,6 @@
             this.netdecodeToolStripMenuItem.Size = new System.Drawing.Size(215, 26);
             this.netdecodeToolStripMenuItem.Text = "Netdecode";
             this.netdecodeToolStripMenuItem.Click += new System.EventHandler(this.netdecodeToolStripMenuItem_Click);
-            // 
-            // heatmapGeneratorToolStripMenuItem
-            // 
-            this.heatmapGeneratorToolStripMenuItem.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.heatmapGeneratorToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
-            this.heatmapGeneratorToolStripMenuItem.Name = "heatmapGeneratorToolStripMenuItem";
-            this.heatmapGeneratorToolStripMenuItem.Size = new System.Drawing.Size(215, 26);
-            this.heatmapGeneratorToolStripMenuItem.Text = "Heatmap generator";
-            this.heatmapGeneratorToolStripMenuItem.Click += new System.EventHandler(this.heatmapGeneratorToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem1
             // 
@@ -312,6 +303,15 @@
             this.HotkeyTimer.Interval = 300;
             this.HotkeyTimer.Tick += new System.EventHandler(this.HotkeyTimer_Tick);
             // 
+            // heatmapGeneratorToolStripMenuItem1
+            // 
+            this.heatmapGeneratorToolStripMenuItem1.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.heatmapGeneratorToolStripMenuItem1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.heatmapGeneratorToolStripMenuItem1.Name = "heatmapGeneratorToolStripMenuItem1";
+            this.heatmapGeneratorToolStripMenuItem1.Size = new System.Drawing.Size(216, 26);
+            this.heatmapGeneratorToolStripMenuItem1.Text = "Heatmap Generator";
+            this.heatmapGeneratorToolStripMenuItem1.Click += new System.EventHandler(this.heatmapGeneratorToolStripMenuItem1_Click_1);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
@@ -353,7 +353,6 @@
         private System.Windows.Forms.ToolStripMenuItem rescanFileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem renameDemoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem netdecodeToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem heatmapGeneratorToolStripMenuItem;
         private System.Windows.Forms.Timer HotkeyTimer;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
@@ -364,6 +363,7 @@
         private System.Windows.Forms.ToolStripMenuItem goldSourceToolsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem fontToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem openAsavToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem heatmapGeneratorToolStripMenuItem1;
     }
 }
 

@@ -149,7 +149,7 @@ namespace VolvoWrench.Demo_stuff
             if (bb.ReadBool())
             {
                 var k = Enum.GetName(typeof (Keys), bb.ReadBits(32));
-                if (k.Length > 0)
+                if (k?.Length > 0)
                     node.Nodes.Add("Buttons: " + k);
             }
             if (bb.ReadBool()) node.Nodes.Add("Impulse: " + bb.ReadBits(8));

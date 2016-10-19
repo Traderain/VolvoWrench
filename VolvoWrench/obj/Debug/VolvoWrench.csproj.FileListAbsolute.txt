@@ -55,3 +55,4 @@ F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.TrustInfo.xml
 F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.exe.manifest
 F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.application
 F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.SaveFileExplorer.resources
+F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.Heatmap.Heatmap.resources

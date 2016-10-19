@@ -2,6 +2,7 @@
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace VolvoWrench.Demo_stuff
 {
@@ -26,6 +27,16 @@ namespace VolvoWrench.Demo_stuff
             Type = pr;
             Sdi = sdi;
             GsDemoInfo = gd;
+        }
+
+        public void Save(string FileName)
+        {
+            using (var writer = new System.IO.StreamWriter(FileName))
+            {
+                var serializer = new XmlSerializer(this.GetType());
+                serializer.Serialize(writer, this);
+                writer.Flush();
+            }
         }
 
         public CrossParseResult() { }

@@ -85,7 +85,12 @@
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
     <Compile Include="Demo stuff\CrossDemoParser.cs" />
-    <Compile Include="Demo stuff\DemoFrame.cs" />
+    <Compile Include="Heatmap\Heatmap.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Heatmap\Heatmap.Designer.cs">
+      <DependentUpon>Heatmap.cs</DependentUpon>
+    </Compile>
     <Compile Include="SaveStuff\SaveFileExplorer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -135,6 +140,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="About.resx">
       <DependentUpon>About.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Heatmap\Heatmap.resx">
+      <DependentUpon>Heatmap.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SaveStuff\Save analyzer.resx">
       <DependentUpon>Save analyzer.cs</DependentUpon>
