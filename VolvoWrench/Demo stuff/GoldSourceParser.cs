@@ -1,5 +1,4 @@
-﻿using System.CodeDom;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Windows.Media.Media3D;
@@ -454,8 +453,9 @@ namespace VolvoWrench.Demo_stuff
     {
         public static bool UnexpectedEof(BinaryReader b, int lengthtocheck)
         {
-            return b.BaseStream.Position + lengthtocheck < b.BaseStream.Length;
+            return (b.BaseStream.Position + lengthtocheck) > b.BaseStream.Length;
         }
+
         public static GoldSourceDemoInfoHlsooe ParseDemoHlsooe(string s)
         {
             var hlsooeDemo = new GoldSourceDemoInfoHlsooe
@@ -466,6 +466,11 @@ namespace VolvoWrench.Demo_stuff
             };
             using (var br = new BinaryReader(new FileStream(s, FileMode.Open)))
             {
+                if (UnexpectedEof(br, (8+4+4+260+260+4)))//520 + 12 + 8 = 540 -> Header size
+                {
+                    hlsooeDemo.ParsingErrors.Add("Unexpected end of file at the header!");
+                    return hlsooeDemo;
+                }
                 var mw = Encoding.ASCII.GetString(br.ReadBytes(8)).Trim('\0').Replace("\0", string.Empty);
                 if (mw == "HLDEMO")
                 {
@@ -479,9 +484,19 @@ namespace VolvoWrench.Demo_stuff
                     hlsooeDemo.Header.DirectoryOffset = br.ReadInt32();
                     //Header Parsed... now we read the directory entries
                     br.BaseStream.Seek(hlsooeDemo.Header.DirectoryOffset, SeekOrigin.Begin);
+                    if (UnexpectedEof(br, (4)))
+                    {
+                        hlsooeDemo.ParsingErrors.Add("Unexpected end of file after the header!");
+                        return hlsooeDemo;
+                    }
                     var entryCount = br.ReadInt32();
                     for (var i = 0; i < entryCount; i++)
                     {
+                        if (UnexpectedEof(br, (4+4+4+4+4)))
+                        {
+                            hlsooeDemo.ParsingErrors.Add("Unexpected end of when reading frames!");
+                            return hlsooeDemo;
+                        }
                         var tempvar = new Hlsooe.DemoDirectoryEntry
                         {
                             Type = br.ReadInt32(),
@@ -496,12 +511,22 @@ namespace VolvoWrench.Demo_stuff
                     //Demo directory entries parsed... now we parse the frames.
                     foreach (var entry in hlsooeDemo.DirectoryEntries)
                     {
+                        if (entry.Offset > br.BaseStream.Length)
+                        {
+                            hlsooeDemo.ParsingErrors.Add("Couldn't seek to directoryentry the file is corrupted.");
+                            return hlsooeDemo;
+                        }
                         br.BaseStream.Seek(entry.Offset, SeekOrigin.Begin);
                         var nextSectionRead = false;
                         for (var i = 0; i < entry.FrameCount; i++)
                         {
                             if (!nextSectionRead)
                             {
+                                if (UnexpectedEof(br, (1+4+4)))
+                                {
+                                    hlsooeDemo.ParsingErrors.Add("Failed to read next frame details after frame no.: " + i);
+                                    return hlsooeDemo;
+                                }
                                 var currentDemoFrame = new Hlsooe.DemoFrame
                                 {
                                     Type = (Hlsooe.DemoFrameType) br.ReadSByte(),
@@ -511,6 +536,11 @@ namespace VolvoWrench.Demo_stuff
                                 switch (currentDemoFrame.Type)
                                 {
                                     case Hlsooe.DemoFrameType.StartupPacket:
+                                        if (UnexpectedEof(br, (8+8+8+8+8+8+8+8+8+8+8+8+4+4+4+4+4+4+4)))
+                                        {
+                                            hlsooeDemo.ParsingErrors.Add("Failed to read startup packet at frame:" + i);
+                                            return hlsooeDemo;
+                                        }
                                         var g = new Hlsooe.StartupPacketFrame
                                         {
                                             Flags = br.ReadInt32(),
@@ -530,6 +560,11 @@ namespace VolvoWrench.Demo_stuff
                                         entry.Frames.Add(currentDemoFrame, g);
                                         break;
                                     case Hlsooe.DemoFrameType.NetworkPacket:
+                                        if (UnexpectedEof(br, (8+8+8+8+8+8+8+8+8+8+8+8+4+4+4+4+4+4+4)))
+                                        {
+                                            hlsooeDemo.ParsingErrors.Add("Failed to read netmessage at frame: " + i);
+                                            return hlsooeDemo;
+                                        }
                                         var b = new Hlsooe.NetMsgFrame
                                         {
                                             Flags = br.ReadInt32(),
@@ -553,18 +588,38 @@ namespace VolvoWrench.Demo_stuff
                                         entry.Frames.Add(currentDemoFrame, new Hlsooe.JumpTimeFrame());
                                         break;
                                     case Hlsooe.DemoFrameType.ConsoleCommand:
+                                        if (UnexpectedEof(br, (4)))
+                                        {
+                                            hlsooeDemo.ParsingErrors.Add("Unexpected enf of file when reading console command length at fram:" + i);
+                                            return hlsooeDemo;
+                                        }
                                         var a = new Hlsooe.ConsoleCommandFrame();
                                         var commandlength = br.ReadInt32();
+                                        if (UnexpectedEof(br, (commandlength)))
+                                        {
+                                            hlsooeDemo.ParsingErrors.Add("Unexpected end of file when reading the console command at frame: " + i);
+                                            return hlsooeDemo;
+                                        }
                                         a.Command = new string(br.ReadChars(commandlength)).Trim('\0');
                                         entry.Frames.Add(currentDemoFrame, a);
                                         break;
                                     case Hlsooe.DemoFrameType.Usercmd:
+                                        if (UnexpectedEof(br, (4+4+2)))
+                                        {
+                                            hlsooeDemo.ParsingErrors.Add("Unexpected end of file when reading UserCMD header at frame: " + i);
+                                            return hlsooeDemo;
+                                        }
                                         var c = new Hlsooe.UserCmdFrame
                                         {
                                             OutgoingSequence = br.ReadInt32(),
                                             Slot = br.ReadInt32()
                                         };
                                         var usercmdlength = br.ReadInt16();
+                                        if (UnexpectedEof(br, (usercmdlength)))
+                                        {
+                                            hlsooeDemo.ParsingErrors.Add("Unexpected end of file when reading userCMD at frame: " + i);
+                                            return hlsooeDemo;
+                                        }
                                         c.Data =
                                             Encoding.ASCII.GetString(br.ReadBytes(usercmdlength))
                                                 .Trim('\0')
@@ -573,14 +628,34 @@ namespace VolvoWrench.Demo_stuff
                                         break;
                                     case Hlsooe.DemoFrameType.Stringtables:
                                         var e = new Hlsooe.StringTablesFrame();
+                                        if (UnexpectedEof(br, (4)))
+                                        {
+                                            hlsooeDemo.ParsingErrors.Add("Unexpected end of file when reading stringtablelength at frame: " + i);
+                                            return hlsooeDemo;
+                                        }
                                         var stringtablelength = br.ReadInt32();
+                                        if (UnexpectedEof(br, (stringtablelength)))
+                                        {
+                                            hlsooeDemo.ParsingErrors.Add("Unexpected end of file when reading stringtable data at frame: " + i);
+                                            return hlsooeDemo;
+                                        }
                                         var edata = new string(br.ReadChars(stringtablelength));
                                         e.Data = edata;
                                         entry.Frames.Add(currentDemoFrame, e);
                                         break;
                                     case Hlsooe.DemoFrameType.NetworkDataTable:
                                         var d = new Hlsooe.NetworkDataTableFrame();
+                                        if (UnexpectedEof(br, (4)))
+                                        {
+                                            hlsooeDemo.ParsingErrors.Add("Unexpected end of file when reading networktable length at frame: " + i);
+                                            return hlsooeDemo;
+                                        }
                                         var networktablelength = br.ReadInt32();
+                                        if (UnexpectedEof(br, (4)))
+                                        {
+                                            hlsooeDemo.ParsingErrors.Add("Unexpected end of file when reading NetWorkTable data at frame: " + i);
+                                            return hlsooeDemo;
+                                        }
                                         d.Data = new string(br.ReadChars(networktablelength)).Trim('\0');
                                         entry.Frames.Add(currentDemoFrame, d);
                                         break;
@@ -590,6 +665,11 @@ namespace VolvoWrench.Demo_stuff
                                         break;
                                     default:
                                         Main.Log($"Error: Frame type: + {currentDemoFrame.Type} at parsing.");
+                                        if (UnexpectedEof(br, (8+8+8+8+8+8+8+8+8+8+8+8+4+4+4+4+4+4+4)))
+                                        {
+                                            hlsooeDemo.ParsingErrors.Add("Unexpected end of file when reading default frame at frame: " + i);
+                                            return hlsooeDemo;
+                                        }
                                         var err = new Hlsooe.ErrorFrame
                                         {
                                             Flags = br.ReadInt32(),

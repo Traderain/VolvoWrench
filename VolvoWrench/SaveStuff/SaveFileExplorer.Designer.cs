@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System.ComponentModel;
+using System.Windows.Forms;
 
 namespace VolvoWrench
 {
@@ -7,7 +8,7 @@ namespace VolvoWrench
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -133,12 +134,12 @@ namespace VolvoWrench
 
         #endregion
 
-        private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.TreeView treeView1;
-        private System.Windows.Forms.ImageList imageList1;
-        private System.Windows.Forms.ListView listView1;
-        private System.Windows.Forms.ColumnHeader columnHeader1;
-        private System.Windows.Forms.ColumnHeader Type;
-        private System.Windows.Forms.ColumnHeader columnHeader2;
+        private SplitContainer splitContainer1;
+        private TreeView treeView1;
+        private ImageList imageList1;
+        private ListView listView1;
+        private ColumnHeader columnHeader1;
+        private ColumnHeader Type;
+        private ColumnHeader columnHeader2;
     }
 }

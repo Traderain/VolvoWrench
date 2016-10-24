@@ -1,3 +1,5 @@
 ﻿- Save Parser
 - Fix time in hlsooe parser
 - Check for end of file in hlsooe and goldsource
+- Demo doctor fix
+- Statistics

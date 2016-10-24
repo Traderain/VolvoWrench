@@ -1,8 +1,5 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Runtime.CompilerServices;
+﻿using System.IO;
 using System.Text;
-using System.Xml.Serialization;
 
 namespace VolvoWrench.Demo_stuff
 {
@@ -29,16 +26,6 @@ namespace VolvoWrench.Demo_stuff
             GsDemoInfo = gd;
         }
 
-        public void Save(string FileName)
-        {
-            using (var writer = new System.IO.StreamWriter(FileName))
-            {
-                var serializer = new XmlSerializer(this.GetType());
-                serializer.Serialize(writer, this);
-                writer.Flush();
-            }
-        }
-
         public CrossParseResult() { }
     }
 
@@ -47,6 +34,7 @@ namespace VolvoWrench.Demo_stuff
         public static CrossParseResult Parse(string filename)
         {
             var cpr = new CrossParseResult();
+
             switch (CheckDemoType(filename))
             {
                 case Parseresult.GoldSource:
@@ -79,6 +67,11 @@ namespace VolvoWrench.Demo_stuff
 
         public static Parseresult CheckDemoType(string file)
         {
+            var attr = new FileInfo(file);
+            if (attr.Length < 540)
+            {
+                return Parseresult.UnsupportedFile;
+            }
             using (var fs = new FileStream(file, FileMode.Open, FileAccess.Read))
             using (var br = new BinaryReader(fs))
             {

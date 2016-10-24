@@ -1,11 +1,14 @@
-﻿namespace VolvoWrench
+﻿using System.ComponentModel;
+using System.Windows.Forms;
+
+namespace VolvoWrench
 {
     sealed partial class Main
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -45,6 +48,7 @@
             this.goldSourceToolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.netdecodeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.heatmapGeneratorToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.checkForUpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -54,7 +58,7 @@
             this.hotkeysToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fontToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.HotkeyTimer = new System.Windows.Forms.Timer(this.components);
-            this.heatmapGeneratorToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.demoDoctorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -190,6 +194,8 @@
             // goldSourceToolsToolStripMenuItem
             // 
             this.goldSourceToolsToolStripMenuItem.BackColor = System.Drawing.Color.Black;
+            this.goldSourceToolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.demoDoctorToolStripMenuItem});
             this.goldSourceToolsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.goldSourceToolsToolStripMenuItem.Name = "goldSourceToolsToolStripMenuItem";
             this.goldSourceToolsToolStripMenuItem.Size = new System.Drawing.Size(137, 24);
@@ -211,9 +217,18 @@
             this.netdecodeToolStripMenuItem.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.netdecodeToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
             this.netdecodeToolStripMenuItem.Name = "netdecodeToolStripMenuItem";
-            this.netdecodeToolStripMenuItem.Size = new System.Drawing.Size(215, 26);
+            this.netdecodeToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
             this.netdecodeToolStripMenuItem.Text = "Netdecode";
             this.netdecodeToolStripMenuItem.Click += new System.EventHandler(this.netdecodeToolStripMenuItem_Click);
+            // 
+            // heatmapGeneratorToolStripMenuItem1
+            // 
+            this.heatmapGeneratorToolStripMenuItem1.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.heatmapGeneratorToolStripMenuItem1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.heatmapGeneratorToolStripMenuItem1.Name = "heatmapGeneratorToolStripMenuItem1";
+            this.heatmapGeneratorToolStripMenuItem1.Size = new System.Drawing.Size(216, 26);
+            this.heatmapGeneratorToolStripMenuItem1.Text = "Heatmap Generator";
+            this.heatmapGeneratorToolStripMenuItem1.Click += new System.EventHandler(this.heatmapGeneratorToolStripMenuItem1_Click_1);
             // 
             // helpToolStripMenuItem1
             // 
@@ -303,14 +318,14 @@
             this.HotkeyTimer.Interval = 300;
             this.HotkeyTimer.Tick += new System.EventHandler(this.HotkeyTimer_Tick);
             // 
-            // heatmapGeneratorToolStripMenuItem1
+            // demoDoctorToolStripMenuItem
             // 
-            this.heatmapGeneratorToolStripMenuItem1.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.heatmapGeneratorToolStripMenuItem1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.heatmapGeneratorToolStripMenuItem1.Name = "heatmapGeneratorToolStripMenuItem1";
-            this.heatmapGeneratorToolStripMenuItem1.Size = new System.Drawing.Size(216, 26);
-            this.heatmapGeneratorToolStripMenuItem1.Text = "Heatmap Generator";
-            this.heatmapGeneratorToolStripMenuItem1.Click += new System.EventHandler(this.heatmapGeneratorToolStripMenuItem1_Click_1);
+            this.demoDoctorToolStripMenuItem.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.demoDoctorToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.demoDoctorToolStripMenuItem.Name = "demoDoctorToolStripMenuItem";
+            this.demoDoctorToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.demoDoctorToolStripMenuItem.Text = "Demo doctor";
+            this.demoDoctorToolStripMenuItem.Click += new System.EventHandler(this.demoDoctorToolStripMenuItem_Click);
             // 
             // Main
             // 
@@ -339,31 +354,32 @@
 
         #endregion
 
-        private System.Windows.Forms.RichTextBox richTextBox1;
-        private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem checkForUpdateToolStripMenuItem;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem exportDemoDataToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem showLogToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem copyAllToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem rescanFileToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem renameDemoToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem netdecodeToolStripMenuItem;
-        private System.Windows.Forms.Timer HotkeyTimer;
-        private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem sourcerunsWikiToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem sourcerunsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem hotkeysToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem goldSourceToolsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem fontToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem openAsavToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem heatmapGeneratorToolStripMenuItem1;
+        private RichTextBox richTextBox1;
+        private MenuStrip menuStrip1;
+        private ToolStripMenuItem fileToolStripMenuItem;
+        private ToolStripMenuItem toolsToolStripMenuItem;
+        private ToolStripMenuItem helpToolStripMenuItem1;
+        private ToolStripMenuItem aboutToolStripMenuItem;
+        private ToolStripMenuItem checkForUpdateToolStripMenuItem;
+        private ContextMenuStrip contextMenuStrip1;
+        private ToolStripMenuItem exportDemoDataToolStripMenuItem;
+        private ToolStripMenuItem showLogToolStripMenuItem;
+        private ToolStripMenuItem copyAllToolStripMenuItem;
+        private ToolStripMenuItem rescanFileToolStripMenuItem;
+        private ToolStripMenuItem renameDemoToolStripMenuItem;
+        private ToolStripMenuItem netdecodeToolStripMenuItem;
+        private Timer HotkeyTimer;
+        private ToolStripMenuItem openToolStripMenuItem;
+        private ToolStripMenuItem exportToolStripMenuItem;
+        private ToolStripMenuItem sourcerunsWikiToolStripMenuItem;
+        private ToolStripMenuItem sourcerunsToolStripMenuItem;
+        private ToolStripMenuItem settingsToolStripMenuItem;
+        private ToolStripMenuItem hotkeysToolStripMenuItem;
+        private ToolStripMenuItem goldSourceToolsToolStripMenuItem;
+        private ToolStripMenuItem fontToolStripMenuItem1;
+        private ToolStripMenuItem openAsavToolStripMenuItem;
+        private ToolStripMenuItem heatmapGeneratorToolStripMenuItem1;
+        private ToolStripMenuItem demoDoctorToolStripMenuItem;
     }
 }
 

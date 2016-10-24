@@ -1,11 +1,14 @@
-﻿namespace VolvoWrench.Demo_stuff
+﻿using System.ComponentModel;
+using System.Windows.Forms;
+
+namespace VolvoWrench.Demo_stuff
 {
     partial class DemoDecoder
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -129,12 +132,12 @@
         }
 
         #endregion
-        private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.ListView messageList;
-        private System.Windows.Forms.ColumnHeader Tick;
-        private System.Windows.Forms.ColumnHeader Type;
-        private System.Windows.Forms.ColumnHeader MsgSize;
-        private System.Windows.Forms.TreeView messageTree;
+        private SplitContainer splitContainer1;
+        private ListView messageList;
+        private ColumnHeader Tick;
+        private ColumnHeader Type;
+        private ColumnHeader MsgSize;
+        private TreeView messageTree;
     }
 }
 

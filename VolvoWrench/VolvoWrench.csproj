@@ -84,6 +84,12 @@
     <Compile Include="About.Designer.cs">
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
+    <Compile Include="Demo doctor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Demo doctor.Designer.cs">
+      <DependentUpon>Demo doctor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Demo stuff\CrossDemoParser.cs" />
     <Compile Include="Heatmap\Heatmap.cs">
       <SubType>Form</SubType>
@@ -140,6 +146,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="About.resx">
       <DependentUpon>About.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Demo doctor.resx">
+      <DependentUpon>Demo doctor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Heatmap\Heatmap.resx">
       <DependentUpon>Heatmap.cs</DependentUpon>
@@ -336,6 +345,7 @@
   <ItemGroup>
     <Content Include="08 Wrench.ico" />
     <None Include="Resources\updated_logo_transparent.png" />
+    <None Include="Resources\physician-icon-png-28.png" />
     <Content Include="Roadmap.txt" />
   </ItemGroup>
   <ItemGroup>

@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Security.Principal;
 using System.Windows.Forms;
-using System.Xml;
-using System.Xml.Serialization;
 using VolvoWrench.Demo_stuff;
 using static System.Convert;
 
@@ -86,21 +83,12 @@ namespace VolvoWrench
         {
             using (var of = new OpenFileDialog())
             {
-                of.Filter = "Demo files | *.dem";
-                switch (of.ShowDialog())
-                {
-                    case DialogResult.OK:
-                        CurrentFile = of.FileName;
-                        if (CurrentFile != null &&
-                            (File.Exists(CurrentFile) && Path.GetExtension(CurrentFile) == ".dem"))
-                        {
-                            richTextBox1.Text = "Analyzing file...";
-                            CurrentDemoFile = CrossDemoParser.Parse(of.FileName);
-                            //TODO: Add print
-                            Log(Path.GetFileName(CurrentFile) + " opened!");
-                        }
-                        break;
-                }
+                of.Filter = @"Demo files | *.dem";
+                if (of.ShowDialog() != DialogResult.OK) return;
+                if ((!File.Exists(of.FileName) || Path.GetExtension(of.FileName) != ".dem")) return;
+                CurrentFile = of.FileName;
+                RescanFile();
+                PrintDemoDetails(CurrentDemoFile);
             }
         }
         #endregion
@@ -163,7 +151,7 @@ namespace VolvoWrench
             a.Filter = "XML Files | *.xml";
             if (a.ShowDialog() == DialogResult.OK && CurrentDemoFile != null)
             {
-                CurrentDemoFile.Save(a.FileName);
+                //TODO: Add save
             }
         }
 
@@ -500,6 +488,15 @@ Frame count:                {demo.Sdi.FrameCount}
             {
                 hmw.ShowDialog();
             }
+        }
+
+        private void demoDoctorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var dd = new Demo_doctor(CurrentFile))
+            {
+                dd.ShowDialog();
+            }
+           
         }
     }
 }

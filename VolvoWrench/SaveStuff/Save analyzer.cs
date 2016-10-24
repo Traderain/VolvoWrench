@@ -1,8 +1,6 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Windows.Forms;
-using VolvoWrench.Demo_stuff;
 using VolvoWrench.SaveStuff;
 
 namespace VolvoWrench

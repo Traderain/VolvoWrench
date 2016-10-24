@@ -123,7 +123,7 @@ namespace VolvoWrench.Heatmap
 
         private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
         {
-            pictureBox1.Image = CreateIntensityMask(new Bitmap(pictureBox1.Image), new List<HeatPoint>() { new HeatPoint(e.X,e.Y,100)});
+            pictureBox1.Image = CreateIntensityMask(new Bitmap(pictureBox1.Image), new List<HeatPoint>() { new HeatPoint(e.X,e.Y,120)});
         }
     }
 }
