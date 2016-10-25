@@ -19,3 +19,6 @@ F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.exe.manifest
 F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.application
 F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.exe
 F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.pdb
+F:\Githubrepos\VolvoWrench\VolvoWrench\bin\Debug\Microsoft.VisualStudio.DebuggerVisualizers.dll
+F:\Githubrepos\VolvoWrench\VolvoWrench\bin\Debug\Microsoft.VisualStudio.DebuggerVisualizers.xml
+F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.Statisctics.resources

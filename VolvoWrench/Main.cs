@@ -514,5 +514,13 @@ Frame count:                {demo.Sdi.FrameCount}
             }
            
         }
+
+        private void statisticsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var sf = new Statisctics())
+            {
+                sf.ShowDialog();
+            }
+        }
     }
 }

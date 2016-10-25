@@ -12,7 +12,7 @@ namespace VolvoWrench.Demo_stuff
             {
                 0, (_, node) =>
                 {
-                    node.Text = "net_nop";
+                    node.Text = @"net_nop";
                     node.ForeColor = Color.Gray;
                 }
             },
