@@ -140,17 +140,6 @@ namespace VolvoWrench
         {
             Process.Start("https://sourceruns.org");
         }
-
-        private void checkForUpdateToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //TODO: Github check
-            using (var a = new Update())
-            {
-                a.ShowDialog();
-                Log("Updatecheck");
-            }
-        }
-
         #endregion
 
         #region Context menu stuff Showlog,Export etc.

@@ -34,6 +34,34 @@ namespace VolvoWrench.SaveStuff
 
     public class Listsave
     {
+        #region DataDesc
+        [Serializable]
+        public class SaveFile
+        {
+            public string FileName { get; set; }
+            public string Header { get; set; }
+            public int SaveVersion { get; set; }
+            public int TokenTableFileTableOffset { get; set; }
+            public int TokenTableSize { get; set; }
+            public int TokenCount { get; set; }
+            public List<ValvFile> Files { get; set; }
+
+        }
+
+        public enum Hlfile
+        {
+            Hl1,
+            Hl2,
+            Hl3
+        }
+        public class ValvFile
+        {
+            public string MagicWord;
+            public int Length;
+            public byte[] Data;
+            public string FileName;
+            public Hlfile StateType;
+        }
 
         public const int SAVEGAME_MAPNAME_LEN = 32;
         public const int SAVEGAME_COMMENT_LEN = 80;
@@ -76,6 +104,7 @@ namespace VolvoWrench.SaveStuff
             fixed char mapName[32];
             fixed char skyName[32];
         };
+        #endregion
 
         public static string Chaptername(int chapter)
         {
@@ -119,72 +148,34 @@ namespace VolvoWrench.SaveStuff
                 {
                     if (UnexpectedEof(br, 260))
                     {
-                        var tempvalv = new ValvFile();
-                        tempvalv.Data = new byte[0];
-                        tempvalv.FileName = Encoding.ASCII.GetString(br.ReadBytes(260))
-                        .Trim('\0')
-                        .Replace("\0", string.Empty);
+                        var tempvalv = new ValvFile
+                        {
+                            Data = new byte[0],
+                            FileName = new string(br.ReadChars(260))
+                        };
                         if (UnexpectedEof(br, 8))
                         {
                             var filelength = br.ReadInt32();
-                            tempvalv.MagicWord  = Encoding.ASCII.GetString(br.ReadBytes(4))
+                            tempvalv.MagicWord = Encoding.ASCII.GetString(br.ReadBytes(4))
                                 .Trim('\0')
                                 .Replace("\0", string.Empty);
                             if (UnexpectedEof(br, 8) && filelength > 0)
-                            {
                                 tempvalv.Data = br.ReadBytes(filelength - 4);
-                            }
                             else
-                            {
                                 endoffile = true;
-                            }
                         }
                         else
-                        {
                             endoffile = true;
-                        }
                         result.Files.Add(tempvalv);
                     }
                     else
-                    {
                         endoffile = true;
-                    }
                 }
                 return result;
             }
         }
 
-        public static bool UnexpectedEof(BinaryReader b, int lengthtocheck)
-        {
-            return b.BaseStream.Position + lengthtocheck < b.BaseStream.Length;
-        }
+        public static bool UnexpectedEof(BinaryReader b, int lengthtocheck) => b.BaseStream.Position + lengthtocheck < b.BaseStream.Length;
     }
 
-    [Serializable]
-    public class SaveFile
-    {
-        public string FileName { get; set; }
-        public string Header { get; set; }
-        public int SaveVersion { get; set; }
-        public int TokenTableFileTableOffset { get; set; }
-        public int TokenTableSize { get; set; }
-        public int TokenCount { get; set; }
-        public List<ValvFile> Files { get; set; }
-
-    }
-
-    public enum Hlfile
-    {
-        Hl1,
-        Hl2,
-        Hl3
-    }
-    public class ValvFile
-    {
-        public string MagicWord;
-        public int Length;
-        public byte[] Data;
-        public string FileName;
-        public Hlfile StateType;
-    }
 }

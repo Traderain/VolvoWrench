@@ -1,77 +1,50 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Windows.Forms;
+using VolvoWrench.SaveStuff;
 
 namespace VolvoWrench
 {
     public partial class SaveFileExplorer : Form
     {
-        private void PopulateTreeView()
-        {
-            TreeNode rootNode;
+        public List<Listsave.ValvFile> PFileliList;
 
-            DirectoryInfo info = new DirectoryInfo(@"../..");
-            if (info.Exists)
+        private void PopulateTreeView(List<Listsave.ValvFile> FileList)
+        {
+            if (FileList.Count > 1)
             {
-                rootNode = new TreeNode(info.Name);
-                rootNode.Tag = info;
-                GetDirectories(info.GetDirectories(), rootNode);
-                treeView1.Nodes.Add(rootNode);
+                var rootNode = new TreeNode("Savefile");
+                    GetDirectories(FileList, rootNode);
+                    treeView1.Nodes.Add(rootNode);
             }
         }
 
-        private void GetDirectories(DirectoryInfo[] subDirs,TreeNode nodeToAddTo)
+        private void GetDirectories(List<Listsave.ValvFile> vlvs,TreeNode nodeToAddTo)
         {
-            TreeNode aNode;
-            DirectoryInfo[] subSubDirs;
-            foreach (DirectoryInfo subDir in subDirs)
+            foreach (Listsave.ValvFile subDir in vlvs)
             {
-                aNode = new TreeNode(subDir.Name, 0, 0);
-                aNode.Tag = subDir;
-                aNode.ImageKey = "folder";
-                subSubDirs = subDir.GetDirectories();
-                if (subSubDirs.Length != 0)
+                var aNode = new TreeNode(subDir.FileName, 0, 0)
                 {
-                    GetDirectories(subSubDirs, aNode);
-                }
+                    Tag = subDir,
+                    ImageKey = @"folder"
+                };
                 nodeToAddTo.Nodes.Add(aNode);
             }
         }
-        public SaveFileExplorer()
+        public SaveFileExplorer(List<Listsave.ValvFile> fileList)
         {
             InitializeComponent();
-            PopulateTreeView();
+            PFileliList = fileList;
+            PopulateTreeView(fileList);
         }
 
         private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            TreeNode newSelected = e.Node;
+            var newSelected = e.Node;
             listView1.Items.Clear();
-            DirectoryInfo nodeDirInfo = (DirectoryInfo)newSelected.Tag;
             ListViewItem.ListViewSubItem[] subItems;
             ListViewItem item = null;
-
-            foreach (DirectoryInfo dir in nodeDirInfo.GetDirectories())
-            {
-                item = new ListViewItem(dir.Name, 0);
-                subItems = new ListViewItem.ListViewSubItem[]
-                          {new ListViewItem.ListViewSubItem(item, "Directory"),
-                   new ListViewItem.ListViewSubItem(item,
-                dir.LastAccessTime.ToShortDateString())};
-                item.SubItems.AddRange(subItems);
-                listView1.Items.Add(item);
-            }
-            foreach (FileInfo file in nodeDirInfo.GetFiles())
-            {
-                item = new ListViewItem(file.Name, 1);
-                subItems = new ListViewItem.ListViewSubItem[]
-                          { new ListViewItem.ListViewSubItem(item, "File"),
-                   new ListViewItem.ListViewSubItem(item,
-                file.LastAccessTime.ToShortDateString())};
-
-                item.SubItems.AddRange(subItems);
-                listView1.Items.Add(item);
-            }
-
+            listView1.Items.Add(PFileliList[e.Node.Index].Length.ToString());          
             listView1.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
         }
     }

@@ -12,6 +12,8 @@ namespace VolvoWrench
             InitializeComponent();
         }
 
+        public Listsave.SaveFile CurrentSaveFile;
+
         public saveanalyzerform(string file)
         {
             InitializeComponent();
@@ -59,6 +61,7 @@ Size:                   {valvFile.Data.Length} bytes
                     if ((File.Exists(of.FileName) && Path.GetExtension(of.FileName) == ".sav"))
                     {
                         var ParsedSave = Listsave.ParseFile(of.FileName);
+                        CurrentSaveFile = ParsedSave;
                         richTextBox1.Text =
                             $@"Save parsed
 Filename:               {Path.GetFileName(of.FileName)}
@@ -96,9 +99,12 @@ Size:                   {valvFile.Data.Length} bytes
 
         private void button2_Click(object sender, EventArgs e)
         {
-            using (var a = new SaveFileExplorer())
+            if (CurrentSaveFile != null && CurrentSaveFile?.Files.Count > 1)
             {
-                a.ShowDialog();
+                using (var a = new SaveFileExplorer(CurrentSaveFile.Files))
+                {
+                    a.ShowDialog();
+                }
             }
         }
     }
