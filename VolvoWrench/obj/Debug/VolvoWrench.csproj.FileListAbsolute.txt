@@ -1,59 +1,22 @@
-c:\users\bence\documents\visual studio 2015\Projects\VolvoWrench\VolvoWrench\bin\Debug\VolvoWrench.exe.config
-c:\users\bence\documents\visual studio 2015\Projects\VolvoWrench\VolvoWrench\bin\Debug\VolvoWrench.exe
-c:\users\bence\documents\visual studio 2015\Projects\VolvoWrench\VolvoWrench\bin\Debug\VolvoWrench.pdb
-c:\users\bence\documents\visual studio 2015\Projects\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.csprojResolveAssemblyReference.cache
-c:\users\bence\documents\visual studio 2015\Projects\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.Properties.Resources.resources
-c:\users\bence\documents\visual studio 2015\Projects\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.csproj.GenerateResource.Cache
-c:\users\bence\documents\visual studio 2015\Projects\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.exe
-c:\users\bence\documents\visual studio 2015\Projects\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.pdb
-C:\Users\Bence\Documents\Visual Studio 2015\Projects\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.Main.resources
-C:\Users\Bence\Documents\Visual Studio 2015\Projects\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.About.resources
-C:\Users\Bence\Documents\Visual Studio 2015\Projects\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.Update.resources
-C:\Users\Bence\Documents\Visual Studio 2015\Projects\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.Netdec.DemoDecoder.resources
-D:\Speedrun\PROGRAMMING\VolvoWrench\VolvoWrench\bin\Debug\VolvoWrench.exe.config
-D:\Speedrun\PROGRAMMING\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.exe
-D:\Speedrun\PROGRAMMING\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.pdb
-D:\Speedrun\PROGRAMMING\VolvoWrench\VolvoWrench\bin\Debug\VolvoWrench.exe
-D:\Speedrun\PROGRAMMING\VolvoWrench\VolvoWrench\bin\Debug\VolvoWrench.pdb
-D:\Speedrun\PROGRAMMING\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.csprojResolveAssemblyReference.cache
-D:\Speedrun\PROGRAMMING\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.Main.resources
-D:\Speedrun\PROGRAMMING\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.About.resources
-D:\Speedrun\PROGRAMMING\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.Update.resources
-D:\Speedrun\PROGRAMMING\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.Netdec.DemoDecoder.resources
-D:\Speedrun\PROGRAMMING\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.Properties.Resources.resources
-D:\Speedrun\PROGRAMMING\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.csproj.GenerateResource.Cache
-F:\VolvoWrench-master\VolvoWrench\bin\Debug\VolvoWrench.exe.config
-F:\VolvoWrench-master\VolvoWrench\obj\Debug\VolvoWrench.exe
-F:\VolvoWrench-master\VolvoWrench\obj\Debug\VolvoWrench.pdb
-F:\VolvoWrench-master\VolvoWrench\bin\Debug\VolvoWrench.exe
-F:\VolvoWrench-master\VolvoWrench\bin\Debug\VolvoWrench.pdb
-F:\VolvoWrench-master\VolvoWrench\obj\Debug\VolvoWrench.csprojResolveAssemblyReference.cache
-F:\VolvoWrench-master\VolvoWrench\obj\Debug\VolvoWrench.Main.resources
-F:\VolvoWrench-master\VolvoWrench\obj\Debug\VolvoWrench.About.resources
-F:\VolvoWrench-master\VolvoWrench\obj\Debug\VolvoWrench.Update.resources
-F:\VolvoWrench-master\VolvoWrench\obj\Debug\VolvoWrench.Netdec.DemoDecoder.resources
-F:\VolvoWrench-master\VolvoWrench\obj\Debug\VolvoWrench.Properties.Resources.resources
-F:\VolvoWrench-master\VolvoWrench\obj\Debug\VolvoWrench.csproj.GenerateResource.Cache
-F:\VolvoWrench-master\VolvoWrench\obj\Debug\VolvoWrench.hotkey.resources
 F:\Githubrepos\VolvoWrench\VolvoWrench\bin\Debug\VolvoWrench.exe.config
-F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.exe
-F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.pdb
+F:\Githubrepos\VolvoWrench\VolvoWrench\bin\Debug\VolvoWrench.exe.manifest
+F:\Githubrepos\VolvoWrench\VolvoWrench\bin\Debug\VolvoWrench.application
 F:\Githubrepos\VolvoWrench\VolvoWrench\bin\Debug\VolvoWrench.exe
 F:\Githubrepos\VolvoWrench\VolvoWrench\bin\Debug\VolvoWrench.pdb
 F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.csprojResolveAssemblyReference.cache
-F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.hotkey.resources
-F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.Main.resources
 F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.About.resources
+F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.Demo_doctor.resources
+F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.Heatmap.Heatmap.resources
+F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.saveanalyzerform.resources
+F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.Hotkey.resources
+F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.Main.resources
+F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.SaveFileExplorer.resources
 F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.Update.resources
+F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.Demo_stuff.DemoDecoder.resources
 F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.Properties.Resources.resources
 F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.csproj.GenerateResource.Cache
-F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.Demo_stuff.DemoDecoder.resources
-F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.saveanalyzerform.resources
-F:\Githubrepos\VolvoWrench\VolvoWrench\bin\Debug\VolvoWrench.exe.manifest
-F:\Githubrepos\VolvoWrench\VolvoWrench\bin\Debug\VolvoWrench.application
 F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.TrustInfo.xml
 F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.exe.manifest
 F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.application
-F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.SaveFileExplorer.resources
-F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.Heatmap.Heatmap.resources
-F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.Demo_doctor.resources
+F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.exe
+F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.pdb

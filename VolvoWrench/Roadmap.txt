@@ -1,5 +1,6 @@
-﻿- Save Parser
+﻿- Save Parser : Kind of working
 - Fix time in hlsooe parser
-- Check for end of file in hlsooe and goldsource
-- Demo doctor fix
-- Statistics
+- Check for end of file in hlsooe and goldsource : HLSOOE DONE
+- Demo doctor fix 
+- Statistics : This is probably gonna be one of the last things
+ since I need a finalized parser for it.
