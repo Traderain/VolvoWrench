@@ -70,6 +70,33 @@ namespace VolvoWrench
         }
 
 
+        //Open with main constructor
+        public Main(string s)
+        {
+            InitializeComponent();
+            CurrentFile = s;
+            SettingsManager(false);
+            AllowDrop = true;
+            HotkeyTimer.Start();
+            goldSourceToolsToolStripMenuItem.Enabled = false;
+            toolsToolStripMenuItem.Enabled = false;
+            if (File.Exists(LogPath))
+                File.Delete(LogPath);
+            if (CurrentFile != null || (File.Exists(CurrentFile) || Path.GetExtension(CurrentFile) == ".dem"))
+            {
+                richTextBox1.Text = @"Analyzing file...";
+                CurrentDemoFile = CrossDemoParser.Parse(CurrentFile);
+                PrintDemoDetails(CurrentDemoFile);
+                Log(CurrentFile + " opened!");
+            }
+            else
+            {
+                toolsToolStripMenuItem.Enabled = false;
+                goldSourceToolsToolStripMenuItem.Enabled = false;
+                richTextBox1.Text = @"^ Use File->Open to open a correct .dem file or drop the file here!";
+            }
+        }
+
         #region File ToolStrip stuff
         private void openAsavToolStripMenuItem_Click(object sender, EventArgs e)
         {

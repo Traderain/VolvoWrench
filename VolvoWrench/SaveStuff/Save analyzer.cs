@@ -12,6 +12,41 @@ namespace VolvoWrench
             InitializeComponent();
         }
 
+        public saveanalyzerform(string file)
+        {
+            InitializeComponent();
+            if ((File.Exists(file) && Path.GetExtension(file) == ".sav"))
+            {
+                label1.Text = Path.GetFileName(file);
+                var parsedSave = Listsave.ParseFile(file);
+                richTextBox1.Text =
+                    $@" - Save parsed -
+Filename:               {Path.GetFileName(file)}
+Header:                 {parsedSave.Header}
+SaveVersion:            {parsedSave.SaveVersion}      
+Size:                   {parsedSave.TokenTableFileTableOffset}
+TokenCount:             {parsedSave.TokenCount}
+Tokensize:              {parsedSave.TokenTableSize}
+";
+                richTextBox1.Text += @"Savestate files in save:";
+                foreach (var valvFile in parsedSave.Files)
+                {
+                    richTextBox1.Text += $@"
+Name:                   {valvFile.FileName}
+Magic Word:             {valvFile.MagicWord}
+Size:                   {valvFile.Data.Length} bytes
+--------------------------------------";
+                }
+            }
+            else
+            {
+                label1.Text = @"Bad file!";
+                richTextBox1.Text = @"Select a correct file please.";
+                Main.Log("Save parse open failed.");
+            }
+
+        }
+
         private void button1_Click(object sender, EventArgs e)
         {
             label1.Text = "";
