@@ -12,6 +12,7 @@ namespace VolvoWrench
         public saveanalyzerform()
         {
             InitializeComponent();
+            splitContainer1.FixedPanel = FixedPanel.Panel1;
         }
 
         public Listsave.SaveFile CurrentSaveFile;

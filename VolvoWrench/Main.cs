@@ -220,12 +220,6 @@ namespace VolvoWrench
                 nd.ShowDialog();
             }
         }
-
-        private void heatmapGeneratorToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //TODO: Finish this.
-        }
-
         #endregion
 
         #region Settings and hotkeys stuff

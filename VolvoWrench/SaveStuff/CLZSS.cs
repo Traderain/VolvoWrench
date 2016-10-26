@@ -48,7 +48,29 @@ namespace VolvoWrench.SaveStuff
 
         public static byte[] AntiClzss(byte[] compressedfile)
         {
-            return new byte[8];//TODO: Implement this
+            var totalBytes = 0;
+            var cmdByte = 0;
+            var getCmdByte = 0;
+
+            var actualSize = GetActualSize(compressedfile);
+            if (actualSize == 0)
+                return new byte[0];
+            Array.Resize(ref compressedfile,compressedfile.Length + 8);
+            while (true) //Valve quality programming :^)
+            {
+               // if (!getCmdByte)
+                {
+                    
+                }
+
+
+                return new byte[8];
+            }
+        }
+
+        public static int GetActualSize(byte[] fileBytes)
+        {
+            return 0; //TODO: Implement this
         }
 
     }
