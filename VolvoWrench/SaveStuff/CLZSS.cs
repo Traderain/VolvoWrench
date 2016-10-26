@@ -1,4 +1,17 @@
-﻿namespace VolvoWrench.SaveStuff
+﻿/* https://github.com/LestaD/SourceEngine2007/blob/43a5c90a5ada1e69ca044595383be67f40b33c61/src_main/public/saverestoretypes.h#L323
+ * https://github.com/LestaD/SourceEngine2007/blob/43a5c90a5ada1e69ca044595383be67f40b33c61/src_main/engine/host_saverestore.cpp
+ * https://github.com/LestaD/SourceEngine2007/blob/43a5c90a5ada1e69ca044595383be67f40b33c61/src_main/gameui/BaseSaveGameDialog.cpp
+ * https://github.com/LestaD/SourceEngine2007/blob/43a5c90a5ada1e69ca044595383be67f40b33c61/src_main/tier1/lzss.cpp
+ * TODO: Implement these
+ * 
+ * Decompress the file with CLZSS -> Read header -> Parse files.
+ * 
+ * 
+ */
+
+using System;
+
+namespace VolvoWrench.SaveStuff
 {
     class CLZSS
     {
@@ -31,6 +44,11 @@
         public static bool IsCompressed(char id)
         {
             return id == ('S' << 24) | id == ('S' << 16) | id == ('Z' << 8) | id == ('L');
+        }
+
+        public static byte[] AntiClzss(byte[] compressedfile)
+        {
+            return new byte[8];//TODO: Implement this
         }
 
     }

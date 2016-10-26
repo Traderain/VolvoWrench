@@ -18,8 +18,6 @@ namespace VolvoWrench.Heatmap
             // Initialize random number generator
             var rRand = new Random();
             // Loop variables
-            int iX;
-            int iY;
             byte iIntense;
             // Lets loop 500 times and create a random point each iteration
             foreach (var v in Points)

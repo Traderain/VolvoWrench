@@ -1,20 +1,10 @@
-﻿/* https://github.com/LestaD/SourceEngine2007/blob/43a5c90a5ada1e69ca044595383be67f40b33c61/src_main/public/saverestoretypes.h#L323
- * https://github.com/LestaD/SourceEngine2007/blob/43a5c90a5ada1e69ca044595383be67f40b33c61/src_main/engine/host_saverestore.cpp
- * https://github.com/LestaD/SourceEngine2007/blob/43a5c90a5ada1e69ca044595383be67f40b33c61/src_main/gameui/BaseSaveGameDialog.cpp
- * https://github.com/LestaD/SourceEngine2007/blob/43a5c90a5ada1e69ca044595383be67f40b33c61/src_main/tier1/lzss.cpp
- * TODO: Implement these
- * 
- * Decompress the file with CLZSS -> Read header -> Parse files.
- * 
- * 
- */
-
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace VolvoWrench.SaveStuff
 {
@@ -144,34 +134,71 @@ namespace VolvoWrench.SaveStuff
                 result.TokenTableSize = br.ReadInt32();
                 br.BaseStream.Seek(result.TokenTableSize + result.TokenTableFileTableOffset, SeekOrigin.Current);
                 var endoffile = false;
-                while (!endoffile && result.SaveVersion == 115)
+                var check = br.ReadBytes(4);
+                br.BaseStream.Seek(-4,SeekOrigin.Current);
+                if (!check.Any(b => b == 0))
                 {
-                    if (UnexpectedEof(br, 260))
+                    while (!endoffile && result.SaveVersion <= 116)
                     {
-                        var tempvalv = new ValvFile
+                        if (UnexpectedEof(br, 260))
                         {
-                            Data = new byte[0],
-                            FileName = new string(br.ReadChars(260))
-                        };
-                        if (UnexpectedEof(br, 8))
-                        {
-                            var filelength = br.ReadInt32();
-                            tempvalv.MagicWord = Encoding.ASCII.GetString(br.ReadBytes(4))
-                                .Trim('\0')
-                                .Replace("\0", string.Empty);
-                            if (UnexpectedEof(br, 8) && filelength > 0)
-                                tempvalv.Data = br.ReadBytes(filelength - 4);
+                            var tempvalv = new ValvFile
+                            {
+                                Data = new byte[0],
+                                FileName = new string(br.ReadChars(260))
+                            };
+                            if (UnexpectedEof(br, 8))
+                            {
+                                var filelength = br.ReadInt32();
+                                tempvalv.MagicWord = Encoding.ASCII.GetString(br.ReadBytes(4))
+                                    .Trim('\0')
+                                    .Replace("\0", string.Empty);
+                                if (UnexpectedEof(br, 8) && filelength > 0)
+                                    tempvalv.Data = br.ReadBytes(filelength - 4);
+                                else
+                                    endoffile = true;
+                            }
                             else
                                 endoffile = true;
+                            result.Files.Add(tempvalv);
                         }
                         else
                             endoffile = true;
-                        result.Files.Add(tempvalv);
                     }
-                    else
-                        endoffile = true;
+                    return result;
                 }
-                return result;
+                else
+                {
+                    var filenum = br.ReadInt32();
+                    while (!endoffile && result.SaveVersion <= 116)
+                    {
+                        if (UnexpectedEof(br, 260))
+                        {
+                            var tempvalv = new ValvFile
+                            {
+                                Data = new byte[0],
+                                FileName = new string(br.ReadChars(260))
+                            };
+                            if (UnexpectedEof(br, 8))
+                            {
+                                var filelength = br.ReadInt32();
+                                tempvalv.MagicWord = Encoding.ASCII.GetString(br.ReadBytes(4))
+                                    .Trim('\0')
+                                    .Replace("\0", string.Empty);
+                                if (UnexpectedEof(br, 8) && filelength > 0)
+                                    tempvalv.Data = br.ReadBytes(filelength - 4);
+                                else
+                                    endoffile = true;
+                            }
+                            else
+                                endoffile = true;
+                            result.Files.Add(tempvalv);
+                        }
+                        else
+                            endoffile = true;
+                    }
+                    return result;
+                }
             }
         }
 

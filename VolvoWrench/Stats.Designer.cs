@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
@@ -46,31 +46,31 @@
             this.chart1.BackColor = System.Drawing.Color.Black;
             this.chart1.BorderSkin.BorderColor = System.Drawing.Color.White;
             this.chart1.BorderSkin.PageColor = System.Drawing.Color.Black;
-            chartArea1.AxisX.LineColor = System.Drawing.Color.White;
-            chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.White;
-            chartArea1.AxisX.TitleForeColor = System.Drawing.Color.White;
-            chartArea1.AxisX2.LineColor = System.Drawing.Color.White;
-            chartArea1.AxisX2.MajorGrid.LineColor = System.Drawing.Color.White;
-            chartArea1.AxisX2.TitleForeColor = System.Drawing.Color.White;
-            chartArea1.AxisY.LineColor = System.Drawing.Color.White;
-            chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.White;
-            chartArea1.AxisY.TitleForeColor = System.Drawing.Color.White;
-            chartArea1.AxisY2.LineColor = System.Drawing.Color.White;
-            chartArea1.AxisY2.MajorGrid.LineColor = System.Drawing.Color.White;
-            chartArea1.AxisY2.TitleForeColor = System.Drawing.Color.White;
-            chartArea1.BackColor = System.Drawing.Color.Transparent;
-            chartArea1.BorderColor = System.Drawing.Color.Transparent;
-            chartArea1.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea1);
+            chartArea2.AxisX.LineColor = System.Drawing.Color.White;
+            chartArea2.AxisX.MajorGrid.LineColor = System.Drawing.Color.White;
+            chartArea2.AxisX.TitleForeColor = System.Drawing.Color.White;
+            chartArea2.AxisX2.LineColor = System.Drawing.Color.White;
+            chartArea2.AxisX2.MajorGrid.LineColor = System.Drawing.Color.White;
+            chartArea2.AxisX2.TitleForeColor = System.Drawing.Color.White;
+            chartArea2.AxisY.LineColor = System.Drawing.Color.White;
+            chartArea2.AxisY.MajorGrid.LineColor = System.Drawing.Color.White;
+            chartArea2.AxisY.TitleForeColor = System.Drawing.Color.White;
+            chartArea2.AxisY2.LineColor = System.Drawing.Color.White;
+            chartArea2.AxisY2.MajorGrid.LineColor = System.Drawing.Color.White;
+            chartArea2.AxisY2.TitleForeColor = System.Drawing.Color.White;
+            chartArea2.BackColor = System.Drawing.Color.Transparent;
+            chartArea2.BorderColor = System.Drawing.Color.Transparent;
+            chartArea2.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea2);
             this.chart1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.chart1.Location = new System.Drawing.Point(0, 0);
             this.chart1.Name = "chart1";
             this.chart1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.SemiTransparent;
-            series1.ChartArea = "ChartArea1";
-            series1.LabelForeColor = System.Drawing.Color.White;
-            series1.Name = "Series1";
-            series1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Fire;
-            this.chart1.Series.Add(series1);
+            series2.ChartArea = "ChartArea1";
+            series2.LabelForeColor = System.Drawing.Color.White;
+            series2.Name = "Series1";
+            series2.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Fire;
+            this.chart1.Series.Add(series2);
             this.chart1.Size = new System.Drawing.Size(587, 584);
             this.chart1.TabIndex = 0;
             this.chart1.Text = "chart1";
@@ -94,13 +94,16 @@
             // 
             // dataGridView1
             // 
+            this.dataGridView1.AllowUserToOrderColumns = true;
             this.dataGridView1.BackgroundColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.GridColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
+            this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 24;
+            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.dataGridView1.Size = new System.Drawing.Size(295, 584);
             this.dataGridView1.TabIndex = 0;
             // 

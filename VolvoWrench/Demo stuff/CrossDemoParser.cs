@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.IO.MemoryMappedFiles;
 using System.Text;
 
 namespace VolvoWrench.Demo_stuff
@@ -47,10 +48,17 @@ namespace VolvoWrench.Demo_stuff
                     break;
                 case Parseresult.Source:
                     cpr.Type = Parseresult.Source;
-                    Stream cfs = File.Open(filename, FileMode.Open);
-                    var a = new SourceParser(cfs);
-                    cpr.Sdi = a.Info;
-                    cfs.Close();
+                    //Stream cfs = File.Open(filename, FileMode.Open);
+                    var fi = new FileInfo(filename);
+                    using (
+                        var mmf = MemoryMappedFile.CreateFromFile(filename, FileMode.Open, "sourcemap", fi.Length + 1024,
+                            MemoryMappedFileAccess.ReadWrite))
+                    using (var cfs = mmf.CreateViewStream())
+                    {
+                        var a = new SourceParser(cfs);
+                        cpr.Sdi = a.Info;
+                        cfs.Close();
+                    }
                     break;
                 case Parseresult.Hlsooe:
                     cpr.Type = Parseresult.Hlsooe;

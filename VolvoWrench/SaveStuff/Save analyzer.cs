@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Windows.Forms;
 using VolvoWrench.SaveStuff;
 
@@ -60,25 +62,23 @@ Size:                   {valvFile.Data.Length} bytes
                 {
                     if ((File.Exists(of.FileName) && Path.GetExtension(of.FileName) == ".sav"))
                     {
-                        var ParsedSave = Listsave.ParseFile(of.FileName);
-                        CurrentSaveFile = ParsedSave;
+                        var parsedSave = Listsave.ParseFile(of.FileName);
+                        CurrentSaveFile = parsedSave;
                         richTextBox1.Text =
                             $@"Save parsed
 Filename:               {Path.GetFileName(of.FileName)}
-Header:                 {ParsedSave.Header}
-SaveVersion:            {ParsedSave.SaveVersion}      
-Size:                   {ParsedSave.TokenTableFileTableOffset}
-TokenCount:             {ParsedSave.TokenCount}
-Tokensize:              {ParsedSave.TokenTableSize}";
-                        richTextBox1.Text += "\n\n";
-                        richTextBox1.Text += @"Savestate files in save:";
-                        foreach (var valvFile in ParsedSave.Files)
+Header:                 {parsedSave.Header}
+SaveVersion:            {parsedSave.SaveVersion}      
+Size:                   {parsedSave.TokenTableFileTableOffset}
+TokenCount:             {parsedSave.TokenCount}
+Tokensize:              {parsedSave.TokenTableSize}
+
+Savestate files in save:
+";
+                        foreach (var file in parsedSave.Files)
                         {
-                            richTextBox1.Text += "\n";
-                            richTextBox1.Text += $@"Name:                   {valvFile.FileName}
-Magic Word:             {valvFile.MagicWord}
-Size:                   {valvFile.Data.Length} bytes
---------------------------------------";
+                            richTextBox1.Text += $@"
+{file.FileName}";
                         }
                     }
                     else
@@ -105,6 +105,10 @@ Size:                   {valvFile.Data.Length} bytes
                 {
                     a.ShowDialog();
                 }
+            }
+            else
+            {
+                MessageBox.Show("Bad file!","Error!",MessageBoxButtons.OK,MessageBoxIcon.Error);
             }
         }
     }

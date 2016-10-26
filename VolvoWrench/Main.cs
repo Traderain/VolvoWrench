@@ -493,34 +493,29 @@ Frame count:                {demo.Sdi.FrameCount}
 
         private void heatmapGeneratorToolStripMenuItem1_Click_1(object sender, EventArgs e)
         {
-            var CoordList = new List<Point>();
-            CoordList.Add(new Point(10,1));
-            CoordList.Add(new Point(8,1));
-            CoordList.Add(new Point(3,1));
-            CoordList.Add(new Point(10,17));
-            CoordList.Add(new Point(120,1));
-            CoordList.Add(new Point(100,16));
-            using (var hmw = new Heatmap.Heatmap(CoordList, new Bitmap(560, 560)))
+            var coordList = new List<Point>
             {
+                new Point(10, 1),
+                new Point(8, 1),
+                new Point(3, 1),
+                new Point(10, 17),
+                new Point(120, 1),
+                new Point(100, 16)
+            };
+            using (var hmw = new Heatmap.Heatmap(coordList, new Bitmap(560, 560)))
                 hmw.ShowDialog();
-            }
         }
 
         private void demoDoctorToolStripMenuItem_Click(object sender, EventArgs e)
         {
             using (var dd = new Demo_doctor(CurrentFile))
-            {
                 dd.ShowDialog();
-            }
-           
         }
 
         private void statisticsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using (var sf = new Statisctics())
-            {
+            using (var sf = new Statisctics(CurrentDemoFile.Sdi))
                 sf.ShowDialog();
-            }
         }
     }
 }
