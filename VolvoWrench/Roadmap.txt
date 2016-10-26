@@ -1,6 +1,7 @@
-﻿- Save Parser : Kind of working
+﻿- Save Parser : DONE
+- Statefile decompressor
 - Fix time in hlsooe parser
-- Check for end of file in hlsooe and goldsource : HLSOOE DONE
+- Check for end of file in hlsooe and goldsource : DONE
 - Demo doctor fix 
-- Statistics : This is probably gonna be one of the last things
+- Statistics : Nearly done
  since I need a finalized parser for it.
