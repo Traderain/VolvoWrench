@@ -98,7 +98,7 @@ namespace VolvoWrench.Demo_stuff
                         msg.Data = new byte[0]; // lol wut
                         break;
                     default:
-                        Main.Log("Unknown demo message type encountered: " + msg.Type);
+                        Main.Log("Unknown demo message type encountered: " + msg.Type + "at " + reader.BaseStream.Position);
                             //TODO: fix this bs -- kinda fixed
                         throw new Exception("Unknown demo type");
                         break;

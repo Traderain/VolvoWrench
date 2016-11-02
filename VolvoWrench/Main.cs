@@ -48,6 +48,7 @@ namespace VolvoWrench
                 toolsToolStripMenuItem.Enabled = false;
                 goldSourceToolsToolStripMenuItem.Enabled = false;
                 richTextBox1.Text = @"^ Use File->Open to open a correct .dem file or drop the file here!";
+                UpdateForm();
             }
             else
             {
@@ -55,6 +56,7 @@ namespace VolvoWrench
                 {
                     CurrentFile = dropFile;
                     richTextBox1.Text = @"Analyzing file...";
+                    UpdateForm();
                     CurrentDemoFile = CrossDemoParser.Parse(CurrentFile);
                     PrintDemoDetails(CurrentDemoFile);
                     Log(Path.GetFileName(CurrentFile + " opened"));
@@ -64,6 +66,7 @@ namespace VolvoWrench
                     toolsToolStripMenuItem.Enabled = false;
                     goldSourceToolsToolStripMenuItem.Enabled = false;
                     richTextBox1.Text = @"^ Use File->Open to open a correct .dem file or drop the file here!";
+                    UpdateForm();
                 }
             }
             #endregion
@@ -85,6 +88,7 @@ namespace VolvoWrench
             if (CurrentFile != null || (File.Exists(CurrentFile) || Path.GetExtension(CurrentFile) == ".dem"))
             {
                 richTextBox1.Text = @"Analyzing file...";
+                UpdateForm();
                 CurrentDemoFile = CrossDemoParser.Parse(CurrentFile);
                 PrintDemoDetails(CurrentDemoFile);
                 Log(CurrentFile + " opened!");
@@ -94,7 +98,17 @@ namespace VolvoWrench
                 toolsToolStripMenuItem.Enabled = false;
                 goldSourceToolsToolStripMenuItem.Enabled = false;
                 richTextBox1.Text = @"^ Use File->Open to open a correct .dem file or drop the file here!";
+                UpdateForm();
             }
+        }
+
+        private void UpdateForm()
+        {
+            richTextBox1.Invalidate();
+            richTextBox1.Update();
+            richTextBox1.Refresh();
+            Application.DoEvents();
+
         }
 
         #region File ToolStrip stuff
@@ -176,6 +190,7 @@ namespace VolvoWrench
             if (CurrentFile == null || !File.Exists(CurrentFile) || Path.GetExtension(CurrentFile) != ".dem") return;
             {
                 richTextBox1.Text = @"Analyzing file...";
+                UpdateForm();
                 CurrentDemoFile = CrossDemoParser.Parse(CurrentFile);
             }
             switch (CurrentDemoFile.Type)
@@ -266,6 +281,7 @@ Game directory: " + CurrentDemoFile.Sdi.GameDirectory + @"
 Length in seconds: " + CurrentDemoFile.Sdi.Seconds + @"
 Tick count: " + CurrentDemoFile.Sdi.TickCount + @"
 Frame count: " + CurrentDemoFile.Sdi.FrameCount);
+                        UpdateForm();
                         #endregion
                         break;
                 }
@@ -340,6 +356,17 @@ Language = EN;"
         private void Main_DragEnter(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy;
+            richTextBox1.Text = @"╔══════════════════════════════╗
+║     Drop the file here       ║
+╚══════════════════════════════╝";
+            UpdateForm();
+        }
+
+        private void Main_DragLeave(object sender, EventArgs e)
+        {
+            richTextBox1.Text = @"^ Use File->Open to open a correct .dem file or drop the file here!";
+            UpdateForm();
+            PrintDemoDetails(CurrentDemoFile);
         }
 
         private void Main_DragDrop(object sender, DragEventArgs e)
@@ -349,11 +376,18 @@ Language = EN;"
                 ? dropfiles.First(x => Path.GetExtension(x) == ".dem")
                 : null;
             if (dropfile != null) CurrentFile = dropfile;
-            if (CurrentFile == null || (!File.Exists(CurrentFile) || Path.GetExtension(CurrentFile) != ".dem")) return;
-            richTextBox1.Text = @"Analyzing file...";
-            CurrentDemoFile = CrossDemoParser.Parse(CurrentFile);
-            PrintDemoDetails(CurrentDemoFile);
-            Log(Path.GetFileName(CurrentFile) + " opened!");
+            if (CurrentFile != null || (File.Exists(CurrentFile) || Path.GetExtension(CurrentFile) == ".dem"))
+            {
+                richTextBox1.Text = @"Analyzing file...";
+                UpdateForm();
+                CurrentDemoFile = CrossDemoParser.Parse(CurrentFile);
+                PrintDemoDetails(CurrentDemoFile);
+                Log(Path.GetFileName(CurrentFile) + " opened!");
+            }
+            else
+            {
+                richTextBox1.Text = "Bad file!";
+            }
         }
         #endregion
 
@@ -365,21 +399,57 @@ Language = EN;"
             {
                 case Parseresult.UnsupportedFile:
                     richTextBox1.Text = @"Unsupported file!";
+                    UpdateForm();
                     break;
                 case Parseresult.GoldSource:
-                    richTextBox1.Text = $@"Analyzed GoldSource engine demo file ({demo.GsDemoInfo.Header.GameDir}):
+                    if (demo.GsDemoInfo.ParsingErrors.ToArray().Length > 0)
+                    {
+                        richTextBox1.Text = "Error while parsing goldsource demo: \n";
+                        UpdateForm();
+                        foreach (var err in demo.GsDemoInfo.ParsingErrors)
+                        {
+                            richTextBox1.AppendText(err);
+                            UpdateForm();
+                        }
+                            
+                    }
+                    else
+                    {
+                        richTextBox1.Text = $@"Analyzed GoldSource engine demo file ({demo.GsDemoInfo.Header.GameDir}):
 ----------------------------------------------------------
 Demo protocol:              {demo.GsDemoInfo.Header.DemoProtocol}
 Net protocol:               {demo.GsDemoInfo.Header.NetProtocol}
 Directory Offset:           {demo.GsDemoInfo.Header.DirectoryOffset}
 Map name:                   {demo.GsDemoInfo.Header.MapName}
 Game directory:             {demo.GsDemoInfo.Header.GameDir}
-Length in seconds:          {demo.GsDemoInfo.DirectoryEntries.Sum(x=> x.TrackTime).ToString("n3")}s
-Frame count:                {demo.GsDemoInfo.DirectoryEntries.Sum(x=> x.FrameCount)}
+Length in seconds:          {demo.GsDemoInfo.DirectoryEntries.Sum(x => x.TrackTime).ToString("n3")}s
+Frame count:                {demo.GsDemoInfo.DirectoryEntries.Sum(x => x.FrameCount)}
+
+Higest FPS:                 
+Lowest FPS:
+Average FPS:
+Lowes msec:
+Highest msec:
+Average msec:
 ----------------------------------------------------------";
+                    }
+                    UpdateForm();
                     break;
                 case Parseresult.Hlsooe:
-                    richTextBox1.Text = $@"Analyzed HLS:OOE engine demo file ({demo.HlsooeDemoInfo.Header.GameDirectory}):
+                    if (demo.HlsooeDemoInfo.ParsingErrors.ToArray().Length > 0)
+                    {
+                        richTextBox1.Text = @"Error while parsing goldsource demo: 
+";
+                        UpdateForm();
+                        foreach (var err in demo.HlsooeDemoInfo.ParsingErrors)
+                        {
+                            richTextBox1.AppendText(err);
+                            UpdateForm();
+                        }                            
+                    }
+                    else
+                    {
+                        richTextBox1.Text = $@"Analyzed HLS:OOE engine demo file ({demo.HlsooeDemoInfo.Header.GameDirectory}):
 ----------------------------------------------------------
 Demo protocol:              {demo.HlsooeDemoInfo.Header.DemoProtocol}
 Net protocol:               {demo.HlsooeDemoInfo.Header.Netprotocol}
@@ -389,10 +459,12 @@ Game directory:             {demo.HlsooeDemoInfo.Header.GameDirectory}
 Length in seconds:          {demo.HlsooeDemoInfo.DirectoryEntries.Skip(1).Sum(x=> x.Frames.Last().Key.Time).ToString("n3")}s
 Frame count:                {demo.HlsooeDemoInfo.DirectoryEntries.Sum(x => x.FrameCount)}
 ----------------------------------------------------------";
-                    //TODO: Bug in time print
+                        UpdateForm();
+                        //TODO: Bug in time print
+                    }
                     break;
                 case Parseresult.Source:
-                    richTextBox1.Text = $@"Analyzed source engine demo file ({demo.Sdi.GameDirectory}):
+                        richTextBox1.Text = $@"Analyzed source engine demo file ({demo.Sdi.GameDirectory}):
 ----------------------------------------------------------
 Demo protocol:              {demo.Sdi.DemoProtocol}
 Net protocol:               {demo.Sdi.NetProtocol}
@@ -404,16 +476,21 @@ Length in seconds:          {demo.Sdi.Seconds.ToString("#,0.000")}s
 Tick count:                 {demo.Sdi.TickCount}
 Frame count:                {demo.Sdi.FrameCount}
 ----------------------------------------------------------";
+                    UpdateForm();
                     foreach (var f in demo.Sdi.Flags)
                         switch (f.Name)
                         {
                             case "#SAVE#":
-                                richTextBox1.Text += $"\n#SAVE# flag at Tick: {f.Tick} -> {f.Time}s";
+                                richTextBox1.AppendText($"\n#SAVE# flag at Tick: {f.Tick} -> {f.Time}s");
+                                UpdateForm();
                                 HighlightLastLine(richTextBox1, Color.Yellow);
+                                UpdateForm();
                                 break;
                             case "autosave":
-                                richTextBox1.Text += $"\nAutosave at Tick: {f.Tick} -> {f.Time}s";
+                                richTextBox1.AppendText($"\nAutosave at Tick: {f.Tick} -> {f.Time}s");
+                                UpdateForm();
                                 HighlightLastLine(richTextBox1, Color.DarkOrange);
+                                UpdateForm();
                                 break;
                         }
                     break;
@@ -425,6 +502,7 @@ Frame count:                {demo.Sdi.FrameCount}
             if (CurrentFile == null || (!File.Exists(CurrentFile) || Path.GetExtension(CurrentFile) != ".dem")) return;
             {
                 richTextBox1.Text = @"Analyzing file...";
+                UpdateForm();
                 CurrentDemoFile = CrossDemoParser.Parse(CurrentFile);
             }
             PrintDemoDetails(CurrentDemoFile);
@@ -510,6 +588,11 @@ Frame count:                {demo.Sdi.FrameCount}
         {
             using (var sf = new Statisctics(CurrentDemoFile.Sdi))
                 sf.ShowDialog();
+        }
+
+        public void UpdateParseProgress(BinaryReader br)
+        {
+            richTextBox1.Text = "Analyzing file: " + ((br.BaseStream.Position/br.BaseStream.Length)*100) + "%";
         }
     }
 }

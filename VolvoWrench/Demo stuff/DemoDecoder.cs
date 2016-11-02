@@ -50,7 +50,7 @@ namespace VolvoWrench.Demo_stuff
                     node.Nodes.Add("Sync client clock to demo tick");
                     break;
                 default:
-                    node.Nodes.Add($"Unhandled demo message type - {msg.Data} - {msg.Type} - {msg.Tick}"); //TODO: Fix
+                    node.Nodes.Add($"Unhandled demo message type - {msg.Data} - {msg.Type} - {msg.Tick}");
 
                     break;
             }

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xrml="urn:mpeg:mpeg21:2003:01-REL-R-NS" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
-  <assemblyIdentity name="VolvoWrench.application" version="0.6.0.1" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="amd64" xmlns="urn:schemas-microsoft-com:asm.v1" />
-  <description asmv2:publisher="VolvoWrench" co.v1:suiteName="Sourceruns" asmv2:product="VolvoWrench" asmv2:supportUrl="https://traderain.hu/" co.v1:errorReportUrl="https://traderain.hu/" xmlns="urn:schemas-microsoft-com:asm.v1" />
+  <assemblyIdentity name="VolvoWrench.application" version="0.6.0.4" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="amd64" xmlns="urn:schemas-microsoft-com:asm.v1" />
+  <description asmv2:publisher="Traderain" co.v1:suiteName="Sourceruns" asmv2:product="VolvoWrench" asmv2:supportUrl="https://traderain.hu/" co.v1:errorReportUrl="https://traderain.hu/" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <deployment install="true" mapFileExtensions="true" co.v1:createDesktopShortcut="true">
     <subscription>
       <update>
@@ -15,13 +15,13 @@
   </compatibleFrameworks>
   <dependency>
     <dependentAssembly dependencyType="install" codebase="VolvoWrench.exe.manifest" size="6523">
-      <assemblyIdentity name="VolvoWrench.exe" version="0.6.0.1" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="amd64" type="win32" />
+      <assemblyIdentity name="VolvoWrench.exe" version="0.6.0.4" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="amd64" type="win32" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>cJjQveyJF/CcTt+MLoIU2TeshP7GMDu6C8qSsVXn1vM=</dsig:DigestValue>
+        <dsig:DigestValue>NlujT+VE8JYLCkJFSWktuz6og+HREPDQXXgm9iM11tQ=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

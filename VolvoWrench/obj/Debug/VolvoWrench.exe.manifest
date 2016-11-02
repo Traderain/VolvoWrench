@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
-  <asmv1:assemblyIdentity name="VolvoWrench.exe" version="0.6.0.1" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="amd64" type="win32" />
+  <asmv1:assemblyIdentity name="VolvoWrench.exe" version="0.6.0.4" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="amd64" type="win32" />
   <description asmv2:iconFile="08 Wrench.ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <application />
   <entryPoint>
-    <assemblyIdentity name="VolvoWrench" version="1.0.6143.29410" language="neutral" processorArchitecture="amd64" />
+    <assemblyIdentity name="VolvoWrench" version="1.0.6150.34710" language="neutral" processorArchitecture="amd64" />
     <commandLine file="VolvoWrench.exe" parameters="" />
   </entryPoint>
   <trustInfo>
@@ -55,14 +55,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="VolvoWrench.exe" size="820216">
-      <assemblyIdentity name="VolvoWrench" version="1.0.6143.29410" language="neutral" processorArchitecture="amd64" />
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="VolvoWrench.exe" size="821240">
+      <assemblyIdentity name="VolvoWrench" version="1.0.6150.34710" language="neutral" processorArchitecture="amd64" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>hCqVOkgDVEzw4yPK3071MZxoBCJUjw2iSskOOSlBzTw=</dsig:DigestValue>
+        <dsig:DigestValue>mEqO4IAX2kCR9lVQTYpkEclJHZAqL6dDVpveyA/zQDY=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -75,13 +75,13 @@
       <dsig:DigestValue>ldsE6Hl1ejn5Aucp+L1wJ+SskQduMFSw+BU4C2WQslk=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="Roadmap.txt" size="256">
+  <file name="Roadmap.txt" size="157">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>+dBSQvf9AKSQ33GBT/447xTx2j+684GsOcV203fR/cw=</dsig:DigestValue>
+      <dsig:DigestValue>P7b1MK2k2MDYZQ8eD3a7poXFGTho+PfHBEX2MgWCIyk=</dsig:DigestValue>
     </hash>
   </file>
   <file name="VolvoWrench.exe.config" size="181">

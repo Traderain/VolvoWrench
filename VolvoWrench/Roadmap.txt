@@ -1,7 +1,6 @@
-﻿- Save Parser : DONE
+﻿- Portal 2 Demo Parser
+- L4D Branch
 - Statefile decompressor
-- Fix time in hlsooe parser
-- Check for end of file in hlsooe and goldsource : DONE
 - Demo doctor fix 
 - Statistics : Nearly done
  since I need a finalized parser for it.

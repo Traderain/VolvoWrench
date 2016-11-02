@@ -48,7 +48,6 @@ namespace VolvoWrench.Demo_stuff
                     break;
                 case Parseresult.Source:
                     cpr.Type = Parseresult.Source;
-                    //Stream cfs = File.Open(filename, FileMode.Open);
                     var fi = new FileInfo(filename);
                     using (
                         var mmf = MemoryMappedFile.CreateFromFile(filename, FileMode.Open, "sourcemap", fi.Length + 1024,

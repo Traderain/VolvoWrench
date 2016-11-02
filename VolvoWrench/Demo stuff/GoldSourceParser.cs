@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows.Media.Media3D;
 
@@ -452,13 +453,16 @@ namespace VolvoWrench.Demo_stuff
 
     public class GoldSourceParser
     {
-        public static bool UnexpectedEof(BinaryReader b, int lengthtocheck)
+       
+        
+        public static bool UnexpectedEof(BinaryReader b, long lengthtocheck)
         {
             return (b.BaseStream.Position + lengthtocheck) > b.BaseStream.Length;
         }
 
         public static GoldSourceDemoInfoHlsooe ParseDemoHlsooe(string s)
         {
+            
             var hlsooeDemo = new GoldSourceDemoInfoHlsooe
             {
                 Header = new Hlsooe.DemoHeader(),
@@ -748,7 +752,7 @@ namespace VolvoWrench.Demo_stuff
                         gDemo.Header.MapCrc = br.ReadUInt32();
                         gDemo.Header.DirectoryOffset = br.ReadInt32();
                         //Header Parsed... now we read the directory entries
-                        if (UnexpectedEof(br, (gDemo.Header.DirectoryOffset)))
+                        if (UnexpectedEof(br, (gDemo.Header.DirectoryOffset - br.BaseStream.Position)))
                         {
                             gDemo.ParsingErrors.Add("Unexpected end of file when seeking to directory offset!");
                             return gDemo;
@@ -785,7 +789,7 @@ namespace VolvoWrench.Demo_stuff
                         //Demo directory entries parsed... now we parse the frames.
                         foreach (var entry in gDemo.DirectoryEntries)
                         {
-                            if (UnexpectedEof(br, (entry.Offset)))
+                            if (UnexpectedEof(br, (entry.Offset -  br.BaseStream.Position)))
                             {
                                 gDemo.ParsingErrors.Add("Unexpected end of file when seeking to directory entry!");
                                 return gDemo;
