@@ -22,3 +22,4 @@ F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.application
 F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.exe
 F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.pdb
 F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.Main.resources
+F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.Demo_stuff.Verification.resources

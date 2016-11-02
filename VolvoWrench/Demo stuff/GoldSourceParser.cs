@@ -758,7 +758,7 @@ namespace VolvoWrench.Demo_stuff
                             .Replace("\0", string.Empty);
                         gDemo.Header.MapCrc = br.ReadUInt32();
                         gDemo.Header.DirectoryOffset = br.ReadInt32();
-                        mf.UpdateParseProgress("Header read...", true);
+                        mf.UpdateParseProgress("Header read...", false);
                         //Header Parsed... now we read the directory entries
                         if (UnexpectedEof(br, (gDemo.Header.DirectoryOffset - br.BaseStream.Position)))
                         {

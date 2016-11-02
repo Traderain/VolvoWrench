@@ -33,9 +33,10 @@ namespace VolvoWrench
             InitializeComponent();
             SettingsManager(false);
             AllowDrop = true;
+            netdecodeToolStripMenuItem.Enabled = false;
+            heatmapGeneratorToolStripMenuItem1.Enabled = false;
+            statisticsToolStripMenuItem.Enabled = false;
             HotkeyTimer.Start();
-            goldSourceToolsToolStripMenuItem.Enabled = false;
-            toolsToolStripMenuItem.Enabled = false;
             if (File.Exists(LogPath))
                 File.Delete(LogPath);
             #region OpenedWithFile check
@@ -45,8 +46,6 @@ namespace VolvoWrench
                 : null;
             if (dropFile == null)
             {
-                toolsToolStripMenuItem.Enabled = false;
-                goldSourceToolsToolStripMenuItem.Enabled = false;
                 richTextBox1.Text = @"^ Use File->Open to open a correct .dem file or drop the file here!";
                 UpdateForm();
             }
@@ -80,9 +79,10 @@ namespace VolvoWrench
             CurrentFile = s;
             SettingsManager(false);
             AllowDrop = true;
+            netdecodeToolStripMenuItem.Enabled = false;
+            statisticsToolStripMenuItem.Enabled = false;
+            heatmapGeneratorToolStripMenuItem1.Enabled = false;
             HotkeyTimer.Start();
-            goldSourceToolsToolStripMenuItem.Enabled = false;
-            toolsToolStripMenuItem.Enabled = false;
             if (File.Exists(LogPath))
                 File.Delete(LogPath);
             if (CurrentFile != null || (File.Exists(CurrentFile) || Path.GetExtension(CurrentFile) == ".dem"))
@@ -95,8 +95,6 @@ namespace VolvoWrench
             }
             else
             {
-                toolsToolStripMenuItem.Enabled = false;
-                goldSourceToolsToolStripMenuItem.Enabled = false;
                 richTextBox1.Text = @"^ Use File->Open to open a correct .dem file or drop the file here!";
                 UpdateForm();
             }
@@ -423,7 +421,6 @@ Language = EN;"
                             int msecMin = 0, msecMax = 0;
                             long msecSum = 0;
                             var first = true;
-                            var foundCamCommands = false;
                             foreach (var f in from entry in demo.GsDemoInfo.DirectoryEntries from frame in entry.Frames where (int) frame.Key.Type < 2 || (int) frame.Key.Type > 9 select (GoldSource.NetMsgFrame) frame.Value)
                             {
                                 frametimeSum += f.RParms.Frametime;
@@ -460,7 +457,7 @@ Frame count:                {demo.GsDemoInfo.DirectoryEntries.Sum(x => x.FrameCo
 Higest FPS:                 {(1/frametimeMax).ToString("N2")}
 Lowest FPS:                 {(1/frametimeMin).ToString("N2")}
 Average FPS:                {(count/frametimeSum).ToString("N2")}
-Lowes msec:                 {(1000.0 / msecMin).ToString("N2")} FPS
+Lowest msec:                 {(1000.0 / msecMin).ToString("N2")} FPS
 Highest msec:               {(1000.0 / msecMax).ToString("N2")} FPS
 Average msec:               {(1000.0 / (msecSum / (double)count)).ToString("N2")} FPS
 ----------------------------------------------------------";
@@ -603,17 +600,20 @@ Frame count:                {demo.Sdi.FrameCount}
             switch (cpr.Type)
             {
                 case Parseresult.UnsupportedFile:
-                    goldSourceToolsToolStripMenuItem.Enabled = false;
-                    toolsToolStripMenuItem.Enabled = false;
+                    netdecodeToolStripMenuItem.Enabled = false;
+                    statisticsToolStripMenuItem.Enabled = false;
+                    heatmapGeneratorToolStripMenuItem1.Enabled = false;
                     break;
                 case Parseresult.Hlsooe:
                 case Parseresult.GoldSource:
-                    goldSourceToolsToolStripMenuItem.Enabled = true;
-                    toolsToolStripMenuItem.Enabled = false;
+                    netdecodeToolStripMenuItem.Enabled = false;
+                    statisticsToolStripMenuItem.Enabled = false;
+                    heatmapGeneratorToolStripMenuItem1.Enabled = false;
                     break;
                 case Parseresult.Source:
-                    goldSourceToolsToolStripMenuItem.Enabled = false;
-                    toolsToolStripMenuItem.Enabled = true;
+                    netdecodeToolStripMenuItem.Enabled = true;
+                    statisticsToolStripMenuItem.Enabled = true;
+                    heatmapGeneratorToolStripMenuItem1.Enabled = true;
                     break;
             }
         }
@@ -648,14 +648,16 @@ Frame count:                {demo.Sdi.FrameCount}
         public void UpdateParseProgress(string s,bool b)
         {
             if (b)
-            {
                 richTextBox1.AppendText("\n" + s);
-            }
             else
-            {
                 richTextBox1.Text = s;
-            }
             UpdateForm();
+        }
+
+        private void demoVerificationToolToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var a = new Verification())
+                a.ShowDialog();
         }
     }
 }

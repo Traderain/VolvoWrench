@@ -120,32 +120,6 @@
   <metadata name="contextMenuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>132, 17</value>
   </metadata>
-  <data name="richTextBox1.Text" xml:space="preserve">
-    <value>Analyzed source demo. Results.
-
-Demoname:               : segment (4).dem
-GameName                : hl2
-PlayerName              : Ole ??\_(???)_/??
-Ticks                   : 338
-Time                    : 5,07s
-MapName                 : d1_canals_07
-Jumps                   : 1
-Playback time           : 1084374384
-Playback frames         : 325
-Playback ticks          : 338
-Protocol                : 3
-Network protocol        : 15
-Server Name             : localhost:0
-X                       : 0
-Y                       : -1
-Z                       : 0
--------------- Detected Flags ------------
-Detected autosave flag. Time to flag is:  0,675s in 45 ticks.
-Detected autosave flag. Time to flag is:  3,12s in 208 ticks.
-Detected #SAVE# flag. Time to flag is:  5,07s in 338 ticks.
-No cheats detected: OK
-</value>
-  </data>
   <metadata name="menuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>

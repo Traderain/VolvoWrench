@@ -59,6 +59,8 @@ namespace VolvoWrench
             this.hotkeysToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fontToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.HotkeyTimer = new System.Windows.Forms.Timer(this.components);
+            this.multidemoToolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.demoVerificationToolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -144,6 +146,7 @@ namespace VolvoWrench
             this.fileToolStripMenuItem,
             this.goldSourceToolsToolStripMenuItem,
             this.toolsToolStripMenuItem,
+            this.multidemoToolsToolStripMenuItem,
             this.helpToolStripMenuItem1,
             this.settingsToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
@@ -206,7 +209,7 @@ namespace VolvoWrench
             this.demoDoctorToolStripMenuItem.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.demoDoctorToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.demoDoctorToolStripMenuItem.Name = "demoDoctorToolStripMenuItem";
-            this.demoDoctorToolStripMenuItem.Size = new System.Drawing.Size(173, 26);
+            this.demoDoctorToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.demoDoctorToolStripMenuItem.Text = "Demo doctor";
             this.demoDoctorToolStripMenuItem.Click += new System.EventHandler(this.demoDoctorToolStripMenuItem_Click);
             // 
@@ -327,6 +330,24 @@ namespace VolvoWrench
             this.HotkeyTimer.Interval = 300;
             this.HotkeyTimer.Tick += new System.EventHandler(this.HotkeyTimer_Tick);
             // 
+            // multidemoToolsToolStripMenuItem
+            // 
+            this.multidemoToolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.demoVerificationToolToolStripMenuItem});
+            this.multidemoToolsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
+            this.multidemoToolsToolStripMenuItem.Name = "multidemoToolsToolStripMenuItem";
+            this.multidemoToolsToolStripMenuItem.Size = new System.Drawing.Size(137, 24);
+            this.multidemoToolsToolStripMenuItem.Text = "Multi-demo tools";
+            // 
+            // demoVerificationToolToolStripMenuItem
+            // 
+            this.demoVerificationToolToolStripMenuItem.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.demoVerificationToolToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.demoVerificationToolToolStripMenuItem.Name = "demoVerificationToolToolStripMenuItem";
+            this.demoVerificationToolToolStripMenuItem.Size = new System.Drawing.Size(234, 26);
+            this.demoVerificationToolToolStripMenuItem.Text = "Demo verification tool";
+            this.demoVerificationToolToolStripMenuItem.Click += new System.EventHandler(this.demoVerificationToolToolStripMenuItem_Click);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
@@ -381,6 +402,8 @@ namespace VolvoWrench
         private ToolStripMenuItem heatmapGeneratorToolStripMenuItem1;
         private ToolStripMenuItem demoDoctorToolStripMenuItem;
         private ToolStripMenuItem statisticsToolStripMenuItem;
+        private ToolStripMenuItem multidemoToolsToolStripMenuItem;
+        private ToolStripMenuItem demoVerificationToolToolStripMenuItem;
     }
 }
 
