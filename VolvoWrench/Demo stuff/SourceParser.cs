@@ -20,6 +20,7 @@ namespace VolvoWrench.Demo_stuff
         public List<SourceParser.DemoMessage> Messages;
         public float Seconds;
         public string ServerName, ClientName, MapName, GameDirectory;
+        public List<string> ParsingErrors;
     }
 
     public class SourceParser
@@ -61,7 +62,7 @@ namespace VolvoWrench.Demo_stuff
                 throw new Exception("Demos recorded on L4D branch games are currently unsupported.");
 
             Info.NetProtocol = reader.ReadInt32();
-
+     
             Info.ServerName = new string(reader.ReadChars(260)).Replace("\0", "");
             Info.ClientName = new string(reader.ReadChars(260)).Replace("\0", "");
             Info.MapName = new string(reader.ReadChars(260)).Replace("\0", "");
@@ -72,6 +73,8 @@ namespace VolvoWrench.Demo_stuff
             Info.FrameCount = Math.Abs(reader.ReadInt32());
 
             Info.SignonLength = reader.ReadInt32();
+
+            Info.ParsingErrors = new List<string>();
 
             while (true)
             {
@@ -99,9 +102,9 @@ namespace VolvoWrench.Demo_stuff
                         break;
                     default:
                         Main.Log("Unknown demo message type encountered: " + msg.Type + "at " + reader.BaseStream.Position);
+                        Info.ParsingErrors.Add("Unknown demo message type encountered: " + msg.Type + "at " + reader.BaseStream.Position);
                             //TODO: fix this bs -- kinda fixed
                         throw new Exception("Unknown demo type");
-                        break;
                 }
 
                 if (msg.Data != null)

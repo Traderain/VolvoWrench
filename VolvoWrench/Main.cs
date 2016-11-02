@@ -367,6 +367,7 @@ Language = EN;"
             richTextBox1.Text = @"^ Use File->Open to open a correct .dem file or drop the file here!";
             UpdateForm();
             PrintDemoDetails(CurrentDemoFile);
+            UpdateForm();
         }
 
         private void Main_DragDrop(object sender, DragEventArgs e)
@@ -376,7 +377,7 @@ Language = EN;"
                 ? dropfiles.First(x => Path.GetExtension(x) == ".dem")
                 : null;
             if (dropfile != null) CurrentFile = dropfile;
-            if (CurrentFile != null || (File.Exists(CurrentFile) || Path.GetExtension(CurrentFile) == ".dem"))
+            if (CurrentFile != null && (File.Exists(CurrentFile) && Path.GetExtension(CurrentFile) == ".dem"))
             {
                 richTextBox1.Text = @"Analyzing file...";
                 UpdateForm();
@@ -386,36 +387,67 @@ Language = EN;"
             }
             else
             {
-                richTextBox1.Text = "Bad file!";
+                richTextBox1.Text = @"Bad file!";
             }
         }
         #endregion
 
         public void PrintDemoDetails(CrossParseResult demo)
         {
-            if (demo == null) return;
-            StripEnabler(demo);
-            switch (demo.Type)
+            if (demo != null)
             {
-                case Parseresult.UnsupportedFile:
-                    richTextBox1.Text = @"Unsupported file!";
-                    UpdateForm();
-                    break;
-                case Parseresult.GoldSource:
-                    if (demo.GsDemoInfo.ParsingErrors.ToArray().Length > 0)
-                    {
-                        richTextBox1.Text = "Error while parsing goldsource demo: \n";
+                StripEnabler(demo);
+                switch (demo.Type)
+                {
+                    case Parseresult.UnsupportedFile:
+                        richTextBox1.Text = @"Unsupported file!";
                         UpdateForm();
-                        foreach (var err in demo.GsDemoInfo.ParsingErrors)
+                        break;
+                    case Parseresult.GoldSource:
+                        if (demo.GsDemoInfo.ParsingErrors.ToArray().Length > 0)
                         {
-                            richTextBox1.AppendText(err);
+                            richTextBox1.Text = "Error while parsing goldsource demo: \n";
                             UpdateForm();
+                            foreach (var err in demo.GsDemoInfo.ParsingErrors)
+                            {
+                                richTextBox1.AppendText(err);
+                                UpdateForm();
+                            }
+
                         }
-                            
-                    }
-                    else
-                    {
-                        richTextBox1.Text = $@"Analyzed GoldSource engine demo file ({demo.GsDemoInfo.Header.GameDir}):
+                        else
+                        {
+                            float frametimeMin = 0f, frametimeMax = 0f;
+                            var frametimeSum = 0.0;
+                            var count = 0;
+                            int msecMin = 0, msecMax = 0;
+                            long msecSum = 0;
+                            var first = true;
+                            var foundCamCommands = false;
+                            foreach (var f in from entry in demo.GsDemoInfo.DirectoryEntries from frame in entry.Frames where (int) frame.Key.Type < 2 || (int) frame.Key.Type > 9 select (GoldSource.NetMsgFrame) frame.Value)
+                            {
+                                frametimeSum += f.RParms.Frametime;
+                                msecSum += f.UCmd.Msec;
+                                count++;
+
+                                if (first)
+                                {
+                                    first = false;
+                                    frametimeMin = f.RParms.Frametime;
+                                    frametimeMax = f.RParms.Frametime;
+                                    msecMin = f.UCmd.Msec;
+                                    msecMax = f.UCmd.Msec;
+                                }
+                                else
+                                {
+                                    frametimeMin = Math.Min(frametimeMin, f.RParms.Frametime);
+                                    frametimeMax = Math.Max(frametimeMax, f.RParms.Frametime);
+                                    msecMin = Math.Min(msecMin, f.UCmd.Msec);
+                                    msecMax = Math.Max(msecMax, f.UCmd.Msec);
+                                }
+                            }
+                            richTextBox1.Text =
+                                $@"Analyzed GoldSource engine demo file ({demo.GsDemoInfo.Header.GameDir}):
 ----------------------------------------------------------
 Demo protocol:              {demo.GsDemoInfo.Header.DemoProtocol}
 Net protocol:               {demo.GsDemoInfo.Header.NetProtocol}
@@ -425,46 +457,63 @@ Game directory:             {demo.GsDemoInfo.Header.GameDir}
 Length in seconds:          {demo.GsDemoInfo.DirectoryEntries.Sum(x => x.TrackTime).ToString("n3")}s
 Frame count:                {demo.GsDemoInfo.DirectoryEntries.Sum(x => x.FrameCount)}
 
-Higest FPS:                 
-Lowest FPS:
-Average FPS:
-Lowes msec:
-Highest msec:
-Average msec:
+Higest FPS:                 {(1/frametimeMax).ToString("N2")}
+Lowest FPS:                 {(1/frametimeMin).ToString("N2")}
+Average FPS:                {(count/frametimeSum).ToString("N2")}
+Lowes msec:                 {(1000.0 / msecMin).ToString("N2")} FPS
+Highest msec:               {(1000.0 / msecMax).ToString("N2")} FPS
+Average msec:               {(1000.0 / (msecSum / (double)count)).ToString("N2")} FPS
 ----------------------------------------------------------";
-                    }
-                    UpdateForm();
-                    break;
-                case Parseresult.Hlsooe:
-                    if (demo.HlsooeDemoInfo.ParsingErrors.ToArray().Length > 0)
-                    {
-                        richTextBox1.Text = @"Error while parsing goldsource demo: 
-";
+                        }
                         UpdateForm();
-                        foreach (var err in demo.HlsooeDemoInfo.ParsingErrors)
+                        break;
+                    case Parseresult.Hlsooe:
+                        if (demo.HlsooeDemoInfo.ParsingErrors.ToArray().Length > 0)
                         {
-                            richTextBox1.AppendText(err);
+                            richTextBox1.Text = @"Error while parsing goldsource demo: 
+";
                             UpdateForm();
-                        }                            
-                    }
-                    else
-                    {
-                        richTextBox1.Text = $@"Analyzed HLS:OOE engine demo file ({demo.HlsooeDemoInfo.Header.GameDirectory}):
+                            foreach (var err in demo.HlsooeDemoInfo.ParsingErrors)
+                            {
+                                richTextBox1.AppendText(err);
+                                UpdateForm();
+                            }
+                        }
+                        else
+                        {
+                            richTextBox1.Text =
+                                $@"Analyzed HLS:OOE engine demo file ({demo.HlsooeDemoInfo.Header.GameDirectory
+                                    }):
 ----------------------------------------------------------
 Demo protocol:              {demo.HlsooeDemoInfo.Header.DemoProtocol}
 Net protocol:               {demo.HlsooeDemoInfo.Header.Netprotocol}
 Directory offset:           {demo.HlsooeDemoInfo.Header.DirectoryOffset}
 Map name:                   {demo.HlsooeDemoInfo.Header.MapName}
 Game directory:             {demo.HlsooeDemoInfo.Header.GameDirectory}
-Length in seconds:          {demo.HlsooeDemoInfo.DirectoryEntries.Skip(1).Sum(x=> x.Frames.Last().Key.Time).ToString("n3")}s
+Length in seconds:          {demo.HlsooeDemoInfo.DirectoryEntries.Skip(1).Sum(x => x.Frames.Last().Key.Time).ToString("n3")}s
 Frame count:                {demo.HlsooeDemoInfo.DirectoryEntries.Sum(x => x.FrameCount)}
 ----------------------------------------------------------";
-                        UpdateForm();
-                        //TODO: Bug in time print
-                    }
-                    break;
-                case Parseresult.Source:
-                        richTextBox1.Text = $@"Analyzed source engine demo file ({demo.Sdi.GameDirectory}):
+                            UpdateForm();
+                            //TODO: Bug in time print
+                        }
+                        break;
+                    case Parseresult.Source:
+                        if (demo.Sdi.ParsingErrors.ToArray().Length > 0)
+                        {
+                            richTextBox1.Text = @"Error while parsing goldsource demo: 
+";
+                            UpdateForm();
+                            foreach (var err in demo.Sdi.ParsingErrors)
+                            {
+                                richTextBox1.AppendText(err);
+                                UpdateForm();
+                            }
+                        }
+                        else
+                        {
+                            richTextBox1.Text =
+                                $@"Analyzed source engine demo file ({demo.Sdi.GameDirectory
+                                    }):
 ----------------------------------------------------------
 Demo protocol:              {demo.Sdi.DemoProtocol}
 Net protocol:               {demo.Sdi.NetProtocol}
@@ -476,24 +525,30 @@ Length in seconds:          {demo.Sdi.Seconds.ToString("#,0.000")}s
 Tick count:                 {demo.Sdi.TickCount}
 Frame count:                {demo.Sdi.FrameCount}
 ----------------------------------------------------------";
-                    UpdateForm();
-                    foreach (var f in demo.Sdi.Flags)
-                        switch (f.Name)
-                        {
-                            case "#SAVE#":
-                                richTextBox1.AppendText($"\n#SAVE# flag at Tick: {f.Tick} -> {f.Time}s");
-                                UpdateForm();
-                                HighlightLastLine(richTextBox1, Color.Yellow);
-                                UpdateForm();
-                                break;
-                            case "autosave":
-                                richTextBox1.AppendText($"\nAutosave at Tick: {f.Tick} -> {f.Time}s");
-                                UpdateForm();
-                                HighlightLastLine(richTextBox1, Color.DarkOrange);
-                                UpdateForm();
-                                break;
+                            UpdateForm();
+                            foreach (var f in demo.Sdi.Flags)
+                                switch (f.Name)
+                                {
+                                    case "#SAVE#":
+                                        richTextBox1.AppendText($"\n#SAVE# flag at Tick: {f.Tick} -> {f.Time}s");
+                                        UpdateForm();
+                                        HighlightLastLine(richTextBox1, Color.Yellow);
+                                        UpdateForm();
+                                        break;
+                                    case "autosave":
+                                        richTextBox1.AppendText($"\nAutosave at Tick: {f.Tick} -> {f.Time}s");
+                                        UpdateForm();
+                                        HighlightLastLine(richTextBox1, Color.DarkOrange);
+                                        UpdateForm();
+                                        break;
+                                }
                         }
-                    break;
+                        break;
+                }
+            }
+            else
+            {
+                richTextBox1.Text = "Not a demo!";
             }
         }
 
@@ -504,7 +559,7 @@ Frame count:                {demo.Sdi.FrameCount}
                 richTextBox1.Text = @"Analyzing file...";
                 UpdateForm();
                 CurrentDemoFile = CrossDemoParser.Parse(CurrentFile);
-            }
+            }            
             PrintDemoDetails(CurrentDemoFile);
             Log(Path.GetFileName(CurrentFile + " rescanned."));
         }
@@ -590,9 +645,17 @@ Frame count:                {demo.Sdi.FrameCount}
                 sf.ShowDialog();
         }
 
-        public void UpdateParseProgress(BinaryReader br)
+        public void UpdateParseProgress(string s,bool b)
         {
-            richTextBox1.Text = "Analyzing file: " + ((br.BaseStream.Position/br.BaseStream.Length)*100) + "%";
+            if (b)
+            {
+                richTextBox1.AppendText("\n" + s);
+            }
+            else
+            {
+                richTextBox1.Text = s;
+            }
+            UpdateForm();
         }
     }
 }

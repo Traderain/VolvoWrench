@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Net.Mime;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Windows.Forms;
 using System.Windows.Media.Media3D;
 
 namespace VolvoWrench.Demo_stuff
@@ -462,7 +465,7 @@ namespace VolvoWrench.Demo_stuff
 
         public static GoldSourceDemoInfoHlsooe ParseDemoHlsooe(string s)
         {
-            
+            Main mf = Application.OpenForms.OfType<Main>().FirstOrDefault();
             var hlsooeDemo = new GoldSourceDemoInfoHlsooe
             {
                 Header = new Hlsooe.DemoHeader(),
@@ -490,6 +493,7 @@ namespace VolvoWrench.Demo_stuff
                             Encoding.ASCII.GetString(br.ReadBytes(260)).Trim('\0').Replace("\0", string.Empty);
                         hlsooeDemo.Header.DirectoryOffset = br.ReadInt32();
                         //Header Parsed... now we read the directory entries
+                        mf.UpdateParseProgress("Header read...",true);
                         br.BaseStream.Seek(hlsooeDemo.Header.DirectoryOffset, SeekOrigin.Begin);
                         if (UnexpectedEof(br, (4)))
                         {
@@ -499,6 +503,7 @@ namespace VolvoWrench.Demo_stuff
                         var entryCount = br.ReadInt32();
                         for (var i = 0; i < entryCount; i++)
                         {
+                            mf.UpdateParseProgress($"Reading entry {i}...", true);
                             if (UnexpectedEof(br, (4 + 4 + 4 + 4 + 4)))
                             {
                                 hlsooeDemo.ParsingErrors.Add("Unexpected end of when reading frames!");
@@ -525,6 +530,7 @@ namespace VolvoWrench.Demo_stuff
                             }
                             br.BaseStream.Seek(entry.Offset, SeekOrigin.Begin);
                             var nextSectionRead = false;
+                            mf.UpdateParseProgress("Reading frames...", true);
                             for (var i = 0; i < entry.FrameCount; i++)
                             {
                                 if (!nextSectionRead)
@@ -723,6 +729,7 @@ namespace VolvoWrench.Demo_stuff
 
         public static GoldSourceDemoInfo ParseGoldSourceDemo(string s)
         {
+            var mf = Application.OpenForms.OfType<Main>().FirstOrDefault();
             var gDemo = new GoldSourceDemoInfo
             {
                 Header = new GoldSource.DemoHeader(),
@@ -751,6 +758,7 @@ namespace VolvoWrench.Demo_stuff
                             .Replace("\0", string.Empty);
                         gDemo.Header.MapCrc = br.ReadUInt32();
                         gDemo.Header.DirectoryOffset = br.ReadInt32();
+                        mf.UpdateParseProgress("Header read...", true);
                         //Header Parsed... now we read the directory entries
                         if (UnexpectedEof(br, (gDemo.Header.DirectoryOffset - br.BaseStream.Position)))
                         {
@@ -766,6 +774,7 @@ namespace VolvoWrench.Demo_stuff
                         var entryCount = br.ReadInt32();
                         for (var i = 0; i < entryCount; i++)
                         {
+                            mf.UpdateParseProgress($"Reading directory entry {i}...", true);
                             if (UnexpectedEof(br, (4 + 64 + 4 + 4 + 4 + 4 + 4 + 4)))
                             {
                                 gDemo.ParsingErrors.Add("Unexpected end of file when reading the directory entries!");
@@ -795,12 +804,12 @@ namespace VolvoWrench.Demo_stuff
                                 return gDemo;
                             }
                             br.BaseStream.Seek(entry.Offset, SeekOrigin.Begin);
-                            var nextSectionRead = false;
                             var ind = 0;
+                            mf.UpdateParseProgress("Reading frames..", true);
+                            var nextSectionRead = false;
                             for (var i = 0; i < entry.FrameCount; i++)
                             {
                                 ind++;
-                                nextSectionRead = false;
                                 if (!nextSectionRead)
                                 {
                                     if (UnexpectedEof(br, (1 + 4 + 4)))
