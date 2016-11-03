@@ -454,11 +454,11 @@ Game directory:             {demo.GsDemoInfo.Header.GameDir}
 Length in seconds:          {demo.GsDemoInfo.DirectoryEntries.Sum(x => x.TrackTime).ToString("n3")}s
 Frame count:                {demo.GsDemoInfo.DirectoryEntries.Sum(x => x.FrameCount)}
 
-Higest FPS:                 {(1/frametimeMax).ToString("N2")}
-Lowest FPS:                 {(1/frametimeMin).ToString("N2")}
+Higest FPS:                 {(1/frametimeMin).ToString("N2")}
+Lowest FPS:                 {(1/ frametimeMax).ToString("N2")}
 Average FPS:                {(count/frametimeSum).ToString("N2")}
-Lowest msec:                 {(1000.0 / msecMin).ToString("N2")} FPS
-Highest msec:               {(1000.0 / msecMax).ToString("N2")} FPS
+Lowest msec:                {(1000.0 / msecMax).ToString("N2")} FPS
+Highest msec:               {(1000.0 / msecMin).ToString("N2")} FPS
 Average msec:               {(1000.0 / (msecSum / (double)count)).ToString("N2")} FPS
 ----------------------------------------------------------";
                         }
@@ -620,16 +620,7 @@ Frame count:                {demo.Sdi.FrameCount}
 
         private void heatmapGeneratorToolStripMenuItem1_Click_1(object sender, EventArgs e)
         {
-            var coordList = new List<Point>
-            {
-                new Point(10, 1),
-                new Point(8, 1),
-                new Point(3, 1),
-                new Point(10, 17),
-                new Point(120, 1),
-                new Point(100, 16)
-            };
-            using (var hmw = new Heatmap.Heatmap(coordList, new Bitmap(560, 560)))
+            using (var hmw = new Heatmap.Heatmap(new List<Point>(), new Bitmap(560, 560)))
                 hmw.ShowDialog();
         }
 
@@ -643,15 +634,6 @@ Frame count:                {demo.Sdi.FrameCount}
         {
             using (var sf = new Statisctics(CurrentDemoFile.Sdi))
                 sf.ShowDialog();
-        }
-
-        public void UpdateParseProgress(string s,bool b)
-        {
-            if (b)
-                richTextBox1.AppendText("\n" + s);
-            else
-                richTextBox1.Text = s;
-            UpdateForm();
         }
 
         private void demoVerificationToolToolStripMenuItem_Click(object sender, EventArgs e)

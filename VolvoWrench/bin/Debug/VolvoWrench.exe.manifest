@@ -4,7 +4,7 @@
   <description asmv2:iconFile="08 Wrench.ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <application />
   <entryPoint>
-    <assemblyIdentity name="VolvoWrench" version="1.0.6150.40883" language="neutral" processorArchitecture="amd64" />
+    <assemblyIdentity name="VolvoWrench" version="1.0.6151.4718" language="neutral" processorArchitecture="amd64" />
     <commandLine file="VolvoWrench.exe" parameters="" />
   </entryPoint>
   <trustInfo>
@@ -56,13 +56,13 @@
   </dependency>
   <dependency>
     <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="VolvoWrench.exe" size="830968">
-      <assemblyIdentity name="VolvoWrench" version="1.0.6150.40883" language="neutral" processorArchitecture="amd64" />
+      <assemblyIdentity name="VolvoWrench" version="1.0.6151.4718" language="neutral" processorArchitecture="amd64" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>y0E31qdejZqV/zZFTJ5RVwECI8Xc35O0o5WhZ/O2gUs=</dsig:DigestValue>
+        <dsig:DigestValue>CTggdrhDbpXT4PJa9mC1vF1oeVPnuGeP9lmctgVDHdA=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

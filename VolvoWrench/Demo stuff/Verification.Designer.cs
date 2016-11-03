@@ -60,7 +60,7 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.mrtb);
-            this.splitContainer1.Size = new System.Drawing.Size(1125, 405);
+            this.splitContainer1.Size = new System.Drawing.Size(1125, 554);
             this.splitContainer1.SplitterDistance = 75;
             this.splitContainer1.TabIndex = 2;
             // 
@@ -71,7 +71,7 @@
             this.mrtb.ForeColor = System.Drawing.SystemColors.InactiveBorder;
             this.mrtb.Location = new System.Drawing.Point(0, 0);
             this.mrtb.Name = "mrtb";
-            this.mrtb.Size = new System.Drawing.Size(1125, 326);
+            this.mrtb.Size = new System.Drawing.Size(1125, 475);
             this.mrtb.TabIndex = 1;
             this.mrtb.Text = "No files selected!";
             // 
@@ -80,7 +80,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.ClientSize = new System.Drawing.Size(1125, 405);
+            this.ClientSize = new System.Drawing.Size(1125, 554);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.splitContainer1);
             this.MaximizeBox = false;

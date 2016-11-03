@@ -493,7 +493,6 @@ namespace VolvoWrench.Demo_stuff
                             Encoding.ASCII.GetString(br.ReadBytes(260)).Trim('\0').Replace("\0", string.Empty);
                         hlsooeDemo.Header.DirectoryOffset = br.ReadInt32();
                         //Header Parsed... now we read the directory entries
-                        mf.UpdateParseProgress("Header read...",true);
                         br.BaseStream.Seek(hlsooeDemo.Header.DirectoryOffset, SeekOrigin.Begin);
                         if (UnexpectedEof(br, (4)))
                         {
@@ -503,7 +502,6 @@ namespace VolvoWrench.Demo_stuff
                         var entryCount = br.ReadInt32();
                         for (var i = 0; i < entryCount; i++)
                         {
-                            mf.UpdateParseProgress($"Reading entry {i}...", true);
                             if (UnexpectedEof(br, (4 + 4 + 4 + 4 + 4)))
                             {
                                 hlsooeDemo.ParsingErrors.Add("Unexpected end of when reading frames!");
@@ -530,7 +528,6 @@ namespace VolvoWrench.Demo_stuff
                             }
                             br.BaseStream.Seek(entry.Offset, SeekOrigin.Begin);
                             var nextSectionRead = false;
-                            mf.UpdateParseProgress("Reading frames...", true);
                             for (var i = 0; i < entry.FrameCount; i++)
                             {
                                 if (!nextSectionRead)
@@ -758,7 +755,6 @@ namespace VolvoWrench.Demo_stuff
                             .Replace("\0", string.Empty);
                         gDemo.Header.MapCrc = br.ReadUInt32();
                         gDemo.Header.DirectoryOffset = br.ReadInt32();
-                        mf.UpdateParseProgress("Header read...", false);
                         //Header Parsed... now we read the directory entries
                         if (UnexpectedEof(br, (gDemo.Header.DirectoryOffset - br.BaseStream.Position)))
                         {
@@ -774,7 +770,6 @@ namespace VolvoWrench.Demo_stuff
                         var entryCount = br.ReadInt32();
                         for (var i = 0; i < entryCount; i++)
                         {
-                            mf.UpdateParseProgress($"Reading directory entry {i}...", true);
                             if (UnexpectedEof(br, (4 + 64 + 4 + 4 + 4 + 4 + 4 + 4)))
                             {
                                 gDemo.ParsingErrors.Add("Unexpected end of file when reading the directory entries!");
@@ -805,7 +800,6 @@ namespace VolvoWrench.Demo_stuff
                             }
                             br.BaseStream.Seek(entry.Offset, SeekOrigin.Begin);
                             var ind = 0;
-                            mf.UpdateParseProgress("Reading frames..", true);
                             var nextSectionRead = false;
                             for (var i = 0; i < entry.FrameCount; i++)
                             {
