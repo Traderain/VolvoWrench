@@ -20,24 +20,26 @@ namespace VolvoWrench.Demo_stuff
 
         private void button1_Click(object sender, EventArgs e)
         {
-            OpenFileDialog of = new OpenFileDialog();
-            of.Filter = @"Demo files (.dem) | *.dem";
-            of.Multiselect = true;
-            Dictionary<string, CrossParseResult> df = new Dictionary<string, CrossParseResult>();
+            var of = new OpenFileDialog
+            {
+                Filter = @"Demo files (.dem) | *.dem",
+                Multiselect = true
+            };
+            var df = new Dictionary<string, CrossParseResult>();
             if (of.ShowDialog() == DialogResult.OK)
             {
-                mrtb.Text = "";
-                foreach (var file in of.FileNames)
-                {
-                    if (File.Exists(file) && Path.GetExtension(file) == ".dem")
-                        df.Add(file, CrossDemoParser.Parse(file));
-                }
+                mrtb.Text = @"Please wait. Parsing demos...";
+                mrtb.Invalidate();
+                mrtb.Update();
+                mrtb.Refresh();
+                Application.DoEvents();
+                foreach (var file in of.FileNames.Where(file => File.Exists(file) && Path.GetExtension(file) == ".dem"))
+                    df.Add(file, CrossDemoParser.Parse(file));
                 if (df.Any(x => x.Value.Type != Parseresult.GoldSource))
-                {
                     MessageBox.Show(@"Only goldsource supported");
-                }
                 else
                 {
+                    mrtb.Text = "";
                     mrtb.AppendText("" + "\n");
                     mrtb.AppendText("Parsed demos. Results:" + "\n");
                     mrtb.AppendText("General stats:" + "\n");
@@ -87,28 +89,19 @@ namespace VolvoWrench.Demo_stuff
                         msecMax.Add(1000.0/mmx);
                         avgmsec.Add(1000.0/(msecSum/(double) count));
                     }
-                    mrtb.AppendText(
-                        $@"
-Highest FPS:                {(frametimeMin.Max()).ToString("N2")
-                            }
-Lowest FPS:                 {(frametimeMin.Min()).ToString("N2")
-                            }
-Average FPS:                {frametimeSum.Average().ToString("N2")
-                            }
-Lowest msec:                {(msecMax.Min()).ToString("N2")
-                            } FPS
-Highest msec:               {(msecMin.Max()).ToString("N2")
-                            } FPS
-Average msec:               {avgmsec.Average().ToString("N2")
-                            } FPS
+                    mrtb.AppendText($@"
+Highest FPS:                {(frametimeMin.Max()).ToString("N2")}
+Lowest FPS:                 {(frametimeMin.Min()).ToString("N2")}
+Average FPS:                {frametimeSum.Average().ToString("N2")}
+Lowest msec:                {(msecMax.Min()).ToString("N2")} FPS
+Highest msec:               {(msecMin.Max()).ToString("N2")} FPS
+Average msec:               {avgmsec.Average().ToString("N2")} FPS
 
-Total time of the demos:    {
-                            df.Sum(x => x.Value.GsDemoInfo.DirectoryEntries.Sum(y => y.TrackTime))}s
-" + "\n");
+Total time of the demos:    {df.Sum(x => x.Value.GsDemoInfo.DirectoryEntries.Sum(y => y.TrackTime))}s" + "\n\n");
                     mrtb.AppendText("Demo cheat check:" + "\n");
                     foreach (var dem in df)
                     {
-                        mrtb.AppendText(Path.GetFileName(dem.Key) + "\n");
+                        mrtb.AppendText(Path.GetFileName(dem.Key) + " -> " + dem.Value.GsDemoInfo.Header.MapName + "\n");
                         foreach (
                             var f in
                                 dem.Value.GsDemoInfo.DirectoryEntries.SelectMany(
@@ -126,10 +119,7 @@ Total time of the demos:    {
                                                 "+right"
                                             }
                                             where cheats.Contains(f.Command)
-                                            select f)))
-                        {
-                            mrtb.AppendText(f.Command + "\n");
-                        }
+                                            select f))) {mrtb.AppendText(f.Command + "\n");}
                     }
                 }
             }
