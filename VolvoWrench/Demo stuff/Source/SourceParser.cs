@@ -102,12 +102,12 @@ namespace VolvoWrench.Demo_stuff
                         msg.Data = reader.ReadBytes(reader.ReadInt32());
                         break;
                     case MessageType.SyncTick:
-                        msg.Data = new byte[0]; // lol wut
+                        msg.Data = new byte[0];
                         break;
                     default:
                         Main.Log("Unknown demo message type encountered: " + msg.Type + "at " + reader.BaseStream.Position);
                         Info.ParsingErrors.Add("Unknown demo message type encountered: " + msg.Type + "at " + reader.BaseStream.Position);
-                        return;s
+                        return;
                 }
 
                 if (msg.Data != null)

@@ -549,6 +549,36 @@ Frame count:                {demo.Sdi.FrameCount}
                                 }
                         }
                         break;
+                    case Parseresult.L4D2Branch:
+                        if (demo.L4D2BranchInfo.parsingerrors.ToArray().Length > 0)
+                        {
+                            richTextBox1.Text = @"Error while parsing L4D2Branch demo: 
+";
+                            UpdateForm();
+                            foreach (var err in demo.L4D2BranchInfo.parsingerrors)
+                            {
+                                richTextBox1.AppendText(err);
+                                UpdateForm();
+                            }
+                        }
+                        else
+                        {
+                            richTextBox1.Text = $@"Analyzed L4D2Branch demo file ({demo.L4D2BranchInfo.Header.GameDirectory}):
+----------------------------------------------------------
+Protocol:           {demo.L4D2BranchInfo.Header.Protocol}
+Network protocol:   {demo.L4D2BranchInfo.Header.NetworkProtocol}
+Server name:        {demo.L4D2BranchInfo.Header.ServerName}
+Client name:        {demo.L4D2BranchInfo.Header.ClientName}
+Mapname:            {demo.L4D2BranchInfo.Header.MapName}
+GameDir:            {demo.L4D2BranchInfo.Header.GameDirectory}
+Playbacktime:       {demo.L4D2BranchInfo.Header.PlaybackTime}s
+Playbackticks:      {demo.L4D2BranchInfo.Header.PlaybackTicks}
+Playbackframes:     {demo.L4D2BranchInfo.Header.PlaybackFrames}
+Signonlength:       {demo.L4D2BranchInfo.Header.SignonLength}
+----------------------------------------------------------
+";                       
+                        }
+                        break;
                 }
             }
             else

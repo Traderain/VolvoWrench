@@ -18,14 +18,16 @@ namespace VolvoWrench.Demo_stuff
         public SourceDemoInfo Sdi;
         public GoldSourceDemoInfo GsDemoInfo;
         public GoldSourceDemoInfoHlsooe HlsooeDemoInfo;
+        public L4D2BranchDemoInfo L4D2BranchInfo;
         public Parseresult Type;
 
-        public CrossParseResult(GoldSourceDemoInfoHlsooe gsdi, Parseresult pr, SourceDemoInfo sdi, GoldSourceDemoInfo gd)
+        public CrossParseResult(GoldSourceDemoInfoHlsooe gsdi, Parseresult pr, SourceDemoInfo sdi, GoldSourceDemoInfo gd, L4D2BranchDemoInfo lbi)
         {
             HlsooeDemoInfo = gsdi;
             Type = pr;
             Sdi = sdi;
             GsDemoInfo = gd;
+            L4D2BranchInfo = lbi;
         }
 
         public CrossParseResult() { }
@@ -65,17 +67,9 @@ namespace VolvoWrench.Demo_stuff
                     cpr.HlsooeDemoInfo = GoldSourceParser.ParseDemoHlsooe(filename);
                     break;
                 case Parseresult.L4D2Branch:
-                    cpr.Type = Parseresult.Source;
-                    var fe = new FileInfo(filename);
-                    using (
-                        var mmf = MemoryMappedFile.CreateFromFile(filename, FileMode.Open, "sourcemap", fe.Length + 1024,
-                            MemoryMappedFileAccess.ReadWrite))
-                    using (var cfs = mmf.CreateViewStream())
-                    {
-                        var a = new SourceParser(cfs);
-                        cpr.Sdi = a.Info;
-                        cfs.Close();
-                    }
+                    cpr.Type = Parseresult.L4D2Branch;
+                    var l = new L4D2BranchParser();
+                    cpr.L4D2BranchInfo = l.Parse(filename);
                     break;
                 default:
                     cpr.Type = Parseresult.UnsupportedFile;

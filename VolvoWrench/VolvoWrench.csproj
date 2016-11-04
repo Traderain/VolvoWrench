@@ -112,17 +112,24 @@
     <Compile Include="About.Designer.cs">
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
-    <Compile Include="Demo stuff\Demo doctor.cs">
+    <Compile Include="Demo stuff\L4D2Branch\BitStreamUtil\BitArrayStream.cs" />
+    <Compile Include="Demo stuff\L4D2Branch\BitStreamUtil\BitStreamUtil.cs" />
+    <Compile Include="Demo stuff\L4D2Branch\BitStreamUtil\DebugBitStream.cs" />
+    <Compile Include="Demo stuff\L4D2Branch\BitStreamUtil\IBitStream.cs" />
+    <Compile Include="Demo stuff\L4D2Branch\BitStreamUtil\ManagedBitStream.cs" />
+    <Compile Include="Demo stuff\L4D2Branch\BitStreamUtil\UnsafeBitStream.cs" />
+    <Compile Include="Demo stuff\GoldSource\Demo doctor.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Demo stuff\Demo doctor.Designer.cs">
+    <Compile Include="Demo stuff\GoldSource\Demo doctor.Designer.cs">
       <DependentUpon>Demo doctor.cs</DependentUpon>
     </Compile>
     <Compile Include="Demo stuff\CrossDemoParser.cs" />
-    <Compile Include="Demo stuff\Verification.cs">
+    <Compile Include="Demo stuff\L4D2Branch\L4D2BranchParser.cs" />
+    <Compile Include="Demo stuff\GoldSource\Verification.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Demo stuff\Verification.Designer.cs">
+    <Compile Include="Demo stuff\GoldSource\Verification.Designer.cs">
       <DependentUpon>Verification.cs</DependentUpon>
     </Compile>
     <Compile Include="Heatmap\Heatmap.cs">
@@ -156,19 +163,19 @@
     <Compile Include="Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
-    <Compile Include="Demo stuff\GoldSourceParser.cs" />
+    <Compile Include="Demo stuff\GoldSource\GoldSourceParser.cs" />
     <Compile Include="SaveStuff\SaveParser.cs" />
     <Compile Include="Hotkey\KeyInput.cs" />
-    <Compile Include="Demo stuff\BitBuffer.cs" />
-    <Compile Include="Demo stuff\DataTables.cs" />
-    <Compile Include="Demo stuff\SourceParser.cs" />
-    <Compile Include="Demo stuff\DemoDecoder.cs">
+    <Compile Include="Demo stuff\Source\BitBuffer.cs" />
+    <Compile Include="Demo stuff\Source\DataTables.cs" />
+    <Compile Include="Demo stuff\Source\SourceParser.cs" />
+    <Compile Include="Demo stuff\Source\DemoDecoder.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Demo stuff\DemoDecoder.Designer.cs">
+    <Compile Include="Demo stuff\Source\DemoDecoder.Designer.cs">
       <DependentUpon>DemoDecoder.cs</DependentUpon>
     </Compile>
-    <Compile Include="Demo stuff\Packet.cs" />
+    <Compile Include="Demo stuff\Source\Packet.cs" />
     <Compile Include="DG\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Demo stuff\Stats.cs">
@@ -180,10 +187,10 @@
     <EmbeddedResource Include="About.resx">
       <DependentUpon>About.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Demo stuff\Demo doctor.resx">
+    <EmbeddedResource Include="Demo stuff\GoldSource\Demo doctor.resx">
       <DependentUpon>Demo doctor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Demo stuff\Verification.resx">
+    <EmbeddedResource Include="Demo stuff\GoldSource\Verification.resx">
       <DependentUpon>Verification.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Heatmap\Heatmap.resx">
@@ -202,7 +209,7 @@
     <EmbeddedResource Include="SaveStuff\SaveFileExplorer.resx">
       <DependentUpon>SaveFileExplorer.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Demo stuff\DemoDecoder.resx">
+    <EmbeddedResource Include="Demo stuff\Source\DemoDecoder.resx">
       <DependentUpon>DemoDecoder.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -411,6 +418,7 @@
       <DefaultIcon>08 Wrench.ico</DefaultIcon>
     </FileAssociation>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
