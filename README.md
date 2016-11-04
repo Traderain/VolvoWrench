@@ -12,12 +12,10 @@ Features:
 Coming soon™:
   - Heatmap generation
   - Exporting demo data as XML
-  - Source save analyzer
-  - Goldsource save analyzer
   - HLAE Integration?
   - Auto update
   - Demo editor? (Might not be a good idea idk yet)
-  - Demo doctor
+  
   Check the roadmap file for more info! (I will try to update it)
   
   If you have any idea for a feature please make an Issue and I will most likely add it.
@@ -29,6 +27,8 @@ Thanks to:
   - asherki
   - Didrole
   - YaLTeR
+  - CSGODemoinfo team
+  - Complexity gaming
  
  ***
  <h3>And special thanks to Valve:<h3>
