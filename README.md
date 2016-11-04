@@ -15,6 +15,7 @@ Coming soon™:
   - HLAE Integration?
   - Auto update
   - Demo editor? (Might not be a good idea idk yet)
+  
   Check the roadmap file for more info! (I will try to update it)
   
   If you have any idea for a feature please make an Issue and I will most likely add it.
@@ -26,7 +27,7 @@ Thanks to:
   - asherki
   - Didrole
   - YaLTeR
-  - CSGODemoingo team
+  - CSGODemoinfo team
   - Complexity gaming
  
  ***
