@@ -52,14 +52,20 @@ namespace VolvoWrench.Demo_stuff
         {
             var reader = new BinaryReader(_fstream);
             Info.Flags = new List<Saveflag>();
+            Info.ParsingErrors = new List<string>();
             var id = reader.ReadBytes(8);
 
             if (Encoding.ASCII.GetString(id) != "HL2DEMO\0")
-                throw new Exception("Unsupported file format.");
+            {
+                Info.ParsingErrors.Add("Source parser: Incorrect mw");
+            }
 
             Info.DemoProtocol = reader.ReadInt32();
-            if (Info.DemoProtocol >> 8 > 0)
-                throw new Exception("Demos recorded on L4D branch games are currently unsupported.");
+            if (Info.DemoProtocol >> 2 > 0)
+            {
+               Info.ParsingErrors.Add("Unsupported L4D2 branch demo!");
+               return;
+            }
 
             Info.NetProtocol = reader.ReadInt32();
      
@@ -73,8 +79,6 @@ namespace VolvoWrench.Demo_stuff
             Info.FrameCount = Math.Abs(reader.ReadInt32());
 
             Info.SignonLength = reader.ReadInt32();
-
-            Info.ParsingErrors = new List<string>();
 
             while (true)
             {
@@ -103,8 +107,7 @@ namespace VolvoWrench.Demo_stuff
                     default:
                         Main.Log("Unknown demo message type encountered: " + msg.Type + "at " + reader.BaseStream.Position);
                         Info.ParsingErrors.Add("Unknown demo message type encountered: " + msg.Type + "at " + reader.BaseStream.Position);
-                            //TODO: fix this bs -- kinda fixed
-                        throw new Exception("Unknown demo type");
+                        return;s
                 }
 
                 if (msg.Data != null)

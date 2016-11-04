@@ -9,6 +9,7 @@ namespace VolvoWrench.Demo_stuff
         UnsupportedFile,
         GoldSource,
         Hlsooe,
+        L4D2Branch,
         Source
     }
 
@@ -63,6 +64,19 @@ namespace VolvoWrench.Demo_stuff
                     cpr.Type = Parseresult.Hlsooe;
                     cpr.HlsooeDemoInfo = GoldSourceParser.ParseDemoHlsooe(filename);
                     break;
+                case Parseresult.L4D2Branch:
+                    cpr.Type = Parseresult.Source;
+                    var fe = new FileInfo(filename);
+                    using (
+                        var mmf = MemoryMappedFile.CreateFromFile(filename, FileMode.Open, "sourcemap", fe.Length + 1024,
+                            MemoryMappedFileAccess.ReadWrite))
+                    using (var cfs = mmf.CreateViewStream())
+                    {
+                        var a = new SourceParser(cfs);
+                        cpr.Sdi = a.Info;
+                        cfs.Close();
+                    }
+                    break;
                 default:
                     cpr.Type = Parseresult.UnsupportedFile;
                     Main.Log(
@@ -86,7 +100,7 @@ namespace VolvoWrench.Demo_stuff
                 switch (mw)
                 {
                     case "HLDEMO": return br.ReadByte() <= 2 ? Parseresult.Hlsooe : Parseresult.GoldSource;
-                    case "HL2DEMO": return Parseresult.Source;
+                    case "HL2DEMO": return br.ReadInt32() < 4 ? Parseresult.Source: Parseresult.L4D2Branch;
                     default: return Parseresult.UnsupportedFile;
                 }
             }

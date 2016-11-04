@@ -44,12 +44,12 @@ namespace VolvoWrench
 
         public void PrintandAnalyze(string s)
         {
+            richTextBox1.Text = "";
             if ((File.Exists(s) && Path.GetExtension(s) == ".sav"))
             {
                 label1.Text = Path.GetFileName(s);
                 var parsedSave = Listsave.ParseFile(s);
-                richTextBox1.Text =
-                    $@" - Save parsed -
+                richTextBox1.AppendText($@"- Save parsed -
 Filename:               {Path.GetFileName(s)}
 Header:                 {
                         parsedSave.Header}
@@ -60,17 +60,23 @@ Size:                   {parsedSave.TokenTableFileTableOffset
 TokenCount:             {
                         parsedSave.TokenCount}
 Tokensize:              {parsedSave.TokenTableSize}
-";
-                richTextBox1.Text += @"-----------------------
+");
+                richTextBox1.AppendText(@"
+-----------------------
 Savestate files in save
------------------------";
+-----------------------");
                 foreach (var valvFile in parsedSave.Files)
                 {
-                    richTextBox1.Text += $@"
+                    richTextBox1.AppendText($@"
 Name:                   {valvFile.FileName}
 Magic Word:             {valvFile.MagicWord}
 Size:                   {valvFile.Data.Length} bytes
---------------------------------------";
+--------------------------------------");
+                    richTextBox1.Invalidate();
+                    richTextBox1.Update();
+                    richTextBox1.Refresh();
+                    Application.DoEvents();
+
                 }
             }
 

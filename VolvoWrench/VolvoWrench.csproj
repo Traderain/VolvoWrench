@@ -23,15 +23,15 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <UpdateUrl>https://traderain.hu/</UpdateUrl>
+    <UpdateUrl>https://traderain.hu/vw/</UpdateUrl>
     <SupportUrl>https://traderain.hu</SupportUrl>
     <ErrorReportUrl>https://traderain.hu</ErrorReportUrl>
     <ProductName>VolvoWrench</ProductName>
     <PublisherName>Traderain</PublisherName>
     <SuiteName>Sourceruns</SuiteName>
     <AutorunEnabled>true</AutorunEnabled>
-    <ApplicationRevision>4</ApplicationRevision>
-    <ApplicationVersion>0.6.0.%2a</ApplicationVersion>
+    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationVersion>0.7.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>

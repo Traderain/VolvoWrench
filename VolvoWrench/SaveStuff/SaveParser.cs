@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -177,8 +178,9 @@ namespace VolvoWrench.SaveStuff
                             var tempvalv = new ValvFile
                             {
                                 Data = new byte[0],
-                                FileName = new string(br.ReadChars(260))
+                                FileName = Encoding.ASCII.GetString(br.ReadBytes(260)).TrimEnd('\0').Replace("\0","") //BUG: bunch of \0 in string
                             };
+                            tempvalv.StateType = (Hlfile) tempvalv.FileName[tempvalv.Length];
                             if (UnexpectedEof(br, 8))
                             {
                                 var filelength = br.ReadInt32();

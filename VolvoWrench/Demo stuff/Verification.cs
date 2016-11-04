@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace VolvoWrench.Demo_stuff
@@ -89,7 +84,8 @@ namespace VolvoWrench.Demo_stuff
                         msecMax.Add(1000.0/mmx);
                         avgmsec.Add(1000.0/(msecSum/(double) count));
                     }
-                    mrtb.AppendText($@"
+                    mrtb.AppendText(
+                        $@"
 Highest FPS:                {(frametimeMin.Max()).ToString("N2")}
 Lowest FPS:                 {(frametimeMin.Min()).ToString("N2")}
 Average FPS:                {frametimeSum.Average().ToString("N2")}
@@ -102,24 +98,17 @@ Total time of the demos:    {df.Sum(x => x.Value.GsDemoInfo.DirectoryEntries.Sum
                     foreach (var dem in df)
                     {
                         mrtb.AppendText(Path.GetFileName(dem.Key) + " -> " + dem.Value.GsDemoInfo.Header.MapName + "\n");
-                        foreach (
-                            var f in
-                                dem.Value.GsDemoInfo.DirectoryEntries.SelectMany(
-                                    entry =>
-                                        (from frame in
-                                            entry.Frames.Where(
+                        foreach (var f in dem.Value.GsDemoInfo.DirectoryEntries.SelectMany(entry =>
+                                        (from frame in entry.Frames.Where(
                                                 x => x.Key.Type == GoldSource.DemoFrameType.ConsoleCommand)
-                                            select (GoldSource.ConsoleCommandFrame) frame.Value
-                                            into f
-                                            let cheats = new List<string>()
+                                            select (GoldSource.ConsoleCommandFrame) frame.Value into f
+                                            let cheats = new List<string>
                                             {
                                                 "+lookup",
                                                 "+lookdown",
                                                 "+left",
                                                 "+right"
-                                            }
-                                            where cheats.Contains(f.Command)
-                                            select f))) {mrtb.AppendText(f.Command + "\n");}
+                                            } where cheats.Contains(f.Command) select f))) {mrtb.AppendText(f.Command + "\n");}
                     }
                 }
             }

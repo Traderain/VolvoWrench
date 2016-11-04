@@ -185,38 +185,46 @@ namespace VolvoWrench
 
         private void renameDemoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (CurrentFile == null || !File.Exists(CurrentFile) || Path.GetExtension(CurrentFile) != ".dem") return;
+            if (CurrentFile != null && File.Exists(CurrentFile) && Path.GetExtension(CurrentFile) == ".dem")
             {
-                richTextBox1.Text = @"Analyzing file...";
-                UpdateForm();
-                CurrentDemoFile = CrossDemoParser.Parse(CurrentFile);
+                if (CurrentDemoFile == null)
+                {
+                    richTextBox1.Text = @"Analyzing file...";
+                    UpdateForm();
+                    CurrentDemoFile = CrossDemoParser.Parse(CurrentFile);
+                }
+                switch (CurrentDemoFile.Type)
+                {
+                    case Parseresult.UnsupportedFile:
+                        break;
+                    case Parseresult.GoldSource:
+                        File.Move(CurrentFile,
+                            Path.GetDirectoryName(CurrentFile) + "\\" +
+                            CurrentDemoFile.GsDemoInfo.Header.MapName + "-" +
+                            $"{CurrentDemoFile.GsDemoInfo.DirectoryEntries.Last().TrackTime.ToString("#,0.000")}" + "-" + Environment.UserName + ".dem");
+                        break;
+                    case Parseresult.Hlsooe:
+                        File.Move(CurrentFile,
+                            Path.GetDirectoryName(CurrentFile) + "\\" +
+                            CurrentDemoFile.HlsooeDemoInfo.Header.MapName + "-" +
+                            $"{CurrentDemoFile.HlsooeDemoInfo.DirectoryEntries.Last().PlaybackTime.ToString("#,0.000")}" + "-" + Environment.UserName + ".dem");
+                        break;
+                    case Parseresult.Source:
+                        var stime = (CurrentDemoFile.Sdi.Flags.Count(x => x.Name == "#SAVE#") == 0)
+                        ? CurrentDemoFile.Sdi.Seconds.ToString("#,0.000")
+                        : CurrentDemoFile.Sdi.Flags.Last(x => x.Name == "#SAVE#").Time.ToString("#,0.000");
+                        File.Move(CurrentFile,
+                            Path.GetDirectoryName(CurrentFile) + "\\" +
+                            CurrentDemoFile.Sdi.MapName + "-" +
+                            $"{stime}" + "-" + CurrentDemoFile.Sdi.ClientName + ".dem");
+                        break;
+                }
             }
-            switch (CurrentDemoFile.Type)
+            else
             {
-                case Parseresult.UnsupportedFile:
-                    break;
-                case Parseresult.GoldSource:
-                    File.Move(CurrentFile,
-                        Path.GetDirectoryName(CurrentFile) + "\\" +
-                        CurrentDemoFile.GsDemoInfo.Header.MapName + "-" +
-                        $"{CurrentDemoFile.GsDemoInfo.DirectoryEntries.Last().TrackTime.ToString("#,0.000")}" + "-" + Environment.UserName + ".dem");
-                    break;
-                case Parseresult.Hlsooe:
-                    File.Move(CurrentFile,
-                        Path.GetDirectoryName(CurrentFile) + "\\" +
-                        CurrentDemoFile.HlsooeDemoInfo.Header.MapName + "-" +
-                        $"{CurrentDemoFile.HlsooeDemoInfo.DirectoryEntries.Last().PlaybackTime.ToString("#,0.000")}" + "-" + Environment.UserName + ".dem");
-                    break;
-                case Parseresult.Source:
-                    var stime = (CurrentDemoFile.Sdi.Flags.Count(x => x.Name == "#SAVE#") == 0)
-                    ? CurrentDemoFile.Sdi.Seconds.ToString("#,0.000")
-                    : CurrentDemoFile.Sdi.Flags.Last(x => x.Name == "#SAVE#").Time.ToString("#,0.000");
-                    File.Move(CurrentFile,
-                        Path.GetDirectoryName(CurrentFile) + "\\" +
-                        CurrentDemoFile.Sdi.MapName.Substring(3, CurrentDemoFile.Sdi.MapName.Length - 3) + "-" +
-                        $"{stime}" + "-" + CurrentDemoFile.Sdi.ClientName + ".dem");
-                    break;
+                richTextBox1.Text = @"Please select a file first!";
             }
+            
         }
 
         #endregion
@@ -467,7 +475,7 @@ Average msec:               {(1000.0 / (msecSum / (double)count)).ToString("N2")
                     case Parseresult.Hlsooe:
                         if (demo.HlsooeDemoInfo.ParsingErrors.ToArray().Length > 0)
                         {
-                            richTextBox1.Text = @"Error while parsing goldsource demo: 
+                            richTextBox1.Text = @"Error while parsing HLSOOE demo: 
 ";
                             UpdateForm();
                             foreach (var err in demo.HlsooeDemoInfo.ParsingErrors)
@@ -497,7 +505,7 @@ Frame count:                {demo.HlsooeDemoInfo.DirectoryEntries.Sum(x => x.Fra
                     case Parseresult.Source:
                         if (demo.Sdi.ParsingErrors.ToArray().Length > 0)
                         {
-                            richTextBox1.Text = @"Error while parsing goldsource demo: 
+                            richTextBox1.Text = @"Error while parsing Source engine demo: 
 ";
                             UpdateForm();
                             foreach (var err in demo.Sdi.ParsingErrors)
