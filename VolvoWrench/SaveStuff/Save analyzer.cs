@@ -67,16 +67,13 @@ Savestate files in save
 -----------------------");
                 foreach (var valvFile in parsedSave.Files)
                 {
-                    richTextBox1.AppendText($@"
-Name:                   {valvFile.FileName}
-Magic Word:             {valvFile.MagicWord}
-Size:                   {valvFile.Data.Length} bytes
---------------------------------------");
+                    richTextBox1.AppendText($"\nName:\t\t{valvFile.FileName}");
+                    richTextBox1.AppendText($"\nMagic Word:\t\t{valvFile.MagicWord?.Trim()}");
+                    richTextBox1.AppendText($"\nSize:\t\t{valvFile.Data.Length} bytes");
                     richTextBox1.Invalidate();
                     richTextBox1.Update();
                     richTextBox1.Refresh();
                     Application.DoEvents();
-
                 }
             }
 

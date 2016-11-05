@@ -14,14 +14,14 @@
     <framework targetVersion="4.6.1" profile="Full" supportedRuntime="4.0.30319" />
   </compatibleFrameworks>
   <dependency>
-    <dependentAssembly dependencyType="install" codebase="VolvoWrench.exe.manifest" size="6523">
+    <dependentAssembly dependencyType="install" codebase="VolvoWrench.exe.manifest" size="6922">
       <assemblyIdentity name="VolvoWrench.exe" version="0.7.0.1" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="amd64" type="win32" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>8MkcwY1DQGQWJRTMs4+KPfnqEFysdnQrZO6eONDE9Es=</dsig:DigestValue>
+        <dsig:DigestValue>uW4uY1rgP+meQ9M16OVg2Vg6+3Za1S8VfcGqqSUBzr0=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

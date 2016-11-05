@@ -112,6 +112,7 @@
     <Compile Include="About.Designer.cs">
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
+    <Compile Include="Demo stuff\Category.cs" />
     <Compile Include="Demo stuff\L4D2Branch\BitStreamUtil\BitArrayStream.cs" />
     <Compile Include="Demo stuff\L4D2Branch\BitStreamUtil\BitStreamUtil.cs" />
     <Compile Include="Demo stuff\L4D2Branch\BitStreamUtil\DebugBitStream.cs" />
@@ -132,10 +133,10 @@
     <Compile Include="Demo stuff\GoldSource\Verification.Designer.cs">
       <DependentUpon>Verification.cs</DependentUpon>
     </Compile>
-    <Compile Include="Heatmap\Heatmap.cs">
+    <Compile Include="Demo stuff\Heatmap\Heatmap.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Heatmap\Heatmap.Designer.cs">
+    <Compile Include="Demo stuff\Heatmap\Heatmap.Designer.cs">
       <DependentUpon>Heatmap.cs</DependentUpon>
     </Compile>
     <Compile Include="SaveStuff\SaveFileExplorer.cs">
@@ -193,7 +194,7 @@
     <EmbeddedResource Include="Demo stuff\GoldSource\Verification.resx">
       <DependentUpon>Verification.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Heatmap\Heatmap.resx">
+    <EmbeddedResource Include="Demo stuff\Heatmap\Heatmap.resx">
       <DependentUpon>Heatmap.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SaveStuff\Save analyzer.resx">
@@ -388,9 +389,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="08 Wrench.ico" />
+    <Content Include="DG\08 Wrench.ico" />
     <None Include="Resources\updated_logo_transparent.png" />
     <None Include="Resources\physician-icon-png-28.png" />
-    <Content Include="Roadmap.txt" />
+    <Content Include="DG\Roadmap.txt" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">

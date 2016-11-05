@@ -13,19 +13,11 @@ namespace VolvoWrench
 {
     public sealed partial class Main : Form
     {
-        public enum DemoType
-        {
-            None,
-            GoldSource,
-            Source
-        }
-
         public static readonly string LogPath = string.Format("{0}\\" + "VolvoWrench" + "\\" + "VWLog.log", Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
         public static readonly string SettingsPath = string.Format("{0}\\" + "VolvoWrench" + "\\" + "VWSettings.config", Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
 
         public static int DemoPopupKey = 0x70; //F1
         public CrossParseResult CurrentDemoFile;
-        public DemoType CurrentDemoType;
         public string CurrentFile;
 
         public Main()
