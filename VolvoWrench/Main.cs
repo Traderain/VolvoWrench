@@ -518,9 +518,12 @@ Server name:                {demo.Sdi.ServerName}
 Client name:                {demo.Sdi.ClientName}
 Map name:                   {demo.Sdi.MapName}
 Game directory:             {demo.Sdi.GameDirectory}
-Length in seconds:          {demo.Sdi.Seconds.ToString("#,0.000")}s
-Tick count:                 {demo.Sdi.TickCount}
+Playback seconds:           {demo.Sdi.Seconds.ToString("#,0.000")}s
+Playback tick:              {demo.Sdi.TickCount}
 Frame count:                {demo.Sdi.FrameCount}
+
+Measured time:              {(demo.Sdi.Messages.Max(x => x.Tick)*0.015).ToString("n3")}s
+Measured ticks:             {demo.Sdi.Messages.Max(x => x.Tick)}
 ----------------------------------------------------------";
                             UpdateForm();
                             foreach (var f in demo.Sdi.Flags)

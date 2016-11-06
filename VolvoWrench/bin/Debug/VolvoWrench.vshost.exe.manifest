@@ -4,7 +4,7 @@
   <description asmv2:iconFile="08 Wrench.ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <application />
   <entryPoint>
-    <assemblyIdentity name="VolvoWrench" version="1.0.6152.35240" language="neutral" processorArchitecture="amd64" />
+    <assemblyIdentity name="VolvoWrench" version="1.0.6154.32867" language="neutral" processorArchitecture="amd64" />
     <commandLine file="VolvoWrench.exe" parameters="" />
   </entryPoint>
   <trustInfo>
@@ -55,14 +55,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="VolvoWrench.exe" size="886272">
-      <assemblyIdentity name="VolvoWrench" version="1.0.6152.35240" language="neutral" processorArchitecture="amd64" />
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="VolvoWrench.exe" size="864248">
+      <assemblyIdentity name="VolvoWrench" version="1.0.6154.32867" language="neutral" processorArchitecture="amd64" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>w6jN+3K9SYo+m2MZye0k8nC6z8CdRmaT51lCT9s9azQ=</dsig:DigestValue>
+        <dsig:DigestValue>w9mF1wL4SOJ4+elMBCJzKVsN96D5vD5JUqmdzSl2XJY=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -84,22 +84,22 @@
       <dsig:DigestValue>ldsE6Hl1ejn5Aucp+L1wJ+SskQduMFSw+BU4C2WQslk=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="DG\Roadmap.txt" size="110">
+  <file name="DG\Roadmap.txt" size="115">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>P6fdnI9ffAVVO81IA+pJYPgfNgBSfq7YuoKw18VCqAk=</dsig:DigestValue>
+      <dsig:DigestValue>LEudcTc2+pmjg3XORKKUcT/XdAxPoX9mElA/92g7n8s=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="VolvoWrench.exe.config" size="175">
+  <file name="VolvoWrench.exe.config" size="181">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>GlKxsaH1chYkZy917eY7+J3BQ7OAfKEKSU8B5falRrk=</dsig:DigestValue>
+      <dsig:DigestValue>SFuAJeKPCvD4+78UJN+ukJykp1KIg29cXW9aKqf4gvw=</dsig:DigestValue>
     </hash>
   </file>
   <fileAssociation extension=".dem" description="Save files" progid="420" defaultIcon="08 Wrench.ico" xmlns="urn:schemas-microsoft-com:clickonce.v1" />
