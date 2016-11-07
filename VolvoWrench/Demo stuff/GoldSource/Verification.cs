@@ -55,7 +55,7 @@ namespace VolvoWrench.Demo_stuff
                         foreach (var f in from entry in d.Value.GsDemoInfo.DirectoryEntries
                             from frame in entry.Frames
                             where (int) frame.Key.Type < 2 || (int) frame.Key.Type > 9
-                            select (GoldSource.NetMsgFrame) frame.Value)
+                            select (GoldSource.GoldSource.NetMsgFrame) frame.Value)
                         {
                             fts += f.RParms.Frametime;
                             msecSum += f.UCmd.Msec;
@@ -100,8 +100,8 @@ Total time of the demos:    {df.Sum(x => x.Value.GsDemoInfo.DirectoryEntries.Sum
                         mrtb.AppendText(Path.GetFileName(dem.Key) + " -> " + dem.Value.GsDemoInfo.Header.MapName + "\n");
                         foreach (var f in dem.Value.GsDemoInfo.DirectoryEntries.SelectMany(entry =>
                                         (from frame in entry.Frames.Where(
-                                                x => x.Key.Type == GoldSource.DemoFrameType.ConsoleCommand)
-                                            select (GoldSource.ConsoleCommandFrame) frame.Value into f
+                                                x => x.Key.Type == GoldSource.GoldSource.DemoFrameType.ConsoleCommand)
+                                            select (GoldSource.GoldSource.ConsoleCommandFrame) frame.Value into f
                                             let cheats = new List<string>
                                             {
                                                 "+lookup",

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Security.Principal;
 using System.Windows.Forms;
 using VolvoWrench.Demo_stuff;
+using VolvoWrench.Demo_stuff.GoldSource;
 using static System.Convert;
 
 namespace VolvoWrench
@@ -394,6 +395,7 @@ Language = EN;"
         {
             if (demo != null)
             {
+                richTextBox1.Text = "Demo parsed!";
                 StripEnabler(demo);
                 switch (demo.Type)
                 {
@@ -408,7 +410,7 @@ Language = EN;"
                             UpdateForm();
                             foreach (var err in demo.GsDemoInfo.ParsingErrors)
                             {
-                                richTextBox1.AppendText(err);
+                                richTextBox1.AppendText("\n" + err);
                                 UpdateForm();
                             }
 
@@ -478,31 +480,34 @@ Average msec:               {(1000.0 / (msecSum / (double)count)).ToString("N2")
                         }
                         else
                         {
-                            richTextBox1.Text =
-                                $@"Analyzed HLS:OOE engine demo file ({demo.HlsooeDemoInfo.Header.GameDirectory
-                                    }):
+                            richTextBox1.Text = $@"Analyzed HLS:OOE engine demo file ({demo.HlsooeDemoInfo.Header.GameDirectory}):
 ----------------------------------------------------------
 Demo protocol:              {demo.HlsooeDemoInfo.Header.DemoProtocol}
 Net protocol:               {demo.HlsooeDemoInfo.Header.Netprotocol}
 Directory offset:           {demo.HlsooeDemoInfo.Header.DirectoryOffset}
 Map name:                   {demo.HlsooeDemoInfo.Header.MapName}
 Game directory:             {demo.HlsooeDemoInfo.Header.GameDirectory}
-Length in seconds:          {demo.HlsooeDemoInfo.DirectoryEntries.Skip(1).Sum(x => x.Frames.Last().Key.Time).ToString("n3")}s
-Frame count:                {demo.HlsooeDemoInfo.DirectoryEntries.Sum(x => x.FrameCount)}
+Length in seconds:          {(demo.HlsooeDemoInfo.DirectoryEntries.Last().Frames.LastOrDefault().Key.Frame) *0.015}s
+Tick count:                 {(demo.HlsooeDemoInfo.DirectoryEntries.Last().Frames.LastOrDefault().Key.Frame)}
 ----------------------------------------------------------";
                             UpdateForm();
-                            //TODO: Bug in time print
+                            foreach (var demoDirectoryEntry in demo.HlsooeDemoInfo.DirectoryEntries)
+                            {
+                                foreach (var flag in demoDirectoryEntry.Flags)
+                                {
+                                    richTextBox1.AppendText(flag.Value.Command + " at " + flag.Key.Frame +  " -> " + (flag.Key.Frame*0.015).ToString("n3") + "s");
+                                }
+                            }
                         }
                         break;
                     case Parseresult.Source:
                         if (demo.Sdi.ParsingErrors.ToArray().Length > 0)
                         {
-                            richTextBox1.Text = @"Error while parsing Source engine demo: 
-";
+                            richTextBox1.Text = @"Error while parsing Source engine demo: ";
                             UpdateForm();
                             foreach (var err in demo.Sdi.ParsingErrors)
                             {
-                                richTextBox1.AppendText(err);
+                                richTextBox1.AppendText("\n"+err);
                                 UpdateForm();
                             }
                         }
@@ -518,7 +523,7 @@ Server name:                {demo.Sdi.ServerName}
 Client name:                {demo.Sdi.ClientName}
 Map name:                   {demo.Sdi.MapName}
 Game directory:             {demo.Sdi.GameDirectory}
-Playback seconds:           {demo.Sdi.Seconds.ToString("#,0.000")}s
+Playback seconds:           {demo.Sdi.Seconds.ToString("n3")}s
 Playback tick:              {demo.Sdi.TickCount}
 Frame count:                {demo.Sdi.FrameCount}
 
@@ -552,7 +557,7 @@ Measured ticks:             {demo.Sdi.Messages.Max(x => x.Tick)}
                             UpdateForm();
                             foreach (var err in demo.L4D2BranchInfo.parsingerrors)
                             {
-                                richTextBox1.AppendText(err);
+                                richTextBox1.AppendText("\n" + err);
                                 UpdateForm();
                             }
                         }
@@ -566,7 +571,7 @@ Server name:        {demo.L4D2BranchInfo.Header.ServerName}
 Client name:        {demo.L4D2BranchInfo.Header.ClientName}
 Mapname:            {demo.L4D2BranchInfo.Header.MapName}
 GameDir:            {demo.L4D2BranchInfo.Header.GameDirectory}
-Playbacktime:       {demo.L4D2BranchInfo.Header.PlaybackTime}s
+Playbacktime:       {demo.L4D2BranchInfo.Header.PlaybackTime.ToString("n3")}s
 Playbackticks:      {demo.L4D2BranchInfo.Header.PlaybackTicks}
 Playbackframes:     {demo.L4D2BranchInfo.Header.PlaybackFrames}
 Signonlength:       {demo.L4D2BranchInfo.Header.SignonLength}
@@ -611,8 +616,7 @@ Signonlength:       {demo.L4D2BranchInfo.Header.SignonLength}
 
         public static void Log(string s)
         {
-            Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\" +
-                                      "VolvoWrench");
+            Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\" +"VolvoWrench");
             File.AppendAllLines(LogPath, new[]
             {
                 (DateTime.Now.ToString("yyyy-MM-ddTHH\\:mm\\:ss.fffffffzzz") + " " +

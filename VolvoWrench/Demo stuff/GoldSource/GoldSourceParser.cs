@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net.Mime;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows.Forms;
 using System.Windows.Media.Media3D;
 
-namespace VolvoWrench.Demo_stuff
+namespace VolvoWrench.Demo_stuff.GoldSource
 {
     public class Hlsooe
     {
@@ -24,14 +22,13 @@ namespace VolvoWrench.Demo_stuff
             NextSection = 8
         };
 
-        public interface IFrame
-        {
-        }
+        public interface IFrame { }
 
         public class DemoFrame
         {
             public int Tick;
             public float Time;
+            public int Frame;
             public DemoFrameType Type;
         }
 
@@ -45,13 +42,9 @@ namespace VolvoWrench.Demo_stuff
             public string Data;
         }
 
-        public class JumpTimeFrame : IFrame
-        {
-        }
+        public class JumpTimeFrame : IFrame { }
 
-        public class NextSectionFrame : IFrame
-        {
-        }
+        public class NextSectionFrame : IFrame { }
 
         public class ErrorFrame : IFrame
         {
@@ -141,6 +134,7 @@ namespace VolvoWrench.Demo_stuff
             public int Offset;
             public float PlaybackTime;
             public int Type;
+            public Dictionary<DemoFrame,ConsoleCommandFrame> Flags;
         }
     }
 
@@ -166,10 +160,10 @@ namespace VolvoWrench.Demo_stuff
             HalfLife1107,
             HalfLife1108,
             HalfLife1109,
-            HalfLife1108or1109,
+            HalfLife1108Or1109,
             HalfLife1110,
             HalfLife1111, // Steam
-            HalfLife1110or1111
+            HalfLife1110Or1111
         }
 
         public string EngineName(int name)
@@ -198,7 +192,7 @@ namespace VolvoWrench.Demo_stuff
                     s += "1.1.0.9";
                     break;
 
-                case EngineVersions.HalfLife1108or1109:
+                case EngineVersions.HalfLife1108Or1109:
                     s += "1.1.0.8 or v1.1.0.9";
                     break;
 
@@ -210,7 +204,7 @@ namespace VolvoWrench.Demo_stuff
                     s += "1.1.1.1";
                     break;
 
-                case EngineVersions.HalfLife1110or1111:
+                case EngineVersions.HalfLife1110Or1111:
                     s += "1.1.1.0 or v1.1.1.1";
                     break;
 
@@ -465,7 +459,7 @@ namespace VolvoWrench.Demo_stuff
 
         public static GoldSourceDemoInfoHlsooe ParseDemoHlsooe(string s)
         {
-            Main mf = Application.OpenForms.OfType<Main>().FirstOrDefault();
+            var mf = Application.OpenForms.OfType<Main>().FirstOrDefault();
             var hlsooeDemo = new GoldSourceDemoInfoHlsooe
             {
                 Header = new Hlsooe.DemoHeader(),
@@ -514,7 +508,8 @@ namespace VolvoWrench.Demo_stuff
                                 FrameCount = br.ReadInt32(),
                                 Offset = br.ReadInt32(),
                                 Filelength = br.ReadInt32(),
-                                Frames = new Dictionary<Hlsooe.DemoFrame, Hlsooe.IFrame>()
+                                Frames = new Dictionary<Hlsooe.DemoFrame, Hlsooe.IFrame>(),
+                                Flags = new Dictionary<Hlsooe.DemoFrame, Hlsooe.ConsoleCommandFrame>()
                             };
                             hlsooeDemo.DirectoryEntries.Add(tempvar);
                         }
@@ -541,7 +536,8 @@ namespace VolvoWrench.Demo_stuff
                                     {
                                         Type = (Hlsooe.DemoFrameType)br.ReadSByte(),
                                         Time = br.ReadSingle(),
-                                        Tick = br.ReadInt32()
+                                        Tick = br.ReadInt32(),
+                                        Frame = i+1
                                     };
                                     #region FrameType Switch
                                     switch (currentDemoFrame.Type)
@@ -555,11 +551,13 @@ namespace VolvoWrench.Demo_stuff
                                             var g = new Hlsooe.StartupPacketFrame
                                             {
                                                 Flags = br.ReadInt32(),
-                                                ViewOrigins = new Point3D(br.ReadDouble(), br.ReadDouble(), br.ReadDouble()),
-                                                ViewAngles = new Point3D(br.ReadDouble(), br.ReadDouble(), br.ReadDouble()),
+                                                ViewOrigins = new Point3D(br.ReadSingle(), br.ReadSingle(), br.ReadSingle()),
+                                                ViewAngles = new Point3D(br.ReadSingle(), br.ReadSingle(), br.ReadSingle()),
                                                 LocalViewAngles =
-                                                    new Point3D(br.ReadDouble(), br.ReadDouble(), br.ReadDouble()),
-                                                ViewOrigin2 = new Point3D(br.ReadDouble(), br.ReadDouble(), br.ReadDouble()),
+                                                    new Point3D(br.ReadSingle(), br.ReadSingle(), br.ReadSingle()),
+                                                ViewOrigin2 = new Point3D(br.ReadSingle(), br.ReadSingle(), br.ReadSingle()),
+                                                ViewAngles2 = new Point3D(br.ReadSingle(), br.ReadSingle(), br.ReadSingle()),
+                                                LocalViewAngles2 = new Point3D(br.ReadSingle(), br.ReadSingle(), br.ReadSingle()),
                                                 IncomingSequence = br.ReadInt32(),
                                                 IncomingAcknowledged = br.ReadInt32(),
                                                 IncomingReliableAcknowledged = br.ReadInt32(),
@@ -568,6 +566,10 @@ namespace VolvoWrench.Demo_stuff
                                                 ReliableSequence = br.ReadInt32(),
                                                 LastReliableSequence = br.ReadInt32()
                                             };
+                                            var spml = br.ReadInt32();
+                                            g.Msg = Encoding.ASCII.GetString(br.ReadBytes(spml))
+                                                    .Trim('\0')
+                                                    .Replace("\0", string.Empty);
                                             entry.Frames.Add(currentDemoFrame, g);
                                             break;
                                         case Hlsooe.DemoFrameType.NetworkPacket:
@@ -579,11 +581,13 @@ namespace VolvoWrench.Demo_stuff
                                             var b = new Hlsooe.NetMsgFrame
                                             {
                                                 Flags = br.ReadInt32(),
-                                                ViewOrigins = new Point3D(br.ReadDouble(), br.ReadDouble(), br.ReadDouble()),
-                                                ViewAngles = new Point3D(br.ReadDouble(), br.ReadDouble(), br.ReadDouble()),
+                                                ViewOrigins = new Point3D(br.ReadSingle(), br.ReadSingle(), br.ReadSingle()),
+                                                ViewAngles = new Point3D(br.ReadSingle(), br.ReadSingle(), br.ReadSingle()),
                                                 LocalViewAngles =
-                                                    new Point3D(br.ReadDouble(), br.ReadDouble(), br.ReadDouble()),
-                                                ViewOrigin2 = new Point3D(br.ReadDouble(), br.ReadDouble(), br.ReadDouble()),
+                                                    new Point3D(br.ReadSingle(), br.ReadSingle(), br.ReadSingle()),
+                                                ViewAngles2 = new Point3D(br.ReadSingle(), br.ReadSingle(), br.ReadSingle()),
+                                                LocalViewAngles2 = new Point3D(br.ReadSingle(), br.ReadSingle(), br.ReadSingle()),
+                                                ViewOrigin2 = new Point3D(br.ReadSingle(), br.ReadSingle(), br.ReadSingle()),
                                                 IncomingSequence = br.ReadInt32(),
                                                 IncomingAcknowledged = br.ReadInt32(),
                                                 IncomingReliableAcknowledged = br.ReadInt32(),
@@ -592,6 +596,10 @@ namespace VolvoWrench.Demo_stuff
                                                 ReliableSequence = br.ReadInt32(),
                                                 LastReliableSequence = br.ReadInt32()
                                             };
+                                            var nml = br.ReadInt32();
+                                            b.Msg = Encoding.ASCII.GetString(br.ReadBytes(nml))
+                                                    .Trim('\0')
+                                                    .Replace("\0", string.Empty);
                                             entry.Frames.Add(currentDemoFrame, b);
                                             break;
                                         case Hlsooe.DemoFrameType.Jumptime:
@@ -601,23 +609,31 @@ namespace VolvoWrench.Demo_stuff
                                         case Hlsooe.DemoFrameType.ConsoleCommand:
                                             if (UnexpectedEof(br, (4)))
                                             {
-                                                hlsooeDemo.ParsingErrors.Add("Unexpected enf of file when reading console command length at fram:" + i);
+                                                hlsooeDemo.ParsingErrors.Add("Unexpected enf of file when reading console command length at frame: " + i + " brpos: " + br.BaseStream.Position);
                                                 return hlsooeDemo;
                                             }
                                             var a = new Hlsooe.ConsoleCommandFrame();
                                             var commandlength = br.ReadInt32();
                                             if (UnexpectedEof(br, (commandlength)))
                                             {
-                                                hlsooeDemo.ParsingErrors.Add("Unexpected end of file when reading the console command at frame: " + i);
+                                                hlsooeDemo.ParsingErrors.Add("Unexpected end of file when reading the console command at frame: " + i + " brpos: " + br.BaseStream.Position);
                                                 return hlsooeDemo;
                                             }
-                                            a.Command = new string(br.ReadChars(commandlength)).Trim('\0');
+                                            a.Command = Encoding.ASCII.GetString(br.ReadBytes(commandlength))
+                                                    .Trim('\0')
+                                                    .Replace("\0", string.Empty);
+                                            if (a.Command.Contains("#SAVE#"))
+                                                entry.Flags.Add(currentDemoFrame,a);
+                                            if (a.Command.Contains("autosave"))
+                                                entry.Flags.Add(currentDemoFrame,a);
+                                            if(a.Command.Contains("changelevel2"))
+                                                entry.Flags.Add(currentDemoFrame,a);
                                             entry.Frames.Add(currentDemoFrame, a);
                                             break;
                                         case Hlsooe.DemoFrameType.Usercmd:
                                             if (UnexpectedEof(br, (4 + 4 + 2)))
                                             {
-                                                hlsooeDemo.ParsingErrors.Add("Unexpected end of file when reading UserCMD header at frame: " + i);
+                                                hlsooeDemo.ParsingErrors.Add("Unexpected end of file when reading UserCMD header at frame: " + i + " brpos: " + br.BaseStream.Position);
                                                 return hlsooeDemo;
                                             }
                                             var c = new Hlsooe.UserCmdFrame
@@ -628,7 +644,7 @@ namespace VolvoWrench.Demo_stuff
                                             var usercmdlength = br.ReadInt16();
                                             if (UnexpectedEof(br, (usercmdlength)))
                                             {
-                                                hlsooeDemo.ParsingErrors.Add("Unexpected end of file when reading userCMD at frame: " + i);
+                                                hlsooeDemo.ParsingErrors.Add("Unexpected end of file when reading userCMD at frame: " + i + " brpos: " + br.BaseStream.Position);
                                                 return hlsooeDemo;
                                             }
                                             c.Data =
@@ -641,16 +657,18 @@ namespace VolvoWrench.Demo_stuff
                                             var e = new Hlsooe.StringTablesFrame();
                                             if (UnexpectedEof(br, (4)))
                                             {
-                                                hlsooeDemo.ParsingErrors.Add("Unexpected end of file when reading stringtablelength at frame: " + i);
+                                                hlsooeDemo.ParsingErrors.Add("Unexpected end of file when reading stringtablelength at frame: " + i + " brpos: " + br.BaseStream.Position);
                                                 return hlsooeDemo;
                                             }
                                             var stringtablelength = br.ReadInt32();
                                             if (UnexpectedEof(br, (stringtablelength)))
                                             {
-                                                hlsooeDemo.ParsingErrors.Add("Unexpected end of file when reading stringtable data at frame: " + i);
+                                                hlsooeDemo.ParsingErrors.Add("Unexpected end of file when reading stringtable data at frame: " + i + " brpos: " + br.BaseStream.Position);
                                                 return hlsooeDemo;
                                             }
-                                            var edata = new string(br.ReadChars(stringtablelength));
+                                            var edata = Encoding.ASCII.GetString(br.ReadBytes(stringtablelength))
+                                                    .Trim('\0')
+                                                    .Replace("\0", string.Empty);
                                             e.Data = edata;
                                             entry.Frames.Add(currentDemoFrame, e);
                                             break;
@@ -658,16 +676,18 @@ namespace VolvoWrench.Demo_stuff
                                             var d = new Hlsooe.NetworkDataTableFrame();
                                             if (UnexpectedEof(br, (4)))
                                             {
-                                                hlsooeDemo.ParsingErrors.Add("Unexpected end of file when reading networktable length at frame: " + i);
+                                                hlsooeDemo.ParsingErrors.Add("Unexpected end of file when reading networktable length at frame: " + i + " brpos: " + br.BaseStream.Position);
                                                 return hlsooeDemo;
                                             }
                                             var networktablelength = br.ReadInt32();
                                             if (UnexpectedEof(br, (4)))
                                             {
-                                                hlsooeDemo.ParsingErrors.Add("Unexpected end of file when reading NetWorkTable data at frame: " + i);
+                                                hlsooeDemo.ParsingErrors.Add("Unexpected end of file when reading NetWorkTable data at frame: " + i + " brpos: " + br.BaseStream.Position);
                                                 return hlsooeDemo;
                                             }
-                                            d.Data = new string(br.ReadChars(networktablelength)).Trim('\0');
+                                            d.Data = Encoding.ASCII.GetString(br.ReadBytes(networktablelength))
+                                                    .Trim('\0')
+                                                    .Replace("\0", string.Empty);
                                             entry.Frames.Add(currentDemoFrame, d);
                                             break;
                                         case Hlsooe.DemoFrameType.NextSection:
@@ -678,17 +698,19 @@ namespace VolvoWrench.Demo_stuff
                                             Main.Log($"Error: Frame type: + {currentDemoFrame.Type} at parsing.");
                                             if (UnexpectedEof(br, (8 + 8 + 8 + 8 + 8 + 8 + 8 + 8 + 8 + 8 + 8 + 8 + 4 + 4 + 4 + 4 + 4 + 4 + 4)))
                                             {
-                                                hlsooeDemo.ParsingErrors.Add("Unexpected end of file when reading default frame at frame: " + i);
+                                                hlsooeDemo.ParsingErrors.Add("Unexpected end of file when reading default frame at frame: " + i + " brpos: " + br.BaseStream.Position);
                                                 return hlsooeDemo;
                                             }
                                             var err = new Hlsooe.ErrorFrame
                                             {
                                                 Flags = br.ReadInt32(),
-                                                ViewOrigins = new Point3D(br.ReadDouble(), br.ReadDouble(), br.ReadDouble()),
-                                                ViewAngles = new Point3D(br.ReadDouble(), br.ReadDouble(), br.ReadDouble()),
+                                                ViewOrigins = new Point3D(br.ReadSingle(), br.ReadSingle(), br.ReadSingle()),
+                                                ViewAngles = new Point3D(br.ReadSingle(), br.ReadSingle(), br.ReadSingle()),
                                                 LocalViewAngles =
-                                                    new Point3D(br.ReadDouble(), br.ReadDouble(), br.ReadDouble()),
-                                                ViewOrigin2 = new Point3D(br.ReadDouble(), br.ReadDouble(), br.ReadDouble()),
+                                                    new Point3D(br.ReadSingle(), br.ReadSingle(), br.ReadSingle()),
+                                                ViewOrigin2 = new Point3D(br.ReadSingle(), br.ReadSingle(), br.ReadSingle()),
+                                                ViewAngles2 = new Point3D(br.ReadSingle(), br.ReadSingle(), br.ReadSingle()),
+                                                LocalViewAngles2 = new Point3D(br.ReadSingle(), br.ReadSingle(), br.ReadSingle()),
                                                 IncomingSequence = br.ReadInt32(),
                                                 IncomingAcknowledged = br.ReadInt32(),
                                                 IncomingReliableAcknowledged = br.ReadInt32(),
@@ -697,6 +719,10 @@ namespace VolvoWrench.Demo_stuff
                                                 ReliableSequence = br.ReadInt32(),
                                                 LastReliableSequence = br.ReadInt32()
                                             };
+                                            var dml = br.ReadInt32();
+                                            err.Msg = Encoding.ASCII.GetString(br.ReadBytes(dml))
+                                                    .Trim('\0')
+                                                    .Replace("\0", string.Empty);
                                             entry.Frames.Add(currentDemoFrame, err);
                                             break;
                                     }
