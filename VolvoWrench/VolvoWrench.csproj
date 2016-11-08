@@ -91,6 +91,18 @@
   <ItemGroup>
     <Reference Include="Microsoft.VisualStudio.DebuggerVisualizers, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="PresentationCore" />
+    <Reference Include="SharpDX, Version=3.1.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.3.1.1\lib\net45\SharpDX.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SharpDX.Direct2D1, Version=3.1.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.Direct2D1.3.1.1\lib\net45\SharpDX.Direct2D1.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SharpDX.DXGI, Version=3.1.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.DXGI.3.1.1\lib\net45\SharpDX.DXGI.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Windows.Forms.DataVisualization" />
@@ -185,6 +197,10 @@
     <Compile Include="Demo stuff\L4D2Branch\PortalStuff\Result\ConsoleCmdResult.cs" />
     <Compile Include="Demo stuff\L4D2Branch\PortalStuff\Result\DemoParseResult.cs" />
     <Compile Include="Demo stuff\L4D2Branch\PortalStuff\Result\PacketResult.cs" />
+    <Compile Include="Overlay\Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Overlay\Form1.Designer.cs" />
     <Compile Include="SaveStuff\SaveFileExplorer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -243,6 +259,7 @@
     <EmbeddedResource Include="Demo stuff\Heatmap\Heatmap.resx">
       <DependentUpon>Heatmap.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Overlay\Form1.resx" />
     <EmbeddedResource Include="SaveStuff\Save analyzer.resx">
       <DependentUpon>Save analyzer.cs</DependentUpon>
     </EmbeddedResource>
@@ -272,6 +289,7 @@
     <EmbeddedResource Include="Demo stuff\Stats.resx">
       <DependentUpon>Stats.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

@@ -45,12 +45,15 @@ namespace VolvoWrench
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openAsavToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.goldSourceToolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.demoDoctorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.demoToolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.netdecodeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.heatmapGeneratorToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.statisticsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.multidemoToolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.demoVerificationToolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.goldSourceToolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.demoDoctorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sourcerunsWikiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -59,8 +62,9 @@ namespace VolvoWrench
             this.hotkeysToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fontToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.HotkeyTimer = new System.Windows.Forms.Timer(this.components);
-            this.multidemoToolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.demoVerificationToolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.overlayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.launchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.settingsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -144,9 +148,8 @@ namespace VolvoWrench
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.goldSourceToolsToolStripMenuItem,
-            this.toolsToolStripMenuItem,
-            this.multidemoToolsToolStripMenuItem,
+            this.demoToolsToolStripMenuItem,
+            this.overlayToolStripMenuItem,
             this.helpToolStripMenuItem1,
             this.settingsToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
@@ -194,24 +197,16 @@ namespace VolvoWrench
             this.openAsavToolStripMenuItem.Text = "Open a *.sav";
             this.openAsavToolStripMenuItem.Click += new System.EventHandler(this.openAsavToolStripMenuItem_Click);
             // 
-            // goldSourceToolsToolStripMenuItem
+            // demoToolsToolStripMenuItem
             // 
-            this.goldSourceToolsToolStripMenuItem.BackColor = System.Drawing.Color.Black;
-            this.goldSourceToolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.demoDoctorToolStripMenuItem});
-            this.goldSourceToolsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.goldSourceToolsToolStripMenuItem.Name = "goldSourceToolsToolStripMenuItem";
-            this.goldSourceToolsToolStripMenuItem.Size = new System.Drawing.Size(137, 24);
-            this.goldSourceToolsToolStripMenuItem.Text = "GoldSource Tools";
-            // 
-            // demoDoctorToolStripMenuItem
-            // 
-            this.demoDoctorToolStripMenuItem.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.demoDoctorToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.demoDoctorToolStripMenuItem.Name = "demoDoctorToolStripMenuItem";
-            this.demoDoctorToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
-            this.demoDoctorToolStripMenuItem.Text = "Demo doctor";
-            this.demoDoctorToolStripMenuItem.Click += new System.EventHandler(this.demoDoctorToolStripMenuItem_Click);
+            this.demoToolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolsToolStripMenuItem,
+            this.multidemoToolsToolStripMenuItem,
+            this.goldSourceToolsToolStripMenuItem});
+            this.demoToolsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
+            this.demoToolsToolStripMenuItem.Name = "demoToolsToolStripMenuItem";
+            this.demoToolsToolStripMenuItem.Size = new System.Drawing.Size(99, 24);
+            this.demoToolsToolStripMenuItem.Text = "Demo tools";
             // 
             // toolsToolStripMenuItem
             // 
@@ -222,7 +217,7 @@ namespace VolvoWrench
             this.statisticsToolStripMenuItem});
             this.toolsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(105, 24);
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(200, 26);
             this.toolsToolStripMenuItem.Text = "Source Tools";
             // 
             // netdecodeToolStripMenuItem
@@ -250,6 +245,44 @@ namespace VolvoWrench
             this.statisticsToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
             this.statisticsToolStripMenuItem.Text = "Statistics";
             this.statisticsToolStripMenuItem.Click += new System.EventHandler(this.statisticsToolStripMenuItem_Click);
+            // 
+            // multidemoToolsToolStripMenuItem
+            // 
+            this.multidemoToolsToolStripMenuItem.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.multidemoToolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.demoVerificationToolToolStripMenuItem});
+            this.multidemoToolsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
+            this.multidemoToolsToolStripMenuItem.Name = "multidemoToolsToolStripMenuItem";
+            this.multidemoToolsToolStripMenuItem.Size = new System.Drawing.Size(200, 26);
+            this.multidemoToolsToolStripMenuItem.Text = "Multi-demo tools";
+            // 
+            // demoVerificationToolToolStripMenuItem
+            // 
+            this.demoVerificationToolToolStripMenuItem.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.demoVerificationToolToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.demoVerificationToolToolStripMenuItem.Name = "demoVerificationToolToolStripMenuItem";
+            this.demoVerificationToolToolStripMenuItem.Size = new System.Drawing.Size(234, 26);
+            this.demoVerificationToolToolStripMenuItem.Text = "Demo verification tool";
+            this.demoVerificationToolToolStripMenuItem.Click += new System.EventHandler(this.demoVerificationToolToolStripMenuItem_Click);
+            // 
+            // goldSourceToolsToolStripMenuItem
+            // 
+            this.goldSourceToolsToolStripMenuItem.BackColor = System.Drawing.Color.Black;
+            this.goldSourceToolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.demoDoctorToolStripMenuItem});
+            this.goldSourceToolsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.goldSourceToolsToolStripMenuItem.Name = "goldSourceToolsToolStripMenuItem";
+            this.goldSourceToolsToolStripMenuItem.Size = new System.Drawing.Size(200, 26);
+            this.goldSourceToolsToolStripMenuItem.Text = "GoldSource Tools";
+            // 
+            // demoDoctorToolStripMenuItem
+            // 
+            this.demoDoctorToolStripMenuItem.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.demoDoctorToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.demoDoctorToolStripMenuItem.Name = "demoDoctorToolStripMenuItem";
+            this.demoDoctorToolStripMenuItem.Size = new System.Drawing.Size(173, 26);
+            this.demoDoctorToolStripMenuItem.Text = "Demo doctor";
+            this.demoDoctorToolStripMenuItem.Click += new System.EventHandler(this.demoDoctorToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem1
             // 
@@ -329,23 +362,34 @@ namespace VolvoWrench
             this.HotkeyTimer.Interval = 300;
             this.HotkeyTimer.Tick += new System.EventHandler(this.HotkeyTimer_Tick);
             // 
-            // multidemoToolsToolStripMenuItem
+            // overlayToolStripMenuItem
             // 
-            this.multidemoToolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.demoVerificationToolToolStripMenuItem});
-            this.multidemoToolsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
-            this.multidemoToolsToolStripMenuItem.Name = "multidemoToolsToolStripMenuItem";
-            this.multidemoToolsToolStripMenuItem.Size = new System.Drawing.Size(137, 24);
-            this.multidemoToolsToolStripMenuItem.Text = "Multi-demo tools";
+            this.overlayToolStripMenuItem.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.overlayToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.launchToolStripMenuItem,
+            this.settingsToolStripMenuItem1});
+            this.overlayToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.overlayToolStripMenuItem.Name = "overlayToolStripMenuItem";
+            this.overlayToolStripMenuItem.Size = new System.Drawing.Size(71, 24);
+            this.overlayToolStripMenuItem.Text = "Overlay";
             // 
-            // demoVerificationToolToolStripMenuItem
+            // launchToolStripMenuItem
             // 
-            this.demoVerificationToolToolStripMenuItem.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.demoVerificationToolToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.demoVerificationToolToolStripMenuItem.Name = "demoVerificationToolToolStripMenuItem";
-            this.demoVerificationToolToolStripMenuItem.Size = new System.Drawing.Size(234, 26);
-            this.demoVerificationToolToolStripMenuItem.Text = "Demo verification tool";
-            this.demoVerificationToolToolStripMenuItem.Click += new System.EventHandler(this.demoVerificationToolToolStripMenuItem_Click);
+            this.launchToolStripMenuItem.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.launchToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.launchToolStripMenuItem.Name = "launchToolStripMenuItem";
+            this.launchToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.launchToolStripMenuItem.Text = "Launch";
+            this.launchToolStripMenuItem.Click += new System.EventHandler(this.launchToolStripMenuItem_Click);
+            // 
+            // settingsToolStripMenuItem1
+            // 
+            this.settingsToolStripMenuItem1.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.settingsToolStripMenuItem1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.settingsToolStripMenuItem1.Name = "settingsToolStripMenuItem1";
+            this.settingsToolStripMenuItem1.Size = new System.Drawing.Size(181, 26);
+            this.settingsToolStripMenuItem1.Text = "Settings";
+            this.settingsToolStripMenuItem1.Click += new System.EventHandler(this.settingsToolStripMenuItem1_Click);
             // 
             // Main
             // 
@@ -378,7 +422,6 @@ namespace VolvoWrench
         private RichTextBox richTextBox1;
         private MenuStrip menuStrip1;
         private ToolStripMenuItem fileToolStripMenuItem;
-        private ToolStripMenuItem toolsToolStripMenuItem;
         private ToolStripMenuItem helpToolStripMenuItem1;
         private ToolStripMenuItem aboutToolStripMenuItem;
         private ContextMenuStrip contextMenuStrip1;
@@ -387,7 +430,6 @@ namespace VolvoWrench
         private ToolStripMenuItem copyAllToolStripMenuItem;
         private ToolStripMenuItem rescanFileToolStripMenuItem;
         private ToolStripMenuItem renameDemoToolStripMenuItem;
-        private ToolStripMenuItem netdecodeToolStripMenuItem;
         private Timer HotkeyTimer;
         private ToolStripMenuItem openToolStripMenuItem;
         private ToolStripMenuItem exportToolStripMenuItem;
@@ -395,14 +437,20 @@ namespace VolvoWrench
         private ToolStripMenuItem sourcerunsToolStripMenuItem;
         private ToolStripMenuItem settingsToolStripMenuItem;
         private ToolStripMenuItem hotkeysToolStripMenuItem;
-        private ToolStripMenuItem goldSourceToolsToolStripMenuItem;
         private ToolStripMenuItem fontToolStripMenuItem1;
         private ToolStripMenuItem openAsavToolStripMenuItem;
+        private ToolStripMenuItem demoToolsToolStripMenuItem;
+        private ToolStripMenuItem toolsToolStripMenuItem;
+        private ToolStripMenuItem netdecodeToolStripMenuItem;
         private ToolStripMenuItem heatmapGeneratorToolStripMenuItem1;
-        private ToolStripMenuItem demoDoctorToolStripMenuItem;
         private ToolStripMenuItem statisticsToolStripMenuItem;
         private ToolStripMenuItem multidemoToolsToolStripMenuItem;
         private ToolStripMenuItem demoVerificationToolToolStripMenuItem;
+        private ToolStripMenuItem goldSourceToolsToolStripMenuItem;
+        private ToolStripMenuItem demoDoctorToolStripMenuItem;
+        private ToolStripMenuItem overlayToolStripMenuItem;
+        private ToolStripMenuItem launchToolStripMenuItem;
+        private ToolStripMenuItem settingsToolStripMenuItem1;
     }
 }
 

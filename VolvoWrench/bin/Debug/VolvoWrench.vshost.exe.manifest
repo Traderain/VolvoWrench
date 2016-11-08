@@ -4,7 +4,7 @@
   <description asmv2:iconFile="08 Wrench.ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <application />
   <entryPoint>
-    <assemblyIdentity name="VolvoWrench" version="0.8.6156.39771" language="neutral" processorArchitecture="amd64" />
+    <assemblyIdentity name="VolvoWrench" version="0.8.6157.777" language="neutral" processorArchitecture="amd64" />
     <commandLine file="VolvoWrench.exe" parameters="" />
   </entryPoint>
   <trustInfo>
@@ -55,14 +55,50 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="VolvoWrench.exe" size="985080">
-      <assemblyIdentity name="VolvoWrench" version="0.8.6156.39771" language="neutral" processorArchitecture="amd64" />
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="SharpDX.dll" size="266752">
+      <assemblyIdentity name="SharpDX" version="3.1.1.0" publicKeyToken="B4DCF0F35E5521F1" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>YCBuhzHBCBEZM5PnegaNoW9Ybo26M6MW8dZdWTfyNcc=</dsig:DigestValue>
+        <dsig:DigestValue>KEN7j2A2IksYf27DJK+c2PINxeNjsDQfhoaeQXLweQk=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="SharpDX.Direct2D1.dll" size="481792">
+      <assemblyIdentity name="SharpDX.Direct2D1" version="3.1.1.0" publicKeyToken="B4DCF0F35E5521F1" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>qU4vPCBjUVA/bEACWFrycIgIVLS5e3MOpRdk7yO1unk=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="SharpDX.DXGI.dll" size="135680">
+      <assemblyIdentity name="SharpDX.DXGI" version="3.1.1.0" publicKeyToken="B4DCF0F35E5521F1" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>3ZGoPLTgO9Z/oXlIvfnTTcmm3Z+ww6OYD0Lsa3x3gH8=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="VolvoWrench.exe" size="990200">
+      <assemblyIdentity name="VolvoWrench" version="0.8.6157.777" language="neutral" processorArchitecture="amd64" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>oBv2yKCfbjspCcucVJGTHMU6DBViPUZ+OvfqgjbR/D0=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

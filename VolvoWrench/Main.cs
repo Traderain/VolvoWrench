@@ -8,6 +8,7 @@ using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using External_Overlay;
 using VolvoWrench.Demo_stuff;
 using VolvoWrench.Demo_stuff.GoldSource;
 using VolvoWrench.Demo_stuff.Source;
@@ -227,7 +228,7 @@ namespace VolvoWrench
 
         #endregion
 
-        #region Source Tools
+        #region Toolstrip Demo Tools
 
         private void netdecodeToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -238,6 +239,39 @@ namespace VolvoWrench
                 Log("Netdecode opened");
                 nd.ShowDialog();
             }
+        }
+
+        private void demoDoctorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var dd = new Demo_doctor(CurrentFile))
+                dd.ShowDialog();
+        }
+
+        private void statisticsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var sf = new Statisctics(CurrentDemoFile.Sdi))
+                sf.ShowDialog();
+        }
+
+        private void demoVerificationToolToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var a = new Verification())
+                a.ShowDialog();
+        }
+        #endregion
+
+        #region Overlay
+        private void launchToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var a = new OverlayForm())
+            {
+                a.ShowDialog();
+            }
+        }
+
+        private void settingsToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+
         }
         #endregion
 
@@ -402,6 +436,7 @@ Language = EN;"
             {
                 richTextBox1.Text = "Demo parsed!";
                 StripEnabler(demo);
+                #region Print
                 switch (demo.Type)
                 {
                     case Parseresult.UnsupportedFile:
@@ -588,6 +623,7 @@ Adjusted ticks:     {demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks}
                         }
                         break;
                 }
+                #endregion
             }
             else
             {
@@ -632,9 +668,9 @@ Adjusted ticks:     {demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks}
 
         static async Task WriteTextAsync(string filePath, string text)
         {
-            byte[] encodedText = Encoding.Unicode.GetBytes(text);
+            var encodedText = Encoding.Unicode.GetBytes(text);
 
-            using (FileStream sourceStream = new FileStream(filePath,
+            using (var sourceStream = new FileStream(filePath,
                 FileMode.Append, FileAccess.Write, FileShare.None,
                 bufferSize: 4096, useAsync: true))
             {
@@ -677,24 +713,6 @@ Adjusted ticks:     {demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks}
                     heatmapGeneratorToolStripMenuItem1.Enabled = false;
                     break;
             }
-        }
-
-        private void demoDoctorToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            using (var dd = new Demo_doctor(CurrentFile))
-                dd.ShowDialog();
-        }
-
-        private void statisticsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            using (var sf = new Statisctics(CurrentDemoFile.Sdi))
-                sf.ShowDialog();
-        }
-
-        private void demoVerificationToolToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            using (var a = new Verification())
-                a.ShowDialog();
         }
     }
 }

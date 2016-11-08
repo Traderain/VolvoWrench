@@ -48,3 +48,10 @@ F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.Hotkey.Hotkey.resou
 F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.SaveStuff.SaveFileExplorer.resources
 F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.Demo_stuff.Source.DemoDecoder.resources
 F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.Demo_stuff.Statisctics.resources
+F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.Overlay.Form1.resources
+F:\Githubrepos\VolvoWrench\VolvoWrench\bin\Debug\SharpDX.Direct2D1.dll
+F:\Githubrepos\VolvoWrench\VolvoWrench\bin\Debug\SharpDX.dll
+F:\Githubrepos\VolvoWrench\VolvoWrench\bin\Debug\SharpDX.DXGI.dll
+F:\Githubrepos\VolvoWrench\VolvoWrench\bin\Debug\SharpDX.xml
+F:\Githubrepos\VolvoWrench\VolvoWrench\bin\Debug\SharpDX.Direct2D1.xml
+F:\Githubrepos\VolvoWrench\VolvoWrench\bin\Debug\SharpDX.DXGI.xml
