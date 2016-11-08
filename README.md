@@ -25,6 +25,7 @@ Thanks to:
   - YaLTeR
   - CSGODemoinfo team
   - Complexity gaming
+  - WimReddingius
  
  ***
  <h3>And special thanks to Valve:<h3>
