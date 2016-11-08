@@ -4,7 +4,7 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 
-namespace VolvoWrench.Demo_stuff
+namespace VolvoWrench.Demo_stuff.Source
 {
     public partial class DemoDecoder : Form
     {

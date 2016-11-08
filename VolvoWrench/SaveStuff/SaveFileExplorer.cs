@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Windows.Forms;
-using VolvoWrench.SaveStuff;
 
-namespace VolvoWrench
+namespace VolvoWrench.SaveStuff
 {
     public partial class SaveFileExplorer : Form
     {

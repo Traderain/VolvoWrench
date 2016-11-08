@@ -1,11 +1,11 @@
 ﻿using System;
-using System.IO;
-using System.Diagnostics;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
+using System.Diagnostics;
+using System.IO;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
-namespace DemoInfo.BitStreamImpl
+namespace VolvoWrench.Demo_stuff.L4D2Branch.BitStreamUtil
 {
 	public unsafe class UnsafeBitStream : IBitStream
 	{

@@ -1,4 +1,4 @@
-﻿namespace VolvoWrench
+﻿namespace VolvoWrench.Demo_stuff
 {
     partial class Statisctics
     {

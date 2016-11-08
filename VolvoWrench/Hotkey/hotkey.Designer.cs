@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Windows.Forms;
 
-namespace VolvoWrench
+namespace VolvoWrench.Hotkey
 {
     partial class Hotkey
     {

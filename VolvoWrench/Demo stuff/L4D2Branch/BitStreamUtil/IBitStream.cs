@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace DemoInfo
+namespace VolvoWrench.Demo_stuff.L4D2Branch.BitStreamUtil
 {
 	public interface IBitStream : IDisposable
 	{

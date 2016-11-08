@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
-namespace VolvoWrench.Heatmap
+namespace VolvoWrench.Demo_stuff.Heatmap
 {
     public partial class Heatmap : Form
     {

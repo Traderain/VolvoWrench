@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Windows.Forms;
 using System.Windows.Input;
 
-namespace VolvoWrench
+namespace VolvoWrench.Hotkey
 {
     public partial class Hotkey : Form
     {

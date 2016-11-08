@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace DemoInfo.BitStreamImpl
+namespace VolvoWrench.Demo_stuff.L4D2Branch.BitStreamUtil
 {
 	public class DebugBitStream : IBitStream
 	{

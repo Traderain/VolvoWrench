@@ -1,4 +1,4 @@
-﻿namespace VolvoWrench.Demo_stuff
+﻿namespace VolvoWrench.Demo_stuff.GoldSource
 {
     partial class Verification
     {
@@ -31,6 +31,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.mrtb = new System.Windows.Forms.RichTextBox();
+            this.demoparserslave = new System.ComponentModel.BackgroundWorker();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -100,5 +101,6 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.RichTextBox mrtb;
+        private System.ComponentModel.BackgroundWorker demoparserslave;
     }
 }

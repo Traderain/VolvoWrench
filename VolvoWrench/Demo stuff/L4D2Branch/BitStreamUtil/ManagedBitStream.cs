@@ -1,10 +1,9 @@
 ﻿using System;
-using System.IO;
-using System.Diagnostics;
 using System.Collections.Generic;
-using System.Text;
+using System.Diagnostics;
+using System.IO;
 
-namespace DemoInfo.BitStreamImpl
+namespace VolvoWrench.Demo_stuff.L4D2Branch.BitStreamUtil
 {
 	public class ManagedBitStream : IBitStream
 	{

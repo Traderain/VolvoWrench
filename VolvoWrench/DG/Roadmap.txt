@@ -1,5 +1,4 @@
 ﻿- Portal 2 Demo Parser
-- L4D Branch
 - Statefile decompressor
 - Demo doctor fix 
 - Statistics : Nearly done

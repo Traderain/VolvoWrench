@@ -5,9 +5,14 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Security.Principal;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using VolvoWrench.Demo_stuff;
 using VolvoWrench.Demo_stuff.GoldSource;
+using VolvoWrench.Demo_stuff.Source;
+using VolvoWrench.Hotkey;
+using VolvoWrench.SaveStuff;
 using static System.Convert;
 
 namespace VolvoWrench
@@ -240,7 +245,7 @@ namespace VolvoWrench
 
         private void hotkeysToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
-            using (var a = new Hotkey())
+            using (var a = new Hotkey.Hotkey())
                 a.ShowDialog();
         }
 
@@ -491,13 +496,12 @@ Length in seconds:          {(demo.HlsooeDemoInfo.DirectoryEntries.Last().Frames
 Tick count:                 {(demo.HlsooeDemoInfo.DirectoryEntries.Last().Frames.LastOrDefault().Key.Frame)}
 ----------------------------------------------------------";
                             UpdateForm();
-                            foreach (var demoDirectoryEntry in demo.HlsooeDemoInfo.DirectoryEntries)
-                            {
-                                foreach (var flag in demoDirectoryEntry.Flags)
-                                {
-                                    richTextBox1.AppendText(flag.Value.Command + " at " + flag.Key.Frame +  " -> " + (flag.Key.Frame*0.015).ToString("n3") + "s");
-                                }
-                            }
+                            foreach (
+                                var flag in
+                                    demo.HlsooeDemoInfo.DirectoryEntries.SelectMany(
+                                        demoDirectoryEntry => demoDirectoryEntry.Flags))
+                                richTextBox1.AppendText(flag.Value.Command + " at " + flag.Key.Frame + " -> " +
+                                                        (flag.Key.Frame*0.015).ToString("n3") + "s");
                         }
                         break;
                     case Parseresult.Source:
@@ -514,8 +518,7 @@ Tick count:                 {(demo.HlsooeDemoInfo.DirectoryEntries.Last().Frames
                         else
                         {
                             richTextBox1.Text =
-                                $@"Analyzed source engine demo file ({demo.Sdi.GameDirectory
-                                    }):
+                                $@"Analyzed source engine demo file ({demo.Sdi.GameDirectory}):
 ----------------------------------------------------------
 Demo protocol:              {demo.Sdi.DemoProtocol}
 Net protocol:               {demo.Sdi.NetProtocol}
@@ -550,12 +553,12 @@ Measured ticks:             {demo.Sdi.Messages.Max(x => x.Tick)}
                         }
                         break;
                     case Parseresult.L4D2Branch:
-                        if (demo.L4D2BranchInfo.parsingerrors.ToArray().Length > 0)
+                        if (demo.L4D2BranchInfo.Parsingerrors.ToArray().Length > 0)
                         {
                             richTextBox1.Text = @"Error while parsing L4D2Branch demo: 
 ";
                             UpdateForm();
-                            foreach (var err in demo.L4D2BranchInfo.parsingerrors)
+                            foreach (var err in demo.L4D2BranchInfo.Parsingerrors)
                             {
                                 richTextBox1.AppendText("\n" + err);
                                 UpdateForm();
@@ -571,10 +574,14 @@ Server name:        {demo.L4D2BranchInfo.Header.ServerName}
 Client name:        {demo.L4D2BranchInfo.Header.ClientName}
 Mapname:            {demo.L4D2BranchInfo.Header.MapName}
 GameDir:            {demo.L4D2BranchInfo.Header.GameDirectory}
-Playbacktime:       {demo.L4D2BranchInfo.Header.PlaybackTime.ToString("n3")}s
+Playbacktime:       {(demo.L4D2BranchInfo.Header.PlaybackTicks*0.015).ToString("n3")}s
 Playbackticks:      {demo.L4D2BranchInfo.Header.PlaybackTicks}
 Playbackframes:     {demo.L4D2BranchInfo.Header.PlaybackFrames}
 Signonlength:       {demo.L4D2BranchInfo.Header.SignonLength}
+
+Adjusted time:      {demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks*0.015 + "s"}
+Adjusted ticks:     {demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks}
+
 ----------------------------------------------------------
 ";                       
                         }
@@ -614,21 +621,31 @@ Signonlength:       {demo.L4D2BranchInfo.Header.SignonLength}
             textControl.Select(textControl.Text.Length, 0);
         }
 
-        public static void Log(string s)
+        public static Task Log(string s)
         {
-            Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\" +"VolvoWrench");
-            File.AppendAllLines(LogPath, new[]
+            if(!Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\" + "VolvoWrench"))
+                Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\" +"VolvoWrench");
+            return WriteTextAsync(LogPath, ("\n"+DateTime.Now.ToString("yyyy-MM-ddTHH\\:mm\\:ss.fffffffzzz") + " " +
+                 $"[{WindowsIdentity.GetCurrent().Name}]" + ": " + s));
+        }
+
+        static async Task WriteTextAsync(string filePath, string text)
+        {
+            byte[] encodedText = Encoding.Unicode.GetBytes(text);
+
+            using (FileStream sourceStream = new FileStream(filePath,
+                FileMode.Append, FileAccess.Write, FileShare.None,
+                bufferSize: 4096, useAsync: true))
             {
-                (DateTime.Now.ToString("yyyy-MM-ddTHH\\:mm\\:ss.fffffffzzz") + " " +
-                 $"[{WindowsIdentity.GetCurrent().Name}]" + ": " + s)
-            });
+                await sourceStream.WriteAsync(encodedText, 0, encodedText.Length);
+            };
         }
 
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
         {
-            // if (MessageBox.Show("Are you sure you would like to close the program?","Confirm!",MessageBoxButtons.YesNo,MessageBoxIcon.Question) == DialogResult.No)
+           // if (MessageBox.Show("Are you sure you would like to close the program?","Confirm!",MessageBoxButtons.YesNo,MessageBoxIcon.Question) == DialogResult.No)
             {
-                //e.Cancel//TODO: Uncomment this when releasing but its annoying so I won't leave this in while testing. :p
+              //  e.Cancel = true;
             }
         }
 
@@ -653,12 +670,6 @@ Signonlength:       {demo.L4D2BranchInfo.Header.SignonLength}
                     heatmapGeneratorToolStripMenuItem1.Enabled = true;
                     break;
             }
-        }
-
-        private void heatmapGeneratorToolStripMenuItem1_Click_1(object sender, EventArgs e)
-        {
-            using (var hmw = new Heatmap.Heatmap(new List<Point>(), new Bitmap(560, 560)))
-                hmw.ShowDialog();
         }
 
         private void demoDoctorToolStripMenuItem_Click(object sender, EventArgs e)

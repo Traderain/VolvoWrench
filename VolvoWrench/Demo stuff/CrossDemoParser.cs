@@ -2,6 +2,8 @@
 using System.IO.MemoryMappedFiles;
 using System.Text;
 using VolvoWrench.Demo_stuff.GoldSource;
+using VolvoWrench.Demo_stuff.L4D2Branch;
+using VolvoWrench.Demo_stuff.Source;
 
 namespace VolvoWrench.Demo_stuff
 {
@@ -95,7 +97,7 @@ namespace VolvoWrench.Demo_stuff
                 switch (mw)
                 {
                     case "HLDEMO": return br.ReadByte() <= 2 ? Parseresult.Hlsooe : Parseresult.GoldSource;
-                    case "HL2DEMO": return br.ReadInt32() < 4 ? Parseresult.Source: Parseresult.L4D2Branch;
+                    case "HL2DEMO": return br.ReadInt32() < 4 ? Parseresult.Source: Parseresult.L4D2Branch; //TODO: Add a check for portal1
                     default: return Parseresult.UnsupportedFile;
                 }
             }

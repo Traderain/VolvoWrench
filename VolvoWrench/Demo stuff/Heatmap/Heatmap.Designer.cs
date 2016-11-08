@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Windows.Forms;
 
-namespace VolvoWrench.Heatmap
+namespace VolvoWrench.Demo_stuff.Heatmap
 {
     partial class Heatmap
     {

@@ -2,7 +2,7 @@
 using System.IO;
 using System.Windows.Forms;
 
-namespace VolvoWrench
+namespace VolvoWrench.Demo_stuff.GoldSource
 {
     public partial class Demo_doctor : Form
     {

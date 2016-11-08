@@ -1,9 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Windows.Forms;
-using VolvoWrench.SaveStuff;
 
-namespace VolvoWrench
+namespace VolvoWrench.SaveStuff
 {
     public partial class saveanalyzerform : Form
     {

@@ -24,14 +24,14 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <UpdateUrl>https://traderain.hu/vw/</UpdateUrl>
-    <SupportUrl>https://traderain.hu</SupportUrl>
-    <ErrorReportUrl>https://traderain.hu</ErrorReportUrl>
+    <SupportUrl>https://traderain.hu/vwhelp</SupportUrl>
+    <ErrorReportUrl>https://traderain.hu/vwerror</ErrorReportUrl>
     <ProductName>VolvoWrench</ProductName>
     <PublisherName>Traderain</PublisherName>
     <SuiteName>Sourceruns</SuiteName>
     <AutorunEnabled>true</AutorunEnabled>
-    <ApplicationRevision>1</ApplicationRevision>
-    <ApplicationVersion>0.7.0.%2a</ApplicationVersion>
+    <ApplicationRevision>2</ApplicationRevision>
+    <ApplicationVersion>0.8.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -112,7 +112,7 @@
     <Compile Include="About.Designer.cs">
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
-    <Compile Include="Demo stuff\Category.cs" />
+    <Compile Include="Demo stuff\L4D2Branch\Category.cs" />
     <Compile Include="Demo stuff\L4D2Branch\BitStreamUtil\BitArrayStream.cs" />
     <Compile Include="Demo stuff\L4D2Branch\BitStreamUtil\BitStreamUtil.cs" />
     <Compile Include="Demo stuff\L4D2Branch\BitStreamUtil\DebugBitStream.cs" />
@@ -126,6 +126,40 @@
       <DependentUpon>Demo doctor.cs</DependentUpon>
     </Compile>
     <Compile Include="Demo stuff\CrossDemoParser.cs" />
+    <Compile Include="Demo stuff\L4D2Branch\CSGODemoInfo\AdditionalPlayerInformation.cs" />
+    <Compile Include="Demo stuff\L4D2Branch\CSGODemoInfo\DemoParser.cs" />
+    <Compile Include="Demo stuff\L4D2Branch\CSGODemoInfo\DP\DemoPacketParser.cs" />
+    <Compile Include="Demo stuff\L4D2Branch\CSGODemoInfo\DP\Entity.cs" />
+    <Compile Include="Demo stuff\L4D2Branch\CSGODemoInfo\DP\FastNetmessages\CreateStringTable.cs" />
+    <Compile Include="Demo stuff\L4D2Branch\CSGODemoInfo\DP\FastNetmessages\GameEvent.cs" />
+    <Compile Include="Demo stuff\L4D2Branch\CSGODemoInfo\DP\FastNetmessages\GameEventList.cs" />
+    <Compile Include="Demo stuff\L4D2Branch\CSGODemoInfo\DP\FastNetmessages\NETTick.cs" />
+    <Compile Include="Demo stuff\L4D2Branch\CSGODemoInfo\DP\FastNetmessages\PacketEntities.cs" />
+    <Compile Include="Demo stuff\L4D2Branch\CSGODemoInfo\DP\FastNetmessages\SendTable.cs" />
+    <Compile Include="Demo stuff\L4D2Branch\CSGODemoInfo\DP\FastNetmessages\UpdateStringTable.cs" />
+    <Compile Include="Demo stuff\L4D2Branch\CSGODemoInfo\DP\Handler\CreateStringTableUserInfoHandler.cs" />
+    <Compile Include="Demo stuff\L4D2Branch\CSGODemoInfo\DP\Handler\GameEventHandler.cs" />
+    <Compile Include="Demo stuff\L4D2Branch\CSGODemoInfo\DP\Handler\PacketEntitesHandler.cs" />
+    <Compile Include="Demo stuff\L4D2Branch\CSGODemoInfo\DP\Handler\PropDecoder.cs" />
+    <Compile Include="Demo stuff\L4D2Branch\CSGODemoInfo\DP\Handler\SoundHandler.cs" />
+    <Compile Include="Demo stuff\L4D2Branch\CSGODemoInfo\DP\Handler\UpdateStringTableUserInfoHandler.cs" />
+    <Compile Include="Demo stuff\L4D2Branch\CSGODemoInfo\DP\Handler\UserMessageHandler.cs" />
+    <Compile Include="Demo stuff\L4D2Branch\CSGODemoInfo\DP\IMessageParser.cs" />
+    <Compile Include="Demo stuff\L4D2Branch\CSGODemoInfo\DT\DataTableParser.cs" />
+    <Compile Include="Demo stuff\L4D2Branch\CSGODemoInfo\DT\SendTable.cs" />
+    <Compile Include="Demo stuff\L4D2Branch\CSGODemoInfo\DT\SendTableProperty.cs" />
+    <Compile Include="Demo stuff\L4D2Branch\CSGODemoInfo\DT\ServerClass.cs" />
+    <Compile Include="Demo stuff\L4D2Branch\CSGODemoInfo\Events.cs" />
+    <Compile Include="Demo stuff\L4D2Branch\CSGODemoInfo\Helper.cs" />
+    <Compile Include="Demo stuff\L4D2Branch\CSGODemoInfo\LimitStream.cs" />
+    <Compile Include="Demo stuff\L4D2Branch\CSGODemoInfo\Messages\EnumConstants.cs" />
+    <Compile Include="Demo stuff\L4D2Branch\CSGODemoInfo\Messages\gcmessages.cs" />
+    <Compile Include="Demo stuff\L4D2Branch\CSGODemoInfo\Messages\netmessages.cs" />
+    <Compile Include="Demo stuff\L4D2Branch\CSGODemoInfo\Messages\steammessages.cs" />
+    <Compile Include="Demo stuff\L4D2Branch\CSGODemoInfo\Messages\usermessages.cs" />
+    <Compile Include="Demo stuff\L4D2Branch\CSGODemoInfo\Player.cs" />
+    <Compile Include="Demo stuff\L4D2Branch\CSGODemoInfo\Structs.cs" />
+    <Compile Include="Demo stuff\L4D2Branch\CSGODemoInfo\ST\StringTableParser.cs" />
     <Compile Include="Demo stuff\L4D2Branch\L4D2BranchParser.cs" />
     <Compile Include="Demo stuff\GoldSource\Verification.cs">
       <SubType>Form</SubType>
@@ -139,6 +173,18 @@
     <Compile Include="Demo stuff\Heatmap\Heatmap.Designer.cs">
       <DependentUpon>Heatmap.cs</DependentUpon>
     </Compile>
+    <Compile Include="Demo stuff\L4D2Branch\PortalStuff\DemoParser.cs" />
+    <Compile Include="Demo stuff\L4D2Branch\PortalStuff\DemoProtocolVersion.cs" />
+    <Compile Include="Demo stuff\L4D2Branch\PortalStuff\GameHandler\GameHandler.cs" />
+    <Compile Include="Demo stuff\L4D2Branch\PortalStuff\GameHandler\HL2GameHandler.cs" />
+    <Compile Include="Demo stuff\L4D2Branch\PortalStuff\GameHandler\OrangeBoxGameHandler.cs" />
+    <Compile Include="Demo stuff\L4D2Branch\PortalStuff\GameHandler\Portal2CoopCourse6GameHandler.cs" />
+    <Compile Include="Demo stuff\L4D2Branch\PortalStuff\GameHandler\Portal2CoopGameHandler.cs" />
+    <Compile Include="Demo stuff\L4D2Branch\PortalStuff\GameHandler\Portal2SpGameHandler.cs" />
+    <Compile Include="Demo stuff\L4D2Branch\PortalStuff\GameHandler\PortalGameHandler.cs" />
+    <Compile Include="Demo stuff\L4D2Branch\PortalStuff\Result\ConsoleCmdResult.cs" />
+    <Compile Include="Demo stuff\L4D2Branch\PortalStuff\Result\DemoParseResult.cs" />
+    <Compile Include="Demo stuff\L4D2Branch\PortalStuff\Result\PacketResult.cs" />
     <Compile Include="SaveStuff\SaveFileExplorer.cs">
       <SubType>Form</SubType>
     </Compile>

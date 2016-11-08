@@ -241,7 +241,6 @@ namespace VolvoWrench
             this.heatmapGeneratorToolStripMenuItem1.Name = "heatmapGeneratorToolStripMenuItem1";
             this.heatmapGeneratorToolStripMenuItem1.Size = new System.Drawing.Size(216, 26);
             this.heatmapGeneratorToolStripMenuItem1.Text = "Heatmap Generator";
-            this.heatmapGeneratorToolStripMenuItem1.Click += new System.EventHandler(this.heatmapGeneratorToolStripMenuItem1_Click_1);
             // 
             // statisticsToolStripMenuItem
             // 

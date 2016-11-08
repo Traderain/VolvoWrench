@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Windows.Forms;
 
-namespace VolvoWrench.Demo_stuff
+namespace VolvoWrench.Demo_stuff.Source
 {
     partial class DemoDecoder
     {

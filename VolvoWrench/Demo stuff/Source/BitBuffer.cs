@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace VolvoWrench.Demo_stuff
+namespace VolvoWrench.Demo_stuff.Source
 {
     internal class BitBuffer
     {

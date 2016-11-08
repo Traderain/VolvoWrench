@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Windows.Forms;
 
-namespace VolvoWrench
+namespace VolvoWrench.Demo_stuff.GoldSource
 {
     partial class Demo_doctor
     {

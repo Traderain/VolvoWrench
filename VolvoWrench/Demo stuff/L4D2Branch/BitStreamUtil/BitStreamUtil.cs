@@ -1,11 +1,10 @@
 ﻿using System;
-using System.IO;
-using DemoInfo.BitStreamImpl;
 using System.Collections.Generic;
-using System.Text;
 using System.Diagnostics;
+using System.IO;
+using System.Text;
 
-namespace DemoInfo
+namespace VolvoWrench.Demo_stuff.L4D2Branch.BitStreamUtil
 {
 	public static class BitStreamUtil
 	{
