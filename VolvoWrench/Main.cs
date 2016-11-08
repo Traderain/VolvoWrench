@@ -552,6 +552,7 @@ Measured ticks:             {demo.Sdi.Messages.Max(x => x.Tick)}
                                 }
                         }
                         break;
+                    case Parseresult.Portal:
                     case Parseresult.L4D2Branch:
                         if (demo.L4D2BranchInfo.Parsingerrors.ToArray().Length > 0)
                         {
@@ -664,10 +665,16 @@ Adjusted ticks:     {demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks}
                     statisticsToolStripMenuItem.Enabled = false;
                     heatmapGeneratorToolStripMenuItem1.Enabled = false;
                     break;
+                case Parseresult.Portal:
                 case Parseresult.Source:
                     netdecodeToolStripMenuItem.Enabled = true;
                     statisticsToolStripMenuItem.Enabled = true;
                     heatmapGeneratorToolStripMenuItem1.Enabled = true;
+                    break;
+                case Parseresult.L4D2Branch:
+                    netdecodeToolStripMenuItem.Enabled = false;
+                    statisticsToolStripMenuItem.Enabled = false;
+                    heatmapGeneratorToolStripMenuItem1.Enabled = false;
                     break;
             }
         }

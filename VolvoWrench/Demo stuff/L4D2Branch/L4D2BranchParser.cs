@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using PortalAdjust.Demo;
@@ -28,15 +29,15 @@ namespace VolvoWrench.Demo_stuff.L4D2Branch
             {
                 Filestamp = reader.ReadCString(8),
                 Protocol = reader.ReadSignedInt(32),
-                NetworkProtocol = reader.ReadSignedInt(32),
+                NetworkProtocol = Math.Abs(reader.ReadSignedInt(32)),
                 ServerName = reader.ReadCString(MaxOspath),
                 ClientName = reader.ReadCString(MaxOspath),
                 MapName = reader.ReadCString(MaxOspath),
                 GameDirectory = reader.ReadCString(MaxOspath),
-                PlaybackTime = reader.ReadFloat(),
-                PlaybackTicks = reader.ReadSignedInt(32),
-                PlaybackFrames = reader.ReadSignedInt(32),
-                SignonLength = reader.ReadSignedInt(32)
+                PlaybackTime = Math.Abs(reader.ReadFloat()),
+                PlaybackTicks = Math.Abs(reader.ReadSignedInt(32)),
+                PlaybackFrames = Math.Abs(reader.ReadSignedInt(32)),
+                SignonLength = Math.Abs(reader.ReadSignedInt(32))
             };
         }
     }

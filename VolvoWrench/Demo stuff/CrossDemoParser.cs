@@ -13,6 +13,7 @@ namespace VolvoWrench.Demo_stuff
         GoldSource,
         Hlsooe,
         L4D2Branch,
+        Portal,
         Source
     }
 
@@ -63,6 +64,12 @@ namespace VolvoWrench.Demo_stuff
                         var a = new SourceParser(cfs);
                         cpr.Sdi = a.Info;
                         cfs.Close();
+                    }
+                    if (cpr.Sdi.GameDirectory == "portal")
+                    {
+                        cpr.Type = Parseresult.Portal;
+                        var lp = new L4D2BranchParser();
+                        cpr.L4D2BranchInfo = lp.Parse(filename);
                     }
                     break;
                 case Parseresult.Hlsooe:
