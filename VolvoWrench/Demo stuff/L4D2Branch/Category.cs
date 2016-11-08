@@ -5,7 +5,9 @@ namespace VolvoWrench.Demo_stuff
 {
     public class Category
     {
-        public static readonly Category NotAdjusted = new Category("NotAdjusted",66.6,new string[1],new string[1] );
+        public static readonly Category CSGO = new Category("CSGO",66.6,new string[1],new string[1] );
+
+        public static readonly Category Uncommon = new Category("Uncommon", 66.6, new string[1], new string[1]);
 
         public static readonly Category Portal = new Category("Portal", 66.6666666666667,
     new[] { "testchmb_a_00", "testchmb_a_01", "testchmb_a_02", "testchmb_a_03", "testchmb_a_04", "testchmb_a_05", "testchmb_a_06", "testchmb_a_07", "testchmb_a_08", "testchmb_a_09", "testchmb_a_10", "testchmb_a_11", "testchmb_a_13", "testchmb_a_14", "testchmb_a_15", "escape_00", "escape_01", "escape_02" },
@@ -32,12 +34,13 @@ namespace VolvoWrench.Demo_stuff
         {
             get
             {
-                yield return NotAdjusted;
+                yield return CSGO;
                 yield return Portal;
                 yield return Portal2Sp;
                 yield return Portal2Coop;
                 yield return Portal2CoopCourse6;
                 yield return HalfLife2;
+                yield return Uncommon;
             }
         }
 

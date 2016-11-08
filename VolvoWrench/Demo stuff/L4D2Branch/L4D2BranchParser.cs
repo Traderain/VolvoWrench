@@ -70,8 +70,15 @@ namespace VolvoWrench.Demo_stuff.L4D2Branch
                 !Category.Portal2CoopCourse6.Maps.Contains(info.Header.MapName) &&
                 !Category.Portal2Sp.Maps.Contains(info.Header.MapName))
             {
-                info.DemoType = Category.NotAdjusted;
-                info.CsgoDemoInfo = CsgoDemoParser(filename);
+                if (info.Header.GameDirectory == "csgo")
+                {
+                    info.DemoType = Category.CSGO;
+                    info.CsgoDemoInfo = CsgoDemoParser(filename);
+                }
+                else
+                {
+                    info.DemoType = Category.Uncommon;
+                }
                 info.PortalDemoInfo = new DemoParseResult();
             }
             else
