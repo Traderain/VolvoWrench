@@ -22,6 +22,25 @@ namespace External_Overlay
     {
         public static string FilePath = "";
 
+        public static string Demodata = @"Analyzed L4D2Branch demo file (swarm):
+----------------------------------------------------------
+Protocol:           4
+Network protocol:   7109
+Server name:        localhost:27015
+Client name:        @FollowOnin
+Mapname:            asi-jac1-landingbay_01
+GameDir:            swarm
+Playbacktime:       61,395s
+Playbackticks:      4093
+Playbackframes:     28518
+Signonlength:       172104
+
+Adjusted time:      0s
+Adjusted ticks:     0
+
+----------------------------------------------------------
+";
+
         private WindowRenderTarget _device;
         private HwndRenderTargetProperties _renderProperties;
         private SolidColorBrush _solidColorBrush;
@@ -59,15 +78,16 @@ namespace External_Overlay
         public const uint TopmostFlags = SwpNomove | SwpNosize;
         public static IntPtr HwndTopmost = new IntPtr(-1);
 
-        public OverlayForm()
+        public OverlayForm(string s)
         {
             _handle = Handle;
             var initialStyle = GetWindowLong(Handle, -20);
             SetWindowLong(Handle, -20, initialStyle | 0x80000 | 0x20);
             SetWindowPos(Handle, HwndTopmost, 0, 0, 0, 0, TopmostFlags);
             OnResize(null);
-
+            TopMost = true;
             InitializeComponent();
+
         }
 
         protected override sealed void OnResize(EventArgs e)
@@ -100,14 +120,16 @@ namespace External_Overlay
             };
             _device = new WindowRenderTarget(_factory, new RenderTargetProperties(new PixelFormat(Format.B8G8R8A8_UNorm, AlphaMode.Premultiplied)), _renderProperties);
 
-            _solidColorBrush = new SolidColorBrush(_device, new RawColor4(Color.White.R, Color.White.G, Color.White.B, Color.White.A));
+            _solidColorBrush = new SolidColorBrush(_device, new RawColor4(Color.Orange.R, Color.Orange.G, Color.Orange.B, Color.Orange.A));
             _font = new TextFormat(_fontFactory, FontFamily, FontSize);
             _fontSmall = new TextFormat(_fontFactory, FontFamily, FontSizeSmall);
 
-            _sDx = new Thread(new ParameterizedThreadStart(SDxThread));
+            _sDx = new Thread(new ParameterizedThreadStart(SDxThread))
+            {
+                Priority = ThreadPriority.Highest,
+                IsBackground = true
+            };
 
-            _sDx.Priority = ThreadPriority.Highest;
-            _sDx.IsBackground = true;
             _sDx.Start();
         }
         protected override void OnPaint(PaintEventArgs e)
@@ -118,13 +140,18 @@ namespace External_Overlay
 
         private void SDxThread(object sender)
         {
+            
             while (true)
             {
                 _device.BeginDraw();
                 _device.Clear(new RawColor4(Color.Transparent.R, Color.Transparent.G, Color.Transparent.B, Color.Transparent.A));
                 _device.TextAntialiasMode = TextAntialiasMode.Aliased;// you can set another text mode
-                //TODO: Add drawing of the text to the overlay
-                _device.DrawText("Pussy bo$$",new TextFormat(_fontFactory,FontFamily,FontWeight.Normal,FontStyle.Normal, FontSize),new RawRectangleF(0,0,200,16), _solidColorBrush);
+                using (var g = Graphics.FromHwnd(IntPtr.Zero))
+                {
+                    _device.DrawText(Demodata,
+                        new TextFormat(_fontFactory, FontFamily, FontWeight.Normal, FontStyle.Normal, FontSize),
+                        new RawRectangleF(0, 0,(int)g.MeasureString(Demodata, new System.Drawing.Font(FontFamily, FontSize)).Width+5,(int) g.MeasureString(Demodata, new System.Drawing.Font(FontFamily, FontSize)).Height+5), _solidColorBrush);
+                }
                 _device.EndDraw();
             }
         }

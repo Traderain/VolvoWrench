@@ -54,6 +54,9 @@ namespace VolvoWrench
             this.demoVerificationToolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.goldSourceToolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.demoDoctorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.overlayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.launchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.settingsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sourcerunsWikiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -62,9 +65,6 @@ namespace VolvoWrench
             this.hotkeysToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fontToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.HotkeyTimer = new System.Windows.Forms.Timer(this.components);
-            this.overlayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.launchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.settingsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -284,6 +284,35 @@ namespace VolvoWrench
             this.demoDoctorToolStripMenuItem.Text = "Demo doctor";
             this.demoDoctorToolStripMenuItem.Click += new System.EventHandler(this.demoDoctorToolStripMenuItem_Click);
             // 
+            // overlayToolStripMenuItem
+            // 
+            this.overlayToolStripMenuItem.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.overlayToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.launchToolStripMenuItem,
+            this.settingsToolStripMenuItem1});
+            this.overlayToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.overlayToolStripMenuItem.Name = "overlayToolStripMenuItem";
+            this.overlayToolStripMenuItem.Size = new System.Drawing.Size(71, 24);
+            this.overlayToolStripMenuItem.Text = "Overlay";
+            // 
+            // launchToolStripMenuItem
+            // 
+            this.launchToolStripMenuItem.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.launchToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.launchToolStripMenuItem.Name = "launchToolStripMenuItem";
+            this.launchToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.launchToolStripMenuItem.Text = "Launch";
+            this.launchToolStripMenuItem.Click += new System.EventHandler(this.launchToolStripMenuItem_Click);
+            // 
+            // settingsToolStripMenuItem1
+            // 
+            this.settingsToolStripMenuItem1.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.settingsToolStripMenuItem1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.settingsToolStripMenuItem1.Name = "settingsToolStripMenuItem1";
+            this.settingsToolStripMenuItem1.Size = new System.Drawing.Size(181, 26);
+            this.settingsToolStripMenuItem1.Text = "Settings";
+            this.settingsToolStripMenuItem1.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
+            // 
             // helpToolStripMenuItem1
             // 
             this.helpToolStripMenuItem1.Checked = true;
@@ -361,35 +390,6 @@ namespace VolvoWrench
             this.HotkeyTimer.Enabled = true;
             this.HotkeyTimer.Interval = 300;
             this.HotkeyTimer.Tick += new System.EventHandler(this.HotkeyTimer_Tick);
-            // 
-            // overlayToolStripMenuItem
-            // 
-            this.overlayToolStripMenuItem.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.overlayToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.launchToolStripMenuItem,
-            this.settingsToolStripMenuItem1});
-            this.overlayToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.overlayToolStripMenuItem.Name = "overlayToolStripMenuItem";
-            this.overlayToolStripMenuItem.Size = new System.Drawing.Size(71, 24);
-            this.overlayToolStripMenuItem.Text = "Overlay";
-            // 
-            // launchToolStripMenuItem
-            // 
-            this.launchToolStripMenuItem.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.launchToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.launchToolStripMenuItem.Name = "launchToolStripMenuItem";
-            this.launchToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
-            this.launchToolStripMenuItem.Text = "Launch";
-            this.launchToolStripMenuItem.Click += new System.EventHandler(this.launchToolStripMenuItem_Click);
-            // 
-            // settingsToolStripMenuItem1
-            // 
-            this.settingsToolStripMenuItem1.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.settingsToolStripMenuItem1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.settingsToolStripMenuItem1.Name = "settingsToolStripMenuItem1";
-            this.settingsToolStripMenuItem1.Size = new System.Drawing.Size(181, 26);
-            this.settingsToolStripMenuItem1.Text = "Settings";
-            this.settingsToolStripMenuItem1.Click += new System.EventHandler(this.settingsToolStripMenuItem1_Click);
             // 
             // Main
             // 

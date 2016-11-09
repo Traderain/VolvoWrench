@@ -55,3 +55,4 @@ F:\Githubrepos\VolvoWrench\VolvoWrench\bin\Debug\SharpDX.DXGI.dll
 F:\Githubrepos\VolvoWrench\VolvoWrench\bin\Debug\SharpDX.xml
 F:\Githubrepos\VolvoWrench\VolvoWrench\bin\Debug\SharpDX.Direct2D1.xml
 F:\Githubrepos\VolvoWrench\VolvoWrench\bin\Debug\SharpDX.DXGI.xml
+F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Debug\VolvoWrench.Overlay.OverlaySettings.resources

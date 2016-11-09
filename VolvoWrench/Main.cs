@@ -13,6 +13,7 @@ using VolvoWrench.Demo_stuff;
 using VolvoWrench.Demo_stuff.GoldSource;
 using VolvoWrench.Demo_stuff.Source;
 using VolvoWrench.Hotkey;
+using VolvoWrench.Overlay;
 using VolvoWrench.SaveStuff;
 using static System.Convert;
 
@@ -23,7 +24,13 @@ namespace VolvoWrench
         public static readonly string LogPath = string.Format("{0}\\" + "VolvoWrench" + "\\" + "VWLog.log", Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
         public static readonly string SettingsPath = string.Format("{0}\\" + "VolvoWrench" + "\\" + "VWSettings.config", Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
 
-        public static int DemoPopupKey = 0x70; //F1
+        public static int DemoPopupKey;
+        public static int OverLayExitKey;
+        public static int OverLayRescanKey;
+        public static Font OverlayFont;
+        public static Color OverLayColor;
+        public static Font MainFont;
+
         public CrossParseResult CurrentDemoFile;
         public string CurrentFile;
 
@@ -70,8 +77,6 @@ namespace VolvoWrench
             #endregion
         }
 
-
-        //Open with main constructor
         public Main(string s)
         {
             InitializeComponent();
@@ -263,16 +268,30 @@ namespace VolvoWrench
         #region Overlay
         private void launchToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using (var a = new OverlayForm())
+            if (File.Exists(CurrentFile) && Path.GetExtension(CurrentFile) == ".dem" && CurrentFile != null)
+                using (var a = new OverlayForm(CurrentFile))
+                    a.ShowDialog();
+            else
+                MessageBox.Show(@"No file selected please select one to use the overlay!",
+                    @"Couldn't open overlay!",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+        }
+
+        private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var ols = new OverlaySettings(OverlayFont,OverLayColor))
             {
-                a.ShowDialog();
+                ols.ShowDialog(this);
             }
         }
 
-        private void settingsToolStripMenuItem1_Click(object sender, EventArgs e)
+        public void UpdateOverLaySettings(Font f, Color c)
         {
-
+            OverlayFont = f;
+            OverLayColor = c;
         }
+
         #endregion
 
         #region Settings and hotkeys stuff
@@ -353,8 +372,11 @@ Frame count: " + CurrentDemoFile.Sdi.FrameCount);
 
         public static void SettingsManager(bool reset)
         {
-            Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\" +
-                                      "VolvoWrench");
+            if (!Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\" +"VolvoWrench"))
+            {
+                Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\" +
+                             "VolvoWrench");
+            }
             if (!File.Exists(SettingsPath) || reset)
             {
                 #region Config text
@@ -368,11 +390,16 @@ Frame count: " + CurrentDemoFile.Sdi.FrameCount);
 [HOTKEYS]
 ;You can modify these keys. Google VKEY
 demo_popup = 0x70;
+overlay_exit = 0x71;
+overlay_rescan = 0x72;
 [SETTINGS]
 Language = EN;"
                     });
                 #endregion
                 DemoPopupKey = 0x70; //F1
+                OverLayExitKey = 0x71;
+                OverLayRescanKey = 0x72;
+
             }
             else
             {
@@ -380,6 +407,20 @@ Language = EN;"
                 DemoPopupKey = ToInt32(filteredArray
                     .First(x => x
                         .Contains("demo_popup"))
+                    .Replace(" ", string.Empty)
+                    .Replace(";", string.Empty)
+                    .Trim()
+                    .Split('=')[1], 16);
+                OverLayExitKey = ToInt32(filteredArray
+                    .First(x => x
+                        .Contains("overlay_exit"))
+                    .Replace(" ", string.Empty)
+                    .Replace(";", string.Empty)
+                    .Trim()
+                    .Split('=')[1], 16);
+                OverLayRescanKey = ToInt32(filteredArray
+                    .First(x => x
+                        .Contains("overlay_rescan"))
                     .Replace(" ", string.Empty)
                     .Replace(";", string.Empty)
                     .Trim()

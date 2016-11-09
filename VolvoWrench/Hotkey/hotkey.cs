@@ -12,6 +12,8 @@ namespace VolvoWrench.Hotkey
             KeyPreview = true;
             InitializeComponent();
             label1.Text = @"Demo info popup: " + KeyInterop.KeyFromVirtualKey(Main.DemoPopupKey);
+            label2.Text = @"Overlay exit: " + KeyInterop.KeyFromVirtualKey(Main.OverLayExitKey);
+            label3.Text = @"Overlay rescan: " + KeyInterop.KeyFromVirtualKey(Main.OverLayRescanKey);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -23,12 +25,16 @@ namespace VolvoWrench.Hotkey
         {
             Main.SettingsManager(false);
             label1.Text = @"Demo info popup: " + KeyInterop.KeyFromVirtualKey(Main.DemoPopupKey);
+            label2.Text = @"Overlay exit: " + KeyInterop.KeyFromVirtualKey(Main.OverLayExitKey);
+            label3.Text = @"Overlay rescan: " + KeyInterop.KeyFromVirtualKey(Main.OverLayRescanKey);
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             Main.SettingsManager(true);
             label1.Text = @"Demo info popup: " + KeyInterop.KeyFromVirtualKey(Main.DemoPopupKey);
+            label2.Text = @"Overlay exit: " + KeyInterop.KeyFromVirtualKey(Main.OverLayExitKey);
+            label3.Text = @"Overlay rescan: " + KeyInterop.KeyFromVirtualKey(Main.OverLayRescanKey);
         }
 
         private void button4_Click(object sender, EventArgs e)
