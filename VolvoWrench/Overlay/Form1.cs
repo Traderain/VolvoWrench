@@ -36,6 +36,13 @@ namespace External_Overlay
         public static string Currentwindow = "";
         public static string Demodata = "";
 
+        public static string[] GameTitles = new[]
+        {
+            "HALF-LIFE 2",
+            "PORTAL",
+            "PORTAL 2"
+        };
+
         private WindowRenderTarget _device;
         private HwndRenderTargetProperties _renderProperties;
         private SolidColorBrush _solidColorBrush;
@@ -182,18 +189,21 @@ namespace External_Overlay
                 _device.TextAntialiasMode = TextAntialiasMode.Aliased;// you can set another text mode
                 using (var g = Graphics.FromHwnd(IntPtr.Zero))
                 {
-                    if (string.IsNullOrEmpty(Currentwindow) ? false:Currentwindow.Contains("Jegyzettömb"))
+                    if (!string.IsNullOrEmpty(Currentwindow))
                     {
-                        _device.DrawText(Demodata,
-                            new TextFormat(_fontFactory,
-                                FontFamily,
-                                FontWeight.Normal,
-                                FontStyle.Normal,
-                                FontSize),
-                            new RawRectangleF(0,0,
-                                (int)g.MeasureString(Demodata,new System.Drawing.Font(FontFamily, FontSize)).Width + 5,
-                                (int)g.MeasureString(Demodata, new System.Drawing.Font(FontFamily, FontSize)).Height + 5),
-                                _solidColorBrush);
+                        if (GameTitles.Any(x=> x.Contains(Currentwindow)))
+                        {
+                            _device.DrawText(Demodata,
+                                new TextFormat(_fontFactory,
+                                    FontFamily,
+                                    FontWeight.Normal,
+                                    FontStyle.Normal,
+                                    FontSize),
+                                new RawRectangleF(0, 0,
+                                    (int)g.MeasureString(Demodata, new System.Drawing.Font(FontFamily, FontSize)).Width + 5,
+                                    (int)g.MeasureString(Demodata, new System.Drawing.Font(FontFamily, FontSize)).Height + 5),
+                                    _solidColorBrush);
+                        }
                     }
                 }
                 _device.EndDraw();
@@ -377,7 +387,6 @@ Adjusted ticks:     {demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks}
             const int nChars = 256;
             var Buff = new StringBuilder(nChars);
             var handle = GetForegroundWindow();
-
             if (GetWindowText(handle, Buff, nChars) > 0)
             {
                 return Buff.ToString();
