@@ -38,6 +38,7 @@ namespace VolvoWrench
         {
             InitializeComponent();
             SettingsManager(false);
+            richTextBox1.Font = MainFont;
             AllowDrop = true;
             netdecodeToolStripMenuItem.Enabled = false;
             heatmapGeneratorToolStripMenuItem1.Enabled = false;
@@ -82,6 +83,7 @@ namespace VolvoWrench
             InitializeComponent();
             CurrentFile = s;
             SettingsManager(false);
+            richTextBox1.Font = MainFont;
             AllowDrop = true;
             netdecodeToolStripMenuItem.Enabled = false;
             statisticsToolStripMenuItem.Enabled = false;
@@ -269,7 +271,7 @@ namespace VolvoWrench
         private void launchToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (File.Exists(CurrentFile) && Path.GetExtension(CurrentFile) == ".dem" && CurrentFile != null)
-                using (var a = new OverlayForm(CurrentFile))
+                using (var a = new OverlayForm(CurrentFile,OverLayColor,OverlayFont,OverLayRescanKey,OverLayExitKey))
                     a.ShowDialog();
             else
                 MessageBox.Show(@"No file selected please select one to use the overlay!",
@@ -354,6 +356,27 @@ Frame count: " + CurrentDemoFile.Sdi.FrameCount);
                     if (fd.ShowDialog() == DialogResult.OK)
                     {
                         richTextBox1.Font = fd.Font;
+                        #region Save font
+                        var cvt = new FontConverter();
+                        File.WriteAllLines(SettingsPath,
+                    new[]
+                    {
+                        $@">[VolvoWrench config file]
+> Here are your hotkeys for the program.
+> Every line which starts with a semicolon('>') is ignored.
+> Please keep that in mind.
+[HOTKEYS]
+>You can modify these keys. Google VKEY
+demo_popup = {DemoPopupKey}
+overlay_exit = {OverLayExitKey}
+overlay_rescan = {OverLayRescanKey}
+[SETTINGS]
+Language = EN
+main_font = {cvt.ConvertToString(fd.Font)}
+overlay_font = {cvt.ConvertToString(MainFont)}
+overlay_color = {Color.Orange.A}:{Color.Orange.R}:{Color.Orange.B}:{Color.Orange.G}"
+                    });
+                    #endregion
                     }
                 }
                 if (CurrentFile == null || (!File.Exists(CurrentFile) || Path.GetExtension(CurrentFile) != ".dem"))
@@ -383,17 +406,20 @@ Frame count: " + CurrentDemoFile.Sdi.FrameCount);
                 File.WriteAllLines(SettingsPath,
                     new[]
                     {
-                        @";[VolvoWrench config file]
-; Here are your hotkeys for the program.
-; Every line which starts with a semicolon(';') is ignored.
-; Please keep that in mind.
+                        $@">[VolvoWrench config file]
+> Here are your hotkeys for the program.
+> Every line which starts with a semicolon('>') is ignored.
+> Please keep that in mind.
 [HOTKEYS]
-;You can modify these keys. Google VKEY
-demo_popup = 0x70;
-overlay_exit = 0x71;
-overlay_rescan = 0x72;
+>You can modify these keys. Google VKEY
+demo_popup = 0x70
+overlay_exit = 0x71
+overlay_rescan = 0x72
 [SETTINGS]
-Language = EN;"
+Language = EN
+main_font = Microsoft Sans Serif; 8pt
+overlay_font = Microsoft Sans Serif; 8pt
+overlay_color = {Color.Orange.A}:{Color.Orange.R}:{Color.Orange.B}:{Color.Orange.G}"
                     });
                 #endregion
                 DemoPopupKey = 0x70; //F1
@@ -403,28 +429,58 @@ Language = EN;"
             }
             else
             {
-                var filteredArray = File.ReadAllLines(SettingsPath).Where(x => !x.StartsWith(";")).ToArray();
+                var filteredArray = File.ReadAllLines(SettingsPath).Where(x => !x.StartsWith(">")).ToArray();
                 DemoPopupKey = ToInt32(filteredArray
                     .First(x => x
                         .Contains("demo_popup"))
                     .Replace(" ", string.Empty)
-                    .Replace(";", string.Empty)
+                    .Replace(">", string.Empty)
                     .Trim()
                     .Split('=')[1], 16);
                 OverLayExitKey = ToInt32(filteredArray
                     .First(x => x
                         .Contains("overlay_exit"))
                     .Replace(" ", string.Empty)
-                    .Replace(";", string.Empty)
+                    .Replace(">", string.Empty)
                     .Trim()
                     .Split('=')[1], 16);
                 OverLayRescanKey = ToInt32(filteredArray
                     .First(x => x
                         .Contains("overlay_rescan"))
                     .Replace(" ", string.Empty)
-                    .Replace(";", string.Empty)
+                    .Replace(">", string.Empty)
                     .Trim()
                     .Split('=')[1], 16);
+                var cvt = new FontConverter();
+                OverlayFont = cvt.ConvertFromString(filteredArray
+                    .First(x => x
+                        .Contains("overlay_font"))
+                    .Replace(" ", string.Empty)
+                    .Replace(">", string.Empty)
+                    .Split('=')[1]) as Font;
+                OverlayFont = cvt.ConvertFromString(filteredArray
+                    .First(x => x
+                        .Contains("overlay_font"))
+                    .Replace(" ", string.Empty)
+                    .Replace(">", string.Empty)
+                    .Split('=').ToArray().Skip(1).Aggregate((c,n) => c += n)) as Font;
+                MainFont = cvt.ConvertFromString(filteredArray
+                    .First(x => x
+                        .Contains("main_font"))
+                    .Replace(" ", string.Empty)
+                    .Replace(">", string.Empty)
+                    .Split('=')[1]) as Font;
+                var colorstring = filteredArray
+                    .First(x => x
+                        .Contains("overlay_color"))
+                    .Replace(" ", string.Empty)
+                    .Replace(">", string.Empty)
+                    .Split('=')[1].Split(':');
+                OverLayColor = Color.FromArgb(
+                    ToInt32(colorstring[0]),
+                    ToInt32(colorstring[1]),
+                    ToInt32(colorstring[2]),
+                    ToInt32(colorstring[3]));
             }
         }
 

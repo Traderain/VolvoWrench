@@ -12,6 +12,7 @@ using AlphaMode = SharpDX.Direct2D1.AlphaMode;
 using Brush = SharpDX.Direct2D1.Brush;
 using Factory = SharpDX.Direct2D1.Factory;
 using FactoryType = SharpDX.Direct2D1.FactoryType;
+using Font = System.Drawing.Font;
 using FontFactory = SharpDX.DirectWrite.Factory;
 using FontStyle = SharpDX.DirectWrite.FontStyle;
 using TextAntialiasMode = SharpDX.Direct2D1.TextAntialiasMode;
@@ -78,7 +79,7 @@ Adjusted ticks:     0
         public const uint TopmostFlags = SwpNomove | SwpNosize;
         public static IntPtr HwndTopmost = new IntPtr(-1);
 
-        public OverlayForm(string s)
+        public OverlayForm(string file,Color color,Font font,int resetkey,int exitkey)
         {
             _handle = Handle;
             var initialStyle = GetWindowLong(Handle, -20);
