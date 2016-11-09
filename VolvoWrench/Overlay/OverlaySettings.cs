@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -51,6 +52,27 @@ namespace VolvoWrench.Overlay
 
         private void button3_Click(object sender, EventArgs e) //OK
         {
+            #region Save font
+            var cvt = new FontConverter();
+            File.WriteAllLines(Main.SettingsPath,
+        new[]
+        {
+                        $@">[VolvoWrench config file]
+> Here are your hotkeys for the program.
+> Every line which starts with a semicolon('>') is ignored.
+> Please keep that in mind.
+[HOTKEYS]
+>You can modify these keys. Google VKEY
+demo_popup={Main.DemoPopupKey}
+overlay_exit={Main.OverLayExitKey}
+overlay_rescan={Main.OverLayRescanKey}
+[SETTINGS]
+Language = EN
+main_font = {cvt.ConvertToString(Main.MainFont)}
+overlay_font = {cvt.ConvertToString(F)}
+overlay_color = {C.A}:{C.R}:{C.B}:{C.G}"
+        });
+            #endregion
             var parentT = (Main)Owner;
             parentT.UpdateOverLaySettings(F,C);
             Close();

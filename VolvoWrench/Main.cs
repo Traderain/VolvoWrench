@@ -286,6 +286,7 @@ namespace VolvoWrench
             {
                 ols.ShowDialog(this);
             }
+            SettingsManager(false); //BUG: Saving
         }
 
         public void UpdateOverLaySettings(Font f, Color c)
@@ -302,6 +303,7 @@ namespace VolvoWrench
         {
             using (var a = new Hotkey.Hotkey())
                 a.ShowDialog();
+            SettingsManager(false);
         }
 
         private void HotkeyTimer_Tick(object sender, EventArgs e)
@@ -367,14 +369,14 @@ Frame count: " + CurrentDemoFile.Sdi.FrameCount);
 > Please keep that in mind.
 [HOTKEYS]
 >You can modify these keys. Google VKEY
-demo_popup = {DemoPopupKey}
-overlay_exit = {OverLayExitKey}
-overlay_rescan = {OverLayRescanKey}
+demo_popup={DemoPopupKey}
+overlay_exit={OverLayExitKey}
+overlay_rescan={OverLayRescanKey}
 [SETTINGS]
-Language = EN
-main_font = {cvt.ConvertToString(fd.Font)}
-overlay_font = {cvt.ConvertToString(MainFont)}
-overlay_color = {Color.Orange.A}:{Color.Orange.R}:{Color.Orange.B}:{Color.Orange.G}"
+Language=EN
+main_font={cvt.ConvertToString(fd.Font)}
+overlay_font={cvt.ConvertToString(OverlayFont)}
+overlay_color={OverLayColor.A}:{OverLayColor.R}:{OverLayColor.B}:{OverLayColor.G}"
                     });
                     #endregion
                     }
@@ -395,14 +397,16 @@ overlay_color = {Color.Orange.A}:{Color.Orange.R}:{Color.Orange.B}:{Color.Orange
 
         public static void SettingsManager(bool reset)
         {
-            if (!Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\" +"VolvoWrench"))
+            try
             {
-                Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\" +
-                             "VolvoWrench");
-            }
-            if (!File.Exists(SettingsPath) || reset)
-            {
-                #region Config text
+                if (!Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\" +"VolvoWrench"))
+                {
+                    Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\" +
+                                 "VolvoWrench");
+                }
+                if (!File.Exists(SettingsPath) || reset)
+                {
+                    #region Config text
                 File.WriteAllLines(SettingsPath,
                     new[]
                     {
@@ -412,78 +416,73 @@ overlay_color = {Color.Orange.A}:{Color.Orange.R}:{Color.Orange.B}:{Color.Orange
 > Please keep that in mind.
 [HOTKEYS]
 >You can modify these keys. Google VKEY
-demo_popup = 0x70
-overlay_exit = 0x71
-overlay_rescan = 0x72
+demo_popup=0x70
+overlay_exit=0x71
+overlay_rescan=0x72
 [SETTINGS]
-Language = EN
-main_font = Microsoft Sans Serif; 8pt
-overlay_font = Microsoft Sans Serif; 8pt
-overlay_color = {Color.Orange.A}:{Color.Orange.R}:{Color.Orange.B}:{Color.Orange.G}"
+Language=EN
+main_font=Microsoft Sans Serif; 8pt
+overlay_font=Microsoft Sans Serif; 8pt
+overlay_color={Color.Orange.A}:{Color.Orange.R}:{Color.Orange.B}:{Color.Orange.G}"
                     });
                 #endregion
-                DemoPopupKey = 0x70; //F1
-                OverLayExitKey = 0x71;
-                OverLayRescanKey = 0x72;
+                    DemoPopupKey = 0x70; //F1
+                    OverLayExitKey = 0x71;
+                    OverLayRescanKey = 0x72;
 
+                }
+                else
+                {
+                    var filteredArray = File.ReadAllLines(SettingsPath).Where(x => !x.StartsWith(">")).ToArray();
+                    DemoPopupKey = ToInt32(filteredArray
+                        .First(x => x
+                            .Contains("demo_popup"))
+                        .Replace(" ", string.Empty)
+                        .Replace(">", string.Empty)
+                        .Trim()
+                        .Split('=')[1], 16);
+                    OverLayExitKey = ToInt32(filteredArray
+                        .First(x => x
+                            .Contains("overlay_exit"))
+                        .Replace(" ", string.Empty)
+                        .Replace(">", string.Empty)
+                        .Trim()
+                        .Split('=')[1], 16);
+                    OverLayRescanKey = ToInt32(filteredArray
+                        .First(x => x
+                            .Contains("overlay_rescan"))
+                        .Replace(" ", string.Empty)
+                        .Replace(">", string.Empty)
+                        .Trim()
+                        .Split('=')[1], 16);
+                    var cvt = new FontConverter();
+                    OverlayFont = cvt.ConvertFromString(filteredArray
+                        .First(x => x
+                            .Contains("overlay_font"))
+                        .Split('=').Skip(1).ToArray().Aggregate((c,n) => c += n)) as Font;
+                    MainFont = cvt.ConvertFromString(filteredArray
+                        .First(x => x
+                            .Contains("main_font"))
+                        .Split('=').Skip(1).ToArray().Aggregate((c, n) => c += n)) as Font;
+                    var colorstring = filteredArray
+                        .First(x => x
+                            .Contains("overlay_color"))
+                        .Replace(" ", string.Empty)
+                        .Replace(">", string.Empty)
+                        .Split('=')[1].Split(':');
+                    OverLayColor = Color.FromArgb(
+                        ToInt32(colorstring[0]),
+                        ToInt32(colorstring[1]),
+                        ToInt32(colorstring[2]),
+                        ToInt32(colorstring[3]));
+                }
             }
-            else
+            catch (Exception e)
             {
-                var filteredArray = File.ReadAllLines(SettingsPath).Where(x => !x.StartsWith(">")).ToArray();
-                DemoPopupKey = ToInt32(filteredArray
-                    .First(x => x
-                        .Contains("demo_popup"))
-                    .Replace(" ", string.Empty)
-                    .Replace(">", string.Empty)
-                    .Trim()
-                    .Split('=')[1], 16);
-                OverLayExitKey = ToInt32(filteredArray
-                    .First(x => x
-                        .Contains("overlay_exit"))
-                    .Replace(" ", string.Empty)
-                    .Replace(">", string.Empty)
-                    .Trim()
-                    .Split('=')[1], 16);
-                OverLayRescanKey = ToInt32(filteredArray
-                    .First(x => x
-                        .Contains("overlay_rescan"))
-                    .Replace(" ", string.Empty)
-                    .Replace(">", string.Empty)
-                    .Trim()
-                    .Split('=')[1], 16);
-                var cvt = new FontConverter();
-                OverlayFont = cvt.ConvertFromString(filteredArray
-                    .First(x => x
-                        .Contains("overlay_font"))
-                    .Replace(" ", string.Empty)
-                    .Replace(">", string.Empty)
-                    .Split('=')[1]) as Font;
-                OverlayFont = cvt.ConvertFromString(filteredArray
-                    .First(x => x
-                        .Contains("overlay_font"))
-                    .Replace(" ", string.Empty)
-                    .Replace(">", string.Empty)
-                    .Split('=').ToArray().Skip(1).Aggregate((c,n) => c += n)) as Font;
-                MainFont = cvt.ConvertFromString(filteredArray
-                    .First(x => x
-                        .Contains("main_font"))
-                    .Replace(" ", string.Empty)
-                    .Replace(">", string.Empty)
-                    .Split('=')[1]) as Font;
-                var colorstring = filteredArray
-                    .First(x => x
-                        .Contains("overlay_color"))
-                    .Replace(" ", string.Empty)
-                    .Replace(">", string.Empty)
-                    .Split('=')[1].Split(':');
-                OverLayColor = Color.FromArgb(
-                    ToInt32(colorstring[0]),
-                    ToInt32(colorstring[1]),
-                    ToInt32(colorstring[2]),
-                    ToInt32(colorstring[3]));
+                File.Delete(SettingsPath);
+                Log("Error when parsing settings: " + e.Message);
             }
         }
-
         #endregion
 
         #region DragDrop file
@@ -777,6 +776,7 @@ Adjusted ticks:     {demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks}
 
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
         {
+            SettingsManager(false);
            // if (MessageBox.Show("Are you sure you would like to close the program?","Confirm!",MessageBoxButtons.YesNo,MessageBoxIcon.Question) == DialogResult.No)
             {
               //  e.Cancel = true;
