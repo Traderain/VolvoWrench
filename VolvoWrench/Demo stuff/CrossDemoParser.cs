@@ -57,7 +57,7 @@ namespace VolvoWrench.Demo_stuff
                     cpr.Type = Parseresult.Source;
                     var fi = new FileInfo(filename);
                     using (
-                        var mmf = MemoryMappedFile.CreateFromFile(filename, FileMode.Open, "sourcemap", fi.Length + 1024,
+                        var mmf = MemoryMappedFile.CreateFromFile(filename, FileMode.Open, "sourcemap", fi.Length,
                             MemoryMappedFileAccess.ReadWrite))
                     using (var cfs = mmf.CreateViewStream())
                     {
@@ -97,7 +97,7 @@ namespace VolvoWrench.Demo_stuff
             {
                 return Parseresult.UnsupportedFile;
             }
-            using (var fs = new FileStream(file, FileMode.Open, FileAccess.Read))
+            using (var fs = new FileStream(file, FileMode.Open, FileAccess.Read,FileShare.Read))
             using (var br = new BinaryReader(fs))
             {
                 var mw = Encoding.ASCII.GetString(br.ReadBytes(8)).TrimEnd('\0');

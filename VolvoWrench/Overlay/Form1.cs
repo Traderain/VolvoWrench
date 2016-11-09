@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -35,6 +37,10 @@ namespace External_Overlay
         public static Color TextColor;
         public static string Currentwindow = "";
         public static string Demodata = "";
+
+        public BackgroundWorker DemoParserSlave;
+
+        private const int DirectoryScannerRefreshRate = 500;
 
         public static string[] GameTitles = new[]
         {
@@ -105,8 +111,17 @@ namespace External_Overlay
             RescanKey = resetkey;
             TextColor = color;
             TextFont = font;
-            var cpr = CrossDemoParser.Parse(FilePath);
-            PrintOverlayData(cpr);
+            if (new FileInfo(FilePath).Length > 540)
+            {
+                var cpr = CrossDemoParser.Parse(FilePath);
+                PrintOverlayData(cpr);
+            }
+            else
+            {
+                Demodata = "";
+            }
+
+            DemoParserSlave.RunWorkerAsync(FilePath);
         }
 
         protected override sealed void OnResize(EventArgs e)
@@ -117,8 +132,8 @@ namespace External_Overlay
         private void Form1_Load(object sender, EventArgs e)
         {
             DoubleBuffered = true;
-            Width = 1920;
-            Height = 1080;
+            Width = Screen.PrimaryScreen.WorkingArea.Width;
+            Height = Screen.PrimaryScreen.WorkingArea.Height;
             SetStyle(ControlStyles.OptimizedDoubleBuffer |// this reduce the flicker
                 ControlStyles.AllPaintingInWmPaint |
                 ControlStyles.DoubleBuffer |
@@ -139,7 +154,7 @@ namespace External_Overlay
             };
             _device = new WindowRenderTarget(_factory, new RenderTargetProperties(new PixelFormat(Format.B8G8R8A8_UNorm, AlphaMode.Premultiplied)), _renderProperties);
 
-            _solidColorBrush = new SolidColorBrush(_device, new RawColor4(Color.Orange.R, Color.Orange.G, Color.Orange.B, Color.Orange.A));
+            _solidColorBrush = new SolidColorBrush(_device, new RawColor4(TextColor.R, TextColor.G, TextColor.B, TextColor.A));
             _font = new TextFormat(_fontFactory, FontFamily, FontSize);
             _fontSmall = new TextFormat(_fontFactory, FontFamily, FontSizeSmall);
 
@@ -159,15 +174,13 @@ namespace External_Overlay
 
         private void hotkeytimer_Tick(object sender, EventArgs e)
         {
-            Currentwindow = GetActiveWindowTitle();
-            if (Currentwindow == null)
-                Currentwindow = "";
-            if (FilePath == null) return;
+            //BUG: Not working
+            Currentwindow = GetActiveWindowTitle() ?? "";
             var exitstate = KeyInputApi.GetKeyState(ExitKey);
             var rstate = KeyInputApi.GetKeyState(RescanKey);
             if ((exitstate & 0x8000) != 0)
             {
-                this.Close();
+                Close();
             }
             if ((rstate & 0x8000) != 0)
             {
@@ -195,13 +208,13 @@ namespace External_Overlay
                         {
                             _device.DrawText(Demodata,
                                 new TextFormat(_fontFactory,
-                                    FontFamily,
+                                    TextFont.FontFamily.Name,
                                     FontWeight.Normal,
                                     FontStyle.Normal,
-                                    FontSize),
+                                    TextFont.Size),
                                 new RawRectangleF(0, 0,
-                                    (int)g.MeasureString(Demodata, new System.Drawing.Font(FontFamily, FontSize)).Width + 5,
-                                    (int)g.MeasureString(Demodata, new System.Drawing.Font(FontFamily, FontSize)).Height + 5),
+                                    (int)g.MeasureString(Demodata, TextFont).Width + 5,
+                                    (int)g.MeasureString(Demodata, TextFont).Height + 5),
                                     _solidColorBrush);
                         }
                     }
@@ -212,6 +225,7 @@ namespace External_Overlay
 
         public static void PrintOverlayData(CrossParseResult demo)
         {
+            #region Print
             switch (demo.Type)
             {
                 case Parseresult.UnsupportedFile:
@@ -380,6 +394,7 @@ Adjusted ticks:     {demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks}
                     }
                     break;
             }
+            #endregion
         }
 
         private static string GetActiveWindowTitle()
@@ -392,6 +407,82 @@ Adjusted ticks:     {demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks}
                 return Buff.ToString();
             }
             return "";
+        }
+
+        private static void MonitorDemo(BackgroundWorker worker, string demo)
+        {
+            Thread.Sleep(DirectoryScannerRefreshRate);
+            while (!worker.CancellationPending)
+            {
+                try
+                {
+                        var demoParseResult = CrossDemoParser.Parse(demo);                        
+                            worker.ReportProgress(0, demoParseResult);
+                            return;
+                }
+                catch
+                {
+                    //demo still being written to
+                }
+                Thread.Sleep(DirectoryScannerRefreshRate);
+            }
+        }
+
+        private void DirectoryScannerWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            DemoParserSlave.RunWorkerAsync(FilePath);
+        }
+
+        private void DirectoryScannerWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            var worker = sender as BackgroundWorker;
+            var startTime = DateTime.Now;
+
+            while (!worker.CancellationPending)
+            {
+                    var writeTime = File.GetLastWriteTime(FilePath);
+                    if (writeTime.CompareTo(startTime) > 0)
+                    {
+                        Thread.Sleep(10);
+                        startTime = DateTime.Now;
+                        if (new FileInfo(FilePath).Length > 540 &&
+                            new FileInfo(FilePath).Length != 237568)
+                        {
+                             worker.ReportProgress(0, Path.GetFileName(FilePath));
+                             MonitorDemo(worker, FilePath);
+                             worker.ReportProgress(0, null);
+                             break;
+                        }
+                    }
+                    Thread.Sleep(1);
+            }
+        }
+
+        private void DirectoryScannerWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            var crossParseResult = e.UserState as CrossParseResult;
+            if (crossParseResult != null)
+                PrintOverlayData(crossParseResult);
+        }
+
+        protected virtual bool IsFileLocked(string f)
+        {
+            var file = new FileInfo(f);
+            FileStream stream = null;
+
+            try
+            {
+                stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.None);
+            }
+            catch (IOException)
+            {
+                return true;
+            }
+            finally
+            {
+                stream?.Close();
+            }
+            return false;
         }
     }
 }
