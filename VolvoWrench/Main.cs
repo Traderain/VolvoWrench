@@ -324,6 +324,7 @@ namespace VolvoWrench
                 RescanFile();
                 switch (CurrentDemoFile.Type)
                 {
+                    //TODO: Add other mboxs
                     case Parseresult.UnsupportedFile:
                         break;
                     case Parseresult.GoldSource:
@@ -369,9 +370,9 @@ Frame count: " + CurrentDemoFile.Sdi.FrameCount);
 > Please keep that in mind.
 [HOTKEYS]
 >You can modify these keys. Google VKEY
-demo_popup={DemoPopupKey}
-overlay_exit={OverLayExitKey}
-overlay_rescan={OverLayRescanKey}
+demo_popup={DemoPopupKey.ToString("X")}
+overlay_exit={OverLayExitKey.ToString("X")}
+overlay_rescan={OverLayRescanKey.ToString("X")}
 [SETTINGS]
 Language=EN
 main_font={cvt.ConvertToString(fd.Font)}
@@ -530,7 +531,7 @@ overlay_color={Color.Orange.A}:{Color.Orange.R}:{Color.Orange.B}:{Color.Orange.G
         {
             if (demo != null)
             {
-                richTextBox1.Text = "Demo parsed!";
+                richTextBox1.Text = @"Demo parsed!";
                 StripEnabler(demo);
                 #region Print
                 switch (demo.Type)
@@ -723,7 +724,7 @@ Adjusted ticks:     {demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks}
             }
             else
             {
-                richTextBox1.Text = "Not a demo!";
+                richTextBox1.Text = @"Not a demo!";
             }
         }
 

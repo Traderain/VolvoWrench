@@ -104,7 +104,7 @@ namespace VolvoWrench.Demo_stuff
                 switch (mw)
                 {
                     case "HLDEMO": return br.ReadByte() <= 2 ? Parseresult.Hlsooe : Parseresult.GoldSource;
-                    case "HL2DEMO": return br.ReadInt32() < 4 ? Parseresult.Source: Parseresult.L4D2Branch; //TODO: Add a check for portal1
+                    case "HL2DEMO": return br.ReadInt32() < 4 ? Parseresult.Source: Parseresult.L4D2Branch;
                     default: return Parseresult.UnsupportedFile;
                 }
             }

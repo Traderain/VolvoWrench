@@ -63,9 +63,9 @@ namespace VolvoWrench.Overlay
 > Please keep that in mind.
 [HOTKEYS]
 >You can modify these keys. Google VKEY
-demo_popup={Main.DemoPopupKey}
-overlay_exit={Main.OverLayExitKey}
-overlay_rescan={Main.OverLayRescanKey}
+demo_popup={Main.DemoPopupKey.ToString("X")}
+overlay_exit={Main.OverLayExitKey.ToString("X")}
+overlay_rescan={Main.OverLayRescanKey.ToString("X")}
 [SETTINGS]
 Language = EN
 main_font = {cvt.ConvertToString(Main.MainFont)}

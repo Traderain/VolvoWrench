@@ -33,7 +33,7 @@ namespace VolvoWrench.Demo_stuff.GoldSource
                 Application.DoEvents();
                 foreach (var dt in of.FileNames.Where(file => File.Exists(file) && Path.GetExtension(file) == ".dem"))
                 {
-                    Df.Add(dt, CrossDemoParser.Parse(dt)); //TODO: Make this async
+                    Df.Add(dt, CrossDemoParser.Parse(dt)); //If someone bothers me that its slow make it async.
                 }
                 if (Df.Any(x => x.Value.Type != Parseresult.GoldSource))
                     MessageBox.Show(@"Only goldsource supported");
