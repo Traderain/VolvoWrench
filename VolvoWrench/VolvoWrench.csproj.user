@@ -9,5 +9,6 @@
     <ErrorReportUrlHistory>https://traderain.hu/vwerror|https://traderain.hu</ErrorReportUrlHistory>
     <FallbackCulture>en-US</FallbackCulture>
     <VerifyUploadedFiles>false</VerifyUploadedFiles>
+    <ProjectView>ShowAllFiles</ProjectView>
   </PropertyGroup>
 </Project>

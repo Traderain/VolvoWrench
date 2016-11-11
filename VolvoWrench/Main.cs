@@ -726,7 +726,7 @@ Adjusted ticks:     {demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks}
             }
             else
             {
-                richTextBox1.Text = @"Not a demo!";
+                richTextBox1.Text = @"Not a demo! ";
             }
         }
 
