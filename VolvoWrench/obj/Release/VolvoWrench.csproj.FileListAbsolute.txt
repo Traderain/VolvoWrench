@@ -23,3 +23,11 @@ F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Release\VolvoWrench.Hotkey.Hotkey.res
 F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Release\VolvoWrench.SaveStuff.SaveFileExplorer.resources
 F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Release\VolvoWrench.Demo_stuff.Source.DemoDecoder.resources
 F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Release\VolvoWrench.Demo_stuff.Statisctics.resources
+F:\Githubrepos\VolvoWrench\VolvoWrench\bin\Release\SharpDX.Direct2D1.dll
+F:\Githubrepos\VolvoWrench\VolvoWrench\bin\Release\SharpDX.dll
+F:\Githubrepos\VolvoWrench\VolvoWrench\bin\Release\SharpDX.DXGI.dll
+F:\Githubrepos\VolvoWrench\VolvoWrench\bin\Release\SharpDX.xml
+F:\Githubrepos\VolvoWrench\VolvoWrench\bin\Release\SharpDX.Direct2D1.xml
+F:\Githubrepos\VolvoWrench\VolvoWrench\bin\Release\SharpDX.DXGI.xml
+F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Release\VolvoWrench.Overlay.Form1.resources
+F:\Githubrepos\VolvoWrench\VolvoWrench\obj\Release\VolvoWrench.Overlay.OverlaySettings.resources

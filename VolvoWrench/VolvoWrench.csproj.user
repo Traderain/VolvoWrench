@@ -3,10 +3,10 @@
   <PropertyGroup>
     <PublishUrlHistory>F:/volvowrench/|publish\</PublishUrlHistory>
     <InstallUrlHistory>https://traderain.hu/vw/|https://traderain.hu/</InstallUrlHistory>
-    <SupportUrlHistory>https://traderain.hu</SupportUrlHistory>
-    <UpdateUrlHistory>https://traderain.hu/</UpdateUrlHistory>
+    <SupportUrlHistory>https://traderain.hu/vwhelp|https://traderain.hu</SupportUrlHistory>
+    <UpdateUrlHistory>https://traderain.hu/vw/|https://traderain.hu/</UpdateUrlHistory>
     <BootstrapperUrlHistory />
-    <ErrorReportUrlHistory>https://traderain.hu</ErrorReportUrlHistory>
+    <ErrorReportUrlHistory>https://traderain.hu/vwerror|https://traderain.hu</ErrorReportUrlHistory>
     <FallbackCulture>en-US</FallbackCulture>
     <VerifyUploadedFiles>false</VerifyUploadedFiles>
   </PropertyGroup>

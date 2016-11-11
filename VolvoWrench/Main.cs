@@ -434,6 +434,7 @@ overlay_color={Color.Orange.A}:{Color.Orange.R}:{Color.Orange.B}:{Color.Orange.G
                 }
                 else
                 {
+                    #region Parse file
                     var filteredArray = File.ReadAllLines(SettingsPath).Where(x => !x.StartsWith(">")).ToArray();
                     DemoPopupKey = ToInt32(filteredArray
                         .First(x => x
@@ -476,6 +477,7 @@ overlay_color={Color.Orange.A}:{Color.Orange.R}:{Color.Orange.B}:{Color.Orange.G
                         ToInt32(colorstring[1]),
                         ToInt32(colorstring[2]),
                         ToInt32(colorstring[3]));
+                    #endregion
                 }
             }
             catch (Exception e)
@@ -662,8 +664,8 @@ Playback seconds:           {demo.Sdi.Seconds.ToString("n3")}s
 Playback tick:              {demo.Sdi.TickCount}
 Frame count:                {demo.Sdi.FrameCount}
 
-Measured time:              {(demo.Sdi.Messages.Max(x => x.Tick)*0.015).ToString("n3")}s
-Measured ticks:             {demo.Sdi.Messages.Max(x => x.Tick)}
+Measured time:              {(demo.Sdi.Messages.SkipWhile(x=> x.Type != SourceParser.MessageType.SyncTick).Max(x => x.Tick)*0.015).ToString("n3")}s
+Measured ticks:             {demo.Sdi.Messages.SkipWhile(x => x.Type != SourceParser.MessageType.SyncTick).Max(x => x.Tick)}
 ----------------------------------------------------------";
                             UpdateForm();
                             foreach (var f in demo.Sdi.Flags)
