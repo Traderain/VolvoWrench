@@ -16,13 +16,15 @@ using VolvoWrench.Hotkey;
 using VolvoWrench.Overlay;
 using VolvoWrench.SaveStuff;
 using static System.Convert;
+using IniParser;
+using IniParser.Model;
 
 namespace VolvoWrench
 {
     public sealed partial class Main : Form
     {
         public static readonly string LogPath = string.Format("{0}\\" + "VolvoWrench" + "\\" + "VWLog.log", Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
-        public static readonly string SettingsPath = string.Format("{0}\\" + "VolvoWrench" + "\\" + "VWSettings.config", Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
+        public static readonly string SettingsPath = string.Format("{0}\\" + "VolvoWrench" + "\\" + "VWSettings.ini", Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
 
         public static int DemoPopupKey;
         public static int OverLayExitKey;
@@ -282,7 +284,7 @@ namespace VolvoWrench
 
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using (var ols = new OverlaySettings(OverlayFont,OverLayColor))
+            using (var ols = new OverlaySettings())
             {
                 ols.ShowDialog(this);
             }
@@ -359,27 +361,11 @@ Frame count: " + CurrentDemoFile.Sdi.FrameCount);
                     if (fd.ShowDialog() == DialogResult.OK)
                     {
                         richTextBox1.Font = fd.Font;
-                        #region Save font
+                        var parser = new FileIniDataParser();
                         var cvt = new FontConverter();
-                        File.WriteAllLines(SettingsPath,
-                    new[]
-                    {
-                        $@">[VolvoWrench config file]
-> Here are your hotkeys for the program.
-> Every line which starts with a semicolon('>') is ignored.
-> Please keep that in mind.
-[HOTKEYS]
->You can modify these keys. Google VKEY
-demo_popup={DemoPopupKey.ToString("X")}
-overlay_exit={OverLayExitKey.ToString("X")}
-overlay_rescan={OverLayRescanKey.ToString("X")}
-[SETTINGS]
-Language=EN
-main_font={cvt.ConvertToString(fd.Font)}
-overlay_font={cvt.ConvertToString(OverlayFont)}
-overlay_color={OverLayColor.A}:{OverLayColor.R}:{OverLayColor.B}:{OverLayColor.G}"
-                    });
-                    #endregion
+                        IniData iniD = parser.ReadFile(SettingsPath);
+                        iniD["SETTINGS"]["main_font"] = cvt.ConvertToString(fd.Font);
+                        parser.WriteFile(SettingsPath, iniD);
                     }
                 }
                 if (CurrentFile == null || (!File.Exists(CurrentFile) || Path.GetExtension(CurrentFile) != ".dem"))
@@ -387,7 +373,7 @@ overlay_color={OverLayColor.A}:{OverLayColor.R}:{OverLayColor.B}:{OverLayColor.G
                 richTextBox1.Text = @"Analyzing file...";
                 CurrentDemoFile = CrossDemoParser.Parse(CurrentFile);
                 PrintDemoDetails(CurrentDemoFile);
-                Log(Path.GetFileName(CurrentFile + " rescanned for font change.")); //Terribble hack for recolor.
+                Log(Path.GetFileName(CurrentFile + " rescanned for font change."));
                 Log("Font changed");
             }
             catch (Exception ex)
@@ -411,12 +397,12 @@ overlay_color={OverLayColor.A}:{OverLayColor.R}:{OverLayColor.B}:{OverLayColor.G
                 File.WriteAllLines(SettingsPath,
                     new[]
                     {
-                        $@">[VolvoWrench config file]
-> Here are your hotkeys for the program.
-> Every line which starts with a semicolon('>') is ignored.
-> Please keep that in mind.
+$@"[VolvoWrench config file]
+; Here are your hotkeys for the program.
+; Every line which starts with a semicolon(';') is ignored.
+; Please keep that in mind.
 [HOTKEYS]
->You can modify these keys. Google VKEY
+;You can modify these keys. Google VKEY
 demo_popup=0x70
 overlay_exit=0x71
 overlay_rescan=0x72
@@ -434,50 +420,21 @@ overlay_color={Color.Orange.A}:{Color.Orange.R}:{Color.Orange.B}:{Color.Orange.G
                 }
                 else
                 {
-                    #region Parse file
-                    var filteredArray = File.ReadAllLines(SettingsPath).Where(x => !x.StartsWith(">")).ToArray();
-                    DemoPopupKey = ToInt32(filteredArray
-                        .First(x => x
-                            .Contains("demo_popup"))
-                        .Replace(" ", string.Empty)
-                        .Replace(">", string.Empty)
-                        .Trim()
-                        .Split('=')[1], 16);
-                    OverLayExitKey = ToInt32(filteredArray
-                        .First(x => x
-                            .Contains("overlay_exit"))
-                        .Replace(" ", string.Empty)
-                        .Replace(">", string.Empty)
-                        .Trim()
-                        .Split('=')[1], 16);
-                    OverLayRescanKey = ToInt32(filteredArray
-                        .First(x => x
-                            .Contains("overlay_rescan"))
-                        .Replace(" ", string.Empty)
-                        .Replace(">", string.Empty)
-                        .Trim()
-                        .Split('=')[1], 16);
                     var cvt = new FontConverter();
-                    OverlayFont = cvt.ConvertFromString(filteredArray
-                        .First(x => x
-                            .Contains("overlay_font"))
-                        .Split('=').Skip(1).ToArray().Aggregate((c,n) => c += n)) as Font;
-                    MainFont = cvt.ConvertFromString(filteredArray
-                        .First(x => x
-                            .Contains("main_font"))
-                        .Split('=').Skip(1).ToArray().Aggregate((c, n) => c += n)) as Font;
-                    var colorstring = filteredArray
-                        .First(x => x
-                            .Contains("overlay_color"))
-                        .Replace(" ", string.Empty)
-                        .Replace(">", string.Empty)
-                        .Split('=')[1].Split(':');
+                    var parser = new FileIniDataParser();
+                    IniData data = parser.ReadFile(SettingsPath);
+                    DemoPopupKey = ToInt32(data["HOTKEYS"]["demo_popup"],16);
+                    OverLayExitKey = ToInt32(data["HOTKEYS"]["overlay_exit"],16);
+                    OverLayRescanKey = ToInt32(data["HOTKEYS"]["overlay_rescan"],16);
+                    OverLayExitKey = ToInt32(data["HOTKEYS"]["overlay_rescan"],16);
+                    OverlayFont =  cvt.ConvertFromString(data["SETTINGS"]["overlay_font"]) as Font;
+                    MainFont =  cvt.ConvertFromString(data["SETTINGS"]["main_font"]) as Font;
+                    var colorstring = data["SETTINGS"]["overlay_color"].Split(':');
                     OverLayColor = Color.FromArgb(
                         ToInt32(colorstring[0]),
                         ToInt32(colorstring[1]),
                         ToInt32(colorstring[2]),
                         ToInt32(colorstring[3]));
-                    #endregion
                 }
             }
             catch (Exception e)
@@ -626,8 +583,8 @@ Net protocol:               {demo.HlsooeDemoInfo.Header.Netprotocol}
 Directory offset:           {demo.HlsooeDemoInfo.Header.DirectoryOffset}
 Map name:                   {demo.HlsooeDemoInfo.Header.MapName}
 Game directory:             {demo.HlsooeDemoInfo.Header.GameDirectory}
-Length in seconds:          {(demo.HlsooeDemoInfo.DirectoryEntries.Last().Frames.LastOrDefault().Key.Frame) *0.015}s
-Tick count:                 {(demo.HlsooeDemoInfo.DirectoryEntries.Last().Frames.LastOrDefault().Key.Frame)}
+Length in seconds:          {(demo.HlsooeDemoInfo.DirectoryEntries.Last().Frames.LastOrDefault().Key.Tick) *0.015}s
+Tick count:                 {(demo.HlsooeDemoInfo.DirectoryEntries.SkipWhile(x => x.FrameCount < 1).Max(x=>x.Frames.Max(y => y.Key.Tick)))}
 ----------------------------------------------------------";
                             UpdateForm();
                             foreach (

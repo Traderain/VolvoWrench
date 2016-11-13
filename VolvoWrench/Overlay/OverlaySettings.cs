@@ -8,18 +8,31 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using IniParser;
+using IniParser.Model;
 
 namespace VolvoWrench.Overlay
 {
     public partial class OverlaySettings : Form
     {
-        public OverlaySettings(Font fo,Color co)
+        public OverlaySettings()
         {
             InitializeComponent();
-            F = fo;
-            C = co;
+            var parser = new FileIniDataParser();
+            var cvt = new FontConverter();
+            IniData iniD = parser.ReadFile(Main.SettingsPath);
+            F = cvt.ConvertFromString(iniD["SETTINGS"]["overlay_font"]) as Font;
+            var colorstring = iniD["SETTINGS"]["overlay_color"].Split(':');
+            C = Color.FromArgb(
+                Convert.ToInt32(colorstring[0]),
+                Convert.ToInt32(colorstring[1]),
+                Convert.ToInt32(colorstring[2]),
+                Convert.ToInt32(colorstring[3]));
+            var tf = new Font(FontFamily.GenericMonospace, 14, FontStyle.Regular, GraphicsUnit.Point);
+            if (F == null)
+                F = tf; 
             label1.Font = F;
-            button2.BackColor = co;
+            button2.BackColor = C;
         }
 
         public Font F;
@@ -52,27 +65,12 @@ namespace VolvoWrench.Overlay
 
         private void button3_Click(object sender, EventArgs e) //OK
         {
-            #region Save font
+            var parser = new FileIniDataParser();
             var cvt = new FontConverter();
-            File.WriteAllLines(Main.SettingsPath,
-        new[]
-        {
-                        $@">[VolvoWrench config file]
-> Here are your hotkeys for the program.
-> Every line which starts with a semicolon('>') is ignored.
-> Please keep that in mind.
-[HOTKEYS]
->You can modify these keys. Google VKEY
-demo_popup={Main.DemoPopupKey.ToString("X")}
-overlay_exit={Main.OverLayExitKey.ToString("X")}
-overlay_rescan={Main.OverLayRescanKey.ToString("X")}
-[SETTINGS]
-Language = EN
-main_font = {cvt.ConvertToString(Main.MainFont)}
-overlay_font = {cvt.ConvertToString(F)}
-overlay_color = {C.A}:{C.R}:{C.B}:{C.G}"
-        });
-            #endregion
+            IniData iniD = parser.ReadFile(Main.SettingsPath);
+            iniD["SETTINGS"]["overlay_font"] = cvt.ConvertToString(F);
+            iniD["SETTINGS"]["overlay_color"] = C.A + ":" + C.R + ":" + C.B + ":" + C.G;
+            parser.WriteFile(Main.SettingsPath, iniD);
             var parentT = (Main)Owner;
             parentT.UpdateOverLaySettings(F,C);
             Close();
