@@ -56,9 +56,7 @@ namespace VolvoWrench.Demo_stuff
                 case Parseresult.Source:
                     cpr.Type = Parseresult.Source;
                     var fi = new FileInfo(filename);
-                    using (
-                        var mmf = MemoryMappedFile.CreateFromFile(filename, FileMode.Open, "sourcemap", fi.Length,
-                            MemoryMappedFileAccess.ReadWrite))
+                    using (var mmf = MemoryMappedFile.CreateFromFile(filename, FileMode.Open, "sourcemap", fi.Length,MemoryMappedFileAccess.ReadWrite))
                     using (var cfs = mmf.CreateViewStream())
                     {
                         var a = new SourceParser(cfs);

@@ -50,16 +50,11 @@ namespace VolvoWrench.SaveStuff
                 var parsedSave = Listsave.ParseFile(s);
                 richTextBox1.AppendText($@"- Save parsed -
 Filename:               {Path.GetFileName(s)}
-Header:                 {
-                        parsedSave.Header}
-SaveVersion:            {parsedSave.SaveVersion
-                        }      
-Size:                   {parsedSave.TokenTableFileTableOffset
-                        }
-TokenCount:             {
-                        parsedSave.TokenCount}
-Tokensize:              {parsedSave.TokenTableSize}
-");
+Header:                 {parsedSave.Header}
+SaveVersion:            {parsedSave.SaveVersion}      
+Size:                   {parsedSave.TokenTableFileTableOffset}
+TokenCount:             {parsedSave.TokenCount}
+Tokensize:              {parsedSave.TokenTableSize}");
                 richTextBox1.AppendText(@"
 -----------------------
 Savestate files in save

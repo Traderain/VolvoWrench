@@ -422,7 +422,7 @@ overlay_color={Color.Orange.A}:{Color.Orange.R}:{Color.Orange.B}:{Color.Orange.G
                 {
                     var cvt = new FontConverter();
                     var parser = new FileIniDataParser();
-                    IniData data = parser.ReadFile(SettingsPath);
+                    var data = parser.ReadFile(SettingsPath);
                     DemoPopupKey = ToInt32(data["HOTKEYS"]["demo_popup"],16);
                     OverLayExitKey = ToInt32(data["HOTKEYS"]["overlay_exit"],16);
                     OverLayRescanKey = ToInt32(data["HOTKEYS"]["overlay_rescan"],16);
@@ -509,7 +509,9 @@ overlay_color={Color.Orange.A}:{Color.Orange.R}:{Color.Orange.B}:{Color.Orange.G
                                 richTextBox1.AppendText("\n" + err);
                                 UpdateForm();
                             }
-
+                            if (MessageBox.Show("Would you like to open the demo doctor?", "Demo errors detected!", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                                using (var dd = new Demo_doctor(CurrentFile))
+                                    dd.ShowDialog();    
                         }
                         else
                         {
