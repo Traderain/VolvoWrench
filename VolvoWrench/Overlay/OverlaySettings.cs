@@ -25,6 +25,7 @@ namespace VolvoWrench.Overlay
                     Convert.ToInt32(colorstring[1]),
                     Convert.ToInt32(colorstring[2]),
                     Convert.ToInt32(colorstring[3]));
+                
                 var tf = new Font(FontFamily.GenericMonospace, 14, FontStyle.Regular, GraphicsUnit.Point);
                 if (F == null)
                     F = tf;

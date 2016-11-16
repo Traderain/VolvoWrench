@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
@@ -8,6 +7,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using IniParser;
 using SharpDX;
 using SharpDX.Direct2D1;
 using SharpDX.DirectWrite;
@@ -17,37 +17,78 @@ using VolvoWrench.Demo_stuff;
 using VolvoWrench.Demo_stuff.GoldSource;
 using VolvoWrench.Hotkey;
 using AlphaMode = SharpDX.Direct2D1.AlphaMode;
-using Brush = SharpDX.Direct2D1.Brush;
 using Factory = SharpDX.Direct2D1.Factory;
-using FactoryType = SharpDX.Direct2D1.FactoryType;
 using Font = System.Drawing.Font;
 using FontFactory = SharpDX.DirectWrite.Factory;
 using FontStyle = SharpDX.DirectWrite.FontStyle;
 using TextAntialiasMode = SharpDX.Direct2D1.TextAntialiasMode;
 using Timer = System.Windows.Forms.Timer;
 
-namespace External_Overlay
+namespace VolvoWrench.Overlay
 {
     public partial class OverlayForm : Form
     {
+        /// <summary>
+        /// Path of the demo file
+        /// </summary>
         public static string FilePath = "";
+
+        /// <summary>
+        /// VKEY of the key used to force update the overlay
+        /// </summary>
         public static int RescanKey;
+
+        /// <summary>
+        /// Key to exit the overlay
+        /// </summary>
         public static int ExitKey;
+
+        /// <summary>
+        /// Font of the overlay
+        /// </summary>
         public static Font TextFont;
+
+        /// <summary>
+        /// Color of the overlay text
+        /// </summary>
         public static Color TextColor;
+
+        /// <summary>
+        /// Name of the current window, we use this to check if hl2 etc. is focused.
+        /// </summary>
         public static string Currentwindow = "";
+
+        /// <summary>
+        /// This is what is printed.
+        /// </summary>
         public static string Demodata = "";
 
+
+        /// <summary>
+        /// This is what checks the demofolder periodically for change
+        /// </summary>
         public BackgroundWorker DemoParserSlave;
 
+        /// <summary>
+        /// Refresh rate of the backgroundworker
+        /// </summary>
         private const int DirectoryScannerRefreshRate = 500;
 
+        /// <summary>
+        /// Window names to check for focus
+        /// </summary>
         public static string[] GameTitles = new[]
         {
             "HALF-LIFE 2",
             "PORTAL",
             "PORTAL 2"
         };
+
+        public static Sourceoverlaysettings Sos;
+        public static Hlsooeoverlaysettings Hos;
+        public static L4D2Branchoverlaysettings Los;
+        public static Goldsourceoverlaysettings Gos;
+ 
 
         private WindowRenderTarget _device;
         private HwndRenderTargetProperties _renderProperties;
@@ -59,7 +100,8 @@ namespace External_Overlay
         private const string FontFamily = "Arial";
         private const float FontSize = 12.0f;
         private const float FontSizeSmall = 10.0f;
-
+        FontConverter _cvt = new FontConverter();
+        FileIniDataParser _parser = new FileIniDataParser();
 
         private IntPtr _handle;
         private Timer _timer1;
@@ -94,23 +136,86 @@ namespace External_Overlay
         public const uint TopmostFlags = SwpNomove | SwpNosize;
         public static IntPtr HwndTopmost = new IntPtr(-1);
 
-        public OverlayForm(string file,Color color,Font font,int resetkey,int exitkey)
+        public OverlayForm(string file)
         {
+            InitializeComponent();
             _handle = Handle;
             var initialStyle = GetWindowLong(Handle, -20);
             SetWindowLong(Handle, -20, initialStyle | 0x80000 | 0x20);
             SetWindowPos(Handle, HwndTopmost, 0, 0, 0, 0, TopmostFlags);
             OnResize(null);
             TopMost = true;
-            InitializeComponent();
+            #region Settings Load
+            var iniD = _parser.ReadFile(Main.SettingsPath);
+            TextFont = _cvt.ConvertFromString(iniD["SETTINGS"]["overlay_font"]) as Font;
+            var colorstring = iniD["SETTINGS"]["overlay_color"].Split(':');
+            TextColor = Color.FromArgb(
+                Convert.ToInt32(colorstring[0]),
+                Convert.ToInt32(colorstring[1]),
+                Convert.ToInt32(colorstring[2]),
+                Convert.ToInt32(colorstring[3]));
+            RescanKey = Convert.ToInt32(iniD["HOTKEYS"]["overlay_rescan"], 16);
+            ExitKey = Convert.ToInt32(iniD["HOTKEYS"]["overlay_exit "], 16);
+            //SOURCE OVERLAY_SOURCE
+            Sos.DemoProtocol = Convert.ToBoolean(int.Parse(iniD["OVERLAY_SOURCE"]["demo_protocol"]));
+            Sos.NetProtocol = Convert.ToBoolean(int.Parse(iniD["OVERLAY_SOURCE"]["net_protocol"]));
+            Sos.ServerName = Convert.ToBoolean(int.Parse(iniD["OVERLAY_SOURCE"]["server_name"]));
+            Sos.ClientName = Convert.ToBoolean(int.Parse(iniD["OVERLAY_SOURCE"]["client_name"]));
+            Sos.MapName = Convert.ToBoolean(int.Parse(iniD["OVERLAY_SOURCE"]["map_name"]));
+            Sos.GameDirectory = Convert.ToBoolean(int.Parse(iniD["OVERLAY_SOURCE"]["game_directory"]));
+            Sos.MeasuredTime = Convert.ToBoolean(int.Parse(iniD["OVERLAY_SOURCE"]["measured_time"]));
+            Sos.MeasuredTicks = Convert.ToBoolean(int.Parse(iniD["OVERLAY_SOURCE"]["measured_ticks"]));
+            Sos.SaveFlag = Convert.ToBoolean(int.Parse(iniD["OVERLAY_SOURCE"]["save_flag"]));
+            Sos.AutosaveFlag = Convert.ToBoolean(int.Parse(iniD["OVERLAY_SOURCE"]["autosave_flag"]));
+            //HLSOOE OVERLAY_HLSOOE
+            Hos.DemoProtocol = Convert.ToBoolean(int.Parse(iniD["OVERLAY_HLSOOE"]["demo_protocol"]));
+            Hos.NetProtocol = Convert.ToBoolean(int.Parse(iniD["OVERLAY_HLSOOE"]["net_protocol"]));
+            Hos.ServerName = Convert.ToBoolean(int.Parse(iniD["OVERLAY_HLSOOE"]["server_name"]));
+            Hos.ClientName = Convert.ToBoolean(int.Parse(iniD["OVERLAY_HLSOOE"]["client_name"]));
+            Hos.MapName = Convert.ToBoolean(int.Parse(iniD["OVERLAY_HLSOOE"]["map_name"]));
+            Hos.GameDirectory = Convert.ToBoolean(int.Parse(iniD["OVERLAY_HLSOOE"]["game_directory"]));
+            Hos.MeasuredTime = Convert.ToBoolean(int.Parse(iniD["OVERLAY_HLSOOE"]["measured_time"]));
+            Hos.MeasuredTime = Convert.ToBoolean(int.Parse(iniD["OVERLAY_HLSOOE"]["measured_ticks"]));
+            Hos.SaveFlag = Convert.ToBoolean(int.Parse(iniD["OVERLAY_HLSOOE"]["save_flag"]));
+            Hos.AutosaveFlag = Convert.ToBoolean(int.Parse(iniD["OVERLAY_HLSOOE"]["autosave_flag"]));
+            //L4D2 Branch OVERLAY_L4D2BRANCH
+            Los.DemoProtocol = Convert.ToBoolean(int.Parse(iniD["OVERLAY_L4D2BRANCH"]["demo_protocol"]));
+            Los.NetProtocol = Convert.ToBoolean(int.Parse(iniD["OVERLAY_L4D2BRANCH"]["net_protocol"]));
+            Los.ServerName = Convert.ToBoolean(int.Parse(iniD["OVERLAY_L4D2BRANCH"]["server_name"]));
+            Los.ClientName = Convert.ToBoolean(int.Parse(iniD["OVERLAY_L4D2BRANCH"]["client_name"]));
+            Los.MapName = Convert.ToBoolean(int.Parse(iniD["OVERLAY_L4D2BRANCH"]["map_name"]));
+            Los.GameDirectory = Convert.ToBoolean(int.Parse(iniD["OVERLAY_L4D2BRANCH"]["game_directory"]));
+            Los.MeasuredTime = Convert.ToBoolean(int.Parse(iniD["OVERLAY_L4D2BRANCH"]["measured_time"]));
+            Los.MeasuredTicks = Convert.ToBoolean(int.Parse(iniD["OVERLAY_L4D2BRANCH"]["measured_ticks"]));
+            Los.SaveFlag = Convert.ToBoolean(int.Parse(iniD["OVERLAY_L4D2BRANCH"]["save_flag"]));
+            Los.AutosaveFlag = Convert.ToBoolean(int.Parse(iniD["OVERLAY_L4D2BRANCH"]["autosave_flag"]));
+            Los.AdjustedTime = Convert.ToBoolean(int.Parse(iniD["OVERLAY_L4D2BRANCH"]["adjusted_time"]));
+            Los.AdjustedTicks = Convert.ToBoolean(int.Parse(iniD["OVERLAY_L4D2BRANCH"]["adjusted_ticks"]));
+            //GOLDSOURCE OVERLAY_GOLDSOURCE
+            Gos.DemoProtocol = Convert.ToBoolean(int.Parse(iniD["OVERLAY_GOLDSOURCE"]["demo_protocol"]));
+            Gos.NetProtocol = Convert.ToBoolean(int.Parse(iniD["OVERLAY_GOLDSOURCE"]["net_protocol"]));
+            Gos.ServerName = Convert.ToBoolean(int.Parse(iniD["OVERLAY_GOLDSOURCE"]["server_name"]));
+            Gos.ClientName = Convert.ToBoolean(int.Parse(iniD["OVERLAY_GOLDSOURCE"]["client_name"]));
+            Gos.MapName = Convert.ToBoolean(int.Parse(iniD["OVERLAY_GOLDSOURCE"]["map_name"]));
+            Gos.GameDirectory = Convert.ToBoolean(int.Parse(iniD["OVERLAY_GOLDSOURCE"]["game_directory"]));
+            Gos.MeasuredTime = Convert.ToBoolean(int.Parse(iniD["OVERLAY_GOLDSOURCE"]["measured_time"]));
+            Gos.MeasuredTicks = Convert.ToBoolean(int.Parse(iniD["OVERLAY_GOLDSOURCE"]["measured_ticks"]));
+            Gos.HighestFps = Convert.ToBoolean(int.Parse(iniD["OVERLAY_GOLDSOURCE"]["highest_fps"]));
+            Gos.LowestFps = Convert.ToBoolean(int.Parse(iniD["OVERLAY_GOLDSOURCE"]["lowest_fps"]));
+            Gos.AverageFps = Convert.ToBoolean(int.Parse(iniD["OVERLAY_GOLDSOURCE"]["average_fps"]));
+            Gos.LowestFps = Convert.ToBoolean(int.Parse(iniD["OVERLAY_GOLDSOURCE"]["lowest_msec"]));
+            Gos.HighestMsec = Convert.ToBoolean(int.Parse(iniD["OVERLAY_GOLDSOURCE"]["highest_msec"]));
+            Gos.AverageMsec = Convert.ToBoolean(int.Parse(iniD["OVERLAY_GOLDSOURCE"]["average_msec"]));
+
+
+
+
+            #endregion
             _timer1.Interval = 300;
             _timer1.Enabled = true;
             _timer1.Start();
             FilePath = file;
-            ExitKey = exitkey;
-            RescanKey = resetkey;
-            TextColor = color;
-            TextFont = font;
+
             if (new FileInfo(FilePath).Length > 540)
             {
                 var cpr = CrossDemoParser.Parse(FilePath);
@@ -124,6 +229,8 @@ namespace External_Overlay
             DemoParserSlave.RunWorkerAsync(FilePath);
         }
 
+
+        #region DX init stuff
         protected override sealed void OnResize(EventArgs e)
         {
             base.OnResize(e);
@@ -171,10 +278,10 @@ namespace External_Overlay
             var marg = new[] { 0, 0, Width, Height };
             DwmExtendFrameIntoClientArea(Handle, ref marg);
         }
+        #endregion
 
         private void hotkeytimer_Tick(object sender, EventArgs e)
         {
-            //BUG: Not working
             Currentwindow = GetActiveWindowTitle() ?? "";
             var exitstate = KeyInputApi.GetKeyState(ExitKey);
             var rstate = KeyInputApi.GetKeyState(RescanKey);
@@ -192,6 +299,10 @@ namespace External_Overlay
             }
         }
 
+        /// <summary>
+        /// This is the thread where we draw
+        /// </summary>
+        /// <param name="sender"></param>
         private void SDxThread(object sender)
         {
             
@@ -223,6 +334,10 @@ namespace External_Overlay
             }
         }
 
+        /// <summary>
+        /// This is where we check the settings and add the data to the string that will be printed
+        /// </summary>
+        /// <param name="demo"></param>
         public static void PrintOverlayData(CrossParseResult demo)
         {
             #region Print
@@ -271,24 +386,30 @@ namespace External_Overlay
                                 msecMax = Math.Max(msecMax, f.UCmd.Msec);
                             }
                         }
-                        Demodata =
-                            $@"Analyzed GoldSource engine demo file ({demo.GsDemoInfo.Header.GameDir}):
-----------------------------------------------------------
-Demo protocol:              {demo.GsDemoInfo.Header.DemoProtocol}
-Net protocol:               {demo.GsDemoInfo.Header.NetProtocol}
-Directory Offset:           {demo.GsDemoInfo.Header.DirectoryOffset}
-Map name:                   {demo.GsDemoInfo.Header.MapName}
-Game directory:             {demo.GsDemoInfo.Header.GameDir}
-Length in seconds:          {demo.GsDemoInfo.DirectoryEntries.Sum(x => x.TrackTime).ToString("n3")}s
-Frame count:                {demo.GsDemoInfo.DirectoryEntries.Sum(x => x.FrameCount)}
-
-Higest FPS:                 {(1 / frametimeMin).ToString("N2")}
-Lowest FPS:                 {(1 / frametimeMax).ToString("N2")}
-Average FPS:                {(count / frametimeSum).ToString("N2")}
-Lowest msec:                {(1000.0 / msecMax).ToString("N2")} FPS
-Highest msec:               {(1000.0 / msecMin).ToString("N2")} FPS
-Average msec:               {(1000.0 / (msecSum / (double)count)).ToString("N2")} FPS
-----------------------------------------------------------";
+                        if (Gos.DemoProtocol)
+                            Demodata += $"Demo protocol:              {demo.GsDemoInfo.Header.DemoProtocol}";
+                        if (Gos.NetProtocol)
+                            Demodata += $"Net protocol:               {demo.GsDemoInfo.Header.NetProtocol}";
+                        if (Gos.MapName)
+                            Demodata += $"Map name:                   {demo.GsDemoInfo.Header.MapName}";
+                        if (Gos.GameDirectory)
+                            Demodata += $"Game directory:             {demo.GsDemoInfo.Header.GameDir}";
+                        if (Gos.MeasuredTime)
+                            Demodata += $"Length in seconds:          {demo.GsDemoInfo.DirectoryEntries.Sum(x => x.TrackTime).ToString("n3")}s";
+                        if (Gos.MeasuredTicks)
+                            Demodata += $"Frame count:                {demo.GsDemoInfo.DirectoryEntries.Sum(x => x.FrameCount)}";
+                        if (Gos.HighestFps)
+                            Demodata += $"Higest FPS:                 {(1 / frametimeMin).ToString("N2")}";
+                        if (Gos.LowestFps)
+                            Demodata += $"Lowest FPS:                 {(1 / frametimeMax).ToString("N2")}";
+                        if (Gos.AverageFps)
+                            Demodata += $"Average FPS:                {(count / frametimeSum).ToString("N2")}";
+                        if (Gos.LowestMsec)
+                            Demodata += $"Lowest msec:                {(1000.0 / msecMax).ToString("N2")} FPS";
+                        if (Gos.HighestMsec)
+                            Demodata += $"Highest msec:               {(1000.0 / msecMin).ToString("N2")} FPS";
+                        if (Gos.AverageMsec)
+                            Demodata += $"Average msec:               {(1000.0 / (msecSum / (double)count)).ToString("N2")} FPS";
                     }
                     break;
                 case Parseresult.Hlsooe:
@@ -400,15 +521,16 @@ Adjusted ticks:     {demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks}
         private static string GetActiveWindowTitle()
         {
             const int nChars = 256;
-            var Buff = new StringBuilder(nChars);
+            var buff = new StringBuilder(nChars);
             var handle = GetForegroundWindow();
-            if (GetWindowText(handle, Buff, nChars) > 0)
+            if (GetWindowText(handle, buff, nChars) > 0)
             {
-                return Buff.ToString();
+                return buff.ToString();
             }
             return "";
         }
 
+        #region Background worker methods
         private static void MonitorDemo(BackgroundWorker worker, string demo)
         {
             Thread.Sleep(DirectoryScannerRefreshRate);
@@ -484,5 +606,69 @@ Adjusted ticks:     {demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks}
             }
             return false;
         }
+        #endregion
     }
+
+    public struct Sourceoverlaysettings
+    {
+        public bool DemoProtocol;
+        public bool NetProtocol;
+        public bool ServerName;
+        public bool ClientName;
+        public bool MapName;
+        public bool GameDirectory;
+        public bool MeasuredTime;
+        public bool MeasuredTicks;
+        public bool SaveFlag;
+        public bool AutosaveFlag;
+    }
+
+    public struct Hlsooeoverlaysettings
+    {
+        public bool DemoProtocol;
+        public bool NetProtocol;
+        public bool ServerName;
+        public bool ClientName;
+        public bool MapName;
+        public bool GameDirectory;
+        public bool MeasuredTime;
+        public bool MeasuredTicks;
+        public bool SaveFlag;
+        public bool AutosaveFlag;
+    }
+
+    public struct L4D2Branchoverlaysettings
+    {
+        public bool DemoProtocol;
+        public bool NetProtocol;
+        public bool ServerName;
+        public bool ClientName;
+        public bool MapName;
+        public bool GameDirectory;
+        public bool MeasuredTime;
+        public bool MeasuredTicks;
+        public bool SaveFlag;
+        public bool AutosaveFlag;
+        public bool AdjustedTime;
+        public bool AdjustedTicks;
+    }
+
+    public struct Goldsourceoverlaysettings
+    {
+        public bool DemoProtocol;
+        public bool NetProtocol;
+        public bool ServerName;
+        public bool ClientName;
+        public bool MapName;
+        public bool GameDirectory;
+        public bool MeasuredTime;
+        public bool MeasuredTicks;
+        public bool HighestFps;
+        public bool LowestFps;
+        public bool AverageFps;
+        public bool LowestMsec;
+        public bool HighestMsec;
+        public bool AverageMsec;
+    }
+
 }

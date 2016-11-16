@@ -1,4 +1,4 @@
-﻿namespace External_Overlay
+﻿namespace VolvoWrench.Overlay
 {
     partial class OverlayForm
     {

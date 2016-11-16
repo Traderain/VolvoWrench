@@ -8,7 +8,6 @@ using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using External_Overlay;
 using VolvoWrench.Demo_stuff;
 using VolvoWrench.Demo_stuff.GoldSource;
 using VolvoWrench.Demo_stuff.Source;
@@ -273,7 +272,7 @@ namespace VolvoWrench
         private void launchToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (File.Exists(CurrentFile) && Path.GetExtension(CurrentFile) == ".dem" && CurrentFile != null)
-                using (var a = new OverlayForm(CurrentFile,OverLayColor,OverlayFont,OverLayRescanKey,OverLayExitKey))
+                using (var a = new OverlayForm(CurrentFile))
                     a.ShowDialog();
             else
                 MessageBox.Show(@"No file selected please select one to use the overlay!",
