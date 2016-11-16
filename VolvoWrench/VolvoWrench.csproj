@@ -290,7 +290,7 @@
       <DependentUpon>DemoDecoder.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -468,6 +468,11 @@
   <ItemGroup>
     <Content Include="08 Wrench.ico" />
     <Content Include="DG\08 Wrench.ico" />
+    <None Include="Resources\wakodemo.png" />
+    <None Include="Resources\noi_rep1.png" />
+    <None Include="Resources\noi_rep.png" />
+    <None Include="Resources\NoiFace2.png" />
+    <None Include="Resources\demo-repair.exe" />
     <None Include="Resources\updated_logo_transparent.png" />
     <None Include="Resources\physician-icon-png-28.png" />
     <Content Include="DG\Roadmap.txt" />

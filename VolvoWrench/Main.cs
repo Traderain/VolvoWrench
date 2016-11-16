@@ -55,7 +55,7 @@ namespace VolvoWrench
                 : null;
             if (dropFile == null)
             {
-                richTextBox1.Text = @"^ Use File->Open to open a correct .dem file or drop the file here!";
+                richTextBox1.Text = @"^ Use demo_file->Open to open a correct .dem file or drop the file here!";
                 UpdateForm();
             }
             else
@@ -73,7 +73,7 @@ namespace VolvoWrench
                 {
                     toolsToolStripMenuItem.Enabled = false;
                     goldSourceToolsToolStripMenuItem.Enabled = false;
-                    richTextBox1.Text = @"^ Use File->Open to open a correct .dem file or drop the file here!";
+                    richTextBox1.Text = @"^ Use demo_file->Open to open a correct .dem file or drop the file here!";
                     UpdateForm();
                 }
             }
@@ -103,7 +103,7 @@ namespace VolvoWrench
             }
             else
             {
-                richTextBox1.Text = @"^ Use File->Open to open a correct .dem file or drop the file here!";
+                richTextBox1.Text = @"^ Use demo_file->Open to open a correct .dem file or drop the file here!";
                 UpdateForm();
             }
         }
@@ -117,7 +117,7 @@ namespace VolvoWrench
 
         }
 
-        #region File ToolStrip stuff
+        #region demo_file ToolStrip stuff
         private void openAsavToolStripMenuItem_Click(object sender, EventArgs e)
         {
             using (var sa = new saveanalyzerform())
@@ -410,8 +410,57 @@ overlay_rescan=0x72
 Language=EN
 main_font=Microsoft Sans Serif; 8pt
 overlay_font=Microsoft Sans Serif; 8pt
-overlay_color={Color.Orange.A}:{Color.Orange.R}:{Color.Orange.B}:{Color.Orange.G}"
-                    });
+overlay_color={Color.Orange.A}:{Color.Orange.R}:{Color.Orange.B}:{Color.Orange.G}
+[OVERLAY_SOURCE]
+demo_protocol=0
+net_protocol=0
+server_name=0
+client_name=0
+map_name=0
+game_directory=0
+measured_time=1
+measured_ticks=1
+save_flag=1
+autosave_flag=0
+[OVERLAY_HLSOOE]
+demo_protocol=0
+net_protocol=0
+server_name=0
+client_name=0
+map_name=0
+game_directory=0
+measured_time=1
+measured_ticks=1
+save_flag=1
+autosave_flag=0
+[OVERLAY_L4D2BRANCH]
+demo_protocol=0
+net_protocol=0
+server_name=0
+client_name=0
+map_name=1
+game_directory=0
+measured_time=1
+measured_ticks=1
+save_flag=1
+autosave_flag=0
+adjusted_time=1
+adjusted_ticks=1
+[OVERLAY_GOLDSOURCE]
+demo_protocol=0
+net_protocol=0
+server_name=0
+client_name=0
+map_name=0
+game_directory=0
+measured_time=1
+measured_ticks=1
+highest_fps=0
+lowest_fps=0
+average_fps=0
+lowest_msec=0
+highest_msec=0
+average_msec=0"});
                 #endregion
                     DemoPopupKey = 0x70; //F1
                     OverLayExitKey = 0x71;
@@ -458,7 +507,7 @@ overlay_color={Color.Orange.A}:{Color.Orange.R}:{Color.Orange.B}:{Color.Orange.G
 
         private void Main_DragLeave(object sender, EventArgs e)
         {
-            richTextBox1.Text = @"^ Use File->Open to open a correct .dem file or drop the file here!";
+            richTextBox1.Text = @"^ Use demo_file->Open to open a correct .dem file or drop the file here!";
             UpdateForm();
             PrintDemoDetails(CurrentDemoFile);
             UpdateForm();

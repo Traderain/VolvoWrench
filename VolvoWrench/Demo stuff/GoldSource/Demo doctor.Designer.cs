@@ -34,8 +34,8 @@ namespace VolvoWrench.Demo_stuff.GoldSource
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Demo_doctor));
             this.label1 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.button2 = new System.Windows.Forms.Button();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.SuspendLayout();
             // 
@@ -46,9 +46,9 @@ namespace VolvoWrench.Demo_stuff.GoldSource
             this.label1.Location = new System.Drawing.Point(122, 49);
             this.label1.MaximumSize = new System.Drawing.Size(200, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(72, 17);
+            this.label1.Size = new System.Drawing.Size(111, 17);
             this.label1.TabIndex = 0;
-            this.label1.Text = "File: None";
+            this.label1.Text = "demo_file: None";
             // 
             // button1
             // 
@@ -61,6 +61,17 @@ namespace VolvoWrench.Demo_stuff.GoldSource
             this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // button2
+            // 
+            this.button2.BackColor = System.Drawing.SystemColors.Desktop;
+            this.button2.Location = new System.Drawing.Point(97, 338);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(185, 51);
+            this.button2.TabIndex = 3;
+            this.button2.Text = "Repair demo";
+            this.button2.UseVisualStyleBackColor = false;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // richTextBox1
             // 
             this.richTextBox1.BackColor = System.Drawing.SystemColors.InactiveCaptionText;
@@ -69,23 +80,12 @@ namespace VolvoWrench.Demo_stuff.GoldSource
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.Size = new System.Drawing.Size(353, 366);
             this.richTextBox1.TabIndex = 2;
-            this.richTextBox1.Text = "Fixing not started yet so no log!";
-            // 
-            // button2
-            // 
-            this.button2.BackColor = System.Drawing.SystemColors.Desktop;
-            this.button2.Location = new System.Drawing.Point(97, 338);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(185, 51);
-            this.button2.TabIndex = 3;
-            this.button2.Text = "Fix demo";
-            this.button2.UseVisualStyleBackColor = false;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.richTextBox1.Text = "Fixing not started yet so no log, understund?\n";
             // 
             // panel1
             // 
-            this.panel1.BackgroundImage = global::VolvoWrench.Properties.Resources.physician_icon_png_28;
-            this.panel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.panel1.BackgroundImage = global::VolvoWrench.Properties.Resources.wakodemo;
+            this.panel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.panel1.Location = new System.Drawing.Point(44, 90);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(292, 229);
@@ -107,7 +107,7 @@ namespace VolvoWrench.Demo_stuff.GoldSource
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Demo_doctor";
-            this.Text = "Demo doctor";
+            this.Text = "Demo doctor by YaLTeR";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -117,8 +117,8 @@ namespace VolvoWrench.Demo_stuff.GoldSource
 
         private Label label1;
         private Button button1;
-        private RichTextBox richTextBox1;
         private Button button2;
         private Panel panel1;
+        private RichTextBox richTextBox1;
     }
 }

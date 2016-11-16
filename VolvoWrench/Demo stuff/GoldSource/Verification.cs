@@ -113,7 +113,7 @@ Total time of the demos:    {Df.Sum(x => x.Value.GsDemoInfo.DirectoryEntries.Sum
                                                 "+lookup",
                                                 "+lookdown",
                                                 "+left",
-                                                "+right"
+                                                "+right" //TODO: When yalter is not lazy and adds the anticheat frames add them here.
                                             } where cheats.Contains(f.Command) select f))) {mrtb.AppendText(f.Command + "\n");}
                     }
                 }

@@ -498,7 +498,7 @@ namespace VolvoWrench.Demo_stuff.L4D2Branch.CSGODemoInfo
 			var header = DemoHeader.ParseFrom(BitStream);
 
 			if (header.Filestamp != "HL2DEMO")
-				throw new InvalidDataException("Invalid File-Type - expecting HL2DEMO");
+				throw new InvalidDataException("Invalid demo_file-Type - expecting HL2DEMO");
 
 			if (header.Protocol != 4)
 				throw new InvalidDataException("Invalid Demo-Protocol");
