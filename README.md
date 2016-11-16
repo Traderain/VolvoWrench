@@ -1,5 +1,7 @@
 # VolvoWrench
 ***
+![](http://forthebadge.com/images/badges/built-with-love.svg)
+
 This tool is a cross engine fully featured demo analyzing tool. It works with GoldSource and Source-engine demos.
 ![alt tag](http://i.imgur.com/hfzwuRL.png)
 ***
@@ -11,6 +13,9 @@ Features:
   - Parsing any valve made game's save file
 
 ***  
+
+ ![](http://forthebadge.com/images/badges/fuck-it-ship-it.svg)
+
 Upcoming features:
  - Check the roadmap file for more info! (I will try to update it)
   
