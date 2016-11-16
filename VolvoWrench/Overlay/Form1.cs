@@ -340,6 +340,7 @@ namespace VolvoWrench.Overlay
         /// <param name="demo"></param>
         public static void PrintOverlayData(CrossParseResult demo)
         {
+            Demodata = "Parsed file!";
             #region Print
             switch (demo.Type)
             {
@@ -387,29 +388,29 @@ namespace VolvoWrench.Overlay
                             }
                         }
                         if (Gos.DemoProtocol)
-                            Demodata += $"Demo protocol:              {demo.GsDemoInfo.Header.DemoProtocol}";
+                            Demodata += $"\nDemo protocol:              {demo.GsDemoInfo.Header.DemoProtocol}";
                         if (Gos.NetProtocol)
-                            Demodata += $"Net protocol:               {demo.GsDemoInfo.Header.NetProtocol}";
+                            Demodata += $"\nNet protocol:               {demo.GsDemoInfo.Header.NetProtocol}";
                         if (Gos.MapName)
-                            Demodata += $"Map name:                   {demo.GsDemoInfo.Header.MapName}";
+                            Demodata += $"\nMap name:                   {demo.GsDemoInfo.Header.MapName}";
                         if (Gos.GameDirectory)
-                            Demodata += $"Game directory:             {demo.GsDemoInfo.Header.GameDir}";
+                            Demodata += $"\nGame directory:             {demo.GsDemoInfo.Header.GameDir}";
                         if (Gos.MeasuredTime)
-                            Demodata += $"Length in seconds:          {demo.GsDemoInfo.DirectoryEntries.Sum(x => x.TrackTime).ToString("n3")}s";
+                            Demodata += $"\nLength in seconds:          {demo.GsDemoInfo.DirectoryEntries.Sum(x => x.TrackTime).ToString("n3")}s";
                         if (Gos.MeasuredTicks)
-                            Demodata += $"Frame count:                {demo.GsDemoInfo.DirectoryEntries.Sum(x => x.FrameCount)}";
+                            Demodata += $"\nFrame count:                {demo.GsDemoInfo.DirectoryEntries.Sum(x => x.FrameCount)}";
                         if (Gos.HighestFps)
-                            Demodata += $"Higest FPS:                 {(1 / frametimeMin).ToString("N2")}";
+                            Demodata += $"\nHigest FPS:                 {(1 / frametimeMin).ToString("N2")}";
                         if (Gos.LowestFps)
-                            Demodata += $"Lowest FPS:                 {(1 / frametimeMax).ToString("N2")}";
+                            Demodata += $"\nLowest FPS:                 {(1 / frametimeMax).ToString("N2")}";
                         if (Gos.AverageFps)
-                            Demodata += $"Average FPS:                {(count / frametimeSum).ToString("N2")}";
+                            Demodata += $"\nAverage FPS:                {(count / frametimeSum).ToString("N2")}";
                         if (Gos.LowestMsec)
-                            Demodata += $"Lowest msec:                {(1000.0 / msecMax).ToString("N2")} FPS";
+                            Demodata += $"\nLowest msec:                {(1000.0 / msecMax).ToString("N2")} FPS";
                         if (Gos.HighestMsec)
-                            Demodata += $"Highest msec:               {(1000.0 / msecMin).ToString("N2")} FPS";
+                            Demodata += $"\nHighest msec:               {(1000.0 / msecMin).ToString("N2")} FPS";
                         if (Gos.AverageMsec)
-                            Demodata += $"Average msec:               {(1000.0 / (msecSum / (double)count)).ToString("N2")} FPS";
+                            Demodata += $"\nAverage msec:               {(1000.0 / (msecSum / (double)count)).ToString("N2")} FPS";
                     }
                     break;
                 case Parseresult.Hlsooe:
@@ -419,27 +420,25 @@ namespace VolvoWrench.Overlay
 ";
                         foreach (var err in demo.HlsooeDemoInfo.ParsingErrors)
                         {
-                            Demodata += (err);
+                            Demodata += ("\n" + err);
                         }
                     }
                     else
                     {
-                        Demodata = $@"Analyzed HLS:OOE engine demo file ({demo.HlsooeDemoInfo.Header.GameDirectory}):
-----------------------------------------------------------
-Demo protocol:              {demo.HlsooeDemoInfo.Header.DemoProtocol}
-Net protocol:               {demo.HlsooeDemoInfo.Header.Netprotocol}
-Directory offset:           {demo.HlsooeDemoInfo.Header.DirectoryOffset}
-Map name:                   {demo.HlsooeDemoInfo.Header.MapName}
-Game directory:             {demo.HlsooeDemoInfo.Header.GameDirectory}
-Length in seconds:          {(demo.HlsooeDemoInfo.DirectoryEntries.Last().Frames.LastOrDefault().Key.Frame) * 0.015}s
-Tick count:                 {(demo.HlsooeDemoInfo.DirectoryEntries.Last().Frames.LastOrDefault().Key.Frame)}
-----------------------------------------------------------";
-                        foreach (
-                            var flag in
-                                demo.HlsooeDemoInfo.DirectoryEntries.SelectMany(
-                                    demoDirectoryEntry => demoDirectoryEntry.Flags))
-                            Demodata += (flag.Value.Command + " at " + flag.Key.Frame + " -> " +
-                                                    (flag.Key.Frame * 0.015).ToString("n3") + "s");
+                        if (Hos.DemoProtocol)
+                            Demodata += $"\nDemo protocol:              {demo.HlsooeDemoInfo.Header.DemoProtocol}";
+                        if (Hos.NetProtocol)
+                            Demodata += $"\nNet protocol:               {demo.HlsooeDemoInfo.Header.Netprotocol}";
+                        if (Hos.MapName)
+                            Demodata += $"\nMap name:                   {demo.HlsooeDemoInfo.Header.MapName}";
+                        if (Hos.GameDirectory)
+                            Demodata += $"\nGame directory:             {demo.HlsooeDemoInfo.Header.GameDirectory}";
+                        if (Hos.MeasuredTime)
+                            Demodata += $"\nLength in seconds:          {(demo.HlsooeDemoInfo.DirectoryEntries.Last().Frames.LastOrDefault().Key.Frame) * 0.015}s";
+                        if (Hos.MeasuredTicks)
+                            Demodata += $"\nTick count:                 {(demo.HlsooeDemoInfo.DirectoryEntries.Last().Frames.LastOrDefault().Key.Frame)}";
+                        foreach (var flag in demo.HlsooeDemoInfo.DirectoryEntries.SelectMany(demoDirectoryEntry => demoDirectoryEntry.Flags))
+                            Demodata += (flag.Value.Command + " at " + flag.Key.Frame + " -> " + (flag.Key.Frame * 0.015).ToString("n3") + "s");
                     }
                     break;
                 case Parseresult.Source:
@@ -453,29 +452,27 @@ Tick count:                 {(demo.HlsooeDemoInfo.DirectoryEntries.Last().Frames
                     }
                     else
                     {
-                        Demodata =
-                            $@"Analyzed source engine demo file ({demo.Sdi.GameDirectory}):
-----------------------------------------------------------
-Demo protocol:              {demo.Sdi.DemoProtocol}
-Net protocol:               {demo.Sdi.NetProtocol}
-Server name:                {demo.Sdi.ServerName}
-Client name:                {demo.Sdi.ClientName}
-Map name:                   {demo.Sdi.MapName}
-Game directory:             {demo.Sdi.GameDirectory}
-Playback seconds:           {demo.Sdi.Seconds.ToString("n3")}s
-Playback tick:              {demo.Sdi.TickCount}
-Frame count:                {demo.Sdi.FrameCount}
-
-Measured time:              {(demo.Sdi.Messages.Max(x => x.Tick) * 0.015).ToString("n3")}s
-Measured ticks:             {demo.Sdi.Messages.Max(x => x.Tick)}
-----------------------------------------------------------";
+                        if (Sos.DemoProtocol)
+                            Demodata += $"\nDemo protocol:              {demo.Sdi.DemoProtocol}";
+                        if (Sos.ServerName)
+                            Demodata += $"\nServer name:                {demo.Sdi.ServerName}";
+                        if (Sos.ClientName)
+                            Demodata += $"\nClient name:                {demo.Sdi.ClientName}";
+                        if (Sos.MapName)
+                            Demodata += $"\nMap name:                   {demo.Sdi.MapName}";
+                        if (Sos.MeasuredTime)
+                            Demodata += $"\nMeasured time:              {(demo.Sdi.Messages.Max(x => x.Tick) * 0.015).ToString("n3")}s";
+                        if (Sos.MeasuredTicks)
+                            Demodata += $"\nMeasured ticks:             {demo.Sdi.Messages.Max(x => x.Tick)}";
                         foreach (var f in demo.Sdi.Flags)
                             switch (f.Name)
                             {
                                 case "#SAVE#":
+                                    if(Sos.SaveFlag)
                                     Demodata += ($"\n#SAVE# flag at Tick: {f.Tick} -> {f.Time}s");
                                     break;
                                 case "autosave":
+                                    if(Sos.AutosaveFlag)
                                     Demodata += ($"\nAutosave at Tick: {f.Tick} -> {f.Time}s");
                                     break;
                             }
@@ -494,24 +491,30 @@ Measured ticks:             {demo.Sdi.Messages.Max(x => x.Tick)}
                     }
                     else
                     {
-                        Demodata = $@"Analyzed L4D2Branch demo file ({demo.L4D2BranchInfo.Header.GameDirectory}):
-----------------------------------------------------------
-Protocol:           {demo.L4D2BranchInfo.Header.Protocol}
-Network protocol:   {demo.L4D2BranchInfo.Header.NetworkProtocol}
-Server name:        {demo.L4D2BranchInfo.Header.ServerName}
-Client name:        {demo.L4D2BranchInfo.Header.ClientName}
-Mapname:            {demo.L4D2BranchInfo.Header.MapName}
-GameDir:            {demo.L4D2BranchInfo.Header.GameDirectory}
-Playbacktime:       {(demo.L4D2BranchInfo.Header.PlaybackTicks * 0.015).ToString("n3")}s
-Playbackticks:      {demo.L4D2BranchInfo.Header.PlaybackTicks}
-Playbackframes:     {demo.L4D2BranchInfo.Header.PlaybackFrames}
-Signonlength:       {demo.L4D2BranchInfo.Header.SignonLength}
-
-Adjusted time:      {demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks * 0.015 + "s"}
-Adjusted ticks:     {demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks}
-
-----------------------------------------------------------
-";
+                        if (Los.DemoProtocol)
+                            Demodata += $"\nProtocol:           {demo.L4D2BranchInfo.Header.Protocol}";
+                        if (Los.NetProtocol)
+                            Demodata += $"\nNetwork protocol:   {demo.L4D2BranchInfo.Header.NetworkProtocol}";
+                        if (Los.ServerName)
+                            Demodata += $"\nServer name:        {demo.L4D2BranchInfo.Header.ServerName}";
+                        if (Los.ClientName)
+                            Demodata += $"\nClient name:        {demo.L4D2BranchInfo.Header.ClientName}";
+                        if (Los.MapName)
+                            Demodata += $"\nMapname:            {demo.L4D2BranchInfo.Header.MapName}";
+                        if (Los.GameDirectory)
+                            Demodata += $"\nGameDir:            {demo.L4D2BranchInfo.Header.GameDirectory}";
+                        if (Los.MeasuredTime)
+                            Demodata += $"\nPlaybacktime:       {(demo.L4D2BranchInfo.Header.PlaybackTicks * 0.015).ToString("n3")}s";
+                        if (Los.MeasuredTicks)
+                            Demodata += $"\nPlaybackticks:      {demo.L4D2BranchInfo.Header.PlaybackTicks}";
+                        if (Los.AdjustedTicks)
+                            Demodata += $"\nAdjusted ticks:     {demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks}";
+                        if (Los.AdjustedTime)
+                            Demodata += $"\nAdjusted time:      {demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks * 0.015 + "s"}";
+                        if (Los.DemoProtocol)
+                            Demodata += $"\nProtocol:           {demo.L4D2BranchInfo.Header.Protocol}";
+                        if (Los.DemoProtocol)
+                            Demodata += $"\nProtocol:           {demo.L4D2BranchInfo.Header.Protocol}";
                     }
                     break;
             }
