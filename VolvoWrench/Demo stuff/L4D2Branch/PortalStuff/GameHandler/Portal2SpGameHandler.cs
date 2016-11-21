@@ -1,12 +1,10 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using System.Windows;
 using System.Windows.Media.Media3D;
-using VolvoWrench.Demo_stuff;
+using VolvoWrench.Demo_stuff.L4D2Branch.PortalStuff.Result;
 
-namespace PortalAdjust.Demo
+namespace VolvoWrench.Demo_stuff.L4D2Branch.PortalStuff.GameHandler
 {
 	internal class Portal2SpGameHandler : OrangeBoxGameHandler
 	{

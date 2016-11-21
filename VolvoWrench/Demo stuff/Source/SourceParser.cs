@@ -118,7 +118,7 @@ namespace VolvoWrench.Demo_stuff.Source
                         var tempf = new Saveflag
                         {
                             Tick = msg.Tick,
-                            Time = (float) (msg.Tick*0.015)
+                            Time = (float) (msg.Tick*0.015) //TODO: Add better ticrate here too
                         };
                         if (Encoding.ASCII.GetString(msg.Data).Contains("#SAVE#"))
                             tempf.Name = "#SAVE#";

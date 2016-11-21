@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace VolvoWrench.Demo_stuff
+namespace VolvoWrench.Demo_stuff.L4D2Branch
 {
     public class Category
     {

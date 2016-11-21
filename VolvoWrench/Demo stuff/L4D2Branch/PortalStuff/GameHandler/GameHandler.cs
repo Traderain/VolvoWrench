@@ -1,13 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Linq;
-using VolvoWrench.Demo_stuff;
+using VolvoWrench.Demo_stuff.L4D2Branch.PortalStuff.Result;
 
-namespace PortalAdjust.Demo
+namespace VolvoWrench.Demo_stuff.L4D2Branch.PortalStuff.GameHandler
 {
     public abstract class GameHandler
     {
@@ -96,7 +93,7 @@ namespace PortalAdjust.Demo
                 {
                     return new Portal2SpGameHandler();    
                 }
-                if (Category.Portal2Sp.Maps.Contains(map))
+                if (Category.Portal2Coop.Maps.Contains(map))
                 {
                     return new Portal2CoopGameHandler();
                 }

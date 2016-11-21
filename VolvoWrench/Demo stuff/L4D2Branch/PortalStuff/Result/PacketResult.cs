@@ -1,8 +1,6 @@
-using System;
-using System.Runtime.CompilerServices;
 using System.Windows.Media.Media3D;
 
-namespace PortalAdjust.Demo
+namespace VolvoWrench.Demo_stuff.L4D2Branch.PortalStuff.Result
 {
 	public class PacketResult
 	{

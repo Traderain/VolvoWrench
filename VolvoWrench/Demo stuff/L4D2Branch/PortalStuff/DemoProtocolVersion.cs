@@ -1,6 +1,4 @@
-using System;
-
-namespace PortalAdjust.Demo
+namespace VolvoWrench.Demo_stuff.L4D2Branch.PortalStuff
 {
 	public enum DemoProtocolVersion
 	{

@@ -538,6 +538,7 @@ average_msec=0"});
         {
             if (demo != null)
             {
+                this.Text = "VolvoWrench - " + Path.GetFileName(CurrentFile);
                 richTextBox1.Text = @"Demo parsed!";
                 StripEnabler(demo);
                 #region Print
@@ -671,9 +672,9 @@ Playback seconds:           {demo.Sdi.Seconds.ToString("n3")}s
 Playback tick:              {demo.Sdi.TickCount}
 Frame count:                {demo.Sdi.FrameCount}
 
-Measured time:              {(demo.Sdi.Messages.SkipWhile(x=> x.Type != SourceParser.MessageType.SyncTick).Max(x => x.Tick)*0.015).ToString("n3")}s
+              {(demo.Sdi.Messages.SkipWhile(x=> x.Type != SourceParser.MessageType.SyncTick).Max(x => x.Tick)*0.015).ToString("n3")}s
 Measured ticks:             {demo.Sdi.Messages.SkipWhile(x => x.Type != SourceParser.MessageType.SyncTick).Max(x => x.Tick)}
-----------------------------------------------------------";
+----------------------------------------------------------"; //TODO: Proper tickrate for this too
                             UpdateForm();
                             foreach (var f in demo.Sdi.Flags)
                                 switch (f.Name)
@@ -716,12 +717,19 @@ Server name:        {demo.L4D2BranchInfo.Header.ServerName}
 Client name:        {demo.L4D2BranchInfo.Header.ClientName}
 Mapname:            {demo.L4D2BranchInfo.Header.MapName}
 GameDir:            {demo.L4D2BranchInfo.Header.GameDirectory}
-Playbacktime:       {(demo.L4D2BranchInfo.Header.PlaybackTicks*0.015).ToString("n3")}s
+Playbacktime:       {(demo.L4D2BranchInfo.Header.PlaybackTime).ToString("n3")}s
 Playbackticks:      {demo.L4D2BranchInfo.Header.PlaybackTicks}
 Playbackframes:     {demo.L4D2BranchInfo.Header.PlaybackFrames}
 Signonlength:       {demo.L4D2BranchInfo.Header.SignonLength}
 
-Adjusted time:      {demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks*0.015 + "s"}
+Tickrate:           {(int)Math.Ceiling((double)demo.L4D2BranchInfo.Header.PlaybackFrames / demo.L4D2BranchInfo.Header.PlaybackTime)}
+
+Start tick:         {demo.L4D2BranchInfo.PortalDemoInfo?.StartAdjustmentTick}
+Type:               {demo.L4D2BranchInfo.PortalDemoInfo?.StartAdjustmentType}
+End tick:           {demo.L4D2BranchInfo.PortalDemoInfo?.EndAdjustmentTick}
+Type:               {demo.L4D2BranchInfo.PortalDemoInfo?.EndAdjustmentType}
+
+Adjusted time:      {demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks* (1f / ((int)Math.Ceiling((double)demo.L4D2BranchInfo.Header.PlaybackFrames / demo.L4D2BranchInfo.Header.PlaybackTime))) + "s"}
 Adjusted ticks:     {demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks}
 
 ----------------------------------------------------------
@@ -739,14 +747,15 @@ Adjusted ticks:     {demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks}
 
         public void RescanFile()
         {
-            if (CurrentFile == null || (!File.Exists(CurrentFile) || Path.GetExtension(CurrentFile) != ".dem")) return;
-            {
-                richTextBox1.Text = @"Analyzing file...";
-                UpdateForm();
-                CurrentDemoFile = CrossDemoParser.Parse(CurrentFile);
-            }            
-            PrintDemoDetails(CurrentDemoFile);
-            Log(Path.GetFileName(CurrentFile + " rescanned."));
+            if (CurrentFile != null && (File.Exists(CurrentFile) && Path.GetExtension(CurrentFile) == ".dem"))
+                {
+                    richTextBox1.Text = @"Analyzing file...";
+                    UpdateForm();
+                    CurrentDemoFile = CrossDemoParser.Parse(CurrentFile);
+                }
+                PrintDemoDetails(CurrentDemoFile);
+                Log(Path.GetFileName(CurrentFile + " rescanned."));
+
         }
 
         public void HighlightLastLine(RichTextBox textControl, Color highlightColor)
@@ -754,7 +763,7 @@ Adjusted ticks:     {demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks}
             textControl.Text = textControl.Text.Trim();
             textControl.SelectionStart = 0;
             textControl.SelectionLength = 0;
-            textControl.SelectionColor = Color.Black;
+            textControl.SelectionColor = Color.White;
             var lastLineText = textControl.Lines[richTextBox1.Lines.Count() - 1];
             var lastLineStartIndex = richTextBox1.Text.LastIndexOf(lastLineText, StringComparison.Ordinal);
             textControl.SelectionStart = lastLineStartIndex;

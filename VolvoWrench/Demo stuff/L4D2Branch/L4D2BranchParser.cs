@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using PortalAdjust.Demo;
 using VolvoWrench.Demo_stuff.L4D2Branch.BitStreamUtil;
+using VolvoWrench.Demo_stuff.L4D2Branch.PortalStuff.Result;
 using DemoParser = VolvoWrench.Demo_stuff.L4D2Branch.CSGODemoInfo.DemoParser;
 
 namespace VolvoWrench.Demo_stuff.L4D2Branch
@@ -84,7 +84,7 @@ namespace VolvoWrench.Demo_stuff.L4D2Branch
             }
             else
             {
-                info.PortalDemoInfo = PortalAdjust.Demo.DemoParser.ParseDemo(filename);
+                info.PortalDemoInfo = PortalStuff.DemoParser.ParseDemo(filename);
             }
             return info;
         }

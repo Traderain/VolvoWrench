@@ -1,8 +1,10 @@
 using System;
 using System.IO;
 using System.Text;
+using VolvoWrench.Demo_stuff.L4D2Branch.PortalStuff.GameHandler;
+using VolvoWrench.Demo_stuff.L4D2Branch.PortalStuff.Result;
 
-namespace PortalAdjust.Demo
+namespace VolvoWrench.Demo_stuff.L4D2Branch.PortalStuff
 {
 	public class DemoParser
 	{
@@ -36,10 +38,10 @@ namespace PortalAdjust.Demo
 					binaryReader.BaseStream.Seek((long)4, SeekOrigin.Current);
 					binaryReader.BaseStream.Seek((long)4, SeekOrigin.Current);
 					int num2 = binaryReader.ReadInt32();
-					GameHandler hL2GameHandler = null;
+					GameHandler.GameHandler hL2GameHandler = null;
 					try
 					{
-						hL2GameHandler = GameHandler.getGameHandler(str2, str1);
+						hL2GameHandler = GameHandler.GameHandler.getGameHandler(str2, str1);
 					}
 					catch (Exception)
 					{

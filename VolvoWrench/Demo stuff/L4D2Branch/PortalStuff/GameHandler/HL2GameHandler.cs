@@ -1,11 +1,10 @@
 using System;
 using System.IO;
-using System.Runtime.CompilerServices;
 using System.Text;
-using System.Windows;
 using System.Windows.Media.Media3D;
+using VolvoWrench.Demo_stuff.L4D2Branch.PortalStuff.Result;
 
-namespace PortalAdjust.Demo
+namespace VolvoWrench.Demo_stuff.L4D2Branch.PortalStuff.GameHandler
 {
 	internal class HL2GameHandler : GameHandler
 	{

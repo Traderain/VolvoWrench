@@ -206,10 +206,6 @@ namespace VolvoWrench.Overlay
             Gos.LowestFps = Convert.ToBoolean(int.Parse(iniD["OVERLAY_GOLDSOURCE"]["lowest_msec"]));
             Gos.HighestMsec = Convert.ToBoolean(int.Parse(iniD["OVERLAY_GOLDSOURCE"]["highest_msec"]));
             Gos.AverageMsec = Convert.ToBoolean(int.Parse(iniD["OVERLAY_GOLDSOURCE"]["average_msec"]));
-
-
-
-
             #endregion
             _timer1.Interval = 300;
             _timer1.Enabled = true;

@@ -1,7 +1,6 @@
 using System;
-using System.Runtime.CompilerServices;
 
-namespace PortalAdjust.Demo
+namespace VolvoWrench.Demo_stuff.L4D2Branch.PortalStuff.Result
 {
 	public class DemoParseResult : ICloneable
 	{
