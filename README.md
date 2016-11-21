@@ -31,6 +31,7 @@ Thanks to:
   - CSGODemoinfo team
   - Complexity gaming
   - WimReddingius
+  - Griffin
  
  ***
  <h3>And special thanks to Valve:<h3>
