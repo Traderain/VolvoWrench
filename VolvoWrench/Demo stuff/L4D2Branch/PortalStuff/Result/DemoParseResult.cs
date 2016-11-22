@@ -1,8 +1,9 @@
 using System;
+using System.Collections.Generic;
 
 namespace VolvoWrench.Demo_stuff.L4D2Branch.PortalStuff.Result
 {
-	public class DemoParseResult : ICloneable
+    public class DemoParseResult : ICloneable
 	{
 
         public DemoParseResult()
@@ -97,7 +98,7 @@ namespace VolvoWrench.Demo_stuff.L4D2Branch.PortalStuff.Result
                 StartAdjustmentTick = this.StartAdjustmentTick,
                 StartAdjustmentType = this.StartAdjustmentType,
                 EndAdjustmentTick = this.EndAdjustmentTick,
-                EndAdjustmentType = this.EndAdjustmentType
+                EndAdjustmentType = this.EndAdjustmentType,
             };
             return demoParseResult;
         }

@@ -85,6 +85,7 @@ namespace VolvoWrench.Demo_stuff.L4D2Branch
             else
             {
                 info.PortalDemoInfo = PortalStuff.DemoParser.ParseDemo(filename);
+                
             }
             return info;
         }

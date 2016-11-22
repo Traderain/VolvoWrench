@@ -1,4 +1,4 @@
-﻿- Portal 2 Demo Parser
-- Statefile decompressor
+﻿- Statefile decompressor
 - Demo doctor fix 
 - Statistics : Nearly done
+- HTML Display instead of the richtextbox

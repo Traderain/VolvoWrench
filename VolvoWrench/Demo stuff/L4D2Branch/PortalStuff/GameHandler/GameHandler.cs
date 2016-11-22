@@ -68,17 +68,25 @@ namespace VolvoWrench.Demo_stuff.L4D2Branch.PortalStuff.GameHandler
             set;
         }
 
+        public List<KeyValuePair<string, int>> Flags
+        {
+            get;
+            set;
+        }
+
         public int SignOnLen
         {
             get;
             set;
         }
 
-        public GameHandler()
+        protected GameHandler()
         {
             this.MapStartAdjustType = "Map Start";
             this.MapEndAdjustType = "Map End";
             this.Maps = new List<string>();
+            this.Flags = new List<KeyValuePair<string, int>>();
+                        
         }
 
         public static GameHandler getGameHandler(string gameDir, string map)

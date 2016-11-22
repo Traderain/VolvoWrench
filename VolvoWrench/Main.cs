@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -8,15 +7,16 @@ using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using IniParser;
+using IniParser.Model;
 using VolvoWrench.Demo_stuff;
 using VolvoWrench.Demo_stuff.GoldSource;
+using VolvoWrench.Demo_stuff.L4D2Branch.PortalStuff;
 using VolvoWrench.Demo_stuff.Source;
 using VolvoWrench.Hotkey;
 using VolvoWrench.Overlay;
 using VolvoWrench.SaveStuff;
 using static System.Convert;
-using IniParser;
-using IniParser.Model;
 
 namespace VolvoWrench
 {
@@ -246,6 +246,14 @@ namespace VolvoWrench
             {
                 Log("Netdecode opened");
                 nd.ShowDialog();
+            }
+        }
+
+        private void demoTimerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var dtf = new DemoTimer())
+            {
+                dtf.ShowDialog(this);
             }
         }
 
@@ -538,7 +546,7 @@ average_msec=0"});
         {
             if (demo != null)
             {
-                this.Text = "VolvoWrench - " + Path.GetFileName(CurrentFile);
+                Text = @"VolvoWrench - " + Path.GetFileName(CurrentFile);
                 richTextBox1.Text = @"Demo parsed!";
                 StripEnabler(demo);
                 #region Print
@@ -551,14 +559,15 @@ average_msec=0"});
                     case Parseresult.GoldSource:
                         if (demo.GsDemoInfo.ParsingErrors.ToArray().Length > 0)
                         {
-                            richTextBox1.Text = "Error while parsing goldsource demo: \n";
+                            richTextBox1.Text = @"Error while parsing goldsource demo: 
+";
                             UpdateForm();
                             foreach (var err in demo.GsDemoInfo.ParsingErrors)
                             {
                                 richTextBox1.AppendText("\n" + err);
                                 UpdateForm();
                             }
-                            if (MessageBox.Show("Would you like to open the demo doctor?", "Demo errors detected!", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                            if (MessageBox.Show(@"Would you like to open the demo doctor?", @"Demo errors detected!", MessageBoxButtons.YesNo) == DialogResult.Yes)
                                 using (var dd = new Demo_doctor(CurrentFile))
                                     dd.ShowDialog();    
                         }
@@ -672,9 +681,9 @@ Playback seconds:           {demo.Sdi.Seconds.ToString("n3")}s
 Playback tick:              {demo.Sdi.TickCount}
 Frame count:                {demo.Sdi.FrameCount}
 
-              {(demo.Sdi.Messages.SkipWhile(x=> x.Type != SourceParser.MessageType.SyncTick).Max(x => x.Tick)*0.015).ToString("n3")}s
+Measured time:              {(demo.Sdi.Messages.SkipWhile(x=> x.Type != SourceParser.MessageType.SyncTick).Max(x => x.Tick)*0.015).ToString("n3")}s
 Measured ticks:             {demo.Sdi.Messages.SkipWhile(x => x.Type != SourceParser.MessageType.SyncTick).Max(x => x.Tick)}
-----------------------------------------------------------"; //TODO: Proper tickrate for this too
+----------------------------------------------------------";
                             UpdateForm();
                             foreach (var f in demo.Sdi.Flags)
                                 switch (f.Name)
@@ -698,8 +707,7 @@ Measured ticks:             {demo.Sdi.Messages.SkipWhile(x => x.Type != SourcePa
                     case Parseresult.L4D2Branch:
                         if (demo.L4D2BranchInfo.Parsingerrors.ToArray().Length > 0)
                         {
-                            richTextBox1.Text = @"Error while parsing L4D2Branch demo: 
-";
+                            richTextBox1.Text = @"Error while parsing L4D2Branch demo:";
                             UpdateForm();
                             foreach (var err in demo.L4D2BranchInfo.Parsingerrors)
                             {
@@ -723,7 +731,6 @@ Playbackframes:     {demo.L4D2BranchInfo.Header.PlaybackFrames}
 Signonlength:       {demo.L4D2BranchInfo.Header.SignonLength}
 
 Tickrate:           {(int)Math.Ceiling((double)demo.L4D2BranchInfo.Header.PlaybackFrames / demo.L4D2BranchInfo.Header.PlaybackTime)}
-
 Start tick:         {demo.L4D2BranchInfo.PortalDemoInfo?.StartAdjustmentTick}
 Type:               {demo.L4D2BranchInfo.PortalDemoInfo?.StartAdjustmentType}
 End tick:           {demo.L4D2BranchInfo.PortalDemoInfo?.EndAdjustmentTick}
@@ -731,7 +738,6 @@ Type:               {demo.L4D2BranchInfo.PortalDemoInfo?.EndAdjustmentType}
 
 Adjusted time:      {demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks* (1f / ((int)Math.Ceiling((double)demo.L4D2BranchInfo.Header.PlaybackFrames / demo.L4D2BranchInfo.Header.PlaybackTime))) + "s"}
 Adjusted ticks:     {demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks}
-
 ----------------------------------------------------------
 ";                       
                         }
@@ -784,21 +790,18 @@ Adjusted ticks:     {demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks}
         static async Task WriteTextAsync(string filePath, string text)
         {
             var encodedText = Encoding.Unicode.GetBytes(text);
-
-            using (var sourceStream = new FileStream(filePath,
-                FileMode.Append, FileAccess.Write, FileShare.None,
-                bufferSize: 4096, useAsync: true))
+            using (var sourceStream = new FileStream(filePath,FileMode.Append, FileAccess.Write, FileShare.None,bufferSize: 4096, useAsync: true))
             {
                 await sourceStream.WriteAsync(encodedText, 0, encodedText.Length);
-            };
+            }
         }
 
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
         {
             SettingsManager(false);
-           // if (MessageBox.Show("Are you sure you would like to close the program?","Confirm!",MessageBoxButtons.YesNo,MessageBoxIcon.Question) == DialogResult.No)
+            if (MessageBox.Show(@"Are you sure you would like to close the program?",@"Confirm!",MessageBoxButtons.YesNo,MessageBoxIcon.Question) == DialogResult.No)
             {
-              //  e.Cancel = true;
+              e.Cancel = true;
             }
         }
 

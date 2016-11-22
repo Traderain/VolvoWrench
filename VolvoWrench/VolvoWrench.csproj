@@ -189,6 +189,12 @@
     <Compile Include="Demo stuff\Heatmap\Heatmap.Designer.cs">
       <DependentUpon>Heatmap.cs</DependentUpon>
     </Compile>
+    <Compile Include="Demo stuff\L4D2Branch\PortalStuff\Demo Timer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Demo stuff\L4D2Branch\PortalStuff\Demo Timer.Designer.cs">
+      <DependentUpon>Demo Timer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Demo stuff\L4D2Branch\PortalStuff\DemoParser.cs" />
     <Compile Include="Demo stuff\L4D2Branch\PortalStuff\DemoProtocolVersion.cs" />
     <Compile Include="Demo stuff\L4D2Branch\PortalStuff\GameHandler\GameHandler.cs" />
@@ -268,6 +274,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Demo stuff\Heatmap\Heatmap.resx">
       <DependentUpon>Heatmap.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Demo stuff\L4D2Branch\PortalStuff\Demo Timer.resx">
+      <DependentUpon>Demo Timer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Overlay\Form1.resx" />
     <EmbeddedResource Include="Overlay\OverlaySettings.resx">
