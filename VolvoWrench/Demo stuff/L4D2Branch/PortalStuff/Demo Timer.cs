@@ -8,16 +8,40 @@ namespace VolvoWrench.Demo_stuff.L4D2Branch.PortalStuff
 {
     public sealed partial class DemoTimer : Form
     {
-        public List<DemoDescription> FileList;
         public int TickSum;
         public TimeSpan TimeSum;
 
         public DemoTimer()
         {
             InitializeComponent();
-            FileList = new List<DemoDescription>();
-            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             AllowDrop = true;
+            listView1.FullRowSelect = true;
+            listView1.GridLines = true;
+            this.Width = listView1.Columns[0].Width +
+             listView1.Columns[1].Width +
+             listView1.Columns[2].Width +
+             listView1.Columns[3].Width +
+             listView1.Columns[4].Width +
+             listView1.Columns[5].Width +
+             listView1.Columns[6].Width +
+             listView1.Columns[7].Width;
+            listView1.View = View.Details;
+            listView1.Columns[0].AutoResize(ColumnHeaderAutoResizeStyle.HeaderSize);
+            listView1.Columns[1].AutoResize(ColumnHeaderAutoResizeStyle.HeaderSize);
+            listView1.Columns[2].AutoResize(ColumnHeaderAutoResizeStyle.HeaderSize);
+            listView1.Columns[3].AutoResize(ColumnHeaderAutoResizeStyle.HeaderSize);
+            listView1.Columns[4].AutoResize(ColumnHeaderAutoResizeStyle.HeaderSize);
+            listView1.Columns[5].AutoResize(ColumnHeaderAutoResizeStyle.HeaderSize);
+            listView1.Columns[6].AutoResize(ColumnHeaderAutoResizeStyle.HeaderSize);
+            listView1.Columns[7].AutoResize(ColumnHeaderAutoResizeStyle.HeaderSize);
+            this.Width = listView1.Columns[0].Width +
+                         listView1.Columns[1].Width +
+                         listView1.Columns[2].Width +
+                         listView1.Columns[3].Width +
+                         listView1.Columns[4].Width +
+                         listView1.Columns[5].Width +
+                         listView1.Columns[6].Width +
+                         listView1.Columns[7].Width + 50;
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -46,58 +70,50 @@ namespace VolvoWrench.Demo_stuff.L4D2Branch.PortalStuff
         {
             TickSum = 0;
             TimeSum = TimeSpan.FromSeconds(0);
-            FileList = new List<DemoDescription>();
+            listView1.Items.Clear();
+            listView1.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+            ListViewItem head = new ListViewItem();
             foreach (var s in files)
             {
                 var r = CrossDemoParser.Parse(s);
                 if (r.Type == Parseresult.Portal || r.Type == Parseresult.L4D2Branch)
                 {
-                    var dd = new DemoDescription
-                    {
-                        File = Path.GetFileNameWithoutExtension(s),
-                        Map = r.L4D2BranchInfo.Header.GameDirectory + "/" + r.L4D2BranchInfo.PortalDemoInfo.MapName,
-                        Player = r.L4D2BranchInfo.PortalDemoInfo.PlayerName,
-                        TotalTicks = r.L4D2BranchInfo.PortalDemoInfo.TotalTicks.ToString(),
-                        StartTick = r.L4D2BranchInfo.PortalDemoInfo.StartAdjustmentTick + "(" + r.L4D2BranchInfo.PortalDemoInfo.StartAdjustmentType + ")",
-                        StopTick = r.L4D2BranchInfo.PortalDemoInfo.EndAdjustmentTick + "(" + r.L4D2BranchInfo.PortalDemoInfo.EndAdjustmentType + ")",
-                        AdjustedTicks = r.L4D2BranchInfo.PortalDemoInfo.AdjustedTicks.ToString(),
-                        Time = TimeSpan.FromSeconds(r.L4D2BranchInfo.PortalDemoInfo.AdjustedTicks*(1f/(r.L4D2BranchInfo.Header.PlaybackTicks/r.L4D2BranchInfo.Header.PlaybackTime))).ToString("g")
-                    };
+                    ListViewItem listViewItem2 = new ListViewItem(new string[8]);
+                    var dd = new ListViewItem();
+                    listViewItem2.SubItems[0].Text = Path.GetFileNameWithoutExtension(s);
+                    listViewItem2.SubItems[1].Text = r.L4D2BranchInfo.Header.GameDirectory + "/" + r.L4D2BranchInfo.PortalDemoInfo.MapName;
+                    listViewItem2.SubItems[2].Text = r.L4D2BranchInfo.PortalDemoInfo.PlayerName;
+                    listViewItem2.SubItems[3].Text = r.L4D2BranchInfo.PortalDemoInfo.TotalTicks.ToString();
+                    listViewItem2.SubItems[4].Text = r.L4D2BranchInfo.PortalDemoInfo.StartAdjustmentTick + "(" + r.L4D2BranchInfo.PortalDemoInfo.StartAdjustmentType + ")";
+                    listViewItem2.SubItems[5].Text = r.L4D2BranchInfo.PortalDemoInfo.EndAdjustmentTick + "(" + r.L4D2BranchInfo.PortalDemoInfo.EndAdjustmentType + ")";
+                    listViewItem2.SubItems[6].Text = r.L4D2BranchInfo.PortalDemoInfo.AdjustedTicks.ToString();
+                    listViewItem2.SubItems[7].Text = TimeSpan.FromSeconds(r.L4D2BranchInfo.PortalDemoInfo.AdjustedTicks*(1f/(r.L4D2BranchInfo.Header.PlaybackTicks/r.L4D2BranchInfo.Header.PlaybackTime))).ToString("g");
                     TickSum += r.L4D2BranchInfo.PortalDemoInfo.AdjustedTicks;
                     TimeSum += TimeSpan.FromSeconds(r.L4D2BranchInfo.PortalDemoInfo.AdjustedTicks*(1f/(r.L4D2BranchInfo.Header.PlaybackTicks / r.L4D2BranchInfo.Header.PlaybackTime)));
-                    FileList.Add(dd);
+                    listView1.Items.Add(listViewItem2);
                 }
             }
-            var k = new DemoDescription();
-            k.File = "- TOTAL -";
-            k.AdjustedTicks = TickSum.ToString();
-            k.Time = TimeSum.ToString("g");
-            FileList.Add(k);
-            dataGridView1.DataSource = FileList.Select(x => new {File = x.File,
-                Map = x.Map,
-                Player = x.Player,
-                TotalTicks = x.TotalTicks,
-                StartTick = x.StartTick,
-                StopTick = x.StopTick,
-                AdjustedTicks = x.AdjustedTicks,
-                Time = x.Time}).ToArray();
-            for (var i = 0; i < dataGridView1.Columns.Count; i++)
-            {
-                dataGridView1.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                dataGridView1.Columns[i].ReadOnly = true;
-            }
+            var k = new ListViewItem(new string[8]);
+            k.SubItems[0].Text = "- TOTAL -";
+            k.SubItems[6].Text = TickSum.ToString();
+            k.SubItems[7].Text = TimeSum.ToString("g");
+            listView1.Items.Add(k);
+            listView1.Columns[0].AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
+            listView1.Columns[1].AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
+            listView1.Columns[2].AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
+            listView1.Columns[3].AutoResize(ColumnHeaderAutoResizeStyle.HeaderSize);
+            listView1.Columns[4].AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
+            listView1.Columns[5].AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
+            listView1.Columns[6].AutoResize(ColumnHeaderAutoResizeStyle.HeaderSize);
+            listView1.Columns[7].AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
+            this.Width = listView1.Columns[0].Width +
+                         listView1.Columns[1].Width +
+                         listView1.Columns[2].Width +
+                         listView1.Columns[3].Width +
+                         listView1.Columns[4].Width +
+                         listView1.Columns[5].Width +
+                         listView1.Columns[6].Width +
+                         listView1.Columns[7].Width + 100;
         }
-    }
-
-    public struct DemoDescription
-    {
-        public string File;
-        public string Map;
-        public string Player;
-        public string TotalTicks;
-        public string StartTick;
-        public string StopTick;
-        public string AdjustedTicks;
-        public string Time;
     }
 }

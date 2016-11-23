@@ -77,7 +77,12 @@ namespace VolvoWrench.Demo_stuff.L4D2Branch.PortalStuff.GameHandler
 			StringBuilder stringBuilder = this._debugBuffer;
 			object[] currentTick = new object[] { base.CurrentTick, ": ", consoleCmdResult.Command, Environment.NewLine };
 			stringBuilder.Append(string.Concat(currentTick));
-			return consoleCmdResult;
+            if (consoleCmdResult.Command.Contains("#SAVE#"))
+            {
+                this._endAdjustType = "#SAVE# Flag";
+                this._endTick = base.CurrentTick;
+            }
+            return consoleCmdResult;
 		}
 
 		protected override PacketResult ProcessPacket(BinaryReader br)

@@ -28,6 +28,11 @@ namespace VolvoWrench.Demo_stuff.GoldSource
             };
             if (a.ShowDialog() == DialogResult.OK)
             {
+                if (CrossDemoParser.CheckDemoType(a.FileName) != Parseresult.GoldSource)
+                {
+                    richTextBox1.Text = (@"Only goldsource, understund?!");
+                    return;
+                }
                 label1.Text = Path.GetFileName(a.FileName);
                 DemoFile = a.FileName;
                 richTextBox1.AppendText("Selected: " + a.FileName);

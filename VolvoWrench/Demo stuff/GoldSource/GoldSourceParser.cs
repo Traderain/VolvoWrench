@@ -468,7 +468,7 @@ namespace VolvoWrench.Demo_stuff.GoldSource
             };
             try
             {
-                using (var br = new BinaryReader(new FileStream(s, FileMode.Open)))
+                using (var br = new BinaryReader(new MemoryStream(File.ReadAllBytes(s))))
                 {
                     if (UnexpectedEof(br, (8 + 4 + 4 + 260 + 260 + 4)))//520 + 12 + 8 = 540 -> Header size
                     {
@@ -761,7 +761,7 @@ namespace VolvoWrench.Demo_stuff.GoldSource
             };
             try
             {
-                using (var br = new BinaryReader(new FileStream(s, FileMode.Open)))
+                using (var br = new BinaryReader(new MemoryStream(File.ReadAllBytes(s))))
                 {
                     var mw = Encoding.ASCII.GetString(br.ReadBytes(8)).Trim('\0').Replace("\0", string.Empty);
                     if (mw == "HLDEMO")

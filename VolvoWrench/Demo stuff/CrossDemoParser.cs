@@ -55,14 +55,8 @@ namespace VolvoWrench.Demo_stuff
                     break;
                 case Parseresult.Source:
                     cpr.Type = Parseresult.Source;
-                    var fi = new FileInfo(filename);
-                    using (var mmf = MemoryMappedFile.CreateFromFile(filename, FileMode.Open, "sourcemap", fi.Length,MemoryMappedFileAccess.ReadWrite))
-                    using (var cfs = mmf.CreateViewStream())
-                    {
-                        var a = new SourceParser(cfs);
+                        var a = new SourceParser(new MemoryStream(File.ReadAllBytes(filename)));
                         cpr.Sdi = a.Info;
-                        cfs.Close();
-                    }
                     if (cpr.Sdi.GameDirectory == "portal")
                     {
                         cpr.Type = Parseresult.Portal;

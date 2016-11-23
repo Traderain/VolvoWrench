@@ -12,9 +12,7 @@ namespace VolvoWrench.Demo_stuff.L4D2Branch.PortalStuff
 		{
 			byte num;
 			DemoParseResult result;
-			using (FileStream fileStream = new FileStream(file, FileMode.Open, FileAccess.Read))
-			{
-				using (BinaryReader binaryReader = new BinaryReader(fileStream))
+				using (BinaryReader binaryReader = new BinaryReader(new MemoryStream(File.ReadAllBytes(file))))
 				{
 					if (Encoding.ASCII.GetString(binaryReader.ReadBytes(8)).TrimEnd(new char[1]) != "HL2DEMO")
 					{
@@ -79,7 +77,6 @@ namespace VolvoWrench.Demo_stuff.L4D2Branch.PortalStuff
 					while (!hL2GameHandler.IsStop(num));
 					result = hL2GameHandler.GetResult();
 				}
-			}
 			return result;
 		}
 	}
