@@ -730,13 +730,13 @@ Playbackticks:      {demo.L4D2BranchInfo.Header.PlaybackTicks}
 Playbackframes:     {demo.L4D2BranchInfo.Header.PlaybackFrames}
 Signonlength:       {demo.L4D2BranchInfo.Header.SignonLength}
 
-Tickrate:           {(int)Math.Ceiling((double)demo.L4D2BranchInfo.Header.PlaybackFrames / demo.L4D2BranchInfo.Header.PlaybackTime)}
+Tickrate:           {demo.L4D2BranchInfo.Header.PlaybackTicks / demo.L4D2BranchInfo.Header.PlaybackTime}
 Start tick:         {demo.L4D2BranchInfo.PortalDemoInfo?.StartAdjustmentTick}
 Type:               {demo.L4D2BranchInfo.PortalDemoInfo?.StartAdjustmentType}
 End tick:           {demo.L4D2BranchInfo.PortalDemoInfo?.EndAdjustmentTick}
 Type:               {demo.L4D2BranchInfo.PortalDemoInfo?.EndAdjustmentType}
 
-Adjusted time:      {demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks* (1f / ((int)Math.Ceiling((double)demo.L4D2BranchInfo.Header.PlaybackFrames / demo.L4D2BranchInfo.Header.PlaybackTime))) + "s"}
+Adjusted time:      {demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks* (1f / (demo.L4D2BranchInfo.Header.PlaybackTicks / demo.L4D2BranchInfo.Header.PlaybackTime)) + "s"}
 Adjusted ticks:     {demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks}
 ----------------------------------------------------------
 ";                       

@@ -1,17 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace VolvoWrench.Demo_stuff.L4D2Branch.PortalStuff
 {
-    public partial class DemoTimer : Form
+    public sealed partial class DemoTimer : Form
     {
         public List<DemoDescription> FileList;
         public int TickSum;
@@ -27,7 +22,7 @@ namespace VolvoWrench.Demo_stuff.L4D2Branch.PortalStuff
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenFileDialog of = new OpenFileDialog();
+            var of = new OpenFileDialog();
             of.Filter = @"Demo files (.dem) | *.dem";
             of.Multiselect = true;
             if (of.ShowDialog() == DialogResult.OK)
@@ -66,10 +61,10 @@ namespace VolvoWrench.Demo_stuff.L4D2Branch.PortalStuff
                         StartTick = r.L4D2BranchInfo.PortalDemoInfo.StartAdjustmentTick + "(" + r.L4D2BranchInfo.PortalDemoInfo.StartAdjustmentType + ")",
                         StopTick = r.L4D2BranchInfo.PortalDemoInfo.EndAdjustmentTick + "(" + r.L4D2BranchInfo.PortalDemoInfo.EndAdjustmentType + ")",
                         AdjustedTicks = r.L4D2BranchInfo.PortalDemoInfo.AdjustedTicks.ToString(),
-                        Time = TimeSpan.FromSeconds(r.L4D2BranchInfo.PortalDemoInfo.AdjustedTicks*(1f/((int)Math.Ceiling((double) r.L4D2BranchInfo.Header.PlaybackFrames/r.L4D2BranchInfo.Header.PlaybackTime)))).ToString("g")
+                        Time = TimeSpan.FromSeconds(r.L4D2BranchInfo.PortalDemoInfo.AdjustedTicks*(1f/(r.L4D2BranchInfo.Header.PlaybackTicks/r.L4D2BranchInfo.Header.PlaybackTime))).ToString("g")
                     };
                     TickSum += r.L4D2BranchInfo.PortalDemoInfo.AdjustedTicks;
-                    TimeSum += TimeSpan.FromSeconds(r.L4D2BranchInfo.PortalDemoInfo.AdjustedTicks*(1f/((int)Math.Ceiling((double) r.L4D2BranchInfo.Header.PlaybackFrames/r.L4D2BranchInfo.Header.PlaybackTime))));
+                    TimeSum += TimeSpan.FromSeconds(r.L4D2BranchInfo.PortalDemoInfo.AdjustedTicks*(1f/(r.L4D2BranchInfo.Header.PlaybackTicks / r.L4D2BranchInfo.Header.PlaybackTime)));
                     FileList.Add(dd);
                 }
             }

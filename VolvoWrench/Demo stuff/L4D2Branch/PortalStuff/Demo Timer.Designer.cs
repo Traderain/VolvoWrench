@@ -1,6 +1,6 @@
 ﻿namespace VolvoWrench.Demo_stuff.L4D2Branch.PortalStuff
 {
-    partial class DemoTimer
+    sealed partial class DemoTimer
     {
         /// <summary>
         /// Required designer variable.

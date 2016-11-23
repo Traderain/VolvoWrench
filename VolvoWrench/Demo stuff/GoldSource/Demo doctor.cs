@@ -45,20 +45,28 @@ namespace VolvoWrench.Demo_stuff.GoldSource
                 var sf = new SaveFileDialog { Filter = @"Demo files .dem | *.dem" };
                 if (sf.ShowDialog() == DialogResult.OK)
                 {
-                    var path = Path.Combine(Path.GetTempPath(), "demo-repair.exe");
+                    Random r = new Random();
+                    var ran = r.Next(1, 2873432);
+                    var path = Path.Combine(Path.GetTempPath(), "demo-repair" + ran +".exe");
                     File.WriteAllBytes(path, Properties.Resources.demo_repair);
                     var p = new Process
                     {
-                        StartInfo = new ProcessStartInfo(path + " " + DemoFile + " " + sf.FileName)
+                        StartInfo = new ProcessStartInfo(path)
                         {
+                            Arguments = DemoFile + " " + sf.FileName,
                             WorkingDirectory = Path.GetTempPath(),
                             CreateNoWindow = true,
                             UseShellExecute = false
                         }
                     };
                     p.Start();
-                    p.WaitForInputIdle();
+                    var output = p.StandardOutput.ReadToEnd();
+                    p.WaitForExit();
+                    File.Delete(path);
+                    if(File.Exists(sf.FileName))
                     richTextBox1.AppendText("\n Repaired demo file and saved as: " + sf.FileName);
+                    else
+                    richTextBox1.AppendText("\nDemo repair lost but we can because we trust!");
                 }
             }
         }
