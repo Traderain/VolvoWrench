@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,9 +10,11 @@ namespace VolvoWrench.Demo_stuff.GoldSource
 {
     public partial class Verification : Form
     {
+        public List<string> DemopathList; 
         public Verification()
         {
             InitializeComponent();
+            DemopathList = new List<string>();
         }
 
         public static Dictionary<string,CrossParseResult> Df = new Dictionary<string, CrossParseResult>();
@@ -33,6 +36,7 @@ namespace VolvoWrench.Demo_stuff.GoldSource
                 Application.DoEvents();
                 foreach (var dt in of.FileNames.Where(file => File.Exists(file) && Path.GetExtension(file) == ".dem"))
                 {
+                    DemopathList.Add(dt);
                     Df.Add(dt, CrossDemoParser.Parse(dt)); //If someone bothers me that its slow make it async.
                 }
                 if (Df.Any(x => x.Value.Type != Parseresult.GoldSource))
@@ -121,6 +125,23 @@ Total time of the demos:    {Df.Sum(x => x.Value.GsDemoInfo.DirectoryEntries.Sum
             else
             {
                 mrtb.Text = @"No file selected/bad file!";
+            }
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void demostartCommandToClipboardToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            Clipboard.SetText(DemopathList.Select(Path.GetFileNameWithoutExtension).ToList().Aggregate((c,n) =>c + " " + n));
+            using (var ni = new NotifyIcon())
+            {
+                ni.Icon = SystemIcons.Exclamation;
+                ni.Visible = true;
+                ni.ShowBalloonTip(5000, "VolvoWrench", "Demo names copied to clipboard", ToolTipIcon.Info);
             }
         }
     }

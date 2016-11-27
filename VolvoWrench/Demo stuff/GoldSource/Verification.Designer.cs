@@ -28,13 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.button1 = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.mrtb = new System.Windows.Forms.RichTextBox();
             this.demoparserslave = new System.ComponentModel.BackgroundWorker();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.demostartCommandToClipboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
@@ -68,6 +73,7 @@
             // mrtb
             // 
             this.mrtb.BackColor = System.Drawing.SystemColors.InfoText;
+            this.mrtb.ContextMenuStrip = this.contextMenuStrip1;
             this.mrtb.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mrtb.ForeColor = System.Drawing.SystemColors.InactiveBorder;
             this.mrtb.Location = new System.Drawing.Point(0, 0);
@@ -76,12 +82,40 @@
             this.mrtb.TabIndex = 1;
             this.mrtb.Text = "No files selected!";
             // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.demostartCommandToClipboardToolStripMenuItem,
+            this.exitToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(312, 56);
+            // 
+            // demostartCommandToClipboardToolStripMenuItem
+            // 
+            this.demostartCommandToClipboardToolStripMenuItem.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.demostartCommandToClipboardToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.demostartCommandToClipboardToolStripMenuItem.Name = "demostartCommandToClipboardToolStripMenuItem";
+            this.demostartCommandToClipboardToolStripMenuItem.Size = new System.Drawing.Size(311, 26);
+            this.demostartCommandToClipboardToolStripMenuItem.Text = "Demostart command to clipboard";
+            this.demostartCommandToClipboardToolStripMenuItem.Click += new System.EventHandler(this.demostartCommandToClipboardToolStripMenuItem_Click);
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.exitToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(311, 26);
+            this.exitToolStripMenuItem.Text = "Exit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            // 
             // Verification
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.ClientSize = new System.Drawing.Size(1125, 554);
+            this.ContextMenuStrip = this.contextMenuStrip1;
             this.Controls.Add(this.button1);
             this.Controls.Add(this.splitContainer1);
             this.MaximizeBox = false;
@@ -93,6 +127,7 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -102,5 +137,8 @@
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.RichTextBox mrtb;
         private System.ComponentModel.BackgroundWorker demoparserslave;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem demostartCommandToClipboardToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
     }
 }

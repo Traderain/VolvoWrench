@@ -167,6 +167,12 @@ namespace VolvoWrench
         {
             Log("Copyall");
             Clipboard.SetText(richTextBox1.Text);
+            using (var ni = new NotifyIcon())
+            {
+                ni.Icon = SystemIcons.Exclamation;
+                ni.Visible = true;
+                ni.ShowBalloonTip(5000, "VolvoWrench", "Demo data copied to clipboard ", ToolTipIcon.Info);
+            }
         }
 
         private void rescanFileToolStripMenuItem_Click(object sender, EventArgs e)
@@ -182,11 +188,10 @@ namespace VolvoWrench
 
         private void exportDemoDataToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var a = new SaveFileDialog();
-            a.Filter = "XML Files | *.xml";
+            var a = new SaveFileDialog {Filter = "XML Files | *.xml"};
             if (a.ShowDialog() == DialogResult.OK && CurrentDemoFile != null)
             {
-                //TODO: Add save
+                //TODO: This is probably the last thing I will do in the project. :p
             }
         }
 

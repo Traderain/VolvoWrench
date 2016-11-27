@@ -306,7 +306,7 @@ namespace VolvoWrench.Overlay
             {
                 _device.BeginDraw();
                 _device.Clear(new RawColor4(Color.Transparent.R, Color.Transparent.G, Color.Transparent.B, Color.Transparent.A));
-                _device.TextAntialiasMode = TextAntialiasMode.Aliased;// you can set another text mode
+                _device.TextAntialiasMode = TextAntialiasMode.Default;
                 using (var g = Graphics.FromHwnd(IntPtr.Zero))
                 {
                     if (!string.IsNullOrEmpty(Currentwindow))

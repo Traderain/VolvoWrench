@@ -7,6 +7,10 @@ namespace VolvoWrench.Hotkey
 {
     public partial class Hotkey : Form
     {
+        public int DemoPopupKey;
+        public int OverLayExitKey;
+        public int OverLayRescanKey;
+
         public Hotkey()
         {
             KeyPreview = true;
