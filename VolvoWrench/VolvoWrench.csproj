@@ -94,6 +94,12 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.DebuggerVisualizers, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Ookii.Dialogs">
+      <HintPath>C:\Users\Traderai\Desktop\ooki\Ookii.Dialogs.dll</HintPath>
+    </Reference>
+    <Reference Include="Ookii.Dialogs.Wpf">
+      <HintPath>C:\Users\Traderai\Desktop\ooki\Ookii.Dialogs.Wpf.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="SharpDX, Version=3.1.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpDX.3.1.1\lib\net45\SharpDX.dll</HintPath>
@@ -207,6 +213,78 @@
     <Compile Include="Demo stuff\L4D2Branch\PortalStuff\Result\ConsoleCmdResult.cs" />
     <Compile Include="Demo stuff\L4D2Branch\PortalStuff\Result\DemoParseResult.cs" />
     <Compile Include="Demo stuff\L4D2Branch\PortalStuff\Result\PacketResult.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\Acquire.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\Assert.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\AssertCount.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\AtLeast.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\Batch.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\Cartesian.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\Concat.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\Consume.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\DistinctBy.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\EndsWith.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\EquiZip.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\ExceptBy.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\Exclude.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\FallbackIfEmpty.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\Fold.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\Fold.g.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\ForEach.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\FullGroupJoin.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\Generate.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\GenerateByIndex.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\GroupAdjacent.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\Incremental.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\Index.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\Interleave.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\Lag.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\Lead.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\Lookup.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\MaxBy.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\MinBy.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\MoreEnumerable.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\NestedLoops.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\OrderBy.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\OrderByDirection.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\OrderedMerge.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\Pad.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\Pairwise.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\PartialSort.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\Partition.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\Permutations.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\Pipe.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\Prepend.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\PreScan.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\Random.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\RandomSubset.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\Rank.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\Repeat.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\ReverseComparer.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\RunLengthEncode.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\Scan.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\Segment.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\SequenceException.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\SingleOrFallback.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\SkipUntil.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\Slice.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\SortedMerge.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\Split.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\StartsWith.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\Subsets.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\TagFirstLast.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\TakeEvery.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\TakeLast.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\TakeUntil.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\ToDataTable.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\ToDelimitedString.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\ToDelimitedString.g.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\ToHashSet.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\Trace.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\Traverse.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\Windowed.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\Zip.stub.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\ZipLongest.cs" />
+    <Compile Include="ExtensionMethods\MoreLinq\ZipShortest.cs" />
     <Compile Include="Overlay\Form1.cs">
       <SubType>Form</SubType>
     </Compile>

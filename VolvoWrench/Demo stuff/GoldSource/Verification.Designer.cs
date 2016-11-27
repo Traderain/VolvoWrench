@@ -1,6 +1,6 @@
 ﻿namespace VolvoWrench.Demo_stuff.GoldSource
 {
-    partial class Verification
+    sealed partial class Verification
     {
         /// <summary>
         /// Required designer variable.
@@ -124,6 +124,9 @@
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.Text = "Verification";
+            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.Verification_DragDrop);
+            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.Verification_DragEnter);
+            this.DragLeave += new System.EventHandler(this.Verification_DragLeave);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);

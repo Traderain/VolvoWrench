@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using IniParser;
 using IniParser.Model;
+using Ookii.Dialogs;
 using VolvoWrench.Demo_stuff;
 using VolvoWrench.Demo_stuff.GoldSource;
 using VolvoWrench.Demo_stuff.L4D2Branch.PortalStuff;
@@ -276,8 +277,10 @@ namespace VolvoWrench
 
         private void demoVerificationToolToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            AllowDrop = false;
             using (var a = new Verification())
                 a.ShowDialog();
+            AllowDrop = true;
         }
         #endregion
 
@@ -472,7 +475,9 @@ lowest_fps=0
 average_fps=0
 lowest_msec=0
 highest_msec=0
-average_msec=0"});
+average_msec=0
+[DIALOG_PREFERENCES]
+exit_dialog=1"});
                 #endregion
                     DemoPopupKey = 0x70; //F1
                     OverLayExitKey = 0x71;
@@ -803,11 +808,43 @@ Adjusted ticks:     {demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks}
 
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
         {
-            SettingsManager(false);
-            if (MessageBox.Show(@"Are you sure you would like to close the program?",@"Confirm!",MessageBoxButtons.YesNo,MessageBoxIcon.Question) == DialogResult.No)
+            var parser = new FileIniDataParser();
+            var iniD = parser.ReadFile(SettingsPath);
+            var showexitdialog = ToBoolean(int.Parse(iniD["DIALOG_PREFERENCES"]["exit_dialog"]));
+            if (showexitdialog)
             {
-              e.Cancel = true;
+                var td = new TaskDialog
+                {
+                    WindowTitle = @"Warning",
+                    Content = @"Are you sure you would like to exit?"
+                };
+                td.Buttons.Add(new TaskDialogButton()
+                {
+                    ButtonType = ButtonType.No
+                    
+                });
+                td.Buttons.Add(new TaskDialogButton()
+                {
+                    ButtonType = ButtonType.Yes,
+                    Default = true
+                });
+                var checkbox = new TaskDialogRadioButton
+                {
+                    Text = @"Never show this again!",
+                    Checked = false
+                };
+                td.RadioButtons.Add(checkbox);
+                if (td.ShowDialog().ButtonType == ButtonType.No)
+                {
+                    e.Cancel = true;
+                }
+                if (td.RadioButtons[0].Checked)
+                {
+                    iniD["DIALOG_PREFERENCES"]["exit_dialog"] = "0";
+                }
+                
             }
+            parser.WriteFile(SettingsPath, iniD);
         }
 
         public void StripEnabler(CrossParseResult cpr)
