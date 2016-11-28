@@ -26,7 +26,7 @@ namespace VolvoWrench.Demo_stuff.GoldSource
 
         public class DemoFrame
         {
-            public int Tick;
+            public int Index;
             public float Time;
             public int Frame;
             public DemoFrameType Type;
@@ -536,7 +536,7 @@ namespace VolvoWrench.Demo_stuff.GoldSource
                                     {
                                         Type = (Hlsooe.DemoFrameType)br.ReadSByte(),
                                         Time = br.ReadSingle(),
-                                        Tick = br.ReadInt32(),
+                                        Index = br.ReadInt32(),
                                         Frame = i+1
                                     };
                                     #region FrameType Switch

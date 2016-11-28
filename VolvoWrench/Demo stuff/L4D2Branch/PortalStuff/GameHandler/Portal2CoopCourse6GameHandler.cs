@@ -65,11 +65,6 @@ namespace VolvoWrench.Demo_stuff.L4D2Branch.PortalStuff.GameHandler
                     this._endAdjustType = "Portal2 co-op course 6 Run End";
 					this._endTick = base.CurrentTick;
 				}
-                else if (consoleCmdResult.Command.Contains("#SAVE#"))
-                {
-                    this._endAdjustType = "#SAVE# Flag";
-                    this._endTick = base.CurrentTick;
-                }
 			}
 			return consoleCmdResult;
 		}

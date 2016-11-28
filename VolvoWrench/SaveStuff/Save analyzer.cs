@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 
@@ -12,6 +13,7 @@ namespace VolvoWrench.SaveStuff
         {
             InitializeComponent();
             splitContainer1.FixedPanel = FixedPanel.Panel1;
+            propertyGrid1.AutoScaleMode = AutoScaleMode.None; 
         }
 
         public saveanalyzerform(string file)
@@ -38,45 +40,13 @@ namespace VolvoWrench.SaveStuff
                 using (var a = new SaveFileExplorer(CurrentSaveFile.Files))
                     a.ShowDialog();
             else
-                MessageBox.Show("Bad file!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(@"Bad file!", @"Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         public void PrintandAnalyze(string s)
         {
-            richTextBox1.Text = "";
-            if ((File.Exists(s) && Path.GetExtension(s) == ".sav"))
-            {
-                label1.Text = Path.GetFileName(s);
-                var parsedSave = Listsave.ParseFile(s);
-                richTextBox1.AppendText($@"- Save parsed -
-Filename:               {Path.GetFileName(s)}
-Header:                 {parsedSave.Header}
-SaveVersion:            {parsedSave.SaveVersion}      
-Size:                   {parsedSave.TokenTableFileTableOffset}
-TokenCount:             {parsedSave.TokenCount}
-Tokensize:              {parsedSave.TokenTableSize}");
-                richTextBox1.AppendText(@"
------------------------
-Savestate files in save
------------------------");
-                foreach (var valvFile in parsedSave.Files)
-                {
-                    richTextBox1.AppendText($"\nName:\t\t{valvFile.FileName}");
-                    richTextBox1.AppendText($"\nMagic Word:\t\t{valvFile.MagicWord?.Trim()}");
-                    richTextBox1.AppendText($"\nSize:\t\t{valvFile.Data.Length} bytes");
-                    richTextBox1.Invalidate();
-                    richTextBox1.Update();
-                    richTextBox1.Refresh();
-                    Application.DoEvents();
-                }
-            }
-
-            else
-            {
-                label1.Text = @"Bad file!";
-                richTextBox1.Text = @"Select a correct file please.";
-                Main.Log("Save parse open failed.");
-            }
+            CurrentSaveFile = Listsave.ParseSaveFile(s);
+            propertyGrid1.SelectedObject = CurrentSaveFile;
         }
     }
 }

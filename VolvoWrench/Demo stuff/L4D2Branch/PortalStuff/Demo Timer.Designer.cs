@@ -123,12 +123,12 @@
             // 
             // columnHeaderStartTick
             // 
-            this.columnHeaderStartTick.Text = "Start Tick";
+            this.columnHeaderStartTick.Text = "Start Index";
             this.columnHeaderStartTick.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // columnHeaderStopTick
             // 
-            this.columnHeaderStopTick.Text = "Stop Tick";
+            this.columnHeaderStopTick.Text = "Stop Index";
             this.columnHeaderStopTick.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // columnHeaderAT

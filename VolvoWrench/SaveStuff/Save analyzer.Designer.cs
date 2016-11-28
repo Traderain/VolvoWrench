@@ -35,7 +35,7 @@ namespace VolvoWrench.SaveStuff
             this.label1 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -86,21 +86,25 @@ namespace VolvoWrench.SaveStuff
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.richTextBox1);
+            this.splitContainer1.Panel2.Controls.Add(this.propertyGrid1);
             this.splitContainer1.Size = new System.Drawing.Size(784, 556);
-            this.splitContainer1.SplitterDistance = 60;
+            this.splitContainer1.SplitterDistance = 59;
             this.splitContainer1.TabIndex = 4;
             // 
-            // richTextBox1
+            // propertyGrid1
             // 
-            this.richTextBox1.BackColor = System.Drawing.SystemColors.InfoText;
-            this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBox1.ForeColor = System.Drawing.SystemColors.Menu;
-            this.richTextBox1.Location = new System.Drawing.Point(0, 0);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(784, 492);
-            this.richTextBox1.TabIndex = 6;
-            this.richTextBox1.Text = "No file opened. Open one!";
+            this.propertyGrid1.CategorySplitterColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.propertyGrid1.DisabledItemForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(244)))), ((int)(((byte)(247)))), ((int)(((byte)(252)))));
+            this.propertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.propertyGrid1.HelpBackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.propertyGrid1.HelpForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.propertyGrid1.Location = new System.Drawing.Point(0, 0);
+            this.propertyGrid1.Name = "propertyGrid1";
+            this.propertyGrid1.SelectedItemWithFocusForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.propertyGrid1.Size = new System.Drawing.Size(784, 493);
+            this.propertyGrid1.TabIndex = 0;
+            this.propertyGrid1.ViewBackColor = System.Drawing.Color.Black;
+            this.propertyGrid1.ViewForeColor = System.Drawing.SystemColors.InactiveBorder;
             // 
             // saveanalyzerform
             // 
@@ -131,6 +135,6 @@ namespace VolvoWrench.SaveStuff
         private Label label1;
         private Button button2;
         private SplitContainer splitContainer1;
-        private RichTextBox richTextBox1;
+        private PropertyGrid propertyGrid1;
     }
 }

@@ -83,9 +83,9 @@ namespace VolvoWrench.Demo_stuff.Source
             this.messageList.View = System.Windows.Forms.View.Details;
             this.messageList.SelectedIndexChanged += new System.EventHandler(this.messageList_SelectedIndexChanged);
             // 
-            // Tick
+            // Index
             // 
-            this.Tick.Text = "Tick";
+            this.Tick.Text = "Index";
             // 
             // Type
             // 

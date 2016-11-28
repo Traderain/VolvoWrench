@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace VolvoWrench.SaveStuff
@@ -38,12 +39,7 @@ namespace VolvoWrench.SaveStuff
 
         private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            var newSelected = e.Node;
-            listView1.Items.Clear();
-            ListViewItem.ListViewSubItem[] subItems;
-            ListViewItem item = null;
-            listView1.Items.Add(PFileliList[e.Node.Index].Length.ToString());          
-            listView1.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+            propertyGrid1.SelectedObject = PFileliList.FirstOrDefault(x => e.Node.Text.Contains(x.FileName));
         }
     }
 

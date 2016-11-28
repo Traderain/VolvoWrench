@@ -25,35 +25,8 @@ namespace VolvoWrench.SaveStuff
 
     public class Listsave
     {
+
         #region DataDesc
-        [Serializable]
-        public class SaveFile
-        {
-            public string FileName { get; set; }
-            public string Header { get; set; }
-            public int SaveVersion { get; set; }
-            public int TokenTableFileTableOffset { get; set; }
-            public int TokenTableSize { get; set; }
-            public int TokenCount { get; set; }
-            public List<ValvFile> Files { get; set; }
-
-        }
-
-        public enum Hlfile
-        {
-            Hl1,
-            Hl2,
-            Hl3
-        }
-        public class ValvFile
-        {
-            public string MagicWord;
-            public int Length;
-            public byte[] Data;
-            public string FileName;
-            public Hlfile StateType;
-        }
-
         public const int SAVEGAME_MAPNAME_LEN = 32;
         public const int SAVEGAME_COMMENT_LEN = 80;
         public const int SAVEGAME_ELAPSED_LEN = 32;
@@ -97,6 +70,39 @@ namespace VolvoWrench.SaveStuff
         };
         #endregion
 
+        [Serializable]
+        public class SaveFile
+        {
+            public string FileName { get; set; }
+            public string Header { get; set; }
+            public int SaveVersion { get; set; }
+            public int TokenTableFileTableOffset { get; set; }
+            public int TokenTableSize { get; set; }
+            public int TokenCount { get; set; }
+            public List<ValvFile> Files { get; set; }
+
+        }
+        [Serializable]
+        public enum Hlfile
+        {
+            Hl1,
+            Hl2,
+            Hl3
+        }
+
+        [Serializable]
+        public class ValvFile
+        {
+            public string FileName { get; set; }
+            public string MagicWord { get; set; }
+            public Hlfile StateType { get; set; }
+            public int Length { get; set; }
+            public int Version { get; set; }
+            public int TableLength { get; set; }
+
+            public byte[] Data { get; set; }
+        }
+
         public static string Chaptername(int chapter)
         {
             #region MapSwitch
@@ -120,7 +126,7 @@ namespace VolvoWrench.SaveStuff
             }
             #endregion
         }
-        public static SaveFile ParseFile(string file)
+        public static SaveFile ParseSaveFile(string file)
         {
             var result = new SaveFile();
             using (var fs = new FileStream(file, FileMode.Open, FileAccess.Read))
@@ -202,6 +208,25 @@ namespace VolvoWrench.SaveStuff
                     return result;
                 }
             }
+        }
+
+        public static ValvFile ParseStateFile(string filename,byte[] stateFile)
+        {
+            var vf = new ValvFile {Length = stateFile.Length};
+            vf.FileName = filename;
+            vf.StateType = (Hlfile)int.Parse(Regex.Match(filename.Reverse().Take(3).Reverse().ToString(), @"\d+").Value);
+            using (var br = new BinaryReader(new MemoryStream(stateFile)))
+            {
+               vf.MagicWord = Encoding.ASCII.GetString(br.ReadBytes(4))
+                                                    .Trim('\0')
+                                                    .Replace("\0", string.Empty);
+                vf.Version = br.ReadInt32();
+                vf.TableLength = br.ReadInt32();
+                vf.TableLength = br.ReadInt32();
+                br.ReadBoolean(); //UNKNOWN -> BUG
+
+            }
+            return new ValvFile();
         }
 
         public static bool UnexpectedEof(BinaryReader b, int lengthtocheck) => b.BaseStream.Position + lengthtocheck < b.BaseStream.Length;

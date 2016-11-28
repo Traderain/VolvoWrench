@@ -85,7 +85,7 @@ namespace VolvoWrench.Demo_stuff.Source
 
         private static void net_tick(BitBuffer bb, TreeNode node)
         {
-            node.Nodes.Add("Tick: " + (int) bb.ReadBits(32));
+            node.Nodes.Add("Index: " + (int) bb.ReadBits(32));
             node.Nodes.Add("Host frametime: " + bb.ReadBits(16));
             node.Nodes.Add("Host frametime StdDev: " + bb.ReadBits(16));
         }

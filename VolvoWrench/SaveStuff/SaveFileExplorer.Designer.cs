@@ -36,10 +36,7 @@ namespace VolvoWrench.SaveStuff
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.listView1 = new System.Windows.Forms.ListView();
-            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.Type = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -58,7 +55,7 @@ namespace VolvoWrench.SaveStuff
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.listView1);
+            this.splitContainer1.Panel2.Controls.Add(this.propertyGrid1);
             this.splitContainer1.Size = new System.Drawing.Size(729, 481);
             this.splitContainer1.SplitterDistance = 243;
             this.splitContainer1.TabIndex = 0;
@@ -84,34 +81,19 @@ namespace VolvoWrench.SaveStuff
             this.imageList1.Images.SetKeyName(0, "08 Wrench.ico");
             this.imageList1.Images.SetKeyName(1, "stack.png");
             // 
-            // listView1
+            // propertyGrid1
             // 
-            this.listView1.BackColor = System.Drawing.SystemColors.InfoText;
-            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader1,
-            this.Type,
-            this.columnHeader2});
-            this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listView1.ForeColor = System.Drawing.SystemColors.InactiveBorder;
-            this.listView1.Location = new System.Drawing.Point(0, 0);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(482, 481);
-            this.listView1.SmallImageList = this.imageList1;
-            this.listView1.TabIndex = 0;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.Details;
-            // 
-            // columnHeader1
-            // 
-            this.columnHeader1.Text = "Name";
-            // 
-            // Type
-            // 
-            this.Type.Text = "Type";
-            // 
-            // columnHeader2
-            // 
-            this.columnHeader2.Text = "Last Modified";
+            this.propertyGrid1.DisabledItemForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.propertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.propertyGrid1.HelpBackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.propertyGrid1.HelpForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.propertyGrid1.LineColor = System.Drawing.SystemColors.InactiveCaption;
+            this.propertyGrid1.Location = new System.Drawing.Point(0, 0);
+            this.propertyGrid1.Name = "propertyGrid1";
+            this.propertyGrid1.Size = new System.Drawing.Size(482, 481);
+            this.propertyGrid1.TabIndex = 0;
+            this.propertyGrid1.ViewBackColor = System.Drawing.SystemColors.InfoText;
+            this.propertyGrid1.ViewForeColor = System.Drawing.SystemColors.Window;
             // 
             // SaveFileExplorer
             // 
@@ -137,9 +119,6 @@ namespace VolvoWrench.SaveStuff
         private SplitContainer splitContainer1;
         private TreeView treeView1;
         private ImageList imageList1;
-        private ListView listView1;
-        private ColumnHeader columnHeader1;
-        private ColumnHeader Type;
-        private ColumnHeader columnHeader2;
+        private PropertyGrid propertyGrid1;
     }
 }

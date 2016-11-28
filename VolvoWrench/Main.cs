@@ -358,7 +358,7 @@ Client name: " + CurrentDemoFile.Sdi.ClientName + @"
 Map name: " + CurrentDemoFile.Sdi.MapName + @"
 Game directory: " + CurrentDemoFile.Sdi.GameDirectory + @"
 Length in seconds: " + CurrentDemoFile.Sdi.Seconds + @"
-Tick count: " + CurrentDemoFile.Sdi.TickCount + @"
+Index count: " + CurrentDemoFile.Sdi.TickCount + @"
 Frame count: " + CurrentDemoFile.Sdi.FrameCount);
                         UpdateForm();
                         #endregion
@@ -653,8 +653,8 @@ Net protocol:               {demo.HlsooeDemoInfo.Header.Netprotocol}
 Directory offset:           {demo.HlsooeDemoInfo.Header.DirectoryOffset}
 Map name:                   {demo.HlsooeDemoInfo.Header.MapName}
 Game directory:             {demo.HlsooeDemoInfo.Header.GameDirectory}
-Length in seconds:          {(demo.HlsooeDemoInfo.DirectoryEntries.Last().Frames.LastOrDefault().Key.Tick) *0.015}s
-Tick count:                 {(demo.HlsooeDemoInfo.DirectoryEntries.SkipWhile(x => x.FrameCount < 1).Max(x=>x.Frames.Max(y => y.Key.Tick)))}
+Length in seconds:          {(demo.HlsooeDemoInfo.DirectoryEntries.Last().Frames.LastOrDefault().Key.Index) *0.015}s
+Tick count:                 {(demo.HlsooeDemoInfo.DirectoryEntries.SkipWhile(x => x.FrameCount < 1).Max(x=>x.Frames.Max(y => y.Key.Index)))}
 ----------------------------------------------------------";
                             UpdateForm();
                             foreach (
@@ -835,14 +835,9 @@ Adjusted ticks:     {demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks}
                 };
                 td.RadioButtons.Add(checkbox);
                 if (td.ShowDialog().ButtonType == ButtonType.No)
-                {
                     e.Cancel = true;
-                }
                 if (td.RadioButtons[0].Checked)
-                {
                     iniD["DIALOG_PREFERENCES"]["exit_dialog"] = "0";
-                }
-                
             }
             parser.WriteFile(SettingsPath, iniD);
         }

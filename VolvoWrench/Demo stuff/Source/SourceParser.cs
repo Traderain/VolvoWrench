@@ -145,7 +145,7 @@ namespace VolvoWrench.Demo_stuff.Source
         {
             var bb = new BitBuffer(data);
             if (bb.ReadBool()) node.Nodes.Add("Command number: " + bb.ReadBits(32));
-            if (bb.ReadBool()) node.Nodes.Add("Tick count: " + bb.ReadBits(32));
+            if (bb.ReadBool()) node.Nodes.Add("Index count: " + bb.ReadBits(32));
             if (bb.ReadBool()) node.Nodes.Add("Viewangle pitch: " + bb.ReadFloat());
             if (bb.ReadBool()) node.Nodes.Add("Viewangle yaw: " + bb.ReadFloat());
             if (bb.ReadBool()) node.Nodes.Add("Viewangle roll: " + bb.ReadFloat());
