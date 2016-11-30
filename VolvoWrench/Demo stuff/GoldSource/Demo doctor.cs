@@ -58,14 +58,14 @@ namespace VolvoWrench.Demo_stuff.GoldSource
                     {
                         StartInfo = new ProcessStartInfo(path)
                         {
-                            Arguments = DemoFile + " " + sf.FileName,
+                            Arguments = "\""+ DemoFile + "\"" + " " + "\"" + sf.FileName + "\"",
                             WorkingDirectory = Path.GetTempPath(),
                             CreateNoWindow = true,
                             UseShellExecute = false
                         }
                     };
                     p.Start();
-                    var output = p.StandardOutput.ReadToEnd();
+                    
                     p.WaitForExit();
                     File.Delete(path);
                     if(File.Exists(sf.FileName))

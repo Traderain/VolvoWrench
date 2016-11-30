@@ -18,7 +18,7 @@ namespace VolvoWrench.DG
             Application.SetCompatibleTextRenderingDefault(false);
             if (Environment.GetCommandLineArgs().Any(x => Path.GetExtension(x) == ".dem" || Path.GetExtension(x) == ".sav"))
                 if (Environment.GetCommandLineArgs().Any(x => Path.GetExtension(x) == ".dem"))
-                    Application.Run(new Main(Environment.GetCommandLineArgs().First(x => Path.GetExtension(x) == ".dem")));
+                    Application.Run(new Main());
                 else if (Environment.GetCommandLineArgs().Any(x => Path.GetExtension(x) == ".sav"))
                     Application.Run(new saveanalyzerform(Environment.GetCommandLineArgs().First(x => Path.GetExtension(x) == ".sav")));
                 else

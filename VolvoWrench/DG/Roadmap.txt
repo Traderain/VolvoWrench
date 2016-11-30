@@ -1,4 +1,6 @@
 ﻿- Statefile decompressor
-- Demo doctor fix 
+- Demo doctor fix  -> Done
 - Statistics : Nearly done
 - HTML Display instead of the richtextbox
+- High performance mode fix for Griffin -> wontix kek
+- Verification check if broken demo -> Done

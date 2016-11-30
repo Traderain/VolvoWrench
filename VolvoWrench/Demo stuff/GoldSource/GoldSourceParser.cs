@@ -8,6 +8,9 @@ using System.Windows.Media.Media3D;
 
 namespace VolvoWrench.Demo_stuff.GoldSource
 {
+    /// <summary>
+    /// Types for HLSOOE
+    /// </summary>
     public class Hlsooe
     {
         public enum DemoFrameType
@@ -137,7 +140,9 @@ namespace VolvoWrench.Demo_stuff.GoldSource
             public Dictionary<DemoFrame,ConsoleCommandFrame> Flags;
         }
     }
-
+    /// <summary>
+    /// Types for goldsource
+    /// </summary>
     public class GoldSource
     {
         public enum DemoFrameType
@@ -434,13 +439,35 @@ namespace VolvoWrench.Demo_stuff.GoldSource
         }
     }
 
+
+    /// <summary>
+    /// Aditional demo stats
+    /// </summary>
+    public struct stats
+    {
+        public float FrametimeMin;
+        public float FrametimeMax;
+        public double FrametimeSum;
+        public int Count;
+        public int MsecMin;
+        public int MsecMax;
+        public long MsecSum;
+    }
+
+    /// <summary>
+    /// Info class about normal GoldSource engine demos
+    /// </summary>
     public struct GoldSourceDemoInfo
     {
         public List<GoldSource.DemoDirectoryEntry> DirectoryEntries;
+        public stats AditionalStats;
         public GoldSource.DemoHeader Header;
         public List<string> ParsingErrors;
     }
 
+    /// <summary>
+    /// Info class about HLSOOE Demos
+    /// </summary>
     public class GoldSourceDemoInfoHlsooe
     {
         public List<Hlsooe.DemoDirectoryEntry> DirectoryEntries;
@@ -451,7 +478,12 @@ namespace VolvoWrench.Demo_stuff.GoldSource
     public class GoldSourceParser
     {
        
-        
+        /// <summary>
+        /// This checks if we are will be past the end of the file if we read lengthtocheck
+        /// </summary>
+        /// <param name="b"></param>
+        /// <param name="lengthtocheck"></param>
+        /// <returns></returns>
         public static bool UnexpectedEof(BinaryReader b, long lengthtocheck)
         {
             return (b.BaseStream.Position + lengthtocheck) > b.BaseStream.Length;
@@ -1123,6 +1155,29 @@ namespace VolvoWrench.Demo_stuff.GoldSource
                 //This can't actually happen but I might just log it just incase.
                 Main.Log("Exception happened in the goldsource parser: " + e.Message);
                 gDemo.ParsingErrors.Add(e.Message);
+            }
+            var first = true;
+            foreach (var f in from entry in gDemo.DirectoryEntries from frame in entry.Frames where (int)frame.Key.Type < 2 || (int)frame.Key.Type > 9 select (GoldSource.NetMsgFrame)frame.Value)
+            {
+                gDemo.AditionalStats.FrametimeSum += f.RParms.Frametime;
+                gDemo.AditionalStats.MsecSum += f.UCmd.Msec;
+                gDemo.AditionalStats.Count++;
+
+                if (first)
+                {
+                    first = false;
+                    gDemo.AditionalStats.FrametimeMin = f.RParms.Frametime;
+                    gDemo.AditionalStats.FrametimeMax = f.RParms.Frametime;
+                    gDemo.AditionalStats.MsecMin = f.UCmd.Msec;
+                    gDemo.AditionalStats.MsecMax = f.UCmd.Msec;
+                }
+                else
+                {
+                    gDemo.AditionalStats.FrametimeMin = Math.Min(gDemo.AditionalStats.FrametimeMin, f.RParms.Frametime);
+                    gDemo.AditionalStats.FrametimeMax = Math.Max(gDemo.AditionalStats.FrametimeMax, f.RParms.Frametime);
+                    gDemo.AditionalStats.MsecMin = Math.Min(gDemo.AditionalStats.MsecMin, f.UCmd.Msec);
+                    gDemo.AditionalStats.MsecMax = Math.Max(gDemo.AditionalStats.MsecMax, f.UCmd.Msec);
+                }
             }
             return gDemo;
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using IniParser;
 
@@ -86,8 +87,6 @@ namespace VolvoWrench.Overlay
                 checkBox45.Checked = Convert.ToBoolean(int.Parse(iniD["OVERLAY_GOLDSOURCE"]["highest_msec"]));
                 checkBox49.Checked = Convert.ToBoolean(int.Parse(iniD["OVERLAY_GOLDSOURCE"]["average_msec"]));
                 parser.WriteFile(Main.SettingsPath, iniD);
-                var parentT = (Main) Owner;
-                parentT?.UpdateOverLaySettings(F, C);
             }
             catch (Exception e)
             {
@@ -164,8 +163,6 @@ namespace VolvoWrench.Overlay
                 checkBox45.Checked = Convert.ToBoolean(int.Parse(iniD["OVERLAY_GOLDSOURCE"]["highest_msec"]));
                 checkBox49.Checked = Convert.ToBoolean(int.Parse(iniD["OVERLAY_GOLDSOURCE"]["average_msec"]));
                 parser.WriteFile(Main.SettingsPath, iniD);
-                var parentT = (Main)Owner;
-                parentT?.UpdateOverLaySettings(F, C);
             }
         }
 
@@ -253,8 +250,6 @@ namespace VolvoWrench.Overlay
                 iniD["OVERLAY_GOLDSOURCE"]["highest_msec"] = Convert.ToInt32(checkBox45.Checked).ToString();
                 iniD["OVERLAY_GOLDSOURCE"]["average_msec"] = Convert.ToInt32(checkBox49.Checked).ToString();
                 parser.WriteFile(Main.SettingsPath, iniD);
-                var parentT = (Main) Owner;
-                parentT.UpdateOverLaySettings(F, C);
             }
             catch (Exception)
             {
@@ -319,8 +314,6 @@ namespace VolvoWrench.Overlay
                 iniD["OVERLAY_GOLDSOURCE"]["highest_msec"] = Convert.ToInt32(checkBox45.Checked).ToString();
                 iniD["OVERLAY_GOLDSOURCE"]["average_msec"] = Convert.ToInt32(checkBox49.Checked).ToString();
                 parser.WriteFile(Main.SettingsPath, iniD);
-                var parentT = (Main) Owner;
-                parentT.UpdateOverLaySettings(F, C);
             }
             Close();
         }
