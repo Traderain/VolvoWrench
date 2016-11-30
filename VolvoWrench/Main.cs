@@ -32,6 +32,8 @@ namespace VolvoWrench
         public static int DemoPopupKey;
         public static int OverLayExitKey;
         public static int OverLayRescanKey;
+
+
         public static Font OverlayFont;
         public static Color OverLayColor;
         public static Font MainFont;
@@ -356,7 +358,12 @@ namespace VolvoWrench
         {
             if (File.Exists(CurrentFile) && Path.GetExtension(CurrentFile) == ".dem" && CurrentFile != null)
                 using (var a = new OverlayForm(CurrentFile))
+                {
+                    var str = richTextBox1.Text;
+                    richTextBox1.Text = @"Overlay launched please switch to your game!";
                     a.ShowDialog();
+                    richTextBox1.Text = str;
+                }
             else
                 MessageBox.Show(@"No file selected please select one to use the overlay!",
                     @"Couldn't open overlay!",
@@ -393,7 +400,7 @@ namespace VolvoWrench
         }
 
         /// <summary>
-        /// This is the timer we use for hotkey detectoin
+        /// This is the timer we use for hotkey detection
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -575,7 +582,6 @@ exit_dialog=1"});
                     DemoPopupKey = ToInt32(data["HOTKEYS"]["demo_popup"],16);
                     OverLayExitKey = ToInt32(data["HOTKEYS"]["overlay_exit"],16);
                     OverLayRescanKey = ToInt32(data["HOTKEYS"]["overlay_rescan"],16);
-                    OverLayExitKey = ToInt32(data["HOTKEYS"]["overlay_rescan"],16);
                     OverlayFont =  cvt.ConvertFromString(data["SETTINGS"]["overlay_font"]) as Font;
                     MainFont =  cvt.ConvertFromString(data["SETTINGS"]["main_font"]) as Font;
                     var colorstring = data["SETTINGS"]["overlay_color"].Split(':');
@@ -697,11 +703,11 @@ Length in seconds:          {demo.GsDemoInfo.DirectoryEntries.Sum(x => x.TrackTi
 Frame count:                {demo.GsDemoInfo.DirectoryEntries.Sum(x => x.FrameCount)}
 
 Higest FPS:                 {(1/demo.GsDemoInfo.AditionalStats.FrametimeMin).ToString("N2")}
-Lowest FPS:                 {(1/ demo.GsDemoInfo.AditionalStats.FrametimeMax).ToString("N2")}
-Average FPS:                {(demo.GsDemoInfo.AditionalStats.Count / demo.GsDemoInfo.AditionalStats.FrametimeSum).ToString("N2")}
-Lowest msec:                {(1000.0 / demo.GsDemoInfo.AditionalStats.MsecMax).ToString("N2")} FPS
-Highest msec:               {(1000.0 / demo.GsDemoInfo.AditionalStats.MsecMin).ToString("N2")} FPS
-Average msec:               {(1000.0 / (demo.GsDemoInfo.AditionalStats.MsecSum / (double)demo.GsDemoInfo.AditionalStats.Count)).ToString("N2")} FPS
+Lowest FPS:                 {(1/demo.GsDemoInfo.AditionalStats.FrametimeMax).ToString("N2")}
+Average FPS:                {(demo.GsDemoInfo.AditionalStats.Count/demo.GsDemoInfo.AditionalStats.FrametimeSum).ToString("N2")}
+Lowest msec:                {(1000.0/demo.GsDemoInfo.AditionalStats.MsecMin).ToString("N2")} FPS
+Highest msec:               {(1000.0/demo.GsDemoInfo.AditionalStats.MsecMax).ToString("N2")} FPS
+Average msec:               {(1000.0/(demo.GsDemoInfo.AditionalStats.MsecSum/(double)demo.GsDemoInfo.AditionalStats.Count)).ToString("N2")} FPS
 ----------------------------------------------------------";
                         }
                         UpdateForm();

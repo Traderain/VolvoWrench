@@ -108,12 +108,12 @@ namespace VolvoWrench.Demo_stuff.GoldSource
                 mrtb.AppendText("Parsed demos. Results:" + "\n");
                 mrtb.AppendText("General stats:" + "\n");
                 mrtb.AppendText($@"
-Highest FPS:                {(1/Df.Select(x=> x.Value).Max(y => y.GsDemoInfo.AditionalStats.FrametimeMin)).ToString("N2")}
-Lowest FPS:                 {(1/Df.Select(x=> x.Value).Min(y => y.GsDemoInfo.AditionalStats.FrametimeMax)).ToString("N2")}
-Average FPS:                {(Df.Select(z => z.Value).Average(k => k.GsDemoInfo.AditionalStats.Count) / Df.Select(x=> x.Value).Max(y => y.GsDemoInfo.AditionalStats.FrametimeSum)).ToString("N2")}
-Lowest msec:                {(1000.0 / Df.Select(x => x.Value).Max(y => y.GsDemoInfo.AditionalStats.MsecMin)).ToString("N2")} FPS
-Highest msec:               {(1000.0 / Df.Select(x => x.Value).Min(y => y.GsDemoInfo.AditionalStats.MsecMax)).ToString("N2")} FPS
-Average msec:               {(Df.Select(x => x.Value).Select(y => y.GsDemoInfo.AditionalStats.MsecSum / (double)y.GsDemoInfo.AditionalStats.Count)).Average().ToString("N2")} FPS
+Highest FPS:                {(1/Df.Select(x=> x.Value).ToList().Min(y => y.GsDemoInfo.AditionalStats.FrametimeMin)).ToString("N2")}
+Lowest FPS:                 {(1/Df.Select(x=> x.Value).ToList().Max(y => y.GsDemoInfo.AditionalStats.FrametimeMax)).ToString("N2")}
+Average FPS:                {(Df.Select(z => z.Value).ToList().Average(k => k.GsDemoInfo.AditionalStats.Count/k.GsDemoInfo.AditionalStats.FrametimeSum)).ToString("N2")}
+Lowest msec:                {(1000.0/Df.Select(x => x.Value).ToList().Min(y => y.GsDemoInfo.AditionalStats.MsecMin)).ToString("N2")} FPS
+Highest msec:               {(1000.0/Df.Select(x => x.Value).ToList().Max(y => y.GsDemoInfo.AditionalStats.MsecMax)).ToString("N2")} FPS
+Average msec:               {(Df.Select(x => x.Value).ToList().Average(y => y.GsDemoInfo.AditionalStats.MsecSum / (double)y.GsDemoInfo.AditionalStats.Count)).ToString("N2")} FPS
 
 Total time of the demos:    {Df.Sum(x => x.Value.GsDemoInfo.DirectoryEntries.Sum(y => y.TrackTime))}s" + "\n\n");
                 mrtb.AppendText("Demo cheat check:" + "\n");
