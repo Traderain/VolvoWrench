@@ -15,13 +15,13 @@
 // limitations under the License.
 #endregion
 
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Text;
+
 namespace MoreLinq
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.Text;
-
     partial class MoreEnumerable
     {
         /// <summary>

@@ -301,7 +301,7 @@ namespace VolvoWrench.Overlay
         /// <param name="sender"></param>
         private void SDxThread(object sender)
         {
-            
+            Main.Alert("Overlay launched!");
             while (true)
             {
                 _device.BeginDraw();

@@ -15,12 +15,12 @@
 // limitations under the License.
 #endregion
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
 namespace MoreLinq
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-
     public static partial class MoreEnumerable
     {
         /// <summary>
@@ -42,7 +42,7 @@ namespace MoreLinq
             if (resultSelector == null) throw new ArgumentNullException("resultSelector");
 
             return from item1 in first 
-                   from item2 in second // TODO buffer to avoid multiple enumerations
+                   from item2 in second 
                    select resultSelector(item1, item2);
         }
     }

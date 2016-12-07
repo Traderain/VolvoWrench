@@ -4,15 +4,24 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using MoreLinq;
 
 namespace VolvoWrench.Demo_stuff.GoldSource
 {
+    /// <summary>
+    /// This is a form to aid goldsource run verification
+    /// </summary>
     public sealed partial class Verification : Form
     {
-        public List<string> DemopathList; 
+        /// <summary>
+        /// This list contains the paths to the demos
+        /// </summary>
+        public List<string> DemopathList;
+
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public Verification()
         {
             InitializeComponent();
@@ -32,6 +41,7 @@ namespace VolvoWrench.Demo_stuff.GoldSource
             
             if (of.ShowDialog() == DialogResult.OK && of.FileNames.Length > 1)
             {
+                //CrossDemoParser.MultiDemoParse(of.FileNames);
                 Verify(of.FileNames);
             }
             else
@@ -70,8 +80,13 @@ namespace VolvoWrench.Demo_stuff.GoldSource
             }
         }
 
+        /// <summary>
+        /// This is the actuall verification method     
+        /// </summary>
+        /// <param name="files">The paths of the files</param>
         public void Verify(string[] files)
         {
+            Df.Clear();
             mrtb.Text = $@"Please wait. Parsing demos... 0/{files.Length}";
             mrtb.Invalidate();
             mrtb.Update();

@@ -15,13 +15,13 @@
 // limitations under the License.
 #endregion
 
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+
 namespace MoreLinq
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Linq;
-
     public static partial class MoreEnumerable
     {      
         /// <summary>
@@ -135,7 +135,6 @@ namespace MoreLinq
                 private readonly T[] _subset;     // the current subset to return
                 private readonly int[] _indices;  // indices into the original set
 
-                // TODO: It would be desirable to give these index members clearer names
                 private bool _continue;  // termination indicator, set when all subsets have been produced
                 private int _m;            // previous swap index (upper index)
                 private int _m2;           // current swap index (lower index)

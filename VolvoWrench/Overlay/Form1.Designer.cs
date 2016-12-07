@@ -1,11 +1,13 @@
-﻿namespace VolvoWrench.Overlay
+﻿using System.ComponentModel;
+
+namespace VolvoWrench.Overlay
 {
     partial class OverlayForm
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.

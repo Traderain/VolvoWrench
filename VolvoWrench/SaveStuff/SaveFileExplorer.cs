@@ -6,9 +6,9 @@ namespace VolvoWrench.SaveStuff
 {
     public partial class SaveFileExplorer : Form
     {
-        public List<Listsave.ValvFile> PFileliList;
+        public List<Listsave.StateFileInfo> PFileliList;
 
-        private void PopulateTreeView(List<Listsave.ValvFile> FileList)
+        private void PopulateTreeView(List<Listsave.StateFileInfo> FileList)
         {
             if (FileList.Count > 1)
             {
@@ -18,9 +18,9 @@ namespace VolvoWrench.SaveStuff
             }
         }
 
-        private void GetDirectories(List<Listsave.ValvFile> vlvs,TreeNode nodeToAddTo)
+        private void GetDirectories(List<Listsave.StateFileInfo> vlvs,TreeNode nodeToAddTo)
         {
-            foreach (Listsave.ValvFile subDir in vlvs)
+            foreach (Listsave.StateFileInfo subDir in vlvs)
             {
                 var aNode = new TreeNode(subDir.FileName, 0, 0)
                 {
@@ -30,7 +30,7 @@ namespace VolvoWrench.SaveStuff
                 nodeToAddTo.Nodes.Add(aNode);
             }
         }
-        public SaveFileExplorer(List<Listsave.ValvFile> fileList)
+        public SaveFileExplorer(List<Listsave.StateFileInfo> fileList)
         {
             InitializeComponent();
             PFileliList = fileList;

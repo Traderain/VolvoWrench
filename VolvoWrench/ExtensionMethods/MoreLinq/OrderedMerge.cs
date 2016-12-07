@@ -15,13 +15,15 @@
 // limitations under the License.
 #endregion
 
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+
 namespace MoreLinq
 {
     #region Imports
 
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
+    
 
     #endregion
 

@@ -51,7 +51,6 @@ namespace VolvoWrench.Demo_stuff.Source
         public static void Parse(byte[] data, TreeNode node)
         {
             var bb = new BitBuffer(data);
-
             while (bb.BitsLeft() > 6)
             {
                 var type = bb.ReadBits(6);
@@ -102,9 +101,21 @@ namespace VolvoWrench.Demo_stuff.Source
                 node.Nodes.Add(bb.ReadString() + ": " + bb.ReadString());
         }
 
+       enum SigOnState : byte
+       {
+             None        = 0,  // no state yet; about to connect
+             Challenge   = 1,  // client challenging server; all OOB packets
+             Connected   = 2,  // client is connected to server; netchans ready
+             New         = 3,  // just got serverinfo and string tables
+             Prespawn    = 4,  // received signon buffers
+             Spawn       = 5,  // ready to receive entity packets
+             Full        = 6,  // we are fully connected; first non-delta packet received
+             ChangeLevel = 7   // server is changing level; please wait
+         }
+
         private static void net_signonstate(BitBuffer bb, TreeNode node)
         {
-            node.Nodes.Add("Signon state: " + bb.ReadBits(8));
+            node.Nodes.Add("Signon state: " + (SigOnState)bb.ReadBits(8));
             node.Nodes.Add("Spawn count: " + (int) bb.ReadBits(32));
         }
 
@@ -125,7 +136,7 @@ namespace VolvoWrench.Demo_stuff.Source
             if (version < 18)
                 node.Nodes.Add("Server map CRC: 0x" + bb.ReadBits(32).ToString("X8"));
             else
-                bb.Seek(128); // TODO: display out map md5 hash
+                node.Nodes.Add("MD5 Hash: " + bb.ReadBits(128));
             node.Nodes.Add("Current player count: " + bb.ReadBits(8));
             node.Nodes.Add("Max player count: " + bb.ReadBits(8));
             node.Nodes.Add("Interval per tick: " + bb.ReadFloat());
@@ -228,19 +239,26 @@ namespace VolvoWrench.Demo_stuff.Source
         private static void svc_fixangle(BitBuffer bb, TreeNode node)
         {
             node.Nodes.Add("Relative: " + bb.ReadBool());
-            // TODO: handle properly
-            bb.Seek(48);
+            var pos = bb.ReadVecCoord();
+            node.Nodes.Add("X: " + pos[0]);
+            node.Nodes.Add("Y: " + pos[1]);
+            node.Nodes.Add("Z: " + pos[2]);
         }
 
         private static void svc_crosshairangle(BitBuffer bb, TreeNode node)
         {
-            // TODO: see above
-            bb.Seek(48);
+            var pos = bb.ReadVecCoord();
+            node.Nodes.Add("X: " + pos[0]);
+            node.Nodes.Add("Y: " + pos[1]);
+            node.Nodes.Add("Z: " + pos[2]);
         }
 
         private static void svc_bspdecal(BitBuffer bb, TreeNode node)
         {
-            node.Nodes.Add("Position: " + bb.ReadVecCoord());
+            var pos = bb.ReadVecCoord();
+            node.Nodes.Add("X: " + pos[0]);
+            node.Nodes.Add("Y: " + pos[1]);
+            node.Nodes.Add("Z: " + pos[2]);
             node.Nodes.Add("Decal texture index: " + bb.ReadBits(9));
             if (bb.ReadBool())
             {

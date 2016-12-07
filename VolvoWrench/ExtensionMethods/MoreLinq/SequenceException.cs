@@ -15,10 +15,11 @@
 // limitations under the License.
 #endregion
 
+using System;
+
 namespace MoreLinq
 {
-    using System;
-#if !NO_EXCEPTION_SERIALIZATION
+    #if !NO_EXCEPTION_SERIALIZATION
     using System.Runtime.Serialization;
 #endif
 

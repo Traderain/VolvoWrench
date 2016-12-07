@@ -26,20 +26,88 @@ namespace VolvoWrench
     /// </summary>
     public sealed partial class Main : Form
     {
+        /// <summary>
+        /// The path of the log file
+        /// </summary>
         public static readonly string LogPath = string.Format("{0}\\" + "VolvoWrench" + "\\" + "VWLog.log", Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
+        /// <summary>
+        /// The path of the settings file
+        /// </summary>
         public static readonly string SettingsPath = string.Format("{0}\\" + "VolvoWrench" + "\\" + "VWSettings.ini", Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
 
+        /// <summary>
+        /// The button we use to open the demo details popup
+        /// </summary>
         public static int DemoPopupKey;
+        /// <summary>
+        /// The button we use to exit the overlay
+        /// </summary>
         public static int OverLayExitKey;
+        /// <summary>
+        /// The button we use in the overlay to rescan the demo
+        /// </summary>
         public static int OverLayRescanKey;
 
 
+        /// <summary>
+        /// The font we use in the overlay
+        /// </summary>
         public static Font OverlayFont;
+        /// <summary>
+        /// The color of the overlay
+        /// </summary>
         public static Color OverLayColor;
+        /// <summary>
+        /// The main font's richtextbox's font
+        /// </summary>
         public static Font MainFont;
 
+        /// <summary>
+        /// The details of the current demo file
+        /// </summary>
         public CrossParseResult CurrentDemoFile;
+        /// <summary>
+        /// The path to the current demo
+        /// </summary>
         public string CurrentFile;
+
+
+
+        /// <summary>
+        /// The main constructor with a string param for openwith file thingy
+        /// </summary>
+        /// <param name="file"></param>       
+        public Main(string file)
+        {
+            InitializeComponent();
+            SettingsManager(false);
+            richTextBox1.Font = MainFont;
+            AllowDrop = true;
+            netdecodeToolStripMenuItem.Enabled = false;
+            heatmapGeneratorToolStripMenuItem1.Enabled = false;
+            statisticsToolStripMenuItem.Enabled = false;
+            HotkeyTimer.Start();
+            if (File.Exists(LogPath))
+                File.Delete(LogPath);
+            Log("Application loaded!");
+            CurrentFile = file;
+            if ((File.Exists(CurrentFile) && Path.GetExtension(CurrentFile) == ".dem"))
+            {
+                richTextBox1.Text = @"Analyzing file...";
+                UpdateForm();
+                CurrentDemoFile = CrossDemoParser.Parse(CurrentFile);
+                PrintDemoDetails(CurrentDemoFile);
+                Log(Path.GetFileName(CurrentFile + " opened"));
+            }
+            else
+            {
+                toolsToolStripMenuItem.Enabled = false;
+                goldSourceToolsToolStripMenuItem.Enabled = false;
+                richTextBox1.Text = @"^ Use demo_file->Open to open a correct .dem file or drop the file here!";
+                UpdateForm();
+            }
+
+        }
 
         /// <summary>
         /// Normal constructor
@@ -57,7 +125,6 @@ namespace VolvoWrench
             if (File.Exists(LogPath))
                  File.Delete(LogPath);
             #region OpenedWithFile check
-
             var dropFile = (Environment.GetCommandLineArgs().Any(x => Path.GetExtension(x) == ".dem"))
                 ? Environment.GetCommandLineArgs().First(x => Path.GetExtension(x) == ".dem")
                 : null;
@@ -68,7 +135,7 @@ namespace VolvoWrench
             }
             else
             {
-                if ((!File.Exists(dropFile) || Path.GetExtension(dropFile) != ".dem"))
+                if ((File.Exists(dropFile) && Path.GetExtension(dropFile) == ".dem"))
                 {
                     CurrentFile = dropFile;
                     richTextBox1.Text = @"Analyzing file...";
@@ -221,7 +288,7 @@ namespace VolvoWrench
         /// <param name="e"></param>
         private void exportDemoDataToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var a = new SaveFileDialog {Filter = "XML Files | *.xml"};
+            var a = new SaveFileDialog {Filter = @"XML Files | *.xml"};
             if (a.ShowDialog() == DialogResult.OK && CurrentDemoFile != null)
             {
                 //TODO: This is probably the last thing I will do in the project. :p
@@ -319,7 +386,7 @@ namespace VolvoWrench
         /// <param name="e"></param>
         private void demoDoctorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using (var dd = new Demo_doctor(CurrentFile))
+            using (var dd = new DemoDoctor(CurrentFile))
                 dd.ShowDialog();
         }
 
@@ -350,7 +417,7 @@ namespace VolvoWrench
 
         #region Overlay
         /// <summary>
-        /// Show the overlay.a
+        /// Show the overlay
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -420,31 +487,7 @@ namespace VolvoWrench
                     TopMost = false;
                 }
                 RescanFile();
-                switch (CurrentDemoFile.Type)
-                {
-                    //TODO: Add other mboxs
-                    case Parseresult.UnsupportedFile:
-                        break;
-                    case Parseresult.GoldSource:
-                        break;
-                    case Parseresult.Hlsooe:
-                        break;
-                    case Parseresult.Source:
-                        #region Mbox
-                        MessageBox.Show(@"
-Demo protocol: " + CurrentDemoFile.Sdi.DemoProtocol + @"
-Net protocol: " + CurrentDemoFile.Sdi.NetProtocol + @"
-Server name: " + CurrentDemoFile.Sdi.ServerName + @"
-Client name: " + CurrentDemoFile.Sdi.ClientName + @"
-Map name: " + CurrentDemoFile.Sdi.MapName + @"
-Game directory: " + CurrentDemoFile.Sdi.GameDirectory + @"
-Length in seconds: " + CurrentDemoFile.Sdi.Seconds + @"
-Index count: " + CurrentDemoFile.Sdi.TickCount + @"
-Frame count: " + CurrentDemoFile.Sdi.FrameCount);
-                        UpdateForm();
-                        #endregion
-                        break;
-                }
+                MessageBox.Show(GetDemoDetails(CurrentDemoFile));
             }
         }
 
@@ -609,7 +652,8 @@ exit_dialog=1"});
         private void Main_DragEnter(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy;
-            richTextBox1.Text = @"╔══════════════════════════════╗
+            richTextBox1.Text = @"
+╔══════════════════════════════╗
 ║     Drop the file here       ║
 ╚══════════════════════════════╝";
             UpdateForm();
@@ -665,34 +709,38 @@ exit_dialog=1"});
             if (demo != null)
             {
                 Text = @"VolvoWrench - " + Path.GetFileName(CurrentFile);
-                richTextBox1.Text = @"Demo parsed!";
+                richTextBox1.Text = GetDemoDetails(demo);
                 StripEnabler(demo);
-                #region Print
-                switch (demo.Type)
-                {
-                    case Parseresult.UnsupportedFile:
-                        richTextBox1.Text = @"Unsupported file!";
-                        UpdateForm();
-                        break;
-                    case Parseresult.GoldSource:
-                        if (demo.GsDemoInfo.ParsingErrors.ToArray().Length > 0)
-                        {
-                            richTextBox1.Text = @"Error while parsing goldsource demo: 
-";
-                            UpdateForm();
-                            foreach (var err in demo.GsDemoInfo.ParsingErrors)
-                            {
-                                richTextBox1.AppendText("\n" + err);
-                                UpdateForm();
-                            }
-                            if (MessageBox.Show(@"Would you like to open the demo doctor?", @"Demo errors detected!", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                                using (var dd = new Demo_doctor(CurrentFile))
-                                    dd.ShowDialog();    
-                        }
-                        else
-                        {
-                            richTextBox1.Text =
-                                $@"Analyzed GoldSource engine demo file ({demo.GsDemoInfo.Header.GameDir}):
+            }
+            else
+            {
+                richTextBox1.Text = @"Not a demo! ";
+            }
+        }
+
+        /// <summary>
+        /// This returns a nice string which can be assigned to the richtexbox
+        /// </summary>
+        /// <param name="demo"></param>
+        /// <returns></returns>
+        public static string GetDemoDetails(CrossParseResult demo)
+        {
+            var returnstring = "Corrupted file!";
+            #region Print
+            switch (demo.Type)
+            {
+                case Parseresult.UnsupportedFile:
+                    returnstring = @"Unsupported file!";
+                    break;
+                case Parseresult.GoldSource:
+                    if (demo.GsDemoInfo.ParsingErrors.ToArray().Length > 0)
+                    {
+                        returnstring = demo.GsDemoInfo.ParsingErrors.Aggregate("Error while parsing goldsource demo: \r\n", (current, err) => current + ("\n" + err));
+                    }
+                    else
+                    {
+                        returnstring =
+                            $@"Analyzed GoldSource engine demo file ({demo.GsDemoInfo.Header.GameDir}):
 ----------------------------------------------------------
 Demo protocol:              {demo.GsDemoInfo.Header.DemoProtocol}
 Net protocol:               {demo.GsDemoInfo.Header.NetProtocol}
@@ -702,64 +750,44 @@ Game directory:             {demo.GsDemoInfo.Header.GameDir}
 Length in seconds:          {demo.GsDemoInfo.DirectoryEntries.Sum(x => x.TrackTime).ToString("n3")}s
 Frame count:                {demo.GsDemoInfo.DirectoryEntries.Sum(x => x.FrameCount)}
 
-Higest FPS:                 {(1/demo.GsDemoInfo.AditionalStats.FrametimeMin).ToString("N2")}
-Lowest FPS:                 {(1/demo.GsDemoInfo.AditionalStats.FrametimeMax).ToString("N2")}
-Average FPS:                {(demo.GsDemoInfo.AditionalStats.Count/demo.GsDemoInfo.AditionalStats.FrametimeSum).ToString("N2")}
-Lowest msec:                {(1000.0/demo.GsDemoInfo.AditionalStats.MsecMin).ToString("N2")} FPS
-Highest msec:               {(1000.0/demo.GsDemoInfo.AditionalStats.MsecMax).ToString("N2")} FPS
-Average msec:               {(1000.0/(demo.GsDemoInfo.AditionalStats.MsecSum/(double)demo.GsDemoInfo.AditionalStats.Count)).ToString("N2")} FPS
+Higest FPS:                 {(1 / demo.GsDemoInfo.AditionalStats.FrametimeMin).ToString("N2")}
+Lowest FPS:                 {(1 / demo.GsDemoInfo.AditionalStats.FrametimeMax).ToString("N2")}
+Average FPS:                {(demo.GsDemoInfo.AditionalStats.Count / demo.GsDemoInfo.AditionalStats.FrametimeSum).ToString("N2")}
+Lowest msec:                {(1000.0 / demo.GsDemoInfo.AditionalStats.MsecMin).ToString("N2")} FPS
+Highest msec:               {(1000.0 / demo.GsDemoInfo.AditionalStats.MsecMax).ToString("N2")} FPS
+Average msec:               {(1000.0 / (demo.GsDemoInfo.AditionalStats.MsecSum / (double)demo.GsDemoInfo.AditionalStats.Count)).ToString("N2")} FPS
 ----------------------------------------------------------";
-                        }
-                        UpdateForm();
-                        break;
-                    case Parseresult.Hlsooe:
-                        if (demo.HlsooeDemoInfo.ParsingErrors.ToArray().Length > 0)
-                        {
-                            richTextBox1.Text = @"Error while parsing HLSOOE demo: 
-";
-                            UpdateForm();
-                            foreach (var err in demo.HlsooeDemoInfo.ParsingErrors)
-                            {
-                                richTextBox1.AppendText(err);
-                                UpdateForm();
-                            }
-                        }
-                        else
-                        {
-                            richTextBox1.Text = $@"Analyzed HLS:OOE engine demo file ({demo.HlsooeDemoInfo.Header.GameDirectory}):
+                    }
+                    break;
+                case Parseresult.Hlsooe:
+                    if (demo.HlsooeDemoInfo.ParsingErrors.ToArray().Length > 0)
+                    {
+                        returnstring = demo.HlsooeDemoInfo.ParsingErrors.Aggregate("Error while parsing HLSOOE demo: \r\n", (current, err) => current + (err));
+                    }
+                    else
+                    {
+                        returnstring = $@"Analyzed HLS:OOE engine demo file ({demo.HlsooeDemoInfo.Header.GameDirectory}):
 ----------------------------------------------------------
 Demo protocol:              {demo.HlsooeDemoInfo.Header.DemoProtocol}
 Net protocol:               {demo.HlsooeDemoInfo.Header.Netprotocol}
 Directory offset:           {demo.HlsooeDemoInfo.Header.DirectoryOffset}
 Map name:                   {demo.HlsooeDemoInfo.Header.MapName}
 Game directory:             {demo.HlsooeDemoInfo.Header.GameDirectory}
-Length in seconds:          {(demo.HlsooeDemoInfo.DirectoryEntries.Last().Frames.LastOrDefault().Key.Index) *0.015}s
-Tick count:                 {(demo.HlsooeDemoInfo.DirectoryEntries.SkipWhile(x => x.FrameCount < 1).Max(x=>x.Frames.Max(y => y.Key.Index)))}
+Length in seconds:          {(demo.HlsooeDemoInfo.DirectoryEntries.Last().Frames.LastOrDefault().Key.Index) * 0.015}s
+Tick count:                 {(demo.HlsooeDemoInfo.DirectoryEntries.SkipWhile(x => x.FrameCount < 1).Max(x => x.Frames.Max(y => y.Key.Index)))}
 ----------------------------------------------------------";
-                            UpdateForm();
-                            foreach (
-                                var flag in
-                                    demo.HlsooeDemoInfo.DirectoryEntries.SelectMany(
-                                        demoDirectoryEntry => demoDirectoryEntry.Flags))
-                                richTextBox1.AppendText(flag.Value.Command + " at " + flag.Key.Frame + " -> " +
-                                                        (flag.Key.Frame*0.015).ToString("n3") + "s");
-                        }
-                        break;
-                    case Parseresult.Source:
-                        if (demo.Sdi.ParsingErrors.ToArray().Length > 0)
-                        {
-                            richTextBox1.Text = @"Error while parsing Source engine demo: ";
-                            UpdateForm();
-                            foreach (var err in demo.Sdi.ParsingErrors)
-                            {
-                                richTextBox1.AppendText("\n"+err);
-                                UpdateForm();
-                            }
-                        }
-                        else
-                        {
-                            richTextBox1.Text =
-                                $@"Analyzed source engine demo file ({demo.Sdi.GameDirectory}):
+                        returnstring = demo.HlsooeDemoInfo.DirectoryEntries.SelectMany(demoDirectoryEntry => demoDirectoryEntry.Flags).Aggregate(returnstring, (current, flag) => current + (flag.Value.Command + " at " + flag.Key.Frame + " -> " + (flag.Key.Frame*0.015).ToString("n3") + "s"));
+                    }
+                    break;
+                case Parseresult.Source:
+                    if (demo.Sdi.ParsingErrors.ToArray().Length > 0)
+                    {
+                        returnstring = demo.Sdi.ParsingErrors.Aggregate(@"Error while parsing Source engine demo: ", (current, err) => current + ("\n" + err));
+                    }
+                    else
+                    {
+                        returnstring =
+                            $@"Analyzed source engine demo file ({demo.Sdi.GameDirectory}):
 ----------------------------------------------------------
 Demo protocol:              {demo.Sdi.DemoProtocol}
 Net protocol:               {demo.Sdi.NetProtocol}
@@ -771,43 +799,30 @@ Playback seconds:           {demo.Sdi.Seconds.ToString("n3")}s
 Playback tick:              {demo.Sdi.TickCount}
 Frame count:                {demo.Sdi.FrameCount}
 
-Measured time:              {(demo.Sdi.Messages.SkipWhile(x=> x.Type != SourceParser.MessageType.SyncTick).Max(x => x.Tick)*0.015).ToString("n3")}s
+Measured time:              {(demo.Sdi.Messages.SkipWhile(x => x.Type != SourceParser.MessageType.SyncTick).Max(x => x.Tick) * 0.015).ToString("n3")}s
 Measured ticks:             {demo.Sdi.Messages.SkipWhile(x => x.Type != SourceParser.MessageType.SyncTick).Max(x => x.Tick)}
 ----------------------------------------------------------";
-                            UpdateForm();
-                            foreach (var f in demo.Sdi.Flags)
-                                switch (f.Name)
-                                {
-                                    case "#SAVE#":
-                                        richTextBox1.AppendText($"\n#SAVE# flag at Tick: {f.Tick} -> {f.Time}s");
-                                        UpdateForm();
-                                        HighlightLastLine(richTextBox1, Color.Yellow);
-                                        UpdateForm();
-                                        break;
-                                    case "autosave":
-                                        richTextBox1.AppendText($"\nAutosave at Tick: {f.Tick} -> {f.Time}s");
-                                        UpdateForm();
-                                        HighlightLastLine(richTextBox1, Color.DarkOrange);
-                                        UpdateForm();
-                                        break;
-                                }
-                        }
-                        break;
-                    case Parseresult.Portal:
-                    case Parseresult.L4D2Branch:
-                        if (demo.L4D2BranchInfo.Parsingerrors.ToArray().Length > 0)
-                        {
-                            richTextBox1.Text = @"Error while parsing L4D2Branch demo:";
-                            UpdateForm();
-                            foreach (var err in demo.L4D2BranchInfo.Parsingerrors)
+                        foreach (var f in demo.Sdi.Flags)
+                            switch (f.Name)
                             {
-                                richTextBox1.AppendText("\n" + err);
-                                UpdateForm();
+                                case "#SAVE#":
+                                    returnstring += ($"\n#SAVE# flag at Tick: {f.Tick} -> {f.Time}s");
+                                    break;
+                                case "autosave":
+                                    returnstring += ($"\nAutosave at Tick: {f.Tick} -> {f.Time}s");
+                                    break;
                             }
-                        }
-                        else
-                        {
-                            richTextBox1.Text = $@"Analyzed L4D2Branch demo file ({demo.L4D2BranchInfo.Header.GameDirectory}):
+                    }
+                    break;
+                case Parseresult.Portal:
+                case Parseresult.L4D2Branch:
+                    if (demo.L4D2BranchInfo.Parsingerrors.ToArray().Length > 0)
+                    {
+                        returnstring = demo.L4D2BranchInfo.Parsingerrors.Aggregate(@"Error while parsing L4D2Branch demo:", (current, err) => current + ("\n" + err));
+                    }
+                    else
+                    {
+                        returnstring = $@"Analyzed L4D2Branch demo file ({demo.L4D2BranchInfo.Header.GameDirectory}):
 ----------------------------------------------------------
 Protocol:           {demo.L4D2BranchInfo.Header.Protocol}
 Network protocol:   {demo.L4D2BranchInfo.Header.NetworkProtocol}
@@ -826,19 +841,15 @@ Type:               {demo.L4D2BranchInfo.PortalDemoInfo?.StartAdjustmentType}
 End tick:           {demo.L4D2BranchInfo.PortalDemoInfo?.EndAdjustmentTick}
 Type:               {demo.L4D2BranchInfo.PortalDemoInfo?.EndAdjustmentType}
 
-Adjusted time:      {demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks* (1f / (demo.L4D2BranchInfo.Header.PlaybackTicks / demo.L4D2BranchInfo.Header.PlaybackTime)) + "s"}
+Adjusted time:      {demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks * (1f / (demo.L4D2BranchInfo.Header.PlaybackTicks / demo.L4D2BranchInfo.Header.PlaybackTime)) + "s"}
 Adjusted ticks:     {demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks}
 ----------------------------------------------------------
-";                       
-                        }
-                        break;
-                }
-                #endregion
+";
+                    }
+                    break;
             }
-            else
-            {
-                richTextBox1.Text = @"Not a demo! ";
-            }
+            #endregion
+            return returnstring;
         }
 
         /// <summary>
@@ -854,16 +865,6 @@ Adjusted ticks:     {demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks}
                 }
                 PrintDemoDetails(CurrentDemoFile);
                 Log(Path.GetFileName(CurrentFile) + " rescanned.");
-        }
-
-        /// <summary>
-        /// Reset the settings on update
-        /// </summary>
-        /// <returns></returns>
-        public static async Task ResetOnUpdate()
-        {
-            SettingsManager(true);
-            await Task.FromResult(0);
         }
 
 
@@ -917,7 +918,7 @@ Adjusted ticks:     {demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks}
                 return WriteTextAsync(LogPath, ("\n" + DateTime.Now.ToString("yyyy-MM-ddTHH\\:mm\\:ss.fffffffzzz") + " " +
                      $"[{WindowsIdentity.GetCurrent().Name}]" + ": " + s));
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return Task.FromResult(0);
             }
@@ -955,6 +956,7 @@ Adjusted ticks:     {demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks}
                 var showexitdialog = ToBoolean(int.Parse(iniD["DIALOG_PREFERENCES"]["exit_dialog"]));
                 if (showexitdialog)
                 {
+                    #region Check for the dont show again
                     var td = new TaskDialog
                     {
                         WindowTitle = @"Warning",
@@ -983,6 +985,7 @@ Adjusted ticks:     {demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks}
                     }
                     if (td.RadioButtons[0].Checked)
                         iniD["DIALOG_PREFERENCES"]["exit_dialog"] = "0";
+                    #endregion
                 }
                 parser.WriteFile(SettingsPath, iniD);
             }
@@ -1020,7 +1023,7 @@ Adjusted ticks:     {demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks}
                     heatmapGeneratorToolStripMenuItem1.Enabled = true;
                     break;
                 case Parseresult.L4D2Branch:
-                    netdecodeToolStripMenuItem.Enabled = false;
+                    netdecodeToolStripMenuItem.Enabled = true;
                     statisticsToolStripMenuItem.Enabled = false;
                     heatmapGeneratorToolStripMenuItem1.Enabled = false;
                     break;

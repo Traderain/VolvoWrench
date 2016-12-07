@@ -24,15 +24,15 @@
 // SOFTWARE.
 #endregion
 
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+
 namespace MoreLinq
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Linq;
-
     /// <summary>
-    /// A <see cref="ILookup{TKey, TElement}"/> implementation that preserves insertion order
+    /// A <see cref="ILookup{TKey,TElement}"/> implementation that preserves insertion order
     /// </summary>
     /// <typeparam name="TKey">The type of the keys in the <see cref="Lookup{TKey, TElement}"/></typeparam>
     /// <typeparam name="TElement">The type of the elements in the <see cref="IEnumerable{T}"/> sequences that make up the values in the <see cref="Lookup{TKey, TElement}"/></typeparam>

@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace VolvoWrench.Demo_stuff.GoldSource
 {
-    partial class Demo_doctor
+    partial class DemoDoctor
     {
         /// <summary>
         /// Required designer variable.
@@ -31,7 +31,7 @@ namespace VolvoWrench.Demo_stuff.GoldSource
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Demo_doctor));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DemoDoctor));
             this.label1 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
@@ -106,7 +106,7 @@ namespace VolvoWrench.Demo_stuff.GoldSource
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "Demo_doctor";
+            this.Name = "DemoDoctor";
             this.Text = "Demo doctor by YaLTeR";
             this.ResumeLayout(false);
             this.PerformLayout();

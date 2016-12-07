@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 
 namespace VolvoWrench.Demo_stuff.L4D2Branch.PortalStuff.Result
 {

@@ -1,11 +1,14 @@
-﻿namespace VolvoWrench.Demo_stuff.GoldSource
+﻿using System.ComponentModel;
+using System.Windows.Forms;
+
+namespace VolvoWrench.Demo_stuff.GoldSource
 {
     sealed partial class Verification
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -136,12 +139,12 @@
         }
 
         #endregion
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.RichTextBox mrtb;
-        private System.ComponentModel.BackgroundWorker demoparserslave;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem demostartCommandToClipboardToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
+        private Button button1;
+        private SplitContainer splitContainer1;
+        private RichTextBox mrtb;
+        private BackgroundWorker demoparserslave;
+        private ContextMenuStrip contextMenuStrip1;
+        private ToolStripMenuItem demostartCommandToClipboardToolStripMenuItem;
+        private ToolStripMenuItem exitToolStripMenuItem;
     }
 }

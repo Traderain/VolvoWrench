@@ -44,7 +44,7 @@ namespace VolvoWrench.Demo_stuff.L4D2Branch.PortalStuff.GameHandler
 			{
 				base.CurrentTick = tick;
 			}
-			Enum.IsDefined(typeof(OrangeBoxGameHandler.OrangeBoxDemoCommands), (OrangeBoxGameHandler.OrangeBoxDemoCommands)command);
+			Enum.IsDefined(typeof(OrangeBoxDemoCommands), (OrangeBoxDemoCommands)command);
 			if (command == 1)
 			{
 				return (long)base.ProcessSignOn(br);

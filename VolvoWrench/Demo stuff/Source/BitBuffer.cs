@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;
 
 namespace VolvoWrench.Demo_stuff.Source
 {
+    [DebuggerDisplay("Bit = {_pos}, Byte = {CurByte}")]
     internal class BitBuffer
     {
         private static readonly byte[] Mtbl = {0, 1, 3, 7, 15, 31, 63, 127, 255};
         private readonly byte[] _buf;
         private uint _pos;
+
+        public uint CurByte => (uint)(_pos / 8.0f);
 
         public BitBuffer(byte[] data)
         {

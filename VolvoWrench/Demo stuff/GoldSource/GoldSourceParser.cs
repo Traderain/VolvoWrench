@@ -443,7 +443,7 @@ namespace VolvoWrench.Demo_stuff.GoldSource
     /// <summary>
     /// Aditional demo stats
     /// </summary>
-    public struct stats
+    public struct Stats
     {
         public float FrametimeMin;
         public float FrametimeMax;
@@ -459,9 +459,21 @@ namespace VolvoWrench.Demo_stuff.GoldSource
     /// </summary>
     public struct GoldSourceDemoInfo
     {
+        /// <summary>
+        /// The directory entries of the demo containing the frames
+        /// </summary>
         public List<GoldSource.DemoDirectoryEntry> DirectoryEntries;
-        public stats AditionalStats;
+        /// <summary>
+        /// Info about FPS and such
+        /// </summary>
+        public Stats AditionalStats;
+        /// <summary>
+        /// The header of the demo
+        /// </summary>
         public GoldSource.DemoHeader Header;
+        /// <summary>
+        /// A string list containing the errors happened while parsing the demo
+        /// </summary>
         public List<string> ParsingErrors;
     }
 
@@ -470,11 +482,23 @@ namespace VolvoWrench.Demo_stuff.GoldSource
     /// </summary>
     public class GoldSourceDemoInfoHlsooe
     {
+        /// <summary>
+        /// The directory entries of the demo containing the frames
+        /// </summary>
         public List<Hlsooe.DemoDirectoryEntry> DirectoryEntries;
+        /// <summary>
+        /// The header of the demo
+        /// </summary>
         public Hlsooe.DemoHeader Header;
+        /// <summary>
+        /// A string list containing the errors happened while parsing the demo
+        /// </summary>
         public List<string> ParsingErrors;
     }
 
+    /// <summary>
+    /// Contains methods to parse GoldSource engine demo parsing methods
+    /// </summary>
     public class GoldSourceParser
     {
        
@@ -489,6 +513,11 @@ namespace VolvoWrench.Demo_stuff.GoldSource
             return (b.BaseStream.Position + lengthtocheck) > b.BaseStream.Length;
         }
 
+        /// <summary>
+        /// Parses a HLS:OOE Demo
+        /// </summary>
+        /// <param name="s">Path to the file</param>
+        /// <returns></returns>
         public static GoldSourceDemoInfoHlsooe ParseDemoHlsooe(string s)
         {
             var mf = Application.OpenForms.OfType<Main>().FirstOrDefault();
@@ -782,6 +811,12 @@ namespace VolvoWrench.Demo_stuff.GoldSource
             return hlsooeDemo;
         }
 
+
+        /// <summary>
+        /// Parses a goldsource engine demo
+        /// </summary>
+        /// <param name="s">Path to the file</param>
+        /// <returns></returns>
         public static GoldSourceDemoInfo ParseGoldSourceDemo(string s)
         {
             var mf = Application.OpenForms.OfType<Main>().FirstOrDefault();

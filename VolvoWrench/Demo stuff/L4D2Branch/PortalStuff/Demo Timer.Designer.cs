@@ -1,11 +1,14 @@
-﻿namespace VolvoWrench.Demo_stuff.L4D2Branch.PortalStuff
+﻿using System.ComponentModel;
+using System.Windows.Forms;
+
+namespace VolvoWrench.Demo_stuff.L4D2Branch.PortalStuff
 {
     sealed partial class DemoTimer
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -163,18 +166,18 @@
         }
 
         #endregion
-        private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
-        private System.Windows.Forms.ListView listView1;
-        private System.Windows.Forms.ColumnHeader columnheaderFile;
-        private System.Windows.Forms.ColumnHeader columnheaderMap;
-        private System.Windows.Forms.ColumnHeader columnheaderPlayer;
-        private System.Windows.Forms.ColumnHeader columnHeaderTT;
-        private System.Windows.Forms.ColumnHeader columnHeaderStartTick;
-        private System.Windows.Forms.ColumnHeader columnHeaderStopTick;
-        private System.Windows.Forms.ColumnHeader columnHeaderAT;
-        private System.Windows.Forms.ColumnHeader columnHeaderTime;
+        private MenuStrip menuStrip1;
+        private ToolStripMenuItem fileToolStripMenuItem;
+        private ToolStripMenuItem openToolStripMenuItem;
+        private ContextMenuStrip contextMenuStrip1;
+        private ListView listView1;
+        private ColumnHeader columnheaderFile;
+        private ColumnHeader columnheaderMap;
+        private ColumnHeader columnheaderPlayer;
+        private ColumnHeader columnHeaderTT;
+        private ColumnHeader columnHeaderStartTick;
+        private ColumnHeader columnHeaderStopTick;
+        private ColumnHeader columnHeaderAT;
+        private ColumnHeader columnHeaderTime;
     }
 }

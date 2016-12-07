@@ -30,8 +30,8 @@
     <PublisherName>Traderain</PublisherName>
     <SuiteName>Sourceruns</SuiteName>
     <AutorunEnabled>true</AutorunEnabled>
-    <ApplicationRevision>7</ApplicationRevision>
-    <ApplicationVersion>0.9.3.%2a</ApplicationVersion>
+    <ApplicationRevision>9</ApplicationRevision>
+    <ApplicationVersion>0.9.4.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -48,6 +48,8 @@
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DocumentationFile>bin\Debug\VolvoWrench.XML</DocumentationFile>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -115,7 +117,9 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -218,6 +222,9 @@
     <Compile Include="Demo stuff\L4D2Branch\PortalStuff\Result\ConsoleCmdResult.cs" />
     <Compile Include="Demo stuff\L4D2Branch\PortalStuff\Result\DemoParseResult.cs" />
     <Compile Include="Demo stuff\L4D2Branch\PortalStuff\Result\PacketResult.cs" />
+    <Compile Include="Demo stuff\Source\GameStringTable.cs" />
+    <Compile Include="Demo stuff\Source\LZSS.cs" />
+    <Compile Include="Demo stuff\Source\StringTokenizer.cs" />
     <Compile Include="ExtensionMethods\MoreLinq\Acquire.cs" />
     <Compile Include="ExtensionMethods\MoreLinq\Assert.cs" />
     <Compile Include="ExtensionMethods\MoreLinq\AssertCount.cs" />
@@ -290,6 +297,7 @@
     <Compile Include="ExtensionMethods\MoreLinq\Zip.stub.cs" />
     <Compile Include="ExtensionMethods\MoreLinq\ZipLongest.cs" />
     <Compile Include="ExtensionMethods\MoreLinq\ZipShortest.cs" />
+    <Compile Include="ExtensionMethods\Traderain.cs" />
     <Compile Include="Overlay\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -558,6 +566,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="08 Wrench.ico" />
+    <None Include="Resources\Save.ico" />
+    <None Include="Resources\08 Wrench.ico" />
     <Content Include="SaveStuff\08 Wrench.ico" />
     <Content Include="DG\08 Wrench.ico" />
     <None Include="Resources\wakodemo.png" />

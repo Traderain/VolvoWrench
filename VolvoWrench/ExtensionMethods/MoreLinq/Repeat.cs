@@ -15,11 +15,11 @@
 // limitations under the License.
 #endregion
 
+using System;
+using System.Collections.Generic;
+
 namespace MoreLinq
 {
-    using System;
-    using System.Collections.Generic;
-
     public static partial class MoreEnumerable
     {
         /// <summary>
@@ -41,7 +41,6 @@ namespace MoreLinq
         {
             while (count-- > 0)
             {
-                // TODO buffer to avoid multiple enumerations
                 foreach (var item in sequence)
                     yield return item;
             }

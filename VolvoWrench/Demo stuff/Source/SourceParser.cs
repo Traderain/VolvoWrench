@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
+using System.Windows.Input;
 
 namespace VolvoWrench.Demo_stuff.Source
 {
@@ -64,7 +65,7 @@ namespace VolvoWrench.Demo_stuff.Source
             if (Info.DemoProtocol >> 2 > 0)
             {
                Info.ParsingErrors.Add("Unsupported L4D2 branch demo!");
-               return;
+               //return;
             }
 
             Info.NetProtocol = reader.ReadInt32();
@@ -118,7 +119,7 @@ namespace VolvoWrench.Demo_stuff.Source
                         var tempf = new Saveflag
                         {
                             Tick = msg.Tick,
-                            Time = (float) (msg.Tick*0.015) //TODO: Add better ticrate here too
+                            Time = (float) (msg.Tick*0.015)
                         };
                         if (Encoding.ASCII.GetString(msg.Data).Contains("#SAVE#"))
                             tempf.Name = "#SAVE#";
@@ -145,7 +146,7 @@ namespace VolvoWrench.Demo_stuff.Source
         {
             var bb = new BitBuffer(data);
             if (bb.ReadBool()) node.Nodes.Add("Command number: " + bb.ReadBits(32));
-            if (bb.ReadBool()) node.Nodes.Add("Index count: " + bb.ReadBits(32));
+            if (bb.ReadBool()) node.Nodes.Add("Tick count: " + bb.ReadBits(32));
             if (bb.ReadBool()) node.Nodes.Add("Viewangle pitch: " + bb.ReadFloat());
             if (bb.ReadBool()) node.Nodes.Add("Viewangle yaw: " + bb.ReadFloat());
             if (bb.ReadBool()) node.Nodes.Add("Viewangle roll: " + bb.ReadFloat());
@@ -154,12 +155,15 @@ namespace VolvoWrench.Demo_stuff.Source
             if (bb.ReadBool()) node.Nodes.Add("Up move: " + bb.ReadFloat());
             if (bb.ReadBool())
             {
-                var k = Enum.GetName(typeof (Keys), bb.ReadBits(32));
-                if (k?.Length > 0)
+                var k = KeyInterop.KeyFromVirtualKey(Convert.ToInt32(bb.ReadBits(32)));
                     node.Nodes.Add("Buttons: " + k);
             }
             if (bb.ReadBool()) node.Nodes.Add("Impulse: " + bb.ReadBits(8));
-            // TODO: weaponselect/weaponsubtype, mousedx/dy
+            if (bb.ReadBool()) node.Nodes.Add("Weaponselect: " + bb.ReadBits(11));
+            if (bb.ReadBool()) node.Nodes.Add("Weapon subtype: " + bb.ReadBits(6));
+            if (bb.ReadBool()) node.Nodes.Add("Mouse X: " + bb.ReadCoord());
+            if (bb.ReadBool()) node.Nodes.Add("Mouse Y: " + bb.ReadCoord());
+            
         }
     }
 }

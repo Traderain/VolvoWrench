@@ -12,22 +12,21 @@ namespace VolvoWrench.DG
         ///     The main entry point for the application.
         /// </summary>
         [STAThread]
-        private static void Main()
+        private static void Main(string[] args)
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            if (Environment.GetCommandLineArgs().Any(x => Path.GetExtension(x) == ".dem" || Path.GetExtension(x) == ".sav"))
-                if (Environment.GetCommandLineArgs().Any(x => Path.GetExtension(x) == ".dem"))
-                    Application.Run(new Main());
-                else if (Environment.GetCommandLineArgs().Any(x => Path.GetExtension(x) == ".sav"))
-                    Application.Run(new saveanalyzerform(Environment.GetCommandLineArgs().First(x => Path.GetExtension(x) == ".sav")));
+            var cla = args;
+            if (cla.Any(x => Path.GetExtension(x) == ".dem" || Path.GetExtension(x) == ".sav"))
+                if (cla.Any(x => Path.GetExtension(x) == ".dem"))
+                    Application.Run(new Main(cla.First(x => Path.GetExtension(x) == ".dem")));
+                else if (cla.Any(x => Path.GetExtension(x) == ".sav"))
+                    Application.Run(new saveanalyzerform(cla.First(x => Path.GetExtension(x) == ".sav")));
                 else
                     Application.Run(new Main());
             else
                 Application.Run(new Main());
-            //args[0] is the application path.
-            //args[1] will be the file path.
-            //args[n] will be any other arguments passed in.
+
         }
     }
 }

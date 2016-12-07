@@ -15,10 +15,10 @@
 // limitations under the License.
 #endregion
 
+using System.Collections.Generic;
+
 namespace MoreLinq
 {
-    using System.Collections.Generic;
-
     sealed class ReverseComparer<T> : IComparer<T>
     {
         readonly IComparer<T> _underlying;

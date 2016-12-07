@@ -2,21 +2,35 @@
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
+using VolvoWrench.Properties;
 
 namespace VolvoWrench.Demo_stuff.GoldSource
 {
-    public partial class Demo_doctor : Form
+    /// <summary>
+    /// A form for repairing goldsource demos
+    /// </summary>
+    public partial class DemoDoctor : Form
     {
+        /// <summary>
+        /// Path to the file being repaired
+        /// </summary>
         public string DemoFile = string.Empty;
-        public Demo_doctor(string filename)
+
+        /// <summary>
+        /// We call this constructor when finding a broken demo
+        /// </summary>
+        /// <param name="filename"></param>
+        public DemoDoctor(string filename)
         {
             InitializeComponent();
             DemoFile = filename;
             label1.Text = Path.GetFileName(filename);
         }
 
-        public Demo_doctor() { InitializeComponent(); }
+        /// <summary>
+        /// Normal constructor
+        /// </summary>
+        public DemoDoctor() { InitializeComponent(); }
 
         private void button1_Click(object sender, EventArgs e) //SELECT
         {
@@ -53,7 +67,7 @@ namespace VolvoWrench.Demo_stuff.GoldSource
                     Random r = new Random();
                     var ran = r.Next(1, 2873432);
                     var path = Path.Combine(Path.GetTempPath(), "demo-repair" + ran +".exe");
-                    File.WriteAllBytes(path, Properties.Resources.demo_repair);
+                    File.WriteAllBytes(path, Resources.demo_repair);
                     var p = new Process
                     {
                         StartInfo = new ProcessStartInfo(path)

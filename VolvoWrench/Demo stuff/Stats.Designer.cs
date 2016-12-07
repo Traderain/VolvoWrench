@@ -1,11 +1,15 @@
-﻿namespace VolvoWrench.Demo_stuff
+﻿using System.ComponentModel;
+using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
+
+namespace VolvoWrench.Demo_stuff
 {
     partial class Statisctics
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -130,8 +134,8 @@
 
         #endregion
 
-        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
-        private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private Chart chart1;
+        private SplitContainer splitContainer1;
+        private DataGridView dataGridView1;
     }
 }

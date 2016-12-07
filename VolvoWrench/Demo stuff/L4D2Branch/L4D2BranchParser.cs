@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using VolvoWrench.Demo_stuff.L4D2Branch.BitStreamUtil;
+using VolvoWrench.Demo_stuff.L4D2Branch.CSGODemoInfo;
 using VolvoWrench.Demo_stuff.L4D2Branch.PortalStuff.Result;
-using DemoParser = VolvoWrench.Demo_stuff.L4D2Branch.CSGODemoInfo.DemoParser;
 
 namespace VolvoWrench.Demo_stuff.L4D2Branch
 {
