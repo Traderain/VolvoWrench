@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace VolvoWrench.Demo_stuff.L4D2Branch.CSGODemoInfo
+namespace VolvoWrench.Demo_Stuff.L4D2Branch.CSGODemoInfo
 {
 	public class HeaderParsedEventArgs : EventArgs
 	{

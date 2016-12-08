@@ -2,7 +2,7 @@
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
-namespace VolvoWrench.Demo_stuff
+namespace VolvoWrench.Demo_Stuff
 {
     partial class Statisctics
     {

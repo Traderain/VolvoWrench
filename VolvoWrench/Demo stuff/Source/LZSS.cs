@@ -59,7 +59,7 @@ namespace netdecode
             }
             Console.WriteLine();
             throw new Exception();
-            return bufOut;
+            //return bufOut;
         }
     }
 }

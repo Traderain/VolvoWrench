@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using VolvoWrench.Demo_stuff.L4D2Branch.BitStreamUtil;
-using VolvoWrench.Demo_stuff.L4D2Branch.CSGODemoInfo;
-using VolvoWrench.Demo_stuff.L4D2Branch.PortalStuff.Result;
+using VolvoWrench.Demo_Stuff.L4D2Branch.BitStreamUtil;
+using VolvoWrench.Demo_Stuff.L4D2Branch.CSGODemoInfo;
+using VolvoWrench.Demo_Stuff.L4D2Branch.PortalStuff.Result;
 
-namespace VolvoWrench.Demo_stuff.L4D2Branch
+namespace VolvoWrench.Demo_Stuff.L4D2Branch
 {
+    /// <summary>
+    /// The header of the demo
+    /// </summary>
     public class DemoHeader
     {
         private const int MaxOspath = 260;
@@ -42,6 +45,9 @@ namespace VolvoWrench.Demo_stuff.L4D2Branch
         }
     }
 
+    /// <summary>
+    /// The details of the parsed L4D2 branch demo
+    /// </summary>
     public class L4D2BranchDemoInfo
     {
         public DemoParser CsgoDemoInfo;
@@ -73,7 +79,7 @@ namespace VolvoWrench.Demo_stuff.L4D2Branch
             {
                 if (info.Header.GameDirectory == "csgo")
                 {
-                    info.DemoType = Category.CSGO;
+                    info.DemoType = Category.Csgo;
                     info.CsgoDemoInfo = CsgoDemoParser(filename);
                 }
                 else

@@ -10,10 +10,10 @@ using System.Windows.Forms;
 using IniParser;
 using IniParser.Model;
 using Ookii.Dialogs;
-using VolvoWrench.Demo_stuff;
-using VolvoWrench.Demo_stuff.GoldSource;
-using VolvoWrench.Demo_stuff.L4D2Branch.PortalStuff;
-using VolvoWrench.Demo_stuff.Source;
+using VolvoWrench.Demo_Stuff;
+using VolvoWrench.Demo_Stuff.GoldSource;
+using VolvoWrench.Demo_Stuff.L4D2Branch.PortalStuff;
+using VolvoWrench.Demo_Stuff.Source;
 using VolvoWrench.Hotkey;
 using VolvoWrench.Overlay;
 using VolvoWrench.SaveStuff;
@@ -766,13 +766,13 @@ Average msec:               {(1000.0 / (demo.GsDemoInfo.AditionalStats.MsecSum /
                     }
                     else
                     {
-                        returnstring = $@"Analyzed HLS:OOE engine demo file ({demo.HlsooeDemoInfo.Header.GameDirectory}):
+                        returnstring = $@"Analyzed HLS:OOE engine demo file ({demo.HlsooeDemoInfo.Header.GameDir}):
 ----------------------------------------------------------
 Demo protocol:              {demo.HlsooeDemoInfo.Header.DemoProtocol}
-Net protocol:               {demo.HlsooeDemoInfo.Header.Netprotocol}
+Net protocol:               {demo.HlsooeDemoInfo.Header.NetProtocol}
 Directory offset:           {demo.HlsooeDemoInfo.Header.DirectoryOffset}
 Map name:                   {demo.HlsooeDemoInfo.Header.MapName}
-Game directory:             {demo.HlsooeDemoInfo.Header.GameDirectory}
+Game directory:             {demo.HlsooeDemoInfo.Header.GameDir}
 Length in seconds:          {(demo.HlsooeDemoInfo.DirectoryEntries.Last().Frames.LastOrDefault().Key.Index) * 0.015}s
 Tick count:                 {(demo.HlsooeDemoInfo.DirectoryEntries.SkipWhile(x => x.FrameCount < 1).Max(x => x.Frames.Max(y => y.Key.Index)))}
 ----------------------------------------------------------";

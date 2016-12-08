@@ -3,9 +3,9 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
-using VolvoWrench.Demo_stuff.Source;
+using VolvoWrench.Demo_Stuff.Source;
 
-namespace VolvoWrench.Demo_stuff
+namespace VolvoWrench.Demo_Stuff
 {
     public partial class Statisctics : Form
     {

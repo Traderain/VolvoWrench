@@ -16,7 +16,9 @@ namespace VolvoWrench.DG
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            var cla = args;
+            var argsappended = args.ToList();
+            argsappended.Add(AppDomain.CurrentDomain?.SetupInformation?.ActivationArguments?.ActivationData[0]); //This fixes the OpenWith on clickonce apps
+            var cla = argsappended;            
             if (cla.Any(x => Path.GetExtension(x) == ".dem" || Path.GetExtension(x) == ".sav"))
                 if (cla.Any(x => Path.GetExtension(x) == ".dem"))
                     Application.Run(new Main(cla.First(x => Path.GetExtension(x) == ".dem")));

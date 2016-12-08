@@ -2,21 +2,14 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using VolvoWrench.Demo_stuff.L4D2Branch.BitStreamUtil;
-using VolvoWrench.Demo_stuff.L4D2Branch.CSGODemoInfo.DP;
-using VolvoWrench.Demo_stuff.L4D2Branch.CSGODemoInfo.DP.FastNetmessages;
-using VolvoWrench.Demo_stuff.L4D2Branch.CSGODemoInfo.DT;
-using VolvoWrench.Demo_stuff.L4D2Branch.CSGODemoInfo.ST;
+using VolvoWrench.Demo_Stuff.L4D2Branch.BitStreamUtil;
+using VolvoWrench.Demo_Stuff.L4D2Branch.CSGODemoInfo.DP;
+using VolvoWrench.Demo_Stuff.L4D2Branch.CSGODemoInfo.DP.FastNetmessages;
+using VolvoWrench.Demo_Stuff.L4D2Branch.CSGODemoInfo.DT;
+using VolvoWrench.Demo_Stuff.L4D2Branch.CSGODemoInfo.ST;
 
-namespace VolvoWrench.Demo_stuff.L4D2Branch.CSGODemoInfo
+namespace VolvoWrench.Demo_Stuff.L4D2Branch.CSGODemoInfo
 {
-	#if DEBUG
-	#warning The DemoParser is very slow when compiled in Debug-Mode, since we use it as that: We perform many integrity checks during runtime. 
-	#warning Build this in Relase-Mode for more performance if you're not working the internals of the parser. (If you are, create a pull request when you're done!)
-	#endif
-	#if SAVE_PROP_VALUES
-	#warning You're compiling in the SavePropValues-Mode. This is a mode intended for Debugging and nothing else. It's cool to take a (entity-)dump here to find out how things work, but don't use this in production
-	#endif
 	public class DemoParser : IDisposable
 	{
 		const int MAX_EDICT_BITS = 11;
@@ -738,7 +731,7 @@ namespace VolvoWrench.Demo_stuff.L4D2Branch.CSGODemoInfo
 					if (team == "CT")
 					{
 						CTFlag = teamFlag;
-                    }
+					}
 					else if (team == "TERRORIST")
 					{
 						TFlag = teamFlag;

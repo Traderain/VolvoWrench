@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 
-namespace VolvoWrench.Demo_stuff.L4D2Branch.BitStreamUtil
+namespace VolvoWrench.Demo_Stuff.L4D2Branch.BitStreamUtil
 {
 	public class ManagedBitStream : IBitStream
 	{

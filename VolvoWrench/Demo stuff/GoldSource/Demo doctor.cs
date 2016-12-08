@@ -4,7 +4,7 @@ using System.IO;
 using System.Windows.Forms;
 using VolvoWrench.Properties;
 
-namespace VolvoWrench.Demo_stuff.GoldSource
+namespace VolvoWrench.Demo_Stuff.GoldSource
 {
     /// <summary>
     /// A form for repairing goldsource demos
@@ -19,7 +19,7 @@ namespace VolvoWrench.Demo_stuff.GoldSource
         /// <summary>
         /// We call this constructor when finding a broken demo
         /// </summary>
-        /// <param name="filename"></param>
+        /// <param name="filename">Path to file</param>
         public DemoDoctor(string filename)
         {
             InitializeComponent();

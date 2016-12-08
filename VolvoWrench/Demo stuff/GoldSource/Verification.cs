@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using MoreLinq;
 
-namespace VolvoWrench.Demo_stuff.GoldSource
+namespace VolvoWrench.Demo_Stuff.GoldSource
 {
     /// <summary>
     /// This is a form to aid goldsource run verification

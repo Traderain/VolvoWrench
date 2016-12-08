@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace VolvoWrench.Demo_stuff.Source
+namespace VolvoWrench.Demo_Stuff.Source
 {
     [DebuggerDisplay("Bit = {_pos}, Byte = {CurByte}")]
     internal class BitBuffer

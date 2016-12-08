@@ -30,8 +30,8 @@
     <PublisherName>Traderain</PublisherName>
     <SuiteName>Sourceruns</SuiteName>
     <AutorunEnabled>true</AutorunEnabled>
-    <ApplicationRevision>9</ApplicationRevision>
-    <ApplicationVersion>0.9.4.%2a</ApplicationVersion>
+    <ApplicationRevision>15</ApplicationRevision>
+    <ApplicationVersion>0.9.5.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -143,6 +143,7 @@
     <Compile Include="About.Designer.cs">
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
+    <Compile Include="Demo stuff\DemoInfo.cs" />
     <Compile Include="Demo stuff\L4D2Branch\Category.cs" />
     <Compile Include="Demo stuff\L4D2Branch\BitStreamUtil\BitArrayStream.cs" />
     <Compile Include="Demo stuff\L4D2Branch\BitStreamUtil\BitStreamUtil.cs" />
@@ -566,8 +567,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="08 Wrench.ico" />
+    <Content Include="savicon.ico" />
     <None Include="Resources\Save.ico" />
     <None Include="Resources\08 Wrench.ico" />
+    <Content Include="demoicon.ico" />
     <Content Include="SaveStuff\08 Wrench.ico" />
     <Content Include="DG\08 Wrench.ico" />
     <None Include="Resources\wakodemo.png" />
@@ -594,15 +597,15 @@
   <ItemGroup>
     <FileAssociation Include=".dem">
       <Visible>False</Visible>
-      <Description>Save files</Description>
-      <Progid>1337</Progid>
-      <DefaultIcon>08 Wrench.ico</DefaultIcon>
+      <Description>Demo files</Description>
+      <Progid>VWDem</Progid>
+      <DefaultIcon>demoicon.ico</DefaultIcon>
     </FileAssociation>
     <FileAssociation Include=".sav">
       <Visible>False</Visible>
-      <Description>Demo files</Description>
-      <Progid>420</Progid>
-      <DefaultIcon>08 Wrench.ico</DefaultIcon>
+      <Description>Save files</Description>
+      <Progid>VWSav</Progid>
+      <DefaultIcon>savicon.ico</DefaultIcon>
     </FileAssociation>
   </ItemGroup>
   <ItemGroup />

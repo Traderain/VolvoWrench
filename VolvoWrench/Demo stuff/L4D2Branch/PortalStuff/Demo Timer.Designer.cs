@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Windows.Forms;
 
-namespace VolvoWrench.Demo_stuff.L4D2Branch.PortalStuff
+namespace VolvoWrench.Demo_Stuff.L4D2Branch.PortalStuff
 {
     sealed partial class DemoTimer
     {

@@ -1,0 +1,43 @@
+using System.Collections.Generic;
+
+namespace VolvoWrench.Demo_Stuff
+{
+    /// <summary>
+    /// Demos return a class that inherits this
+    /// </summary>
+    public abstract class DemoInfo
+    {
+        /// <summary>
+        /// The errors that happened in the demo
+        /// </summary>
+        public List<string> ParsingErrors;
+
+        /// <summary>
+        /// The name of the file
+        /// </summary>
+        public string FileName;
+    }
+
+    /// <summary>
+    /// This is a template for every demo's header
+    /// </summary>
+    public abstract class DemoHeader
+    {
+        /// <summary>
+        /// Protocol of the demo
+        /// </summary>
+        public int DemoProtocol;
+        /// <summary>
+        /// Netprotocol of the demo
+        /// </summary>
+        public int NetProtocol;
+        /// <summary>
+        /// The map the demo is played on
+        /// </summary>
+        public string MapName;
+        /// <summary>
+        /// The game directory's name
+        /// </summary>
+        public string GameDir;
+    }
+}

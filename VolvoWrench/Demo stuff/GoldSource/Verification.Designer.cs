@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Windows.Forms;
 
-namespace VolvoWrench.Demo_stuff.GoldSource
+namespace VolvoWrench.Demo_Stuff.GoldSource
 {
     sealed partial class Verification
     {

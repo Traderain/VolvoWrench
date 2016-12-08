@@ -5,7 +5,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Windows.Input;
 
-namespace VolvoWrench.Demo_stuff.Source
+namespace VolvoWrench.Demo_Stuff.Source
 {
     public struct Saveflag
     {

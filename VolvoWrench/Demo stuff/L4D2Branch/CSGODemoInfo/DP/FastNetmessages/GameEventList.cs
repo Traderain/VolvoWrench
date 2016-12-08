@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using VolvoWrench.Demo_stuff.L4D2Branch.BitStreamUtil;
-using VolvoWrench.Demo_stuff.L4D2Branch.CSGODemoInfo.DP.Handler;
+using VolvoWrench.Demo_Stuff.L4D2Branch.BitStreamUtil;
+using VolvoWrench.Demo_Stuff.L4D2Branch.CSGODemoInfo.DP.Handler;
 
-namespace VolvoWrench.Demo_stuff.L4D2Branch.CSGODemoInfo.DP.FastNetmessages
+namespace VolvoWrench.Demo_Stuff.L4D2Branch.CSGODemoInfo.DP.FastNetmessages
 {
 	public struct GameEventList
 	{

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.IO;
-using VolvoWrench.Demo_stuff.L4D2Branch.BitStreamUtil;
+using VolvoWrench.Demo_Stuff.L4D2Branch.BitStreamUtil;
 
-namespace VolvoWrench.Demo_stuff.L4D2Branch.CSGODemoInfo
+namespace VolvoWrench.Demo_Stuff.L4D2Branch.CSGODemoInfo
 {
 	/// <summary>
 	/// A Demo header.

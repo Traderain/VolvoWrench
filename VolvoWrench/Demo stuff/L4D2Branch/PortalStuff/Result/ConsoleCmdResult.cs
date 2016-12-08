@@ -1,4 +1,4 @@
-namespace VolvoWrench.Demo_stuff.L4D2Branch.PortalStuff.Result
+namespace VolvoWrench.Demo_Stuff.L4D2Branch.PortalStuff.Result
 {
 	public class ConsoleCmdResult
 	{

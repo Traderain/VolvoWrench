@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using VolvoWrench.Demo_stuff.L4D2Branch.CSGODemoInfo.DP;
-using VolvoWrench.Demo_stuff.L4D2Branch.CSGODemoInfo.DT;
+using VolvoWrench.Demo_Stuff.L4D2Branch.CSGODemoInfo.DP;
+using VolvoWrench.Demo_Stuff.L4D2Branch.CSGODemoInfo.DT;
 
 #if SLOW_PROTOBUF
 using ProtoBuf;
 #endif
 
-namespace VolvoWrench.Demo_stuff.L4D2Branch.CSGODemoInfo
+namespace VolvoWrench.Demo_Stuff.L4D2Branch.CSGODemoInfo
 {
 	static class Helper
 	{

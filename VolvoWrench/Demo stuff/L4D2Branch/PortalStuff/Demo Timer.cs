@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace VolvoWrench.Demo_stuff.L4D2Branch.PortalStuff
+namespace VolvoWrench.Demo_Stuff.L4D2Branch.PortalStuff
 {
     public sealed partial class DemoTimer : Form
     {
@@ -45,9 +45,11 @@ namespace VolvoWrench.Demo_stuff.L4D2Branch.PortalStuff
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var of = new OpenFileDialog();
-            of.Filter = @"Demo files (.dem) | *.dem";
-            of.Multiselect = true;
+            var of = new OpenFileDialog
+            {
+                Filter = @"Demo files (.dem) | *.dem",
+                Multiselect = true
+            };
             if (of.ShowDialog() == DialogResult.OK)
             {
                 UpdateDgv(of.FileNames.Where(x => File.Exists(x) && Path.GetExtension(x) == ".dem").ToArray());
@@ -65,6 +67,10 @@ namespace VolvoWrench.Demo_stuff.L4D2Branch.PortalStuff
             if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy;
         }
 
+        /// <summary>
+        /// Method to parse the files and update the datagridview
+        /// </summary>
+        /// <param name="files"></param>
         public void UpdateDgv(string[] files)
         {
             TickSum = 0;

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace VolvoWrench.Demo_stuff.L4D2Branch.BitStreamUtil
+namespace VolvoWrench.Demo_Stuff.L4D2Branch.BitStreamUtil
 {
 	public class BitArrayStream : IBitStream
 	{

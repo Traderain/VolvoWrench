@@ -1,11 +1,11 @@
-﻿using VolvoWrench.Demo_stuff.L4D2Branch.BitStreamUtil;
-using VolvoWrench.Demo_stuff.L4D2Branch.CSGODemoInfo.DP.FastNetmessages;
-using VolvoWrench.Demo_stuff.L4D2Branch.CSGODemoInfo.Messages;
+﻿using VolvoWrench.Demo_Stuff.L4D2Branch.BitStreamUtil;
+using VolvoWrench.Demo_Stuff.L4D2Branch.CSGODemoInfo.DP.FastNetmessages;
+using VolvoWrench.Demo_Stuff.L4D2Branch.CSGODemoInfo.Messages;
 
-namespace VolvoWrench.Demo_stuff.L4D2Branch.CSGODemoInfo.DP
+namespace VolvoWrench.Demo_Stuff.L4D2Branch.CSGODemoInfo.DP
 {
 	public static class DemoPacketParser
-    {
+	{
 		#if SLOW_PROTOBUF
 		private static IEnumerable<IMessageParser> Parsers = (
 			from type in Assembly.GetExecutingAssembly().GetTypes()
@@ -21,10 +21,10 @@ namespace VolvoWrench.Demo_stuff.L4D2Branch.CSGODemoInfo.DP
 		/// <param name="bitstream">Bitstream.</param>
 		/// <param name="demo">Demo.</param>
 		public static void ParsePacket(IBitStream bitstream, DemoParser demo)
-        {
+		{
 			//As long as there is stuff to read
 			while (!bitstream.ChunkFinished)
-            {
+			{
 				int cmd = bitstream.ReadProtobufVarInt(); //What type of packet is this?
 				int length = bitstream.ReadProtobufVarInt(); //And how long is it?
 				bitstream.BeginChunk(length * 8); //read length bytes
@@ -69,7 +69,7 @@ namespace VolvoWrench.Demo_stuff.L4D2Branch.CSGODemoInfo.DP
 					#endif
 				}
 				bitstream.EndChunk();
-            }
-        }
-    }
+			}
+		}
+	}
 }

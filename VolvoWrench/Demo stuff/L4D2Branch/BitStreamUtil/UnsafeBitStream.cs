@@ -5,7 +5,7 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace VolvoWrench.Demo_stuff.L4D2Branch.BitStreamUtil
+namespace VolvoWrench.Demo_Stuff.L4D2Branch.BitStreamUtil
 {
 	public unsafe class UnsafeBitStream : IBitStream
 	{

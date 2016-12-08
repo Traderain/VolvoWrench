@@ -1,14 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using VolvoWrench.Demo_stuff.GoldSource;
-using VolvoWrench.Demo_stuff.L4D2Branch;
-using VolvoWrench.Demo_stuff.Source;
+using VolvoWrench.Demo_Stuff.GoldSource;
+using VolvoWrench.Demo_Stuff.L4D2Branch;
+using VolvoWrench.Demo_Stuff.Source;
 
-namespace VolvoWrench.Demo_stuff
+namespace VolvoWrench.Demo_Stuff
 {
     /// <summary>
     /// Type of the demo

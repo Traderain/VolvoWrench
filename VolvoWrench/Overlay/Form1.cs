@@ -13,8 +13,8 @@ using SharpDX.Direct2D1;
 using SharpDX.DirectWrite;
 using SharpDX.DXGI;
 using SharpDX.Mathematics.Interop;
-using VolvoWrench.Demo_stuff;
-using VolvoWrench.Demo_stuff.GoldSource;
+using VolvoWrench.Demo_Stuff;
+using VolvoWrench.Demo_Stuff.GoldSource;
 using VolvoWrench.Hotkey;
 using AlphaMode = SharpDX.Direct2D1.AlphaMode;
 using Factory = SharpDX.Direct2D1.Factory;
@@ -26,6 +26,9 @@ using Timer = System.Windows.Forms.Timer;
 
 namespace VolvoWrench.Overlay
 {
+    /// <summary>
+    /// This is a Directx9 Invisible form which is used for drawing an overlay
+    /// </summary>
     public partial class OverlayForm : Form
     {
         /// <summary>
@@ -84,43 +87,80 @@ namespace VolvoWrench.Overlay
             "PORTAL 2"
         };
 
+        /// <summary>
+        /// The Source demo overlay settings
+        /// </summary>
         public static Sourceoverlaysettings Sos;
+        /// <summary>
+        /// The HLS:OOE overlay settings
+        /// </summary>
         public static Hlsooeoverlaysettings Hos;
+        /// <summary>
+        /// The L4D2 Branch overlay settings
+        /// </summary>
         public static L4D2Branchoverlaysettings Los;
+        /// <summary>
+        /// The GoldSource overlay settings
+        /// </summary>
         public static Goldsourceoverlaysettings Gos;
- 
+
+        /// <summary>
+        /// Determines if the overlay form should be running
+        /// </summary>
+        public static bool Shouldrun = true;
 
         private WindowRenderTarget _device;
         private HwndRenderTargetProperties _renderProperties;
         private SolidColorBrush _solidColorBrush;
         private Factory _factory;
 
-        private TextFormat _font, _fontSmall;
         private FontFactory _fontFactory;
-        private const string FontFamily = "Arial";
-        private const float FontSize = 12.0f;
-        private const float FontSizeSmall = 10.0f;
-        FontConverter _cvt = new FontConverter();
-        FileIniDataParser _parser = new FileIniDataParser();
+        readonly FontConverter _cvt = new FontConverter();
+        readonly FileIniDataParser _parser = new FileIniDataParser();
 
-        private IntPtr _handle;
         private Timer _timer1;
-        private Thread _sDx = null;
+        private Thread _sDx;
 
         #region  DllImports
+        /// <summary>
+        /// Set window size Pinvoke
+        /// </summary>
+        /// <param name="hWnd"></param>
+        /// <param name="nIndex"></param>
+        /// <param name="dwNewLong"></param>
+        /// <returns></returns>
         [DllImport("user32.dll")]
         public static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
 
-        [DllImport("user32.dll")]
-        static extern bool SetLayeredWindowAttributes(IntPtr hwnd, uint crKey, byte bAlpha, uint dwFlags);
-
+        /// <summary>
+        /// Gets the size of a window
+        /// </summary>
+        /// <param name="hWnd"></param>
+        /// <param name="nIndex"></param>
+        /// <returns></returns>
         [DllImport("user32.dll", SetLastError = true)]
         public static extern int GetWindowLong(IntPtr hWnd, int nIndex);
 
+        /// <summary>
+        /// Sets the position of a window
+        /// </summary>
+        /// <param name="hWnd"></param>
+        /// <param name="hWndInsertAfter"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="cx"></param>
+        /// <param name="cy"></param>
+        /// <param name="uFlags"></param>
+        /// <returns></returns>
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int x, int y, int cx, int cy, uint uFlags);
 
+        /// <summary>
+        /// Maximizes a window
+        /// </summary>
+        /// <param name="hWnd"></param>
+        /// <param name="pMargins"></param>
         [DllImport("dwmapi.dll")]
         public static extern void DwmExtendFrameIntoClientArea(IntPtr hWnd, ref int[] pMargins);
 
@@ -131,15 +171,30 @@ namespace VolvoWrench.Overlay
         static extern int GetWindowText(IntPtr hWnd, StringBuilder text, int count);
         #endregion 
 
+        /// <summary>
+        /// Noresize flag
+        /// </summary>
         public const uint SwpNosize = 0x0001;
+        /// <summary>
+        /// Nomove flag
+        /// </summary>
         public const uint SwpNomove = 0x0002;
+        /// <summary>
+        /// Topmost flag
+        /// </summary>
         public const uint TopmostFlags = SwpNomove | SwpNosize;
+        /// <summary>
+        /// Flag for being the topmost window
+        /// </summary>
         public static IntPtr HwndTopmost = new IntPtr(-1);
 
+        /// <summary>
+        /// The constructor of the overlay form
+        /// </summary>
+        /// <param name="file"> Path to the demo file</param>
         public OverlayForm(string file)
         {
             InitializeComponent();
-            _handle = Handle;
             var initialStyle = GetWindowLong(Handle, -20);
             SetWindowLong(Handle, -20, initialStyle | 0x80000 | 0x20);
             SetWindowPos(Handle, HwndTopmost, 0, 0, 0, 0, TopmostFlags);
@@ -258,10 +313,8 @@ namespace VolvoWrench.Overlay
             _device = new WindowRenderTarget(_factory, new RenderTargetProperties(new PixelFormat(Format.B8G8R8A8_UNorm, AlphaMode.Premultiplied)), _renderProperties);
 
             _solidColorBrush = new SolidColorBrush(_device, new RawColor4(TextColor.R, TextColor.G, TextColor.B, TextColor.A));
-            _font = new TextFormat(_fontFactory, FontFamily, FontSize);
-            _fontSmall = new TextFormat(_fontFactory, FontFamily, FontSizeSmall);
 
-            _sDx = new Thread(new ParameterizedThreadStart(SDxThread))
+            _sDx = new Thread(SDxThread)
             {
                 Priority = ThreadPriority.Highest,
                 IsBackground = true
@@ -302,7 +355,7 @@ namespace VolvoWrench.Overlay
         private void SDxThread(object sender)
         {
             Main.Alert("Overlay launched!");
-            while (true)
+            while (Shouldrun)
             {
                 _device.BeginDraw();
                 _device.Clear(new RawColor4(Color.Transparent.R, Color.Transparent.G, Color.Transparent.B, Color.Transparent.A));
@@ -424,11 +477,11 @@ namespace VolvoWrench.Overlay
                         if (Hos.DemoProtocol)
                             Demodata += $"\nDemo protocol:              {demo.HlsooeDemoInfo.Header.DemoProtocol}";
                         if (Hos.NetProtocol)
-                            Demodata += $"\nNet protocol:               {demo.HlsooeDemoInfo.Header.Netprotocol}";
+                            Demodata += $"\nNet protocol:               {demo.HlsooeDemoInfo.Header.NetProtocol}";
                         if (Hos.MapName)
                             Demodata += $"\nMap name:                   {demo.HlsooeDemoInfo.Header.MapName}";
                         if (Hos.GameDirectory)
-                            Demodata += $"\nGame directory:             {demo.HlsooeDemoInfo.Header.GameDirectory}";
+                            Demodata += $"\nGame directory:             {demo.HlsooeDemoInfo.Header.GameDir}";
                         if (Hos.MeasuredTime)
                             Demodata += $"\nLength in seconds:          {(demo.HlsooeDemoInfo.DirectoryEntries.Last().Frames.LastOrDefault().Key.Frame) * 0.015}s";
                         if (Hos.MeasuredTicks)
@@ -559,7 +612,7 @@ namespace VolvoWrench.Overlay
             var worker = sender as BackgroundWorker;
             var startTime = DateTime.Now;
 
-            while (!worker.CancellationPending)
+            while (worker != null && !worker.CancellationPending)
             {
                     var writeTime = File.GetLastWriteTime(FilePath);
                     if (writeTime.CompareTo(startTime) > 0)
@@ -586,6 +639,11 @@ namespace VolvoWrench.Overlay
                 PrintOverlayData(crossParseResult);
         }
 
+        /// <summary>
+        /// Checks if we can use the file eg.: if the game is still writing to it
+        /// </summary>
+        /// <param name="f"></param>
+        /// <returns></returns>
         protected virtual bool IsFileLocked(string f)
         {
             var file = new FileInfo(f);

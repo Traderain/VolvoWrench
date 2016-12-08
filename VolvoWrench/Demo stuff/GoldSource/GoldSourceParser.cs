@@ -6,7 +6,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Windows.Media.Media3D;
 
-namespace VolvoWrench.Demo_stuff.GoldSource
+namespace VolvoWrench.Demo_Stuff.GoldSource
 {
     /// <summary>
     /// Types for HLSOOE
@@ -119,14 +119,19 @@ namespace VolvoWrench.Demo_stuff.GoldSource
             public Point3D ViewOrigins;
         }
 
-        public class DemoHeader : IFrame
+        /// <summary>
+        /// This is the  header of HLS:OOE demos
+        /// </summary>
+        public class DemoHeader : Demo_Stuff.DemoHeader
         {
-            public int DemoProtocol;
+            /// <summary>
+            /// The byte offset to the first directory entry
+            /// </summary>
             public int DirectoryOffset;
-            public string GameDirectory;
+            /// <summary>
+            /// The magic of the file mostly HLDEMO
+            /// </summary>
             public string Magic;
-            public string MapName;
-            public int Netprotocol;
         }
 
         public class DemoDirectoryEntry
@@ -220,14 +225,19 @@ namespace VolvoWrench.Demo_stuff.GoldSource
             return s;
         }
 
-        public class DemoHeader
+        /// <summary>
+        /// The header of the GoldSource demo
+        /// </summary>
+        public class DemoHeader : Demo_Stuff.DemoHeader
         {
-            public int DemoProtocol;
+            /// <summary>
+            /// Byte offset untill the first directory enry
+            /// </summary>
             public int DirectoryOffset;
-            public string GameDir;
+            /// <summary>
+            /// Map ID
+            /// </summary>
             public uint MapCrc;
-            public string MapName;
-            public int NetProtocol;
         };
 
         public struct DemoDirectoryEntry
@@ -243,9 +253,7 @@ namespace VolvoWrench.Demo_stuff.GoldSource
             public int Type;
         }
 
-        public interface IFrame
-        {
-        }
+        public interface IFrame { }
 
         public struct Point4D
         {
@@ -457,7 +465,7 @@ namespace VolvoWrench.Demo_stuff.GoldSource
     /// <summary>
     /// Info class about normal GoldSource engine demos
     /// </summary>
-    public struct GoldSourceDemoInfo
+    public class GoldSourceDemoInfo : DemoInfo
     {
         /// <summary>
         /// The directory entries of the demo containing the frames
@@ -471,16 +479,12 @@ namespace VolvoWrench.Demo_stuff.GoldSource
         /// The header of the demo
         /// </summary>
         public GoldSource.DemoHeader Header;
-        /// <summary>
-        /// A string list containing the errors happened while parsing the demo
-        /// </summary>
-        public List<string> ParsingErrors;
     }
 
     /// <summary>
     /// Info class about HLSOOE Demos
     /// </summary>
-    public class GoldSourceDemoInfoHlsooe
+    public class GoldSourceDemoInfoHlsooe : DemoInfo
     {
         /// <summary>
         /// The directory entries of the demo containing the frames
@@ -490,10 +494,6 @@ namespace VolvoWrench.Demo_stuff.GoldSource
         /// The header of the demo
         /// </summary>
         public Hlsooe.DemoHeader Header;
-        /// <summary>
-        /// A string list containing the errors happened while parsing the demo
-        /// </summary>
-        public List<string> ParsingErrors;
     }
 
     /// <summary>
@@ -540,11 +540,11 @@ namespace VolvoWrench.Demo_stuff.GoldSource
                     if (mw == "HLDEMO")
                     {
                         hlsooeDemo.Header.DemoProtocol = br.ReadInt32();
-                        hlsooeDemo.Header.Netprotocol = br.ReadInt32();
+                        hlsooeDemo.Header.NetProtocol = br.ReadInt32();
                         hlsooeDemo.Header.MapName = Encoding.ASCII.GetString(br.ReadBytes(260))
                             .Trim('\0')
                             .Replace("\0", string.Empty);
-                        hlsooeDemo.Header.GameDirectory =
+                        hlsooeDemo.Header.GameDir =
                             Encoding.ASCII.GetString(br.ReadBytes(260)).Trim('\0').Replace("\0", string.Empty);
                         hlsooeDemo.Header.DirectoryOffset = br.ReadInt32();
                         //Header Parsed... now we read the directory entries

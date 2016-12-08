@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using VolvoWrench.Demo_stuff.L4D2Branch.BitStreamUtil;
-using VolvoWrench.Demo_stuff.L4D2Branch.CSGODemoInfo.Messages;
+using VolvoWrench.Demo_Stuff.L4D2Branch.BitStreamUtil;
+using VolvoWrench.Demo_Stuff.L4D2Branch.CSGODemoInfo.Messages;
 
-namespace VolvoWrench.Demo_stuff.L4D2Branch.CSGODemoInfo.DT
+namespace VolvoWrench.Demo_Stuff.L4D2Branch.CSGODemoInfo.DT
 {
     class DataTableParser
     {
