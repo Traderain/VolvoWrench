@@ -773,7 +773,7 @@ Net protocol:               {demo.HlsooeDemoInfo.Header.NetProtocol}
 Directory offset:           {demo.HlsooeDemoInfo.Header.DirectoryOffset}
 Map name:                   {demo.HlsooeDemoInfo.Header.MapName}
 Game directory:             {demo.HlsooeDemoInfo.Header.GameDir}
-Length in seconds:          {(demo.HlsooeDemoInfo.DirectoryEntries.Last().Frames.LastOrDefault().Key.Index) * 0.015}s
+Length in seconds:          {(demo.HlsooeDemoInfo.DirectoryEntries.Where(x=> x.Type == 0).Sum(x => x.Frames.Last().Key.Time)) * 0.015}s
 Tick count:                 {(demo.HlsooeDemoInfo.DirectoryEntries.SkipWhile(x => x.FrameCount < 1).Max(x => x.Frames.Max(y => y.Key.Index)))}
 ----------------------------------------------------------";
                         returnstring = demo.HlsooeDemoInfo.DirectoryEntries.SelectMany(demoDirectoryEntry => demoDirectoryEntry.Flags).Aggregate(returnstring, (current, flag) => current + (flag.Value.Command + " at " + flag.Key.Frame + " -> " + (flag.Key.Frame*0.015).ToString("n3") + "s"));

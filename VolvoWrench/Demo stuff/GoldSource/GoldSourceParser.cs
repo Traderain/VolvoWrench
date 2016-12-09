@@ -49,25 +49,9 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
 
         public class NextSectionFrame : IFrame { }
 
-        public class ErrorFrame : IFrame
-        {
-            public string ErrorData;
-            public int Flags;
-            public int IncomingAcknowledged;
-            public int IncomingReliableAcknowledged;
-            public int IncomingReliableSequence;
-            public int IncomingSequence;
-            public int LastReliableSequence;
-            public Point3D LocalViewAngles;
-            public Point3D LocalViewAngles2;
-            public string Msg;
-            public int OutgoingSequence;
-            public int ReliableSequence;
-            public Point3D ViewAngles;
-            public Point3D ViewAngles2;
-            public Point3D ViewOrigin2;
-            public Point3D ViewOrigins;
-        }
+        public class StartupPacketFrame : NetMsgFrame { }
+
+        public class ErrorFrame : NetMsgFrame { }
 
         public class NetworkDataTableFrame : IFrame
         {
@@ -82,25 +66,6 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
         }
 
         public class NetMsgFrame : IFrame
-        {
-            public int Flags;
-            public int IncomingAcknowledged;
-            public int IncomingReliableAcknowledged;
-            public int IncomingReliableSequence;
-            public int IncomingSequence;
-            public int LastReliableSequence;
-            public Point3D LocalViewAngles;
-            public Point3D LocalViewAngles2;
-            public string Msg;
-            public int OutgoingSequence;
-            public int ReliableSequence;
-            public Point3D ViewAngles;
-            public Point3D ViewAngles2;
-            public Point3D ViewOrigin2;
-            public Point3D ViewOrigins;
-        }
-
-        public class StartupPacketFrame : IFrame
         {
             public int Flags;
             public int IncomingAcknowledged;
@@ -604,7 +569,7 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
                                     switch (currentDemoFrame.Type)
                                     {
                                         case Hlsooe.DemoFrameType.StartupPacket:
-                                            if (UnexpectedEof(br, (8 + 8 + 8 + 8 + 8 + 8 + 8 + 8 + 8 + 8 + 8 + 8 + 4 + 4 + 4 + 4 + 4 + 4 + 4)))
+                                            if (UnexpectedEof(br, (108)))
                                             {
                                                 hlsooeDemo.ParsingErrors.Add("Failed to read startup packet at frame:" + i);
                                                 return hlsooeDemo;
@@ -634,7 +599,7 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
                                             entry.Frames.Add(currentDemoFrame, g);
                                             break;
                                         case Hlsooe.DemoFrameType.NetworkPacket:
-                                            if (UnexpectedEof(br, (8 + 8 + 8 + 8 + 8 + 8 + 8 + 8 + 8 + 8 + 8 + 8 + 4 + 4 + 4 + 4 + 4 + 4 + 4)))
+                                            if (UnexpectedEof(br, (108)))
                                             {
                                                 hlsooeDemo.ParsingErrors.Add("Failed to read netmessage at frame: " + i);
                                                 return hlsooeDemo;
@@ -757,7 +722,7 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
                                             break;
                                         default:
                                             Main.Log($"Error: Frame type: + {currentDemoFrame.Type} at parsing.");
-                                            if (UnexpectedEof(br, (8 + 8 + 8 + 8 + 8 + 8 + 8 + 8 + 8 + 8 + 8 + 8 + 4 + 4 + 4 + 4 + 4 + 4 + 4)))
+                                            if (UnexpectedEof(br, (108)))
                                             {
                                                 hlsooeDemo.ParsingErrors.Add("Unexpected end of file when reading default frame at frame: " + i + " brpos: " + br.BaseStream.Position);
                                                 return hlsooeDemo;
