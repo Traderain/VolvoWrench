@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <PublishUrlHistory>F:/volvowrench/|publish\</PublishUrlHistory>
+    <PublishUrlHistory>D:/volvowrench/|F:/volvowrench/|publish\</PublishUrlHistory>
     <InstallUrlHistory>https://traderain.hu/vw/|https://traderain.hu/</InstallUrlHistory>
     <SupportUrlHistory>https://traderain.hu/vwhelp|https://traderain.hu</SupportUrlHistory>
     <UpdateUrlHistory>https://traderain.hu/vw/|https://traderain.hu/</UpdateUrlHistory>

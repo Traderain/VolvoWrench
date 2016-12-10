@@ -29,11 +29,11 @@ namespace VolvoWrench
         /// <summary>
         /// The path of the log file
         /// </summary>
-        public static readonly string LogPath = string.Format("{0}\\" + "VolvoWrench" + "\\" + "VWLog.log", Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
+        public static readonly string LogPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + Path.PathSeparator + "VolvoWrench" + Path.PathSeparator + "VWLog.log";
         /// <summary>
         /// The path of the settings file
         /// </summary>
-        public static readonly string SettingsPath = string.Format("{0}\\" + "VolvoWrench" + "\\" + "VWSettings.ini", Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
+        public static readonly string SettingsPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + Path.PathSeparator + "VolvoWrench" + Path.PathSeparator + "VWSettings.ini";
 
         /// <summary>
         /// The button we use to open the demo details popup
@@ -70,8 +70,6 @@ namespace VolvoWrench
         /// The path to the current demo
         /// </summary>
         public string CurrentFile;
-
-
 
         /// <summary>
         /// The main constructor with a string param for openwith file thingy

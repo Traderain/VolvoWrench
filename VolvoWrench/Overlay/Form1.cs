@@ -210,8 +210,20 @@ namespace VolvoWrench.Overlay
                 Convert.ToInt32(colorstring[2]),
                 Convert.ToInt32(colorstring[3]));
             RescanKey = Convert.ToInt32(iniD["HOTKEYS"]["overlay_rescan"], 16);
-            ExitKey = Convert.ToInt32(iniD["HOTKEYS"]["overlay_exit "], 16);
+            ExitKey = Convert.ToInt32(iniD["HOTKEYS"]["overlay_exit"], 16);
             //SOURCE OVERLAY_SOURCE
+            /* object[] settings = { Sos = new OVERLAY_SOURCE(),Hos = new OVERLAY_HLSOOE(),Los = new OVERLAY_L4D2BRANCH(),Gos = new OVERLAY_GOLDSOURCE()};
+            foreach (var obj in settings)
+            {
+                var objType = obj.GetType();
+                var fields = objType.GetFields();
+                foreach (var field in fields)
+                {
+                    var piInstance = objType.GetProperty(field.Name);
+                    piInstance.SetValue(obj, Convert.ToBoolean(int.Parse(iniD[objType.Name][field.Name])));
+                }
+
+            }*/
             Sos.DemoProtocol = Convert.ToBoolean(int.Parse(iniD["OVERLAY_SOURCE"]["demo_protocol"]));
             Sos.NetProtocol = Convert.ToBoolean(int.Parse(iniD["OVERLAY_SOURCE"]["net_protocol"]));
             Sos.ServerName = Convert.ToBoolean(int.Parse(iniD["OVERLAY_SOURCE"]["server_name"]));
@@ -364,7 +376,7 @@ namespace VolvoWrench.Overlay
                 {
                     if (!string.IsNullOrEmpty(Currentwindow))
                     {
-                        if (GameTitles.Any(x=> x.Contains(Currentwindow)))
+                        if (GameTitles.Any(x=> Currentwindow.ToUpper().Contains(x)))
                         {
                             _device.DrawText(Demodata,
                                 new TextFormat(_fontFactory,
@@ -572,6 +584,7 @@ namespace VolvoWrench.Overlay
 
         private static string GetActiveWindowTitle()
         {
+            
             const int nChars = 256;
             var buff = new StringBuilder(nChars);
             var handle = GetForegroundWindow();
