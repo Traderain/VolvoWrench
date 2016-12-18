@@ -15,6 +15,7 @@ using VolvoWrench.Demo_Stuff.GoldSource;
 using VolvoWrench.Demo_Stuff.L4D2Branch.PortalStuff;
 using VolvoWrench.Demo_Stuff.Source;
 using VolvoWrench.Hotkey;
+using VolvoWrench.MapStuff;
 using VolvoWrench.Overlay;
 using VolvoWrench.SaveStuff;
 using static System.Convert;
@@ -167,13 +168,24 @@ namespace VolvoWrench
 
         }
 
+        #region Map toolstrip item
+        private void leveloverviewGeneratorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (Leveloverview lf = new Leveloverview())
+            {
+                Log("Levelovervie form opened.");
+                lf.ShowDialog();
+            }
+        }
+        #endregion
+
         #region demo_file ToolStrip stuff
         /// <summary>
         /// Open save file dialog
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void openAsavToolStripMenuItem_Click(object sender, EventArgs e)
+        private void saveExplorerToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Log("Save analyzer opened!");
             using (var sa = new saveanalyzerform())

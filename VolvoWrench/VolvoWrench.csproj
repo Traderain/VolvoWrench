@@ -297,6 +297,12 @@
     <Compile Include="ExtensionMethods\MoreLinq\ZipLongest.cs" />
     <Compile Include="ExtensionMethods\MoreLinq\ZipShortest.cs" />
     <Compile Include="ExtensionMethods\Traderain.cs" />
+    <Compile Include="MapStuff\Leveloverview.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MapStuff\Leveloverview.Designer.cs">
+      <DependentUpon>Leveloverview.cs</DependentUpon>
+    </Compile>
     <Compile Include="Overlay\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -366,6 +372,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Demo stuff\L4D2Branch\PortalStuff\Demo Timer.resx">
       <DependentUpon>Demo Timer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MapStuff\Leveloverview.resx">
+      <DependentUpon>Leveloverview.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Overlay\Form1.resx" />
     <EmbeddedResource Include="Overlay\OverlaySettings.resx">
