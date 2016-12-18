@@ -33,7 +33,7 @@ namespace VolvoWrench.MapStuff
 
         private void button2_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Not implemented yet properly!");
+            MessageBox.Show(@"Not implemented yet properly!");
             return; //TODO: finish implementing this
             if (File.Exists(textBox1.Text) && Path.GetExtension(textBox1.Text) == ".bsp")
             {
