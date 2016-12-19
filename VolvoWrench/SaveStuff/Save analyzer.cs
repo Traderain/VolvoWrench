@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -31,6 +32,7 @@ namespace VolvoWrench.SaveStuff
                 of.Filter = @"Demo files (*.sav) | *.sav";
                 if (of.ShowDialog() == DialogResult.OK)
                     PrintandAnalyze(of.FileName);
+                Text = @"Save analyzer - " + Path.GetFileName(of.FileName);
             }
         }
 
@@ -46,6 +48,7 @@ namespace VolvoWrench.SaveStuff
 
         private void PopulateTreeView(List<Listsave.StateFileInfo> FileList)
         {
+            treeView1.Nodes.Clear();
             if (FileList.Count > 1)
             {
                 var rootNode = new TreeNode("Savefile");
