@@ -27,60 +27,69 @@ using Timer = System.Windows.Forms.Timer;
 namespace VolvoWrench.Overlay
 {
     /// <summary>
-    /// This is a Directx9 Invisible form which is used for drawing an overlay
+    ///     This is a Directx9 Invisible form which is used for drawing an overlay
     /// </summary>
     public partial class OverlayForm : Form
     {
         /// <summary>
-        /// Path of the demo file
-        /// </summary>
-        public static string FilePath = "";
-
-        /// <summary>
-        /// VKEY of the key used to force update the overlay
-        /// </summary>
-        public static int RescanKey;
-
-        /// <summary>
-        /// Key to exit the overlay
-        /// </summary>
-        public static int ExitKey;
-
-        /// <summary>
-        /// Font of the overlay
-        /// </summary>
-        public static Font TextFont;
-
-        /// <summary>
-        /// Color of the overlay text
-        /// </summary>
-        public static Color TextColor;
-
-        /// <summary>
-        /// Name of the current window, we use this to check if hl2 etc. is focused.
-        /// </summary>
-        public static string Currentwindow = "";
-
-        /// <summary>
-        /// This is what is printed.
-        /// </summary>
-        public static string Demodata = "";
-
-
-        /// <summary>
-        /// This is what checks the demofolder periodically for change
-        /// </summary>
-        public BackgroundWorker DemoParserSlave;
-
-        /// <summary>
-        /// Refresh rate of the backgroundworker
+        ///     Refresh rate of the backgroundworker
         /// </summary>
         private const int DirectoryScannerRefreshRate = 500;
 
         /// <summary>
-        /// Window names to check for focus
+        ///     Noresize flag
         /// </summary>
-        public static string[] GameTitles = new[]
+        public const uint SwpNosize = 0x0001;
+
+        /// <summary>
+        ///     Nomove flag
+        /// </summary>
+        public const uint SwpNomove = 0x0002;
+
+        /// <summary>
+        ///     Topmost flag
+        /// </summary>
+        public const uint TopmostFlags = SwpNomove | SwpNosize;
+
+        /// <summary>
+        ///     Path of the demo file
+        /// </summary>
+        public static string FilePath = "";
+
+        /// <summary>
+        ///     VKEY of the key used to force update the overlay
+        /// </summary>
+        public static int RescanKey;
+
+        /// <summary>
+        ///     Key to exit the overlay
+        /// </summary>
+        public static int ExitKey;
+
+        /// <summary>
+        ///     Font of the overlay
+        /// </summary>
+        public static Font TextFont;
+
+        /// <summary>
+        ///     Color of the overlay text
+        /// </summary>
+        public static Color TextColor;
+
+        /// <summary>
+        ///     Name of the current window, we use this to check if hl2 etc. is focused.
+        /// </summary>
+        public static string Currentwindow = "";
+
+        /// <summary>
+        ///     This is what is printed.
+        /// </summary>
+        public static string Demodata = "";
+
+        /// <summary>
+        ///     Window names to check for focus
+        /// </summary>
+        public static string[] GameTitles =
         {
             "HALF-LIFE 2",
             "PORTAL",
@@ -88,108 +97,52 @@ namespace VolvoWrench.Overlay
         };
 
         /// <summary>
-        /// The Source demo overlay settings
+        ///     The Source demo overlay settings
         /// </summary>
         public static Sourceoverlaysettings Sos;
+
         /// <summary>
-        /// The HLS:OOE overlay settings
+        ///     The HLS:OOE overlay settings
         /// </summary>
         public static Hlsooeoverlaysettings Hos;
+
         /// <summary>
-        /// The L4D2 Branch overlay settings
+        ///     The L4D2 Branch overlay settings
         /// </summary>
         public static L4D2Branchoverlaysettings Los;
+
         /// <summary>
-        /// The GoldSource overlay settings
+        ///     The GoldSource overlay settings
         /// </summary>
         public static Goldsourceoverlaysettings Gos;
 
         /// <summary>
-        /// Determines if the overlay form should be running
+        ///     Determines if the overlay form should be running
         /// </summary>
         public static bool Shouldrun = true;
 
-        private WindowRenderTarget _device;
-        private HwndRenderTargetProperties _renderProperties;
-        private SolidColorBrush _solidColorBrush;
-        private Factory _factory;
-
-        private FontFactory _fontFactory;
-        readonly FontConverter _cvt = new FontConverter();
-        readonly FileIniDataParser _parser = new FileIniDataParser();
-
-        private Timer _timer1;
-        private Thread _sDx;
-
-        #region  DllImports
         /// <summary>
-        /// Set window size Pinvoke
-        /// </summary>
-        /// <param name="hWnd"></param>
-        /// <param name="nIndex"></param>
-        /// <param name="dwNewLong"></param>
-        /// <returns></returns>
-        [DllImport("user32.dll")]
-        public static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
-
-        /// <summary>
-        /// Gets the size of a window
-        /// </summary>
-        /// <param name="hWnd"></param>
-        /// <param name="nIndex"></param>
-        /// <returns></returns>
-        [DllImport("user32.dll", SetLastError = true)]
-        public static extern int GetWindowLong(IntPtr hWnd, int nIndex);
-
-        /// <summary>
-        /// Sets the position of a window
-        /// </summary>
-        /// <param name="hWnd"></param>
-        /// <param name="hWndInsertAfter"></param>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <param name="cx"></param>
-        /// <param name="cy"></param>
-        /// <param name="uFlags"></param>
-        /// <returns></returns>
-        [DllImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int x, int y, int cx, int cy, uint uFlags);
-
-        /// <summary>
-        /// Maximizes a window
-        /// </summary>
-        /// <param name="hWnd"></param>
-        /// <param name="pMargins"></param>
-        [DllImport("dwmapi.dll")]
-        public static extern void DwmExtendFrameIntoClientArea(IntPtr hWnd, ref int[] pMargins);
-
-        [DllImport("user32.dll")]
-        static extern IntPtr GetForegroundWindow();
-
-        [DllImport("user32.dll")]
-        static extern int GetWindowText(IntPtr hWnd, StringBuilder text, int count);
-        #endregion 
-
-        /// <summary>
-        /// Noresize flag
-        /// </summary>
-        public const uint SwpNosize = 0x0001;
-        /// <summary>
-        /// Nomove flag
-        /// </summary>
-        public const uint SwpNomove = 0x0002;
-        /// <summary>
-        /// Topmost flag
-        /// </summary>
-        public const uint TopmostFlags = SwpNomove | SwpNosize;
-        /// <summary>
-        /// Flag for being the topmost window
+        ///     Flag for being the topmost window
         /// </summary>
         public static IntPtr HwndTopmost = new IntPtr(-1);
 
+        private readonly FontConverter _cvt = new FontConverter();
+        private readonly FileIniDataParser _parser = new FileIniDataParser();
+        private WindowRenderTarget _device;
+        private Factory _factory;
+        private FontFactory _fontFactory;
+        private HwndRenderTargetProperties _renderProperties;
+        private Thread _sDx;
+        private SolidColorBrush _solidColorBrush;
+        private Timer _timer1;
+
         /// <summary>
-        /// The constructor of the overlay form
+        ///     This is what checks the demofolder periodically for change
+        /// </summary>
+        public BackgroundWorker DemoParserSlave;
+
+        /// <summary>
+        ///     The constructor of the overlay form
         /// </summary>
         /// <param name="file"> Path to the demo file</param>
         public OverlayForm(string file)
@@ -200,7 +153,9 @@ namespace VolvoWrench.Overlay
             SetWindowPos(Handle, HwndTopmost, 0, 0, 0, 0, TopmostFlags);
             OnResize(null);
             TopMost = true;
+
             #region Settings Load
+
             var iniD = _parser.ReadFile(Main.SettingsPath);
             TextFont = _cvt.ConvertFromString(iniD["SETTINGS"]["overlay_font"]) as Font;
             var colorstring = iniD["SETTINGS"]["overlay_color"].Split(':');
@@ -273,7 +228,9 @@ namespace VolvoWrench.Overlay
             Gos.LowestFps = Convert.ToBoolean(int.Parse(iniD["OVERLAY_GOLDSOURCE"]["lowest_msec"]));
             Gos.HighestMsec = Convert.ToBoolean(int.Parse(iniD["OVERLAY_GOLDSOURCE"]["highest_msec"]));
             Gos.AverageMsec = Convert.ToBoolean(int.Parse(iniD["OVERLAY_GOLDSOURCE"]["average_msec"]));
+
             #endregion
+
             _timer1.Interval = 300;
             _timer1.Enabled = true;
             _timer1.Start();
@@ -291,55 +248,6 @@ namespace VolvoWrench.Overlay
 
             DemoParserSlave.RunWorkerAsync(FilePath);
         }
-
-
-        #region DX init stuff
-        protected override sealed void OnResize(EventArgs e)
-        {
-            base.OnResize(e);
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            DoubleBuffered = true;
-            Width = Screen.PrimaryScreen.WorkingArea.Width;
-            Height = Screen.PrimaryScreen.WorkingArea.Height;
-            SetStyle(ControlStyles.OptimizedDoubleBuffer |// this reduce the flicker
-                ControlStyles.AllPaintingInWmPaint |
-                ControlStyles.DoubleBuffer |
-                ControlStyles.UserPaint |
-                ControlStyles.Opaque |
-                ControlStyles.ResizeRedraw |
-                ControlStyles.SupportsTransparentBackColor, true);
-            TopMost = true;
-            Visible = true;
-
-            _factory = new Factory();
-            _fontFactory = new FontFactory();
-            _renderProperties = new HwndRenderTargetProperties()
-            {
-                Hwnd = Handle,
-                PixelSize = new Size2(1920, 1080),
-                PresentOptions = PresentOptions.None
-            };
-            _device = new WindowRenderTarget(_factory, new RenderTargetProperties(new PixelFormat(Format.B8G8R8A8_UNorm, AlphaMode.Premultiplied)), _renderProperties);
-
-            _solidColorBrush = new SolidColorBrush(_device, new RawColor4(TextColor.R, TextColor.G, TextColor.B, TextColor.A));
-
-            _sDx = new Thread(SDxThread)
-            {
-                Priority = ThreadPriority.Highest,
-                IsBackground = true
-            };
-
-            _sDx.Start();
-        }
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            var marg = new[] { 0, 0, Width, Height };
-            DwmExtendFrameIntoClientArea(Handle, ref marg);
-        }
-        #endregion
 
         private void hotkeytimer_Tick(object sender, EventArgs e)
         {
@@ -361,7 +269,7 @@ namespace VolvoWrench.Overlay
         }
 
         /// <summary>
-        /// This is the thread where we draw
+        ///     This is the thread where we draw
         /// </summary>
         /// <param name="sender"></param>
         private void SDxThread(object sender)
@@ -370,13 +278,14 @@ namespace VolvoWrench.Overlay
             while (Shouldrun)
             {
                 _device.BeginDraw();
-                _device.Clear(new RawColor4(Color.Transparent.R, Color.Transparent.G, Color.Transparent.B, Color.Transparent.A));
+                _device.Clear(new RawColor4(Color.Transparent.R, Color.Transparent.G, Color.Transparent.B,
+                    Color.Transparent.A));
                 _device.TextAntialiasMode = TextAntialiasMode.Default;
                 using (var g = Graphics.FromHwnd(IntPtr.Zero))
                 {
                     if (!string.IsNullOrEmpty(Currentwindow))
                     {
-                        if (GameTitles.Any(x=> Currentwindow.ToUpper().Contains(x)))
+                        if (GameTitles.Any(x => Currentwindow.ToUpper().Contains(x)))
                         {
                             _device.DrawText(Demodata,
                                 new TextFormat(_fontFactory,
@@ -385,9 +294,9 @@ namespace VolvoWrench.Overlay
                                     FontStyle.Normal,
                                     TextFont.Size),
                                 new RawRectangleF(0, 0,
-                                    (int)g.MeasureString(Demodata, TextFont).Width + 5,
-                                    (int)g.MeasureString(Demodata, TextFont).Height + 5),
-                                    _solidColorBrush);
+                                    (int) g.MeasureString(Demodata, TextFont).Width + 5,
+                                    (int) g.MeasureString(Demodata, TextFont).Height + 5),
+                                _solidColorBrush);
                         }
                     }
                 }
@@ -396,13 +305,15 @@ namespace VolvoWrench.Overlay
         }
 
         /// <summary>
-        /// This is where we check the settings and add the data to the string that will be printed
+        ///     This is where we check the settings and add the data to the string that will be printed
         /// </summary>
         /// <param name="demo"></param>
         public static void PrintOverlayData(CrossParseResult demo)
         {
             Demodata = "Parsed file!";
+
             #region Print
+
             switch (demo.Type)
             {
                 case Parseresult.UnsupportedFile:
@@ -416,7 +327,6 @@ namespace VolvoWrench.Overlay
                         {
                             Demodata += ("\n" + err);
                         }
-
                     }
                     else
                     {
@@ -426,7 +336,10 @@ namespace VolvoWrench.Overlay
                         int msecMin = 0, msecMax = 0;
                         long msecSum = 0;
                         var first = true;
-                        foreach (var f in from entry in demo.GsDemoInfo.DirectoryEntries from frame in entry.Frames where (int)frame.Key.Type < 2 || (int)frame.Key.Type > 9 select (GoldSource.NetMsgFrame)frame.Value)
+                        foreach (var f in from entry in demo.GsDemoInfo.DirectoryEntries
+                            from frame in entry.Frames
+                            where (int) frame.Key.Type < 2 || (int) frame.Key.Type > 9
+                            select (GoldSource.NetMsgFrame) frame.Value)
                         {
                             frametimeSum += f.RParms.Frametime;
                             msecSum += f.UCmd.Msec;
@@ -457,21 +370,24 @@ namespace VolvoWrench.Overlay
                         if (Gos.GameDirectory)
                             Demodata += $"\nGame directory:             {demo.GsDemoInfo.Header.GameDir}";
                         if (Gos.MeasuredTime)
-                            Demodata += $"\nLength in seconds:          {demo.GsDemoInfo.DirectoryEntries.Sum(x => x.TrackTime).ToString("n3")}s";
+                            Demodata +=
+                                $"\nLength in seconds:          {demo.GsDemoInfo.DirectoryEntries.Sum(x => x.TrackTime).ToString("n3")}s";
                         if (Gos.MeasuredTicks)
-                            Demodata += $"\nFrame count:                {demo.GsDemoInfo.DirectoryEntries.Sum(x => x.FrameCount)}";
+                            Demodata +=
+                                $"\nFrame count:                {demo.GsDemoInfo.DirectoryEntries.Sum(x => x.FrameCount)}";
                         if (Gos.HighestFps)
-                            Demodata += $"\nHigest FPS:                 {(1 / frametimeMin).ToString("N2")}";
+                            Demodata += $"\nHigest FPS:                 {(1/frametimeMin).ToString("N2")}";
                         if (Gos.LowestFps)
-                            Demodata += $"\nLowest FPS:                 {(1 / frametimeMax).ToString("N2")}";
+                            Demodata += $"\nLowest FPS:                 {(1/frametimeMax).ToString("N2")}";
                         if (Gos.AverageFps)
-                            Demodata += $"\nAverage FPS:                {(count / frametimeSum).ToString("N2")}";
+                            Demodata += $"\nAverage FPS:                {(count/frametimeSum).ToString("N2")}";
                         if (Gos.LowestMsec)
-                            Demodata += $"\nLowest msec:                {(1000.0 / msecMax).ToString("N2")} FPS";
+                            Demodata += $"\nLowest msec:                {(1000.0/msecMax).ToString("N2")} FPS";
                         if (Gos.HighestMsec)
-                            Demodata += $"\nHighest msec:               {(1000.0 / msecMin).ToString("N2")} FPS";
+                            Demodata += $"\nHighest msec:               {(1000.0/msecMin).ToString("N2")} FPS";
                         if (Gos.AverageMsec)
-                            Demodata += $"\nAverage msec:               {(1000.0 / (msecSum / (double)count)).ToString("N2")} FPS";
+                            Demodata +=
+                                $"\nAverage msec:               {(1000.0/(msecSum/(double) count)).ToString("N2")} FPS";
                     }
                     break;
                 case Parseresult.Hlsooe:
@@ -495,11 +411,17 @@ namespace VolvoWrench.Overlay
                         if (Hos.GameDirectory)
                             Demodata += $"\nGame directory:             {demo.HlsooeDemoInfo.Header.GameDir}";
                         if (Hos.MeasuredTime)
-                            Demodata += $"\nLength in seconds:          {(demo.HlsooeDemoInfo.DirectoryEntries.Last().Frames.LastOrDefault().Key.Frame) * 0.015}s";
+                            Demodata +=
+                                $"\nLength in seconds:          {(demo.HlsooeDemoInfo.DirectoryEntries.Last().Frames.LastOrDefault().Key.Frame)*0.015}s";
                         if (Hos.MeasuredTicks)
-                            Demodata += $"\nTick count:                 {(demo.HlsooeDemoInfo.DirectoryEntries.Last().Frames.LastOrDefault().Key.Frame)}";
-                        foreach (var flag in demo.HlsooeDemoInfo.DirectoryEntries.SelectMany(demoDirectoryEntry => demoDirectoryEntry.Flags))
-                            Demodata += (flag.Value.Command + " at " + flag.Key.Frame + " -> " + (flag.Key.Frame * 0.015).ToString("n3") + "s");
+                            Demodata +=
+                                $"\nTick count:                 {(demo.HlsooeDemoInfo.DirectoryEntries.Last().Frames.LastOrDefault().Key.Frame)}";
+                        foreach (
+                            var flag in
+                                demo.HlsooeDemoInfo.DirectoryEntries.SelectMany(
+                                    demoDirectoryEntry => demoDirectoryEntry.Flags))
+                            Demodata += (flag.Value.Command + " at " + flag.Key.Frame + " -> " +
+                                         (flag.Key.Frame*0.015).ToString("n3") + "s");
                     }
                     break;
                 case Parseresult.Source:
@@ -522,19 +444,20 @@ namespace VolvoWrench.Overlay
                         if (Sos.MapName)
                             Demodata += $"\nMap name:                   {demo.Sdi.MapName}";
                         if (Sos.MeasuredTime)
-                            Demodata += $"\nMeasured time:              {(demo.Sdi.Messages.Max(x => x.Tick) * 0.015).ToString("n3")}s";
+                            Demodata +=
+                                $"\nMeasured time:              {(demo.Sdi.Messages.Max(x => x.Tick)*0.015).ToString("n3")}s";
                         if (Sos.MeasuredTicks)
                             Demodata += $"\nMeasured ticks:             {demo.Sdi.Messages.Max(x => x.Tick)}";
                         foreach (var f in demo.Sdi.Flags)
                             switch (f.Name)
                             {
                                 case "#SAVE#":
-                                    if(Sos.SaveFlag)
-                                    Demodata += ($"\n#SAVE# flag at Tick: {f.Tick} -> {f.Time}s");
+                                    if (Sos.SaveFlag)
+                                        Demodata += ($"\n#SAVE# flag at Tick: {f.Tick} -> {f.Time}s");
                                     break;
                                 case "autosave":
-                                    if(Sos.AutosaveFlag)
-                                    Demodata += ($"\nAutosave at Tick: {f.Tick} -> {f.Time}s");
+                                    if (Sos.AutosaveFlag)
+                                        Demodata += ($"\nAutosave at Tick: {f.Tick} -> {f.Time}s");
                                     break;
                             }
                     }
@@ -565,13 +488,15 @@ namespace VolvoWrench.Overlay
                         if (Los.GameDirectory)
                             Demodata += $"\nGameDir:            {demo.L4D2BranchInfo.Header.GameDirectory}";
                         if (Los.MeasuredTime)
-                            Demodata += $"\nPlaybacktime:       {(demo.L4D2BranchInfo.Header.PlaybackTicks * 0.015).ToString("n3")}s";
+                            Demodata +=
+                                $"\nPlaybacktime:       {(demo.L4D2BranchInfo.Header.PlaybackTicks*0.015).ToString("n3")}s";
                         if (Los.MeasuredTicks)
                             Demodata += $"\nPlaybackticks:      {demo.L4D2BranchInfo.Header.PlaybackTicks}";
                         if (Los.AdjustedTicks)
                             Demodata += $"\nAdjusted ticks:     {demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks}";
                         if (Los.AdjustedTime)
-                            Demodata += $"\nAdjusted time:      {demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks * 0.015 + "s"}";
+                            Demodata +=
+                                $"\nAdjusted time:      {demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks*0.015 + "s"}";
                         if (Los.DemoProtocol)
                             Demodata += $"\nProtocol:           {demo.L4D2BranchInfo.Header.Protocol}";
                         if (Los.DemoProtocol)
@@ -579,12 +504,12 @@ namespace VolvoWrench.Overlay
                     }
                     break;
             }
+
             #endregion
         }
 
         private static string GetActiveWindowTitle()
         {
-            
             const int nChars = 256;
             var buff = new StringBuilder(nChars);
             var handle = GetForegroundWindow();
@@ -595,7 +520,115 @@ namespace VolvoWrench.Overlay
             return "";
         }
 
+        #region  DllImports
+
+        /// <summary>
+        ///     Set window size Pinvoke
+        /// </summary>
+        /// <param name="hWnd"></param>
+        /// <param name="nIndex"></param>
+        /// <param name="dwNewLong"></param>
+        /// <returns></returns>
+        [DllImport("user32.dll")]
+        public static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
+
+        /// <summary>
+        ///     Gets the size of a window
+        /// </summary>
+        /// <param name="hWnd"></param>
+        /// <param name="nIndex"></param>
+        /// <returns></returns>
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern int GetWindowLong(IntPtr hWnd, int nIndex);
+
+        /// <summary>
+        ///     Sets the position of a window
+        /// </summary>
+        /// <param name="hWnd"></param>
+        /// <param name="hWndInsertAfter"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="cx"></param>
+        /// <param name="cy"></param>
+        /// <param name="uFlags"></param>
+        /// <returns></returns>
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int x, int y, int cx, int cy,
+            uint uFlags);
+
+        /// <summary>
+        ///     Maximizes a window
+        /// </summary>
+        /// <param name="hWnd"></param>
+        /// <param name="pMargins"></param>
+        [DllImport("dwmapi.dll")]
+        public static extern void DwmExtendFrameIntoClientArea(IntPtr hWnd, ref int[] pMargins);
+
+        [DllImport("user32.dll")]
+        private static extern IntPtr GetForegroundWindow();
+
+        [DllImport("user32.dll")]
+        private static extern int GetWindowText(IntPtr hWnd, StringBuilder text, int count);
+
+        #endregion
+
+        #region DX init stuff
+
+        protected override sealed void OnResize(EventArgs e)
+        {
+            base.OnResize(e);
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            DoubleBuffered = true;
+            Width = Screen.PrimaryScreen.WorkingArea.Width;
+            Height = Screen.PrimaryScreen.WorkingArea.Height;
+            SetStyle(ControlStyles.OptimizedDoubleBuffer | // this reduce the flicker
+                     ControlStyles.AllPaintingInWmPaint |
+                     ControlStyles.DoubleBuffer |
+                     ControlStyles.UserPaint |
+                     ControlStyles.Opaque |
+                     ControlStyles.ResizeRedraw |
+                     ControlStyles.SupportsTransparentBackColor, true);
+            TopMost = true;
+            Visible = true;
+
+            _factory = new Factory();
+            _fontFactory = new FontFactory();
+            _renderProperties = new HwndRenderTargetProperties
+            {
+                Hwnd = Handle,
+                PixelSize = new Size2(1920, 1080),
+                PresentOptions = PresentOptions.None
+            };
+            _device = new WindowRenderTarget(_factory,
+                new RenderTargetProperties(new PixelFormat(Format.B8G8R8A8_UNorm, AlphaMode.Premultiplied)),
+                _renderProperties);
+
+            _solidColorBrush = new SolidColorBrush(_device,
+                new RawColor4(TextColor.R, TextColor.G, TextColor.B, TextColor.A));
+
+            _sDx = new Thread(SDxThread)
+            {
+                Priority = ThreadPriority.Highest,
+                IsBackground = true
+            };
+
+            _sDx.Start();
+        }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            var marg = new[] {0, 0, Width, Height};
+            DwmExtendFrameIntoClientArea(Handle, ref marg);
+        }
+
+        #endregion
+
         #region Background worker methods
+
         private static void MonitorDemo(BackgroundWorker worker, string demo)
         {
             Thread.Sleep(DirectoryScannerRefreshRate);
@@ -603,9 +636,9 @@ namespace VolvoWrench.Overlay
             {
                 try
                 {
-                        var demoParseResult = CrossDemoParser.Parse(demo);                        
-                            worker.ReportProgress(0, demoParseResult);
-                            return;
+                    var demoParseResult = CrossDemoParser.Parse(demo);
+                    worker.ReportProgress(0, demoParseResult);
+                    return;
                 }
                 catch
                 {
@@ -627,21 +660,21 @@ namespace VolvoWrench.Overlay
 
             while (worker != null && !worker.CancellationPending)
             {
-                    var writeTime = File.GetLastWriteTime(FilePath);
-                    if (writeTime.CompareTo(startTime) > 0)
+                var writeTime = File.GetLastWriteTime(FilePath);
+                if (writeTime.CompareTo(startTime) > 0)
+                {
+                    Thread.Sleep(10);
+                    startTime = DateTime.Now;
+                    if (new FileInfo(FilePath).Length > 540 &&
+                        new FileInfo(FilePath).Length != 237568)
                     {
-                        Thread.Sleep(10);
-                        startTime = DateTime.Now;
-                        if (new FileInfo(FilePath).Length > 540 &&
-                            new FileInfo(FilePath).Length != 237568)
-                        {
-                             worker.ReportProgress(0, Path.GetFileName(FilePath));
-                             MonitorDemo(worker, FilePath);
-                             worker.ReportProgress(0, null);
-                             break;
-                        }
+                        worker.ReportProgress(0, Path.GetFileName(FilePath));
+                        MonitorDemo(worker, FilePath);
+                        worker.ReportProgress(0, null);
+                        break;
                     }
-                    Thread.Sleep(1);
+                }
+                Thread.Sleep(1);
             }
         }
 
@@ -653,7 +686,7 @@ namespace VolvoWrench.Overlay
         }
 
         /// <summary>
-        /// Checks if we can use the file eg.: if the game is still writing to it
+        ///     Checks if we can use the file eg.: if the game is still writing to it
         /// </summary>
         /// <param name="f"></param>
         /// <returns></returns>
@@ -676,69 +709,69 @@ namespace VolvoWrench.Overlay
             }
             return false;
         }
+
         #endregion
     }
 
     public struct Sourceoverlaysettings
     {
-        public bool DemoProtocol;
-        public bool NetProtocol;
-        public bool ServerName;
-        public bool ClientName;
-        public bool MapName;
-        public bool GameDirectory;
-        public bool MeasuredTime;
-        public bool MeasuredTicks;
-        public bool SaveFlag;
         public bool AutosaveFlag;
+        public bool ClientName;
+        public bool DemoProtocol;
+        public bool GameDirectory;
+        public bool MapName;
+        public bool MeasuredTicks;
+        public bool MeasuredTime;
+        public bool NetProtocol;
+        public bool SaveFlag;
+        public bool ServerName;
     }
 
     public struct Hlsooeoverlaysettings
     {
-        public bool DemoProtocol;
-        public bool NetProtocol;
-        public bool ServerName;
-        public bool ClientName;
-        public bool MapName;
-        public bool GameDirectory;
-        public bool MeasuredTime;
-        public bool MeasuredTicks;
-        public bool SaveFlag;
         public bool AutosaveFlag;
+        public bool ClientName;
+        public bool DemoProtocol;
+        public bool GameDirectory;
+        public bool MapName;
+        public bool MeasuredTicks;
+        public bool MeasuredTime;
+        public bool NetProtocol;
+        public bool SaveFlag;
+        public bool ServerName;
     }
 
     public struct L4D2Branchoverlaysettings
     {
-        public bool DemoProtocol;
-        public bool NetProtocol;
-        public bool ServerName;
-        public bool ClientName;
-        public bool MapName;
-        public bool GameDirectory;
-        public bool MeasuredTime;
-        public bool MeasuredTicks;
-        public bool SaveFlag;
-        public bool AutosaveFlag;
-        public bool AdjustedTime;
         public bool AdjustedTicks;
+        public bool AdjustedTime;
+        public bool AutosaveFlag;
+        public bool ClientName;
+        public bool DemoProtocol;
+        public bool GameDirectory;
+        public bool MapName;
+        public bool MeasuredTicks;
+        public bool MeasuredTime;
+        public bool NetProtocol;
+        public bool SaveFlag;
+        public bool ServerName;
     }
 
     public struct Goldsourceoverlaysettings
     {
+        public bool AverageFps;
+        public bool AverageMsec;
+        public bool ClientName;
         public bool DemoProtocol;
+        public bool GameDirectory;
+        public bool HighestFps;
+        public bool HighestMsec;
+        public bool LowestFps;
+        public bool LowestMsec;
+        public bool MapName;
+        public bool MeasuredTicks;
+        public bool MeasuredTime;
         public bool NetProtocol;
         public bool ServerName;
-        public bool ClientName;
-        public bool MapName;
-        public bool GameDirectory;
-        public bool MeasuredTime;
-        public bool MeasuredTicks;
-        public bool HighestFps;
-        public bool LowestFps;
-        public bool AverageFps;
-        public bool LowestMsec;
-        public bool HighestMsec;
-        public bool AverageMsec;
     }
-
 }

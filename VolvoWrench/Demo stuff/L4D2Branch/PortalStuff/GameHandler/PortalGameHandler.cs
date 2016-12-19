@@ -4,70 +4,65 @@ using VolvoWrench.Demo_Stuff.L4D2Branch.PortalStuff.Result;
 
 namespace VolvoWrench.Demo_Stuff.L4D2Branch.PortalStuff.GameHandler
 {
-	internal class PortalGameHandler : HL2GameHandler
-	{
-		private const string _crosshairAppearAdjustType = "Crosshair Appear";
+    internal class PortalGameHandler : HL2GameHandler
+    {
+        private const string _crosshairAppearAdjustType = "Crosshair Appear";
+        private const string _crosshairDisappearAdjustType = "Crosshair Disappear";
+        private readonly string[] _maps = Category.Portal.Maps;
+        private string _endAdjustType;
+        private int _endTick = -1;
+        private string _startAdjustType;
+        private int _startTick = -1;
 
-		private const string _crosshairDisappearAdjustType = "Crosshair Disappear";
+        public PortalGameHandler()
+        {
+            Maps.AddRange(_maps);
+        }
 
-		private string _startAdjustType;
+        public override DemoParseResult GetResult()
+        {
+            var result = base.GetResult();
+            if (_startAdjustType != null)
+            {
+                result.StartAdjustmentType = _startAdjustType;
+                result.StartAdjustmentTick = _startTick;
+            }
+            if (_endAdjustType != null)
+            {
+                result.EndAdjustmentType = _endAdjustType;
+                result.EndAdjustmentTick = _endTick;
+            }
+            return result;
+        }
 
-		private string _endAdjustType;
+        protected override ConsoleCmdResult ProcessConsoleCmd(BinaryReader br)
+        {
+            var consoleCmdResult = base.ProcessConsoleCmd(br);
 
-		private string[] _maps = Category.Portal.Maps;
-
-		private int _startTick = -1;
-
-		private int _endTick = -1;
-
-		public PortalGameHandler()
-		{
-			base.Maps.AddRange(this._maps);
-		}
-
-		public override DemoParseResult GetResult()
-		{
-			DemoParseResult result = base.GetResult();
-			if (this._startAdjustType != null)
-			{
-				result.StartAdjustmentType = this._startAdjustType;
-				result.StartAdjustmentTick = this._startTick;
-			}
-			if (this._endAdjustType != null)
-			{
-				result.EndAdjustmentType = this._endAdjustType;
-				result.EndAdjustmentTick = this._endTick;
-			}
-			return result;
-		}
-
-		protected override ConsoleCmdResult ProcessConsoleCmd(BinaryReader br)
-		{
-			ConsoleCmdResult consoleCmdResult = base.ProcessConsoleCmd(br);
-
-			if (this._endAdjustType == null && base.Map == "escape_02" && consoleCmdResult.Command == "startneurotoxins 99999")
-			{
-				this._endAdjustType = "Crosshair Disappear";
-				this._endTick = base.CurrentTick + 1;
-			}
+            if (_endAdjustType == null && Map == "escape_02" && consoleCmdResult.Command == "startneurotoxins 99999")
+            {
+                _endAdjustType = "Crosshair Disappear";
+                _endTick = CurrentTick + 1;
+            }
             else if (consoleCmdResult.Command.Contains("#SAVE#"))
             {
-                this._endAdjustType = "#SAVE# Flag";
-                this._endTick = base.CurrentTick;
+                _endAdjustType = "#SAVE# Flag";
+                _endTick = CurrentTick;
             }
             return consoleCmdResult;
-		}
+        }
 
-		protected override PacketResult ProcessPacket(BinaryReader br)
-		{
-			PacketResult packetResult = base.ProcessPacket(br);
+        protected override PacketResult ProcessPacket(BinaryReader br)
+        {
+            var packetResult = base.ProcessPacket(br);
 
-			if (this._startAdjustType == null && base.Map == "testchmb_a_00" && packetResult.CurrentPosition.Equals(new Point3D(-544f, -368.75f, 160f)))
-			{
-				this._startAdjustType = "Crosshair Appear";
-				this._startTick = base.CurrentTick + 1;
-			}
-			return packetResult;
-		}
-	}
+            if (_startAdjustType == null && Map == "testchmb_a_00" &&
+                packetResult.CurrentPosition.Equals(new Point3D(-544f, -368.75f, 160f)))
+            {
+                _startAdjustType = "Crosshair Appear";
+                _startTick = CurrentTick + 1;
+            }
+            return packetResult;
+        }
+    }
 }

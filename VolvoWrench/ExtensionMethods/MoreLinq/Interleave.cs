@@ -1,4 +1,5 @@
 #region License and Terms
+
 // MoreLINQ - Extensions to LINQ to Objects
 // Copyright (c) 2010 Leopold Bushkin. All rights reserved.
 // 
@@ -13,6 +14,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 #endregion
 
 using System;
@@ -25,63 +27,64 @@ namespace MoreLinq
     public static partial class MoreEnumerable
     {
         /// <summary>
-        /// Interleaves the elements of two or more sequences into a single sequence, skipping sequences as they are consumed
+        ///     Interleaves the elements of two or more sequences into a single sequence, skipping sequences as they are consumed
         /// </summary>
         /// <remarks>
-        /// Interleave combines sequences by visiting each in turn, and returning the first element of each, followed
-        /// by the second, then the third, and so on. So, for example:<br/>
-        /// <code>
+        ///     Interleave combines sequences by visiting each in turn, and returning the first element of each, followed
+        ///     by the second, then the third, and so on. So, for example:<br />
+        ///     <code>
         /// {1,1,1}.Interleave( {2,2,2}, {3,3,3} ) => { 1,2,3,1,2,3,1,2,3 }
         /// </code>
-        /// This operator behaves in a deferred and streaming manner.<br/>
-        /// When sequences are of unequal length, this method will skip those sequences that have been fully consumed
-        /// and continue interleaving the remaining sequences.<br/>
-        /// The sequences are interleaved in the order that they appear in the <paramref name="otherSequences"/>
-        /// collection, with <paramref name="sequence"/> as the first sequence.
+        ///     This operator behaves in a deferred and streaming manner.<br />
+        ///     When sequences are of unequal length, this method will skip those sequences that have been fully consumed
+        ///     and continue interleaving the remaining sequences.<br />
+        ///     The sequences are interleaved in the order that they appear in the <paramref name="otherSequences" />
+        ///     collection, with <paramref name="sequence" /> as the first sequence.
         /// </remarks>
         /// <typeparam name="T">The type of the elements of the source sequences</typeparam>
         /// <param name="sequence">The first sequence in the interleave group</param>
         /// <param name="otherSequences">The other sequences in the interleave group</param>
         /// <returns>A sequence of interleaved elements from all of the source sequences</returns>
-        
         public static IEnumerable<T> Interleave<T>(this IEnumerable<T> sequence, params IEnumerable<T>[] otherSequences)
         {
             return Interleave(sequence, ImbalancedInterleaveStrategy.Skip, otherSequences);
         }
 
         /// <summary>
-        /// Interleaves the elements of two or more sequences into a single sequence, applying the specified strategy when sequences are of unequal length
+        ///     Interleaves the elements of two or more sequences into a single sequence, applying the specified strategy when
+        ///     sequences are of unequal length
         /// </summary>
         /// <remarks>
-        /// Interleave combines sequences by visiting each in turn, and returning the first element of each, followed
-        /// by the second, then the third, and so on. So, for example:<br/>
-        /// <code>
+        ///     Interleave combines sequences by visiting each in turn, and returning the first element of each, followed
+        ///     by the second, then the third, and so on. So, for example:<br />
+        ///     <code>
         /// {1,1,1}.Interleave( {2,2,2}, {3,3,3} ) => { 1,2,3,1,2,3,1,2,3 }
         /// </code>
-        /// This operator behaves in a deferred and streaming manner.<br/>
-        /// When sequences are of unequal length, this method will use the imbalance strategy specified to
-        /// decide how to continue interleaving the remaining sequences. See <see cref="ImbalancedInterleaveStrategy"/>
-        /// for more information.<br/>
-        /// The sequences are interleaved in the order that they appear in the <paramref name="otherSequences"/>
-        /// collection, with <paramref name="sequence"/> as the first sequence.
+        ///     This operator behaves in a deferred and streaming manner.<br />
+        ///     When sequences are of unequal length, this method will use the imbalance strategy specified to
+        ///     decide how to continue interleaving the remaining sequences. See <see cref="ImbalancedInterleaveStrategy" />
+        ///     for more information.<br />
+        ///     The sequences are interleaved in the order that they appear in the <paramref name="otherSequences" />
+        ///     collection, with <paramref name="sequence" /> as the first sequence.
         /// </remarks>
         /// <typeparam name="T">The type of the elements of the source sequences</typeparam>
         /// <param name="sequence">The first sequence in the interleave group</param>
         /// <param name="imbalanceStrategy">Defines the behavior of the operator when sequences are of unequal length</param>
         /// <param name="otherSequences">The other sequences in the interleave group</param>
         /// <returns>A sequence of interleaved elements from all of the source sequences</returns>
-        
-        private static IEnumerable<T> Interleave<T>(this IEnumerable<T> sequence, ImbalancedInterleaveStrategy imbalanceStrategy, params IEnumerable<T>[] otherSequences)
+        private static IEnumerable<T> Interleave<T>(this IEnumerable<T> sequence,
+            ImbalancedInterleaveStrategy imbalanceStrategy, params IEnumerable<T>[] otherSequences)
         {
             if (sequence == null) throw new ArgumentNullException("sequence");
             if (otherSequences == null) throw new ArgumentNullException("otherSequences");
             if (otherSequences.Any(s => s == null))
                 throw new ArgumentNullException("otherSequences", "One or more sequences passed to Interleave was null.");
 
-            return InterleaveImpl(new[] { sequence }.Concat(otherSequences), imbalanceStrategy);
+            return InterleaveImpl(new[] {sequence}.Concat(otherSequences), imbalanceStrategy);
         }
 
-        private static IEnumerable<T> InterleaveImpl<T>(IEnumerable<IEnumerable<T>> sequences, ImbalancedInterleaveStrategy imbalanceStrategy)
+        private static IEnumerable<T> InterleaveImpl<T>(IEnumerable<IEnumerable<T>> sequences,
+            ImbalancedInterleaveStrategy imbalanceStrategy)
         {
             // produce an iterator collection for all IEnumerable<T> instancess passed to us
             var iterators = sequences.Select(e => e.GetEnumerator()).Acquire();
@@ -104,7 +107,8 @@ namespace MoreLinq
                         {
                             // check if all iterators have been consumed and we can terminate
                             // or if the imbalance strategy informs us that we MUST terminate
-                            if (++consumedIterators == iterCount || imbalanceStrategy == ImbalancedInterleaveStrategy.Stop)
+                            if (++consumedIterators == iterCount ||
+                                imbalanceStrategy == ImbalancedInterleaveStrategy.Stop)
                             {
                                 shouldContinue = false;
                                 break;
@@ -116,7 +120,8 @@ namespace MoreLinq
                             switch (imbalanceStrategy)
                             {
                                 case ImbalancedInterleaveStrategy.Pad:
-                                    var newIter = iteratorList[index] = Generate(default(T), x => default(T)).GetEnumerator();
+                                    var newIter =
+                                        iteratorList[index] = Generate(default(T), x => default(T)).GetEnumerator();
                                     newIter.MoveNext();
                                     break;
 
@@ -127,7 +132,6 @@ namespace MoreLinq
                                     --consumedIterators; // decrement consumer iterator count to stay in balance
                                     break;
                             }
-
                         }
                     }
 
@@ -150,22 +154,24 @@ namespace MoreLinq
         }
 
         /// <summary>
-        /// Defines the strategies available when Interleave is passed sequences of unequal length
+        ///     Defines the strategies available when Interleave is passed sequences of unequal length
         /// </summary>
-        enum ImbalancedInterleaveStrategy
+        private enum ImbalancedInterleaveStrategy
         {
             /// <summary>
-            /// Extends a sequence by padding its tail with default(T)
+            ///     Extends a sequence by padding its tail with default(T)
             /// </summary>
             Pad,
+
             /// <summary>
-            /// Removes the sequence from the interleave set, and continues interleaving remaining sequences.
+            ///     Removes the sequence from the interleave set, and continues interleaving remaining sequences.
             /// </summary>
             Skip,
+
             /// <summary>
-            /// Stops the interleave operation.
+            ///     Stops the interleave operation.
             /// </summary>
-            Stop,
+            Stop
         }
     }
 }

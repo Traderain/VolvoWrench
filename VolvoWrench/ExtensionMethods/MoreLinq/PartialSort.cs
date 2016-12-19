@@ -1,4 +1,5 @@
 #region License and Terms
+
 // MoreLINQ - Extensions to LINQ to Objects
 // Copyright (c) 2016 Atif Aziz. All rights reserved.
 //
@@ -13,6 +14,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 #endregion
 
 using System;
@@ -25,40 +27,42 @@ namespace MoreLinq
     static partial class MoreEnumerable
     {
         /// <summary>
-        /// Combines <see cref="Enumerable.OrderBy{TSource,TKey}(IEnumerable{TSource},Func{TSource,TKey})"/>,
-        /// where each element is its key, and <see cref="Enumerable.Take{TSource}"/>
-        /// in a single operation.
+        ///     Combines <see cref="Enumerable.OrderBy{TSource,TKey}(IEnumerable{TSource},Func{TSource,TKey})" />,
+        ///     where each element is its key, and <see cref="Enumerable.Take{TSource}" />
+        ///     in a single operation.
         /// </summary>
         /// <typeparam name="T">Type of elements in the sequence.</typeparam>
         /// <param name="source">The source sequence.</param>
         /// <param name="count">Number of (maximum) elements to return.</param>
-        /// <returns>A sequence containing at most top <paramref name="count"/>
-        /// elements from source, in their ascending order.</returns>
+        /// <returns>
+        ///     A sequence containing at most top <paramref name="count" />
+        ///     elements from source, in their ascending order.
+        /// </returns>
         /// <remarks>
-        /// This operator uses deferred execution and streams it results.
+        ///     This operator uses deferred execution and streams it results.
         /// </remarks>
-
         public static IEnumerable<T> PartialSort<T>(this IEnumerable<T> source, int count)
         {
             return source.PartialSort(count, null);
         }
 
         /// <summary>
-        /// Combines <see cref="OrderBy{T, TKey}(IEnumerable{T}, Func{T, TKey}, IComparer{TKey}, OrderByDirection)"/>,
-        /// where each element is its key, and <see cref="Enumerable.Take{TSource}"/>
-        /// in a single operation.
-        /// An additional parameter specifies the direction of the sort
+        ///     Combines <see cref="OrderBy{T, TKey}(IEnumerable{T}, Func{T, TKey}, IComparer{TKey}, OrderByDirection)" />,
+        ///     where each element is its key, and <see cref="Enumerable.Take{TSource}" />
+        ///     in a single operation.
+        ///     An additional parameter specifies the direction of the sort
         /// </summary>
         /// <typeparam name="T">Type of elements in the sequence.</typeparam>
         /// <param name="source">The source sequence.</param>
         /// <param name="count">Number of (maximum) elements to return.</param>
         /// <param name="direction">The direction in which to sort the elements</param>
-        /// <returns>A sequence containing at most top <paramref name="count"/>
-        /// elements from source, in the specified order.</returns>
+        /// <returns>
+        ///     A sequence containing at most top <paramref name="count" />
+        ///     elements from source, in the specified order.
+        /// </returns>
         /// <remarks>
-        /// This operator uses deferred execution and streams it results.
+        ///     This operator uses deferred execution and streams it results.
         /// </remarks>
-
         public static IEnumerable<T> PartialSort<T>(this IEnumerable<T> source,
             int count, OrderByDirection direction)
         {
@@ -66,21 +70,22 @@ namespace MoreLinq
         }
 
         /// <summary>
-        /// Combines <see cref="Enumerable.OrderBy{TSource,TKey}(IEnumerable{TSource},Func{TSource,TKey},IComparer{TKey})"/>,
-        /// where each element is its key, and <see cref="Enumerable.Take{TSource}"/>
-        /// in a single operation. An additional parameter specifies how the
-        /// elements compare to each other.
+        ///     Combines <see cref="Enumerable.OrderBy{TSource,TKey}(IEnumerable{TSource},Func{TSource,TKey},IComparer{TKey})" />,
+        ///     where each element is its key, and <see cref="Enumerable.Take{TSource}" />
+        ///     in a single operation. An additional parameter specifies how the
+        ///     elements compare to each other.
         /// </summary>
         /// <typeparam name="T">Type of elements in the sequence.</typeparam>
         /// <param name="source">The source sequence.</param>
         /// <param name="count">Number of (maximum) elements to return.</param>
-        /// <param name="comparer">A <see cref="IComparer{T}"/> to compare elements.</param>
-        /// <returns>A sequence containing at most top <paramref name="count"/>
-        /// elements from source, in their ascending order.</returns>
+        /// <param name="comparer">A <see cref="IComparer{T}" /> to compare elements.</param>
+        /// <returns>
+        ///     A sequence containing at most top <paramref name="count" />
+        ///     elements from source, in their ascending order.
+        /// </returns>
         /// <remarks>
-        /// This operator uses deferred execution and streams it results.
+        ///     This operator uses deferred execution and streams it results.
         /// </remarks>
-
         public static IEnumerable<T> PartialSort<T>(this IEnumerable<T> source,
             int count, IComparer<T> comparer)
         {
@@ -89,48 +94,51 @@ namespace MoreLinq
         }
 
         /// <summary>
-        /// Combines <see cref="OrderBy{T, TKey}(IEnumerable{T}, Func{T, TKey}, IComparer{TKey}, OrderByDirection)"/>,
-        /// where each element is its key, and <see cref="Enumerable.Take{TSource}"/>
-        /// in a single operation.
-        /// Additional parameters specify how the elements compare to each other and
-        /// the direction of the sort.
+        ///     Combines <see cref="OrderBy{T, TKey}(IEnumerable{T}, Func{T, TKey}, IComparer{TKey}, OrderByDirection)" />,
+        ///     where each element is its key, and <see cref="Enumerable.Take{TSource}" />
+        ///     in a single operation.
+        ///     Additional parameters specify how the elements compare to each other and
+        ///     the direction of the sort.
         /// </summary>
         /// <typeparam name="T">Type of elements in the sequence.</typeparam>
         /// <param name="source">The source sequence.</param>
         /// <param name="count">Number of (maximum) elements to return.</param>
-        /// <param name="comparer">A <see cref="IComparer{T}"/> to compare elements.</param>
+        /// <param name="comparer">A <see cref="IComparer{T}" /> to compare elements.</param>
         /// <param name="direction">The direction in which to sort the elements</param>
-        /// <returns>A sequence containing at most top <paramref name="count"/>
-        /// elements from source, in the specified order.</returns>
+        /// <returns>
+        ///     A sequence containing at most top <paramref name="count" />
+        ///     elements from source, in the specified order.
+        /// </returns>
         /// <remarks>
-        /// This operator uses deferred execution and streams it results.
+        ///     This operator uses deferred execution and streams it results.
         /// </remarks>
-
         public static IEnumerable<T> PartialSort<T>(this IEnumerable<T> source,
             int count, IComparer<T> comparer, OrderByDirection direction)
         {
             comparer = comparer ?? Comparer<T>.Default;
-            if (direction == OrderByDirection.Descending) {
+            if (direction == OrderByDirection.Descending)
+            {
                 comparer = new ReverseComparer<T>(comparer);
             }
             return source.PartialSort(count, comparer);
         }
 
         /// <summary>
-        /// Combines <see cref="Enumerable.OrderBy{TSource,TKey}(IEnumerable{TSource},Func{TSource,TKey},IComparer{TKey})"/>,
-        /// and <see cref="Enumerable.Take{TSource}"/> in a single operation.
+        ///     Combines <see cref="Enumerable.OrderBy{TSource,TKey}(IEnumerable{TSource},Func{TSource,TKey},IComparer{TKey})" />,
+        ///     and <see cref="Enumerable.Take{TSource}" /> in a single operation.
         /// </summary>
         /// <typeparam name="TSource">Type of elements in the sequence.</typeparam>
         /// <typeparam name="TKey">Type of keys.</typeparam>
         /// <param name="source">The source sequence.</param>
         /// <param name="keySelector">A function to extract a key from an element.</param>
         /// <param name="count">Number of (maximum) elements to return.</param>
-        /// <returns>A sequence containing at most top <paramref name="count"/>
-        /// elements from source, in ascending order of their keys.</returns>
+        /// <returns>
+        ///     A sequence containing at most top <paramref name="count" />
+        ///     elements from source, in ascending order of their keys.
+        /// </returns>
         /// <remarks>
-        /// This operator uses deferred execution and streams it results.
+        ///     This operator uses deferred execution and streams it results.
         /// </remarks>
-
         public static IEnumerable<TSource> PartialSortBy<TSource, TKey>(
             this IEnumerable<TSource> source, int count,
             Func<TSource, TKey> keySelector)
@@ -139,9 +147,9 @@ namespace MoreLinq
         }
 
         /// <summary>
-        /// Combines <see cref="OrderBy{T, TKey}(IEnumerable{T}, Func{T, TKey}, OrderByDirection)"/>,
-        /// and <see cref="Enumerable.Take{TSource}"/> in a single operation.
-        /// An additional parameter specifies the direction of the sort
+        ///     Combines <see cref="OrderBy{T, TKey}(IEnumerable{T}, Func{T, TKey}, OrderByDirection)" />,
+        ///     and <see cref="Enumerable.Take{TSource}" /> in a single operation.
+        ///     An additional parameter specifies the direction of the sort
         /// </summary>
         /// <typeparam name="TSource">Type of elements in the sequence.</typeparam>
         /// <typeparam name="TKey">Type of keys.</typeparam>
@@ -149,12 +157,13 @@ namespace MoreLinq
         /// <param name="keySelector">A function to extract a key from an element.</param>
         /// <param name="count">Number of (maximum) elements to return.</param>
         /// <param name="direction">The direction in which to sort the elements</param>
-        /// <returns>A sequence containing at most top <paramref name="count"/>
-        /// elements from source, in the specified order of their keys.</returns>
+        /// <returns>
+        ///     A sequence containing at most top <paramref name="count" />
+        ///     elements from source, in the specified order of their keys.
+        /// </returns>
         /// <remarks>
-        /// This operator uses deferred execution and streams it results.
+        ///     This operator uses deferred execution and streams it results.
         /// </remarks>
-
         public static IEnumerable<TSource> PartialSortBy<TSource, TKey>(
             this IEnumerable<TSource> source, int count,
             Func<TSource, TKey> keySelector, OrderByDirection direction)
@@ -163,22 +172,23 @@ namespace MoreLinq
         }
 
         /// <summary>
-        /// Combines <see cref="Enumerable.OrderBy{TSource,TKey}(IEnumerable{TSource},Func{TSource,TKey},IComparer{TKey})"/>,
-        /// and <see cref="Enumerable.Take{TSource}"/> in a single operation.
-        /// An additional parameter specifies how the keys compare to each other.
+        ///     Combines <see cref="Enumerable.OrderBy{TSource,TKey}(IEnumerable{TSource},Func{TSource,TKey},IComparer{TKey})" />,
+        ///     and <see cref="Enumerable.Take{TSource}" /> in a single operation.
+        ///     An additional parameter specifies how the keys compare to each other.
         /// </summary>
         /// <typeparam name="TSource">Type of elements in the sequence.</typeparam>
         /// <typeparam name="TKey">Type of keys.</typeparam>
         /// <param name="source">The source sequence.</param>
         /// <param name="keySelector">A function to extract a key from an element.</param>
         /// <param name="count">Number of (maximum) elements to return.</param>
-        /// <param name="comparer">A <see cref="IComparer{T}"/> to compare elements.</param>
-        /// <returns>A sequence containing at most top <paramref name="count"/>
-        /// elements from source, in ascending order of their keys.</returns>
+        /// <param name="comparer">A <see cref="IComparer{T}" /> to compare elements.</param>
+        /// <returns>
+        ///     A sequence containing at most top <paramref name="count" />
+        ///     elements from source, in ascending order of their keys.
+        /// </returns>
         /// <remarks>
-        /// This operator uses deferred execution and streams it results.
+        ///     This operator uses deferred execution and streams it results.
         /// </remarks>
-
         public static IEnumerable<TSource> PartialSortBy<TSource, TKey>(
             this IEnumerable<TSource> source, int count,
             Func<TSource, TKey> keySelector,
@@ -190,24 +200,25 @@ namespace MoreLinq
         }
 
         /// <summary>
-        /// Combines <see cref="OrderBy{T, TKey}(IEnumerable{T}, Func{T, TKey}, OrderByDirection)"/>,
-        /// and <see cref="Enumerable.Take{TSource}"/> in a single operation.
-        /// Additional parameters specify how the elements compare to each other and
-        /// the direction of the sort.
+        ///     Combines <see cref="OrderBy{T, TKey}(IEnumerable{T}, Func{T, TKey}, OrderByDirection)" />,
+        ///     and <see cref="Enumerable.Take{TSource}" /> in a single operation.
+        ///     Additional parameters specify how the elements compare to each other and
+        ///     the direction of the sort.
         /// </summary>
         /// <typeparam name="TSource">Type of elements in the sequence.</typeparam>
         /// <typeparam name="TKey">Type of keys.</typeparam>
         /// <param name="source">The source sequence.</param>
         /// <param name="keySelector">A function to extract a key from an element.</param>
         /// <param name="count">Number of (maximum) elements to return.</param>
-        /// <param name="comparer">A <see cref="IComparer{T}"/> to compare elements.</param>
+        /// <param name="comparer">A <see cref="IComparer{T}" /> to compare elements.</param>
         /// <param name="direction">The direction in which to sort the elements</param>
-        /// <returns>A sequence containing at most top <paramref name="count"/>
-        /// elements from source, in the specified order of their keys.</returns>
+        /// <returns>
+        ///     A sequence containing at most top <paramref name="count" />
+        ///     elements from source, in the specified order of their keys.
+        /// </returns>
         /// <remarks>
-        /// This operator uses deferred execution and streams it results.
+        ///     This operator uses deferred execution and streams it results.
         /// </remarks>
-
         public static IEnumerable<TSource> PartialSortBy<TSource, TKey>(
             this IEnumerable<TSource> source, int count,
             Func<TSource, TKey> keySelector,
@@ -215,13 +226,14 @@ namespace MoreLinq
             OrderByDirection direction)
         {
             comparer = comparer ?? Comparer<TKey>.Default;
-            if (direction == OrderByDirection.Descending) {
+            if (direction == OrderByDirection.Descending)
+            {
                 comparer = new ReverseComparer<TKey>(comparer);
             }
             return source.PartialSortBy(count, keySelector, comparer);
         }
 
-        static IEnumerable<TSource> PartialSortByImpl<TSource, TKey>(
+        private static IEnumerable<TSource> PartialSortByImpl<TSource, TKey>(
             IEnumerable<TSource> source, int count,
             Func<TSource, TKey> keySelector,
             IComparer<TKey> keyComparer, IComparer<TSource> comparer)

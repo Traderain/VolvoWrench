@@ -9,12 +9,13 @@ namespace VolvoWrench.SaveStuff
     public partial class saveanalyzerform : Form
     {
         public Listsave.SaveFile CurrentSaveFile;
+        public List<Listsave.StateFileInfo> PFileliList;
 
         public saveanalyzerform()
         {
             InitializeComponent();
             splitContainer1.FixedPanel = FixedPanel.Panel1;
-            propertyGrid1.AutoScaleMode = AutoScaleMode.None; 
+            propertyGrid1.AutoScaleMode = AutoScaleMode.None;
         }
 
         public saveanalyzerform(string file)
@@ -44,8 +45,6 @@ namespace VolvoWrench.SaveStuff
             PopulateTreeView(CurrentSaveFile.Files);
         }
 
-        public List<Listsave.StateFileInfo> PFileliList;
-
         private void PopulateTreeView(List<Listsave.StateFileInfo> FileList)
         {
             treeView1.Nodes.Clear();
@@ -59,7 +58,7 @@ namespace VolvoWrench.SaveStuff
 
         private void GetDirectories(List<Listsave.StateFileInfo> vlvs, TreeNode nodeToAddTo)
         {
-            foreach (Listsave.StateFileInfo subDir in vlvs)
+            foreach (var subDir in vlvs)
             {
                 var aNode = new TreeNode(subDir.FileName, 0, 0)
                 {

@@ -1,4 +1,5 @@
 #region License and Terms
+
 // MoreLINQ - Extensions to LINQ to Objects
 // Copyright (c) 2009 Atif Aziz. All rights reserved.
 // 
@@ -13,6 +14,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 #endregion
 
 using System;
@@ -22,7 +24,7 @@ namespace MoreLinq
 {
     static partial class MoreEnumerable
     {
-        #if MORELINQ
+#if MORELINQ
 
         private static readonly Func<int, int, Exception> defaultErrorSelector = OnAssertCountFailure;
 
@@ -88,7 +90,7 @@ namespace MoreLinq
 
         #endif
 
-        private static IEnumerable<TSource> AssertCountImpl<TSource>(IEnumerable<TSource> source, 
+        private static IEnumerable<TSource> AssertCountImpl<TSource>(IEnumerable<TSource> source,
             int count, Func<int, int, Exception> errorSelector)
         {
             var collection = source as ICollection<TSource>; // Optimization for collections
@@ -98,11 +100,11 @@ namespace MoreLinq
                     throw errorSelector(collection.Count.CompareTo(count), count);
                 return source;
             }
-            
+
             return ExpectingCountYieldingImpl(source, count, errorSelector);
         }
 
-        private static IEnumerable<TSource> ExpectingCountYieldingImpl<TSource>(IEnumerable<TSource> source, 
+        private static IEnumerable<TSource> ExpectingCountYieldingImpl<TSource>(IEnumerable<TSource> source,
             int count, Func<int, int, Exception> errorSelector)
         {
             var iterations = 0;

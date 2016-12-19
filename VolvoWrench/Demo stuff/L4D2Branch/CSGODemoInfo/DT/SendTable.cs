@@ -3,39 +3,36 @@ using VolvoWrench.Demo_Stuff.L4D2Branch.BitStreamUtil;
 
 namespace VolvoWrench.Demo_Stuff.L4D2Branch.CSGODemoInfo.DT
 {
-	class SendTable
-	{
-        List<SendTableProperty> properties = new List<SendTableProperty>();
-        public List<SendTableProperty> Properties
+    internal class SendTable
+    {
+        public SendTable(IBitStream bitstream)
         {
-            get { return properties; }
+            var dataTable = new DP.FastNetmessages.SendTable();
+
+            foreach (var prop in dataTable.Parse(bitstream))
+            {
+                var property = new SendTableProperty
+                {
+                    DataTableName = prop.DtName,
+                    HighValue = prop.HighValue,
+                    LowValue = prop.LowValue,
+                    Name = prop.VarName,
+                    NumberOfBits = prop.NumBits,
+                    NumberOfElements = prop.NumElements,
+                    Priority = prop.Priority,
+                    RawFlags = prop.Flags,
+                    RawType = prop.Type
+                };
+
+                Properties.Add(property);
+            }
+
+            Name = dataTable.NetTableName;
+            IsEnd = dataTable.IsEnd;
         }
 
-		public string Name { get; set; }
-		public bool IsEnd { get; set; }
-
-		public SendTable(IBitStream bitstream) {
-			DP.FastNetmessages.SendTable dataTable = new DP.FastNetmessages.SendTable();
-
-			foreach (var prop in dataTable.Parse(bitstream)) {
-				SendTableProperty property = new SendTableProperty () {
-					DataTableName = prop.DtName,
-					HighValue = prop.HighValue,
-					LowValue = prop.LowValue,
-					Name = prop.VarName,
-					NumberOfBits = prop.NumBits,
-					NumberOfElements = prop.NumElements,
-					Priority = prop.Priority,
-					RawFlags = prop.Flags,
-					RawType = prop.Type
-				};
-
-				properties.Add (property);
-			}
-
-			this.Name = dataTable.NetTableName;
-			this.IsEnd = dataTable.IsEnd;
-		}
-	}
+        public List<SendTableProperty> Properties { get; } = new List<SendTableProperty>();
+        public string Name { get; set; }
+        public bool IsEnd { get; set; }
+    }
 }
-

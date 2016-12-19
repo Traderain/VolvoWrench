@@ -1,4 +1,5 @@
 #region License and Terms
+
 // MoreLINQ - Extensions to LINQ to Objects
 // Copyright (c) 2016 Atif Aziz. All rights reserved.
 //
@@ -13,6 +14,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 #endregion
 
 using System;
@@ -24,25 +26,26 @@ namespace MoreLinq
     static partial class MoreEnumerable
     {
         /// <summary>
-        /// Returns the elements of the specified sequence or the specified
-        /// value in a singleton collection if the sequence is empty.
+        ///     Returns the elements of the specified sequence or the specified
+        ///     value in a singleton collection if the sequence is empty.
         /// </summary>
         /// <typeparam name="T">The type of the elements in the sequences.</typeparam>
         /// <param name="source">The source sequence.</param>
-        /// <param name="fallback">The value to return in a singleton
-        /// collection if <paramref name="source"/> is empty.</param>
+        /// <param name="fallback">
+        ///     The value to return in a singleton
+        ///     collection if <paramref name="source" /> is empty.
+        /// </param>
         /// <returns>
-        /// An <see cref="IEnumerable{T}"/> that contains <paramref name="fallback"/>
-        /// if <paramref name="source"/> is empty; otherwise, <paramref name="source"/>.
+        ///     An <see cref="IEnumerable{T}" /> that contains <paramref name="fallback" />
+        ///     if <paramref name="source" /> is empty; otherwise, <paramref name="source" />.
         /// </returns>
         /// <example>
-        /// <code>
+        ///     <code>
         /// var numbers = { 123, 456, 789 };
         /// var result = numbers.Where(x => x == 100).FallbackIfEmpty(-1).Single();
         /// </code>
-        /// The <c>result</c> variable will contain <c>-1</c>.
+        ///     The <c>result</c> variable will contain <c>-1</c>.
         /// </example>
-
         public static IEnumerable<T> FallbackIfEmpty<T>(this IEnumerable<T> source, T fallback)
         {
             if (source == null) throw new ArgumentNullException("source");
@@ -50,20 +53,23 @@ namespace MoreLinq
         }
 
         /// <summary>
-        /// Returns the elements of a sequence, but if it is empty then
-        /// returns an altenate sequence of values.
+        ///     Returns the elements of a sequence, but if it is empty then
+        ///     returns an altenate sequence of values.
         /// </summary>
         /// <typeparam name="T">The type of the elements in the sequences.</typeparam>
         /// <param name="source">The source sequence.</param>
-        /// <param name="fallback1">First value of the alternate sequence that
-        /// is returned if <paramref name="source"/> is empty.</param>
-        /// <param name="fallback2">Second value of the alternate sequence that
-        /// is returned if <paramref name="source"/> is empty.</param>
+        /// <param name="fallback1">
+        ///     First value of the alternate sequence that
+        ///     is returned if <paramref name="source" /> is empty.
+        /// </param>
+        /// <param name="fallback2">
+        ///     Second value of the alternate sequence that
+        ///     is returned if <paramref name="source" /> is empty.
+        /// </param>
         /// <returns>
-        /// An <see cref="IEnumerable{T}"/> that containing fallback values
-        /// if <paramref name="source"/> is empty; otherwise, <paramref name="source"/>.
+        ///     An <see cref="IEnumerable{T}" /> that containing fallback values
+        ///     if <paramref name="source" /> is empty; otherwise, <paramref name="source" />.
         /// </returns>
-
         public static IEnumerable<T> FallbackIfEmpty<T>(this IEnumerable<T> source, T fallback1, T fallback2)
         {
             if (source == null) throw new ArgumentNullException("source");
@@ -71,86 +77,102 @@ namespace MoreLinq
         }
 
         /// <summary>
-        /// Returns the elements of a sequence, but if it is empty then
-        /// returns an altenate sequence of values.
+        ///     Returns the elements of a sequence, but if it is empty then
+        ///     returns an altenate sequence of values.
         /// </summary>
         /// <typeparam name="T">The type of the elements in the sequences.</typeparam>
         /// <param name="source">The source sequence.</param>
-        /// <param name="fallback1">First value of the alternate sequence that
-        /// is returned if <paramref name="source"/> is empty.</param>
-        /// <param name="fallback2">Second value of the alternate sequence that
-        /// is returned if <paramref name="source"/> is empty.</param>
-        /// <param name="fallback3">Third value of the alternate sequence that
-        /// is returned if <paramref name="source"/> is empty.</param>
+        /// <param name="fallback1">
+        ///     First value of the alternate sequence that
+        ///     is returned if <paramref name="source" /> is empty.
+        /// </param>
+        /// <param name="fallback2">
+        ///     Second value of the alternate sequence that
+        ///     is returned if <paramref name="source" /> is empty.
+        /// </param>
+        /// <param name="fallback3">
+        ///     Third value of the alternate sequence that
+        ///     is returned if <paramref name="source" /> is empty.
+        /// </param>
         /// <returns>
-        /// An <see cref="IEnumerable{T}"/> that containing fallback values
-        /// if <paramref name="source"/> is empty; otherwise, <paramref name="source"/>.
+        ///     An <see cref="IEnumerable{T}" /> that containing fallback values
+        ///     if <paramref name="source" /> is empty; otherwise, <paramref name="source" />.
         /// </returns>
-
-        public static IEnumerable<T> FallbackIfEmpty<T>(this IEnumerable<T> source, T fallback1, T fallback2, T fallback3)
+        public static IEnumerable<T> FallbackIfEmpty<T>(this IEnumerable<T> source, T fallback1, T fallback2,
+            T fallback3)
         {
             if (source == null) throw new ArgumentNullException("source");
             return FallbackIfEmptyImpl(source, 3, fallback1, fallback2, fallback3, default(T), null);
         }
 
         /// <summary>
-        /// Returns the elements of a sequence, but if it is empty then
-        /// returns an altenate sequence of values.
+        ///     Returns the elements of a sequence, but if it is empty then
+        ///     returns an altenate sequence of values.
         /// </summary>
         /// <typeparam name="T">The type of the elements in the sequences.</typeparam>
         /// <param name="source">The source sequence.</param>
-        /// <param name="fallback1">First value of the alternate sequence that
-        /// is returned if <paramref name="source"/> is empty.</param>
-        /// <param name="fallback2">Second value of the alternate sequence that
-        /// is returned if <paramref name="source"/> is empty.</param>
-        /// <param name="fallback3">Third value of the alternate sequence that
-        /// is returned if <paramref name="source"/> is empty.</param>
-        /// <param name="fallback4">Fourth value of the alternate sequence that
-        /// is returned if <paramref name="source"/> is empty.</param>
+        /// <param name="fallback1">
+        ///     First value of the alternate sequence that
+        ///     is returned if <paramref name="source" /> is empty.
+        /// </param>
+        /// <param name="fallback2">
+        ///     Second value of the alternate sequence that
+        ///     is returned if <paramref name="source" /> is empty.
+        /// </param>
+        /// <param name="fallback3">
+        ///     Third value of the alternate sequence that
+        ///     is returned if <paramref name="source" /> is empty.
+        /// </param>
+        /// <param name="fallback4">
+        ///     Fourth value of the alternate sequence that
+        ///     is returned if <paramref name="source" /> is empty.
+        /// </param>
         /// <returns>
-        /// An <see cref="IEnumerable{T}"/> that containing fallback values
-        /// if <paramref name="source"/> is empty; otherwise, <paramref name="source"/>.
+        ///     An <see cref="IEnumerable{T}" /> that containing fallback values
+        ///     if <paramref name="source" /> is empty; otherwise, <paramref name="source" />.
         /// </returns>
-
-        public static IEnumerable<T> FallbackIfEmpty<T>(this IEnumerable<T> source, T fallback1, T fallback2, T fallback3, T fallback4)
+        public static IEnumerable<T> FallbackIfEmpty<T>(this IEnumerable<T> source, T fallback1, T fallback2,
+            T fallback3, T fallback4)
         {
             if (source == null) throw new ArgumentNullException("source");
             return FallbackIfEmptyImpl(source, 4, fallback1, fallback2, fallback3, fallback4, null);
         }
 
         /// <summary>
-        /// Returns the elements of a sequence, but if it is empty then
-        /// returns an altenate sequence from an array of values.
+        ///     Returns the elements of a sequence, but if it is empty then
+        ///     returns an altenate sequence from an array of values.
         /// </summary>
         /// <typeparam name="T">The type of the elements in the sequences.</typeparam>
         /// <param name="source">The source sequence.</param>
-        /// <param name="fallback">The array that is returned as the alternate
-        /// sequence if <paramref name="source"/> is empty.</param>
+        /// <param name="fallback">
+        ///     The array that is returned as the alternate
+        ///     sequence if <paramref name="source" /> is empty.
+        /// </param>
         /// <returns>
-        /// An <see cref="IEnumerable{T}"/> that containing fallback values
-        /// if <paramref name="source"/> is empty; otherwise, <paramref name="source"/>.
+        ///     An <see cref="IEnumerable{T}" /> that containing fallback values
+        ///     if <paramref name="source" /> is empty; otherwise, <paramref name="source" />.
         /// </returns>
-
         public static IEnumerable<T> FallbackIfEmpty<T>(this IEnumerable<T> source, params T[] fallback)
         {
             if (source == null) throw new ArgumentNullException("source");
             if (fallback == null) throw new ArgumentNullException("fallback");
-            return source.FallbackIfEmpty((IEnumerable<T>)fallback);
+            return source.FallbackIfEmpty((IEnumerable<T>) fallback);
         }
 
         /// <summary>
-        /// Returns the elements of a sequence, but if it is empty then
-        /// returns an altenate sequence of values.
+        ///     Returns the elements of a sequence, but if it is empty then
+        ///     returns an altenate sequence of values.
         /// </summary>
         /// <typeparam name="T">The type of the elements in the sequences.</typeparam>
         /// <param name="source">The source sequence.</param>
-        /// <param name="fallback">The alternate sequence that is returned
-        /// if <paramref name="source"/> is empty.</param>
+        /// <param name="fallback">
+        ///     The alternate sequence that is returned
+        ///     if <paramref name="source" /> is empty.
+        /// </param>
         /// <returns>
-        /// An <see cref="IEnumerable{T}"/> that containing fallback values
-        /// if <paramref name="source"/> is empty; otherwise, <paramref name="source"/>.
+        ///     An <see cref="IEnumerable{T}" /> that containing fallback values
+        ///     if <paramref name="source" /> is empty; otherwise, <paramref name="source" />.
         /// </returns>
-
         public static IEnumerable<T> FallbackIfEmpty<T>(this IEnumerable<T> source, IEnumerable<T> fallback)
         {
             if (source == null) throw new ArgumentNullException("source");
@@ -158,7 +180,7 @@ namespace MoreLinq
             return FallbackIfEmptyImpl(source, 0, default(T), default(T), default(T), default(T), fallback);
         }
 
-        static IEnumerable<T> FallbackIfEmptyImpl<T>(IEnumerable<T> source,
+        private static IEnumerable<T> FallbackIfEmptyImpl<T>(IEnumerable<T> source,
             int? count, T fallback1, T fallback2, T fallback3, T fallback4,
             IEnumerable<T> fallback)
         {
@@ -182,8 +204,10 @@ namespace MoreLinq
             {
                 if (e.MoveNext())
                 {
-                    do { yield return e.Current; }
-                    while (e.MoveNext());
+                    do
+                    {
+                        yield return e.Current;
+                    } while (e.MoveNext());
                 }
                 else
                 {

@@ -7,17 +7,17 @@ using VolvoWrench.Properties;
 namespace VolvoWrench.Demo_Stuff.GoldSource
 {
     /// <summary>
-    /// A form for repairing goldsource demos
+    ///     A form for repairing goldsource demos
     /// </summary>
     public partial class DemoDoctor : Form
     {
         /// <summary>
-        /// Path to the file being repaired
+        ///     Path to the file being repaired
         /// </summary>
         public string DemoFile = string.Empty;
 
         /// <summary>
-        /// We call this constructor when finding a broken demo
+        ///     We call this constructor when finding a broken demo
         /// </summary>
         /// <param name="filename">Path to file</param>
         public DemoDoctor(string filename)
@@ -28,9 +28,12 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
         }
 
         /// <summary>
-        /// Normal constructor
+        ///     Normal constructor
         /// </summary>
-        public DemoDoctor() { InitializeComponent(); }
+        public DemoDoctor()
+        {
+            InitializeComponent();
+        }
 
         private void button1_Click(object sender, EventArgs e) //SELECT
         {
@@ -61,31 +64,31 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
         {
             if (DemoFile != null)
             {
-                var sf = new SaveFileDialog { Filter = @"Demo files .dem | *.dem" };
+                var sf = new SaveFileDialog {Filter = @"Demo files .dem | *.dem"};
                 if (sf.ShowDialog() == DialogResult.OK)
                 {
-                    Random r = new Random();
+                    var r = new Random();
                     var ran = r.Next(1, 2873432);
-                    var path = Path.Combine(Path.GetTempPath(), "demo-repair" + ran +".exe");
+                    var path = Path.Combine(Path.GetTempPath(), "demo-repair" + ran + ".exe");
                     File.WriteAllBytes(path, Resources.demo_repair);
                     var p = new Process
                     {
                         StartInfo = new ProcessStartInfo(path)
                         {
-                            Arguments = "\""+ DemoFile + "\"" + " " + "\"" + sf.FileName + "\"",
+                            Arguments = "\"" + DemoFile + "\"" + " " + "\"" + sf.FileName + "\"",
                             WorkingDirectory = Path.GetTempPath(),
                             CreateNoWindow = true,
                             UseShellExecute = false
                         }
                     };
                     p.Start();
-                    
+
                     p.WaitForExit();
                     File.Delete(path);
-                    if(File.Exists(sf.FileName))
-                    richTextBox1.AppendText("\n Repaired demo file and saved as: " + sf.FileName);
+                    if (File.Exists(sf.FileName))
+                        richTextBox1.AppendText("\n Repaired demo file and saved as: " + sf.FileName);
                     else
-                    richTextBox1.AppendText("\nDemo repair lost but we can because we trust!");
+                        richTextBox1.AppendText("\nDemo repair lost but we can because we trust!");
                 }
             }
         }

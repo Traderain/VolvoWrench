@@ -1,4 +1,5 @@
 #region License and Terms
+
 // MoreLINQ - Extensions to LINQ to Objects
 // Copyright (c) 2016 Andreas Gullberg Larsen. All rights reserved.
 //
@@ -13,6 +14,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 #endregion
 
 using System;
@@ -24,22 +26,22 @@ namespace MoreLinq
     static partial class MoreEnumerable
     {
         /// <summary>
-        /// Determines whether the end of the first sequence is equivalent to
-        /// the second sequence, using the default equality comparer.
+        ///     Determines whether the end of the first sequence is equivalent to
+        ///     the second sequence, using the default equality comparer.
         /// </summary>
         /// <typeparam name="T">Type of elements.</typeparam>
         /// <param name="first">The sequence to check.</param>
         /// <param name="second">The sequence to compare to.</param>
         /// <returns>
-        /// <c>true</c> if <paramref name="first" /> ends with elements
-        /// equivalent to <paramref name="second" />.
+        ///     <c>true</c> if <paramref name="first" /> ends with elements
+        ///     equivalent to <paramref name="second" />.
         /// </returns>
         /// <remarks>
-        /// This is the <see cref="IEnumerable{T}" /> equivalent of
-        /// <see cref="string.EndsWith(string)" /> and
-        /// it calls <see cref="IEqualityComparer{T}.Equals(T,T)" /> using
-        /// <see cref="EqualityComparer{T}.Default" /> on pairs of elements at
-        /// the same index.
+        ///     This is the <see cref="IEnumerable{T}" /> equivalent of
+        ///     <see cref="string.EndsWith(string)" /> and
+        ///     it calls <see cref="IEqualityComparer{T}.Equals(T,T)" /> using
+        ///     <see cref="EqualityComparer{T}.Default" /> on pairs of elements at
+        ///     the same index.
         /// </remarks>
         public static bool EndsWith<T>(this IEnumerable<T> first, IEnumerable<T> second)
         {
@@ -47,22 +49,22 @@ namespace MoreLinq
         }
 
         /// <summary>
-        /// Determines whether the end of the first sequence is equivalent to
-        /// the second sequence, using the specified element equality comparer.
+        ///     Determines whether the end of the first sequence is equivalent to
+        ///     the second sequence, using the specified element equality comparer.
         /// </summary>
         /// <typeparam name="T">Type of elements.</typeparam>
         /// <param name="first">The sequence to check.</param>
         /// <param name="second">The sequence to compare to.</param>
         /// <param name="comparer">Equality comparer to use.</param>
         /// <returns>
-        /// <c>true</c> if <paramref name="first" /> ends with elements
-        /// equivalent to <paramref name="second" />.
+        ///     <c>true</c> if <paramref name="first" /> ends with elements
+        ///     equivalent to <paramref name="second" />.
         /// </returns>
         /// <remarks>
-        /// This is the <see cref="IEnumerable{T}" /> equivalent of
-        /// <see cref="string.EndsWith(string)" /> and it calls
-        /// <see cref="IEqualityComparer{T}.Equals(T,T)" /> on pairs of
-        /// elements at the same index.
+        ///     This is the <see cref="IEnumerable{T}" /> equivalent of
+        ///     <see cref="string.EndsWith(string)" /> and it calls
+        ///     <see cref="IEqualityComparer{T}.Equals(T,T)" /> on pairs of
+        ///     elements at the same index.
         /// </remarks>
         public static bool EndsWith<T>(this IEnumerable<T> first, IEnumerable<T> second, IEqualityComparer<T> comparer)
         {

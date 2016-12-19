@@ -4,16 +4,16 @@ using Ader.Text;
 
 namespace netdecode
 {
-    class GameStringTable
+    internal class GameStringTable
     {
-        IDictionary<string, string> Strings;
-        StringTokenizer Tok;
+        private readonly IDictionary<string, string> Strings;
+        private readonly StringTokenizer Tok;
 
         public GameStringTable(TextReader reader)
         {
             Tok = new StringTokenizer(reader);
             Tok.IgnoreWhiteSpace = true;
-            Tok.SymbolChars = new char[] { ',', '{', '}' };
+            Tok.SymbolChars = new[] {',', '{', '}'};
 
             Strings = new Dictionary<string, string>();
         }
@@ -28,11 +28,11 @@ namespace netdecode
 
             str = Strings[key];
 
-            int i = 0;
+            var i = 0;
             foreach (var arg in args)
             {
                 i++;
-                str = str.Replace("%s" + i, arg); 
+                str = str.Replace("%s" + i, arg);
             }
 
             return true;
@@ -44,18 +44,18 @@ namespace netdecode
             do
             {
                 token = NextToken();
-                
+
                 if (token.Value.Equals("Tokens"))
                 {
                     token = NextToken(); // Skip unneeded tokens
-                    
+
                     do
                     {
                         token = NextToken();
 
                         if (token.Kind == TokenKind.Comment)
                             continue;
-                        
+
                         var key = token;
                         var value = NextToken();
 
@@ -67,10 +67,10 @@ namespace netdecode
             return true;
         }
 
-        Token NextToken()
+        private Token NextToken()
         {
             Token token;
-            do 
+            do
             {
                 token = Tok.Next();
             } while (token.Kind == TokenKind.EOL);

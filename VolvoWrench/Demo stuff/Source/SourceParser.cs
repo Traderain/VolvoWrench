@@ -19,9 +19,9 @@ namespace VolvoWrench.Demo_Stuff.Source
         public int DemoProtocol, NetProtocol, TickCount, FrameCount, SignonLength;
         public List<Saveflag> Flags;
         public List<SourceParser.DemoMessage> Messages;
+        public List<string> ParsingErrors;
         public float Seconds;
         public string ServerName, ClientName, MapName, GameDirectory;
-        public List<string> ParsingErrors;
     }
 
     public class SourceParser
@@ -64,12 +64,12 @@ namespace VolvoWrench.Demo_Stuff.Source
             Info.DemoProtocol = reader.ReadInt32();
             if (Info.DemoProtocol >> 2 > 0)
             {
-               Info.ParsingErrors.Add("Unsupported L4D2 branch demo!");
-               //return;
+                Info.ParsingErrors.Add("Unsupported L4D2 branch demo!");
+                //return;
             }
 
             Info.NetProtocol = reader.ReadInt32();
-     
+
             Info.ServerName = new string(reader.ReadChars(260)).Replace("\0", "");
             Info.ClientName = new string(reader.ReadChars(260)).Replace("\0", "");
             Info.MapName = new string(reader.ReadChars(260)).Replace("\0", "");
@@ -91,12 +91,14 @@ namespace VolvoWrench.Demo_Stuff.Source
                 switch (msg.Type)
                 {
                     case MessageType.Signon:
+                        reader.BaseStream.Seek(Info.SignonLength, SeekOrigin.Current);
+                        break;
                     case MessageType.Packet:
                     case MessageType.ConsoleCmd:
                     case MessageType.UserCmd:
                     case MessageType.DataTables:
                     case MessageType.StringTables:
-                        if (msg.Type == MessageType.Packet || msg.Type == MessageType.Signon)
+                        if (msg.Type == MessageType.Packet)
                             reader.BaseStream.Seek(0x54, SeekOrigin.Current); // command/sequence info
                         else if (msg.Type == MessageType.UserCmd)
                             reader.BaseStream.Seek(0x4, SeekOrigin.Current); // unknown
@@ -106,8 +108,10 @@ namespace VolvoWrench.Demo_Stuff.Source
                         msg.Data = new byte[0];
                         break;
                     default:
-                        Main.Log("Unknown demo message type encountered: " + msg.Type + "at " + reader.BaseStream.Position);
-                        Info.ParsingErrors.Add("Unknown demo message type encountered: " + msg.Type + "at " + reader.BaseStream.Position);
+                        Main.Log("Unknown demo message type encountered: " + msg.Type + "at " +
+                                 reader.BaseStream.Position);
+                        Info.ParsingErrors.Add("Unknown demo message type encountered: " + msg.Type + "at " +
+                                               reader.BaseStream.Position);
                         return;
                 }
 
@@ -156,14 +160,13 @@ namespace VolvoWrench.Demo_Stuff.Source
             if (bb.ReadBool())
             {
                 var k = KeyInterop.KeyFromVirtualKey(Convert.ToInt32(bb.ReadBits(32)));
-                    node.Nodes.Add("Buttons: " + k);
+                node.Nodes.Add("Buttons: " + k);
             }
             if (bb.ReadBool()) node.Nodes.Add("Impulse: " + bb.ReadBits(8));
             if (bb.ReadBool()) node.Nodes.Add("Weaponselect: " + bb.ReadBits(11));
             if (bb.ReadBool()) node.Nodes.Add("Weapon subtype: " + bb.ReadBits(6));
             if (bb.ReadBool()) node.Nodes.Add("Mouse X: " + bb.ReadCoord());
             if (bb.ReadBool()) node.Nodes.Add("Mouse Y: " + bb.ReadCoord());
-            
         }
     }
 }

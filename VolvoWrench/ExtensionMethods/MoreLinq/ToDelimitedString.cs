@@ -1,4 +1,5 @@
 #region License and Terms
+
 // MoreLINQ - Extensions to LINQ to Objects
 // Copyright (c) 2009 Atif Aziz. All rights reserved.
 //
@@ -13,6 +14,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 #endregion
 
 using System;
@@ -26,51 +28,56 @@ namespace MoreLinq
     static partial class MoreEnumerable
     {
         /// <summary>
-        /// Creates a delimited string from a sequence of values. The
-        /// delimiter used depends on the current culture of the executing thread.
+        ///     Creates a delimited string from a sequence of values. The
+        ///     delimiter used depends on the current culture of the executing thread.
         /// </summary>
         /// <typeparam name="TSource">Type of element in the source sequence</typeparam>
-        /// <param name="source">The sequence of items to delimit. Each is converted to a string using the
-        /// simple ToString() conversion.</param>
+        /// <param name="source">
+        ///     The sequence of items to delimit. Each is converted to a string using the
+        ///     simple ToString() conversion.
+        /// </param>
         /// <returns>
-        /// A string that consists of the elements in <paramref name="source"/>
-        /// delimited by <see cref="TextInfo.ListSeparator"/>. If the source
-        /// sequence is empty, the method returns an empty string.
+        ///     A string that consists of the elements in <paramref name="source" />
+        ///     delimited by <see cref="TextInfo.ListSeparator" />. If the source
+        ///     sequence is empty, the method returns an empty string.
         /// </returns>
         /// <remarks>
-        /// This operator uses immediate execution and effectively buffers the sequence.
+        ///     This operator uses immediate execution and effectively buffers the sequence.
         /// </remarks>
-
         public static string ToDelimitedString<TSource>(this IEnumerable<TSource> source)
         {
             return ToDelimitedString(source, null);
         }
 
         /// <summary>
-        /// Creates a delimited string from a sequence of values and
-        /// a given delimiter.
+        ///     Creates a delimited string from a sequence of values and
+        ///     a given delimiter.
         /// </summary>
         /// <typeparam name="TSource">Type of element in the source sequence</typeparam>
-        /// <param name="source">The sequence of items to delimit. Each is converted to a string using the
-        /// simple ToString() conversion.</param>
-        /// <param name="delimiter">The delimiter to inject between elements. May be null, in which case
-        /// the executing thread's current culture's list separator is used.</param>
+        /// <param name="source">
+        ///     The sequence of items to delimit. Each is converted to a string using the
+        ///     simple ToString() conversion.
+        /// </param>
+        /// <param name="delimiter">
+        ///     The delimiter to inject between elements. May be null, in which case
+        ///     the executing thread's current culture's list separator is used.
+        /// </param>
         /// <returns>
-        /// A string that consists of the elements in <paramref name="source"/>
-        /// delimited by <paramref name="delimiter"/>. If the source sequence
-        /// is empty, the method returns an empty string.
+        ///     A string that consists of the elements in <paramref name="source" />
+        ///     delimited by <paramref name="delimiter" />. If the source sequence
+        ///     is empty, the method returns an empty string.
         /// </returns>
         /// <remarks>
-        /// This operator uses immediate execution and effectively buffers the sequence.
+        ///     This operator uses immediate execution and effectively buffers the sequence.
         /// </remarks>
-
         public static string ToDelimitedString<TSource>(this IEnumerable<TSource> source, string delimiter)
         {
             if (source == null) throw new ArgumentNullException("source");
             return ToDelimitedStringImpl(source, delimiter, (sb, e) => sb.Append(e));
         }
 
-        static string ToDelimitedStringImpl<T>(IEnumerable<T> source, string delimiter, Func<StringBuilder, T, StringBuilder> append)
+        private static string ToDelimitedStringImpl<T>(IEnumerable<T> source, string delimiter,
+            Func<StringBuilder, T, StringBuilder> append)
         {
             Debug.Assert(source != null);
             Debug.Assert(append != null);

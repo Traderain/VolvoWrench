@@ -1,6 +1,6 @@
 ﻿namespace VolvoWrench.Demo_Stuff.L4D2Branch.CSGODemoInfo.DP.Handler
 {
-	#if SLOW_PROTOBUF
+#if SLOW_PROTOBUF
 	public class UserMessageHandler : IMessageParser
 	{
 		private const long VALVE_MAGIC_NUMBER = 76561197960265728;

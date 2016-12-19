@@ -1,4 +1,5 @@
 #region License and Terms
+
 // MoreLINQ - Extensions to LINQ to Objects
 // Copyright (c) 2015 Felipe Sateler. All rights reserved.
 // 
@@ -13,6 +14,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 #endregion
 
 using System;
@@ -25,13 +27,13 @@ namespace MoreLinq
     static partial class MoreEnumerable
     {
         /// <summary>
-        /// Performs a Full Group Join between the <paramref name="first"/> and <paramref name="second"/> sequences.
+        ///     Performs a Full Group Join between the <paramref name="first" /> and <paramref name="second" /> sequences.
         /// </summary>
         /// <remarks>
-        /// This operator uses deferred execution and streams the results.
-        /// The results are yielded in the order of the elements found in the first sequence
-        /// followed by those found only in the second. In addition, the callback responsible
-        /// for projecting the results is supplied with sequences which preserve their source order.
+        ///     This operator uses deferred execution and streams the results.
+        ///     The results are yielded in the order of the elements found in the first sequence
+        ///     followed by those found only in the second. In addition, the callback responsible
+        ///     for projecting the results is supplied with sequences which preserve their source order.
         /// </remarks>
         /// <typeparam name="TFirst">The type of the elements in the first input sequence</typeparam>
         /// <typeparam name="TSecond">The type of the elements in the first input sequence</typeparam>
@@ -42,7 +44,8 @@ namespace MoreLinq
         /// <param name="firstKeySelector">The mapping from first sequence to key</param>
         /// <param name="secondKeySelector">The mapping from second sequence to key</param>
         /// <param name="resultSelector">Function to apply to each pair of elements plus the key</param>
-        /// <returns>A sequence of elements joined from <paramref name="first"/> and <paramref name="second"/>.
+        /// <returns>
+        ///     A sequence of elements joined from <paramref name="first" /> and <paramref name="second" />.
         /// </returns>
         public static IEnumerable<TResult> FullGroupJoin<TFirst, TSecond, TKey, TResult>(this IEnumerable<TFirst> first,
             IEnumerable<TSecond> second,
@@ -50,17 +53,18 @@ namespace MoreLinq
             Func<TSecond, TKey> secondKeySelector,
             Func<TKey, IEnumerable<TFirst>, IEnumerable<TSecond>, TResult> resultSelector)
         {
-            return FullGroupJoin(first, second, firstKeySelector, secondKeySelector, resultSelector, EqualityComparer<TKey>.Default);
+            return FullGroupJoin(first, second, firstKeySelector, secondKeySelector, resultSelector,
+                EqualityComparer<TKey>.Default);
         }
 
         /// <summary>
-        /// Performs a Full Group Join between the <paramref name="first"/> and <paramref name="second"/> sequences.
+        ///     Performs a Full Group Join between the <paramref name="first" /> and <paramref name="second" /> sequences.
         /// </summary>
         /// <remarks>
-        /// This operator uses deferred execution and streams the results.
-        /// The results are yielded in the order of the elements found in the first sequence
-        /// followed by those found only in the second. In addition, the callback responsible
-        /// for projecting the results is supplied with sequences which preserve their source order.
+        ///     This operator uses deferred execution and streams the results.
+        ///     The results are yielded in the order of the elements found in the first sequence
+        ///     followed by those found only in the second. In addition, the callback responsible
+        ///     for projecting the results is supplied with sequences which preserve their source order.
         /// </remarks>
         /// <typeparam name="TFirst">The type of the elements in the first input sequence</typeparam>
         /// <typeparam name="TSecond">The type of the elements in the first input sequence</typeparam>
@@ -71,9 +75,12 @@ namespace MoreLinq
         /// <param name="firstKeySelector">The mapping from first sequence to key</param>
         /// <param name="secondKeySelector">The mapping from second sequence to key</param>
         /// <param name="resultSelector">Function to apply to each pair of elements plus the key</param>
-        /// <param name="comparer">The equality comparer to use to determine whether or not keys are equal.
-        /// If null, the default equality comparer for <c>TKey</c> is used.</param>
-        /// <returns>A sequence of elements joined from <paramref name="first"/> and <paramref name="second"/>.
+        /// <param name="comparer">
+        ///     The equality comparer to use to determine whether or not keys are equal.
+        ///     If null, the default equality comparer for <c>TKey</c> is used.
+        /// </param>
+        /// <returns>
+        ///     A sequence of elements joined from <paramref name="first" /> and <paramref name="second" />.
         /// </returns>
         public static IEnumerable<TResult> FullGroupJoin<TFirst, TSecond, TKey, TResult>(this IEnumerable<TFirst> first,
             IEnumerable<TSecond> second,
@@ -100,14 +107,16 @@ namespace MoreLinq
         {
             comparer = comparer ?? EqualityComparer<TKey>.Default;
 
-            var alookup = Lookup<TKey,TFirst>.CreateForJoin(first, firstKeySelector, comparer);
+            var alookup = Lookup<TKey, TFirst>.CreateForJoin(first, firstKeySelector, comparer);
             var blookup = Lookup<TKey, TSecond>.CreateForJoin(second, secondKeySelector, comparer);
-            
-            foreach (var a in alookup) {
+
+            foreach (var a in alookup)
+            {
                 yield return resultSelector(a.Key, a, blookup[a.Key]);
             }
 
-            foreach (var b in blookup) {
+            foreach (var b in blookup)
+            {
                 if (alookup.Contains(b.Key))
                     continue;
                 // We can skip the lookup because we are iterating over keys not found in the first sequence

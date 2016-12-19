@@ -8,7 +8,7 @@ namespace VolvoWrench.Demo_Stuff.Heatmap
 {
     public partial class Heatmap : Form
     {
-        private List<HeatPoint> HeatPoints = new List<HeatPoint>();
+        private readonly List<HeatPoint> HeatPoints = new List<HeatPoint>();
 
         public Heatmap(List<Point> Points, Image LevelOverView)
         {
@@ -21,7 +21,7 @@ namespace VolvoWrench.Demo_Stuff.Heatmap
             byte iIntense;
             // Lets loop 500 times and create a random point each iteration
             foreach (var v in Points)
-            {               
+            {
                 // Pick random locations and intensity
                 iIntense = (byte) rRand.Next(0, 120);
                 // Add heat point to heat points list
@@ -105,6 +105,12 @@ namespace VolvoWrench.Demo_Stuff.Heatmap
             return (radians);
         }
 
+        private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
+        {
+            pictureBox1.Image = CreateIntensityMask(new Bitmap(pictureBox1.Image),
+                new List<HeatPoint> {new HeatPoint(e.X, e.Y, 120)});
+        }
+
         public struct HeatPoint
         {
             public byte Intensity;
@@ -117,11 +123,6 @@ namespace VolvoWrench.Demo_Stuff.Heatmap
                 Y = iY;
                 Intensity = bIntensity;
             }
-        }
-
-        private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
-        {
-            pictureBox1.Image = CreateIntensityMask(new Bitmap(pictureBox1.Image), new List<HeatPoint>() { new HeatPoint(e.X,e.Y,120)});
         }
     }
 }

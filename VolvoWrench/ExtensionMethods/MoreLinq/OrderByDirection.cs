@@ -1,4 +1,5 @@
 #region License and Terms
+
 // MoreLINQ - Extensions to LINQ to Objects
 // Copyright (c) 2010 Leopold Bushkin. All rights reserved.
 // 
@@ -13,23 +14,24 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 #endregion
 
 namespace MoreLinq
 {
     /// <summary>
-    /// Enumeration that defines values representing valid ordering directions for a sequence.
+    ///     Enumeration that defines values representing valid ordering directions for a sequence.
     /// </summary>
-    
     public enum OrderByDirection
     {
         /// <summary>
-        /// Elements are ordered by increasing value
+        ///     Elements are ordered by increasing value
         /// </summary>
         Ascending = 0,
+
         /// <summary>
-        /// Elements are ordered by decreasing value
+        ///     Elements are ordered by decreasing value
         /// </summary>
-        Descending = 1,
+        Descending = 1
     }
 }

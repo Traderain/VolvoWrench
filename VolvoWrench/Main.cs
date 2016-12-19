@@ -8,7 +8,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using IniParser;
-using IniParser.Model;
 using Ookii.Dialogs;
 using VolvoWrench.Demo_Stuff;
 using VolvoWrench.Demo_Stuff.GoldSource;
@@ -23,59 +22,67 @@ using static System.Convert;
 namespace VolvoWrench
 {
     /// <summary>
-    /// The main form
+    ///     The main form
     /// </summary>
     public sealed partial class Main : Form
     {
         /// <summary>
-        /// The path of the log file
+        ///     The path of the log file
         /// </summary>
-        public static readonly string LogPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + Path.PathSeparator + "VolvoWrench" + Path.PathSeparator + "VWLog.log";
-        /// <summary>
-        /// The path of the settings file
-        /// </summary>
-        public static readonly string SettingsPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + Path.PathSeparator + "VolvoWrench" + Path.PathSeparator + "VWSettings.ini";
+        public static readonly string LogPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) +
+                                                Path.PathSeparator + "VolvoWrench" + Path.PathSeparator + "VWLog.log";
 
         /// <summary>
-        /// The button we use to open the demo details popup
+        ///     The path of the settings file
+        /// </summary>
+        public static readonly string SettingsPath =
+            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + Path.PathSeparator + "VolvoWrench" +
+            Path.PathSeparator + "VWSettings.ini";
+
+        /// <summary>
+        ///     The button we use to open the demo details popup
         /// </summary>
         public static int DemoPopupKey;
+
         /// <summary>
-        /// The button we use to exit the overlay
+        ///     The button we use to exit the overlay
         /// </summary>
         public static int OverLayExitKey;
+
         /// <summary>
-        /// The button we use in the overlay to rescan the demo
+        ///     The button we use in the overlay to rescan the demo
         /// </summary>
         public static int OverLayRescanKey;
 
-
         /// <summary>
-        /// The font we use in the overlay
+        ///     The font we use in the overlay
         /// </summary>
         public static Font OverlayFont;
+
         /// <summary>
-        /// The color of the overlay
+        ///     The color of the overlay
         /// </summary>
         public static Color OverLayColor;
+
         /// <summary>
-        /// The main font's richtextbox's font
+        ///     The main font's richtextbox's font
         /// </summary>
         public static Font MainFont;
 
         /// <summary>
-        /// The details of the current demo file
+        ///     The details of the current demo file
         /// </summary>
         public CrossParseResult CurrentDemoFile;
+
         /// <summary>
-        /// The path to the current demo
+        ///     The path to the current demo
         /// </summary>
         public string CurrentFile;
 
         /// <summary>
-        /// The main constructor with a string param for openwith file thingy
+        ///     The main constructor with a string param for openwith file thingy
         /// </summary>
-        /// <param name="file"></param>       
+        /// <param name="file"></param>
         public Main(string file)
         {
             InitializeComponent();
@@ -105,11 +112,10 @@ namespace VolvoWrench
                 richTextBox1.Text = @"^ Use demo_file->Open to open a correct .dem file or drop the file here!";
                 UpdateForm();
             }
-
         }
 
         /// <summary>
-        /// Normal constructor
+        ///     Normal constructor
         /// </summary>
         public Main()
         {
@@ -122,8 +128,10 @@ namespace VolvoWrench
             statisticsToolStripMenuItem.Enabled = false;
             HotkeyTimer.Start();
             if (File.Exists(LogPath))
-                 File.Delete(LogPath);
+                File.Delete(LogPath);
+
             #region OpenedWithFile check
+
             var dropFile = (Environment.GetCommandLineArgs().Any(x => Path.GetExtension(x) == ".dem"))
                 ? Environment.GetCommandLineArgs().First(x => Path.GetExtension(x) == ".dem")
                 : null;
@@ -151,13 +159,14 @@ namespace VolvoWrench
                     UpdateForm();
                 }
             }
+
             #endregion
+
             Log("Application loaded!");
         }
 
-
         /// <summary>
-        /// Method to update the frozen com
+        ///     Method to update the frozen com
         /// </summary>
         private void UpdateForm()
         {
@@ -165,23 +174,447 @@ namespace VolvoWrench
             richTextBox1.Update();
             richTextBox1.Refresh();
             Application.DoEvents();
-
         }
 
         #region Map toolstrip item
+
         private void leveloverviewGeneratorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using (Leveloverview lf = new Leveloverview())
+            using (var lf = new Leveloverview())
             {
                 Log("Levelovervie form opened.");
                 lf.ShowDialog();
             }
         }
+
         #endregion
 
-        #region demo_file ToolStrip stuff
         /// <summary>
-        /// Open save file dialog
+        ///     Print the details of the demo to the Main richtextbox
+        /// </summary>
+        /// <param name="demo"></param>
+        public void PrintDemoDetails(CrossParseResult demo)
+        {
+            Log("Demo details printed!");
+            if (demo != null)
+            {
+                Text = @"VolvoWrench - " + Path.GetFileName(CurrentFile);
+                richTextBox1.Text = GetDemoDetails(demo);
+                StripEnabler(demo);
+            }
+            else
+            {
+                richTextBox1.Text = @"Not a demo! ";
+            }
+        }
+
+        /// <summary>
+        ///     This returns a nice string which can be assigned to the richtexbox
+        /// </summary>
+        /// <param name="demo"></param>
+        /// <returns></returns>
+        public static string GetDemoDetails(CrossParseResult demo)
+        {
+            var returnstring = "Corrupted file!";
+
+            #region Print
+
+            switch (demo.Type)
+            {
+                case Parseresult.UnsupportedFile:
+                    returnstring = @"Unsupported file!";
+                    break;
+                case Parseresult.GoldSource:
+                    if (demo.GsDemoInfo.ParsingErrors.ToArray().Length > 0)
+                    {
+                        returnstring =
+                            demo.GsDemoInfo.ParsingErrors.Aggregate("Error while parsing goldsource demo: \r\n",
+                                (current, err) => current + ("\n" + err));
+                    }
+                    else
+                    {
+                        returnstring =
+                            $@"Analyzed GoldSource engine demo file ({demo.GsDemoInfo.Header.GameDir
+                                }):
+----------------------------------------------------------
+Demo protocol:              {
+                                demo.GsDemoInfo.Header.DemoProtocol}
+Net protocol:               {
+                                demo.GsDemoInfo.Header.NetProtocol}
+Directory Offset:           {
+                                demo.GsDemoInfo.Header.DirectoryOffset}
+Map name:                   {
+                                demo.GsDemoInfo.Header.MapName}
+Game directory:             {
+                                demo.GsDemoInfo.Header.GameDir}
+Length in seconds:          {
+                                demo.GsDemoInfo.DirectoryEntries.Sum(x => x.TrackTime).ToString("n3")
+                                }s
+Frame count:                {demo.GsDemoInfo.DirectoryEntries.Sum(x => x.FrameCount)
+                                }
+
+Higest FPS:                 {
+                                (1/demo.GsDemoInfo.AditionalStats.FrametimeMin).ToString("N2")
+                                }
+Lowest FPS:                 {
+                                (1/demo.GsDemoInfo.AditionalStats.FrametimeMax).ToString("N2")
+                                }
+Average FPS:                {
+                                (demo.GsDemoInfo.AditionalStats.Count/demo.GsDemoInfo.AditionalStats.FrametimeSum)
+                                    .ToString("N2")}
+Lowest msec:                {
+                                (1000.0/demo.GsDemoInfo.AditionalStats.MsecMin).ToString("N2")
+                                } FPS
+Highest msec:               {
+                                (1000.0/demo.GsDemoInfo.AditionalStats.MsecMax).ToString("N2")
+                                } FPS
+Average msec:               {
+                                (1000.0/
+                                 (demo.GsDemoInfo.AditionalStats.MsecSum/(double) demo.GsDemoInfo.AditionalStats.Count))
+                                    .ToString("N2")} FPS
+----------------------------------------------------------";
+                    }
+                    break;
+                case Parseresult.Hlsooe:
+                    if (demo.HlsooeDemoInfo.ParsingErrors.ToArray().Length > 0)
+                    {
+                        returnstring =
+                            demo.HlsooeDemoInfo.ParsingErrors.Aggregate("Error while parsing HLSOOE demo: \r\n",
+                                (current, err) => current + (err));
+                    }
+                    else
+                    {
+                        returnstring =
+                            $@"Analyzed HLS:OOE engine demo file ({demo.HlsooeDemoInfo.Header.GameDir
+                                }):
+----------------------------------------------------------
+Demo protocol:              {
+                                demo.HlsooeDemoInfo.Header.DemoProtocol}
+Net protocol:               {
+                                demo.HlsooeDemoInfo.Header.NetProtocol}
+Directory offset:           {
+                                demo.HlsooeDemoInfo.Header.DirectoryOffset}
+Map name:                   {
+                                demo.HlsooeDemoInfo.Header.MapName}
+Game directory:             {
+                                demo.HlsooeDemoInfo.Header.GameDir}
+Length in seconds:          {
+                                (demo.HlsooeDemoInfo.DirectoryEntries.Where(x => x.Type == 0)
+                                    .Sum(x => x.Frames.Last().Key.Time))*0.015}s
+Tick count:                 {
+                                (demo.HlsooeDemoInfo.DirectoryEntries.SkipWhile(x => x.FrameCount < 1)
+                                    .Max(x => x.Frames.Max(y => y.Key.Index)))
+                                }
+----------------------------------------------------------";
+                        returnstring =
+                            demo.HlsooeDemoInfo.DirectoryEntries.SelectMany(
+                                demoDirectoryEntry => demoDirectoryEntry.Flags)
+                                .Aggregate(returnstring,
+                                    (current, flag) =>
+                                        current +
+                                        (flag.Value.Command + " at " + flag.Key.Frame + " -> " +
+                                         (flag.Key.Frame*0.015).ToString("n3") + "s"));
+                    }
+                    break;
+                case Parseresult.Source:
+                    if (demo.Sdi.ParsingErrors.ToArray().Length > 0)
+                    {
+                        returnstring = demo.Sdi.ParsingErrors.Aggregate(@"Error while parsing Source engine demo: ",
+                            (current, err) => current + ("\n" + err));
+                    }
+                    else
+                    {
+                        returnstring =
+                            $@"Analyzed source engine demo file ({demo.Sdi.GameDirectory
+                                }):
+----------------------------------------------------------
+Demo protocol:              {
+                                demo.Sdi.DemoProtocol}
+Net protocol:               {demo.Sdi.NetProtocol
+                                }
+Server name:                {demo.Sdi.ServerName}
+Client name:                {
+                                demo.Sdi.ClientName}
+Map name:                   {demo.Sdi.MapName
+                                }
+Game directory:             {demo.Sdi.GameDirectory}
+Playback seconds:           {
+                                demo.Sdi.Seconds.ToString("n3")}s
+Playback tick:              {demo.Sdi.TickCount
+                                }
+Frame count:                {demo.Sdi.FrameCount}
+
+Measured time:              {
+                                (demo.Sdi.Messages.SkipWhile(x => x.Type != SourceParser.MessageType.SyncTick)
+                                    .Max(x => x.Tick)*0.015).ToString("n3")}s
+Measured ticks:             {
+                                demo.Sdi.Messages.SkipWhile(x => x.Type != SourceParser.MessageType.SyncTick)
+                                    .Max(x => x.Tick)}
+----------------------------------------------------------";
+                        foreach (var f in demo.Sdi.Flags)
+                            switch (f.Name)
+                            {
+                                case "#SAVE#":
+                                    returnstring += ($"\n#SAVE# flag at Tick: {f.Tick} -> {f.Time}s");
+                                    break;
+                                case "autosave":
+                                    returnstring += ($"\nAutosave at Tick: {f.Tick} -> {f.Time}s");
+                                    break;
+                            }
+                    }
+                    break;
+                case Parseresult.Portal:
+                case Parseresult.L4D2Branch:
+                    if (demo.L4D2BranchInfo.Parsingerrors.ToArray().Length > 0)
+                    {
+                        returnstring =
+                            demo.L4D2BranchInfo.Parsingerrors.Aggregate(@"Error while parsing L4D2Branch demo:",
+                                (current, err) => current + ("\n" + err));
+                    }
+                    else
+                    {
+                        returnstring =
+                            $@"Analyzed L4D2Branch demo file ({demo.L4D2BranchInfo.Header.GameDirectory
+                                }):
+----------------------------------------------------------
+Protocol:           {
+                                demo.L4D2BranchInfo.Header.Protocol}
+Network protocol:   {
+                                demo.L4D2BranchInfo.Header.NetworkProtocol}
+Server name:        {
+                                demo.L4D2BranchInfo.Header.ServerName}
+Client name:        {
+                                demo.L4D2BranchInfo.Header.ClientName}
+Mapname:            {
+                                demo.L4D2BranchInfo.Header.MapName}
+GameDir:            {
+                                demo.L4D2BranchInfo.Header.GameDirectory}
+Playbacktime:       {
+                                (demo.L4D2BranchInfo.Header.PlaybackTime).ToString("n3")}s
+Playbackticks:      {
+                                demo.L4D2BranchInfo.Header.PlaybackTicks}
+Playbackframes:     {
+                                demo.L4D2BranchInfo.Header.PlaybackFrames}
+Signonlength:       {
+                                demo.L4D2BranchInfo.Header.SignonLength}
+
+Tickrate:           {
+                                demo.L4D2BranchInfo.Header.PlaybackTicks/demo.L4D2BranchInfo.Header.PlaybackTime
+                                }
+Start tick:         {demo.L4D2BranchInfo.PortalDemoInfo?.StartAdjustmentTick
+                                }
+Type:               {demo.L4D2BranchInfo.PortalDemoInfo?.StartAdjustmentType
+                                }
+End tick:           {demo.L4D2BranchInfo.PortalDemoInfo?.EndAdjustmentTick
+                                }
+Type:               {demo.L4D2BranchInfo.PortalDemoInfo?.EndAdjustmentType
+                                }
+
+Adjusted time:      {
+                                demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks*
+                                (1f/(demo.L4D2BranchInfo.Header.PlaybackTicks/demo.L4D2BranchInfo.Header.PlaybackTime)) +
+                                "s"}
+Adjusted ticks:     {demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks
+                                }
+----------------------------------------------------------
+";
+                    }
+                    break;
+            }
+
+            #endregion
+
+            return returnstring;
+        }
+
+        /// <summary>
+        ///     Rescan the demo file.
+        /// </summary>
+        public void RescanFile()
+        {
+            if (CurrentFile != null && (File.Exists(CurrentFile) && Path.GetExtension(CurrentFile) == ".dem"))
+            {
+                richTextBox1.Text = @"Analyzing file...";
+                UpdateForm();
+                CurrentDemoFile = CrossDemoParser.Parse(CurrentFile);
+            }
+            PrintDemoDetails(CurrentDemoFile);
+            Log(Path.GetFileName(CurrentFile) + " rescanned.");
+        }
+
+        /// <summary>
+        ///     This method highlight the last line of the richtextbox
+        /// </summary>
+        /// <param name="textControl"></param>
+        /// <param name="highlightColor"></param>
+        public void HighlightLastLine(RichTextBox textControl, Color highlightColor)
+        {
+            textControl.Text = textControl.Text.Trim();
+            textControl.SelectionStart = 0;
+            textControl.SelectionLength = 0;
+            textControl.SelectionColor = Color.White;
+            var lastLineText = textControl.Lines[richTextBox1.Lines.Count() - 1];
+            var lastLineStartIndex = richTextBox1.Text.LastIndexOf(lastLineText, StringComparison.Ordinal);
+            textControl.SelectionStart = lastLineStartIndex;
+            textControl.SelectionLength = textControl.Text.Length - 1;
+            textControl.SelectionColor = highlightColor;
+            textControl.DeselectAll();
+            textControl.Select(textControl.Text.Length, 0);
+            Log("Last line highlighted!");
+        }
+
+        /// <summary>
+        ///     This method send a little popup/alert to windows.
+        /// </summary>
+        /// <param name="msg">This is the message which is sent to the notification system</param>
+        public static void Alert(string msg)
+        {
+            using (var ni = new NotifyIcon())
+            {
+                ni.Icon = SystemIcons.Exclamation;
+                ni.Visible = true;
+                ni.ShowBalloonTip(3000, "VolvoWrench", msg, ToolTipIcon.Info);
+            }
+            Log("Alert shown with message " + msg);
+        }
+
+        /// <summary>
+        ///     This logs data to our logpath.
+        /// </summary>
+        /// <param name="s"> The logmessage </param>
+        /// <returns></returns>
+        public static Task Log(string s)
+        {
+            try
+            {
+                if (
+                    !Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\" +
+                                      "VolvoWrench"))
+                    Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) +
+                                              "\\" + "VolvoWrench");
+                return WriteTextAsync(LogPath,
+                    ("\n" + DateTime.Now.ToString("yyyy-MM-ddTHH\\:mm\\:ss.fffffffzzz") + " " +
+                     $"[{WindowsIdentity.GetCurrent().Name}]" + ": " + s));
+            }
+            catch (Exception)
+            {
+                return Task.FromResult(0);
+            }
+        }
+
+        /// <summary>
+        ///     Async logging
+        /// </summary>
+        /// <param name="filePath"> The path </param>
+        /// <param name="text"> The text to log </param>
+        /// <returns></returns>
+        private static async Task WriteTextAsync(string filePath, string text)
+        {
+            var encodedText = Encoding.Unicode.GetBytes(text);
+            if (!File.Exists(filePath))
+                File.Create(filePath);
+            using (
+                var sourceStream = new FileStream(filePath, FileMode.Append, FileAccess.Write, FileShare.None, 4096,
+                    true))
+            {
+                await sourceStream.WriteAsync(encodedText, 0, encodedText.Length);
+            }
+        }
+
+        /// <summary>
+        ///     This is the event that happens when out form is closing.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Main_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            try
+            {
+                Log("Application exit!");
+                var parser = new FileIniDataParser();
+                var iniD = parser.ReadFile(SettingsPath);
+                var showexitdialog = ToBoolean(int.Parse(iniD["DIALOG_PREFERENCES"]["exit_dialog"]));
+                if (showexitdialog)
+                {
+                    #region Check for the dont show again
+
+                    var td = new TaskDialog
+                    {
+                        WindowTitle = @"Warning",
+                        Content = @"Are you sure you would like to exit?"
+                    };
+                    td.Buttons.Add(new TaskDialogButton
+                    {
+                        ButtonType = ButtonType.No
+                    });
+                    td.Buttons.Add(new TaskDialogButton
+                    {
+                        ButtonType = ButtonType.Yes,
+                        Default = true
+                    });
+                    var checkbox = new TaskDialogRadioButton
+                    {
+                        Text = @"Never show this again!",
+                        Checked = false
+                    };
+                    td.RadioButtons.Add(checkbox);
+                    if (td.ShowDialog().ButtonType == ButtonType.No)
+                    {
+                        e.Cancel = true;
+                        Log("Exit cancelled!");
+                    }
+                    if (td.RadioButtons[0].Checked)
+                        iniD["DIALOG_PREFERENCES"]["exit_dialog"] = "0";
+
+                    #endregion
+                }
+                parser.WriteFile(SettingsPath, iniD);
+            }
+            catch (Exception ex)
+            {
+                Log("Terrible error happened at Close!");
+                Log(ex.Message + " => " + ex.Source);
+            }
+        }
+
+        /// <summary>
+        ///     This method is responsible for enabling the correct MenuStrips after demoparsing
+        /// </summary>
+        /// <param name="cpr"></param>
+        public void StripEnabler(CrossParseResult cpr)
+        {
+            Log("Strips changed!");
+            switch (cpr.Type)
+            {
+                case Parseresult.UnsupportedFile:
+                    netdecodeToolStripMenuItem.Enabled = false;
+                    statisticsToolStripMenuItem.Enabled = false;
+                    heatmapGeneratorToolStripMenuItem1.Enabled = false;
+                    break;
+                case Parseresult.Hlsooe:
+                case Parseresult.GoldSource:
+                    netdecodeToolStripMenuItem.Enabled = false;
+                    statisticsToolStripMenuItem.Enabled = false;
+                    heatmapGeneratorToolStripMenuItem1.Enabled = false;
+                    break;
+                case Parseresult.Portal:
+                case Parseresult.Source:
+                    netdecodeToolStripMenuItem.Enabled = true;
+                    statisticsToolStripMenuItem.Enabled = true;
+                    heatmapGeneratorToolStripMenuItem1.Enabled = true;
+                    break;
+                case Parseresult.L4D2Branch:
+                    netdecodeToolStripMenuItem.Enabled = true;
+                    statisticsToolStripMenuItem.Enabled = false;
+                    heatmapGeneratorToolStripMenuItem1.Enabled = false;
+                    break;
+            }
+        }
+
+        #region demo_file ToolStrip stuff
+
+        /// <summary>
+        ///     Open save file dialog
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -195,7 +628,7 @@ namespace VolvoWrench
         }
 
         /// <summary>
-        /// Openfile dialog for selecting a demo file
+        ///     Openfile dialog for selecting a demo file
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -211,11 +644,13 @@ namespace VolvoWrench
                 PrintDemoDetails(CurrentDemoFile);
             }
         }
+
         #endregion
 
         #region Help Toolstrip Stuff
+
         /// <summary>
-        /// Opens the details of the assembly
+        ///     Opens the details of the assembly
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -230,7 +665,7 @@ namespace VolvoWrench
         }
 
         /// <summary>
-        /// Opens the sourceruns wiki
+        ///     Opens the sourceruns wiki
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -241,7 +676,7 @@ namespace VolvoWrench
         }
 
         /// <summary>
-        /// Opens sourceruns.org
+        ///     Opens sourceruns.org
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -250,11 +685,13 @@ namespace VolvoWrench
             Log("Sourceruns opened!");
             Process.Start("https://sourceruns.org");
         }
+
         #endregion
 
         #region Context menu stuff Showlog,Export etc.
+
         /// <summary>
-        /// Copy all demo data to clipboard
+        ///     Copy all demo data to clipboard
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -266,7 +703,7 @@ namespace VolvoWrench
         }
 
         /// <summary>
-        /// Rescan the demo file
+        ///     Rescan the demo file
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -276,7 +713,7 @@ namespace VolvoWrench
         }
 
         /// <summary>
-        /// Open logpath's log file
+        ///     Open logpath's log file
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -292,7 +729,7 @@ namespace VolvoWrench
         }
 
         /// <summary>
-        /// Save demo data as an XML file
+        ///     Save demo data as an XML file
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -307,7 +744,7 @@ namespace VolvoWrench
         }
 
         /// <summary>
-        /// Rename the demo
+        ///     Rename the demo
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -329,18 +766,20 @@ namespace VolvoWrench
                         File.Move(CurrentFile,
                             Path.GetDirectoryName(CurrentFile) + "\\" +
                             CurrentDemoFile.GsDemoInfo.Header.MapName + "-" +
-                            $"{CurrentDemoFile.GsDemoInfo.DirectoryEntries.Last().TrackTime.ToString("#,0.000")}" + "-" + Environment.UserName + ".dem");
+                            $"{CurrentDemoFile.GsDemoInfo.DirectoryEntries.Last().TrackTime.ToString("#,0.000")}" + "-" +
+                            Environment.UserName + ".dem");
                         break;
                     case Parseresult.Hlsooe:
                         File.Move(CurrentFile,
                             Path.GetDirectoryName(CurrentFile) + "\\" +
                             CurrentDemoFile.HlsooeDemoInfo.Header.MapName + "-" +
-                            $"{CurrentDemoFile.HlsooeDemoInfo.DirectoryEntries.Last().PlaybackTime.ToString("#,0.000")}" + "-" + Environment.UserName + ".dem");
+                            $"{CurrentDemoFile.HlsooeDemoInfo.DirectoryEntries.Last().PlaybackTime.ToString("#,0.000")}" +
+                            "-" + Environment.UserName + ".dem");
                         break;
                     case Parseresult.Source:
                         var stime = (CurrentDemoFile.Sdi.Flags.Count(x => x.Name == "#SAVE#") == 0)
-                        ? CurrentDemoFile.Sdi.Seconds.ToString("#,0.000")
-                        : CurrentDemoFile.Sdi.Flags.Last(x => x.Name == "#SAVE#").Time.ToString("#,0.000");
+                            ? CurrentDemoFile.Sdi.Seconds.ToString("#,0.000")
+                            : CurrentDemoFile.Sdi.Flags.Last(x => x.Name == "#SAVE#").Time.ToString("#,0.000");
                         File.Move(CurrentFile,
                             Path.GetDirectoryName(CurrentFile) + "\\" +
                             CurrentDemoFile.Sdi.MapName + "-" +
@@ -353,7 +792,6 @@ namespace VolvoWrench
             {
                 richTextBox1.Text = @"Please select a file first!";
             }
-            
         }
 
         #endregion
@@ -361,7 +799,7 @@ namespace VolvoWrench
         #region Toolstrip Demo Tools
 
         /// <summary>
-        /// Show netdecode
+        ///     Show netdecode
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -377,7 +815,7 @@ namespace VolvoWrench
         }
 
         /// <summary>
-        /// Show the demo timer
+        ///     Show the demo timer
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -388,9 +826,9 @@ namespace VolvoWrench
                 dtf.ShowDialog(this);
             }
         }
-        
+
         /// <summary>
-        /// Show the demo doctor
+        ///     Show the demo doctor
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -401,7 +839,7 @@ namespace VolvoWrench
         }
 
         /// <summary>
-        /// Show the statistics tool
+        ///     Show the statistics tool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -412,7 +850,7 @@ namespace VolvoWrench
         }
 
         /// <summary>
-        /// Show the demo verifier
+        ///     Show the demo verifier
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -423,11 +861,13 @@ namespace VolvoWrench
                 a.ShowDialog();
             AllowDrop = true;
         }
+
         #endregion
 
         #region Overlay
+
         /// <summary>
-        /// Show the overlay
+        ///     Show the overlay
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -449,7 +889,7 @@ namespace VolvoWrench
         }
 
         /// <summary>
-        /// Open the OverLaySettings form
+        ///     Open the OverLaySettings form
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -461,11 +901,13 @@ namespace VolvoWrench
             }
             SettingsManager(false);
         }
+
         #endregion
 
         #region Settings and hotkeys stuff
+
         /// <summary>
-        /// Open the hotkey settings
+        ///     Open the hotkey settings
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -477,7 +919,7 @@ namespace VolvoWrench
         }
 
         /// <summary>
-        /// This is the timer we use for hotkey detection
+        ///     This is the timer we use for hotkey detection
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -502,7 +944,7 @@ namespace VolvoWrench
         }
 
         /// <summary>
-        /// Font setting
+        ///     Font setting
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -517,7 +959,7 @@ namespace VolvoWrench
                         richTextBox1.Font = fd.Font;
                         var parser = new FileIniDataParser();
                         var cvt = new FontConverter();
-                        IniData iniD = parser.ReadFile(SettingsPath);
+                        var iniD = parser.ReadFile(SettingsPath);
                         iniD["SETTINGS"]["main_font"] = cvt.ConvertToString(fd.Font);
                         parser.WriteFile(SettingsPath, iniD);
                     }
@@ -537,25 +979,29 @@ namespace VolvoWrench
         }
 
         /// <summary>
-        /// This method manages our settings
+        ///     This method manages our settings
         /// </summary>
         /// <param name="reset">This determines if we want to reset the settings</param>
         public static void SettingsManager(bool reset)
         {
             try
             {
-                if (!Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\" +"VolvoWrench"))
+                if (
+                    !Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\" +
+                                      "VolvoWrench"))
                 {
-                    Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\" +
-                                 "VolvoWrench");
+                    Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) +
+                                              "\\" +
+                                              "VolvoWrench");
                 }
                 if (!File.Exists(SettingsPath) || reset)
                 {
                     #region Config text
-                File.WriteAllLines(SettingsPath,
-                    new[]
-                    {
-$@"[VolvoWrench config file]
+
+                    File.WriteAllLines(SettingsPath,
+                        new[]
+                        {
+                            $@"[VolvoWrench config file]
 ; Here are your hotkeys for the program.
 ; Every line which starts with a semicolon(';') is ignored.
 ; Please keep that in mind.
@@ -568,7 +1014,9 @@ overlay_rescan=0x72
 Language=EN
 main_font=Microsoft Sans Serif; 8pt
 overlay_font=Microsoft Sans Serif; 8pt
-overlay_color={Color.Orange.A}:{Color.Orange.R}:{Color.Orange.B}:{Color.Orange.G}
+overlay_color={
+                                Color.Orange.A}:{Color.Orange.R}:{Color.Orange.B}:{Color.Orange.G
+                                }
 [OVERLAY_SOURCE]
 demo_protocol=0
 net_protocol=0
@@ -620,23 +1068,25 @@ lowest_msec=0
 highest_msec=0
 average_msec=0
 [DIALOG_PREFERENCES]
-exit_dialog=1"});
-                #endregion
+exit_dialog=1"
+                        });
+
+                    #endregion
+
                     DemoPopupKey = 0x70; //F1
                     OverLayExitKey = 0x71;
                     OverLayRescanKey = 0x72;
-
                 }
                 else
                 {
                     var cvt = new FontConverter();
                     var parser = new FileIniDataParser();
                     var data = parser.ReadFile(SettingsPath);
-                    DemoPopupKey = ToInt32(data["HOTKEYS"]["demo_popup"],16);
-                    OverLayExitKey = ToInt32(data["HOTKEYS"]["overlay_exit"],16);
-                    OverLayRescanKey = ToInt32(data["HOTKEYS"]["overlay_rescan"],16);
-                    OverlayFont =  cvt.ConvertFromString(data["SETTINGS"]["overlay_font"]) as Font;
-                    MainFont =  cvt.ConvertFromString(data["SETTINGS"]["main_font"]) as Font;
+                    DemoPopupKey = ToInt32(data["HOTKEYS"]["demo_popup"], 16);
+                    OverLayExitKey = ToInt32(data["HOTKEYS"]["overlay_exit"], 16);
+                    OverLayRescanKey = ToInt32(data["HOTKEYS"]["overlay_rescan"], 16);
+                    OverlayFont = cvt.ConvertFromString(data["SETTINGS"]["overlay_font"]) as Font;
+                    MainFont = cvt.ConvertFromString(data["SETTINGS"]["main_font"]) as Font;
                     var colorstring = data["SETTINGS"]["overlay_color"].Split(':');
                     OverLayColor = Color.FromArgb(
                         ToInt32(colorstring[0]),
@@ -651,11 +1101,13 @@ exit_dialog=1"});
                 Log("Error when parsing settings: " + e.Message);
             }
         }
+
         #endregion
 
         #region DragDrop file
+
         /// <summary>
-        /// This happens when we enter the from so we set the correct effect and text.
+        ///     This happens when we enter the from so we set the correct effect and text.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -670,7 +1122,7 @@ exit_dialog=1"});
         }
 
         /// <summary>
-        /// This happens when we leave the form and we clear the "Drop the file here" text
+        ///     This happens when we leave the form and we clear the "Drop the file here" text
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -683,7 +1135,7 @@ exit_dialog=1"});
         }
 
         /// <summary>
-        /// This happens when we drop the file on the form
+        ///     This happens when we drop the file on the form
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -707,337 +1159,7 @@ exit_dialog=1"});
                 richTextBox1.Text = @"Bad file!";
             }
         }
+
         #endregion
-
-        /// <summary>
-        /// Print the details of the demo to the Main richtextbox
-        /// </summary>
-        /// <param name="demo"></param>
-        public void PrintDemoDetails(CrossParseResult demo)
-        {
-            Log("Demo details printed!");
-            if (demo != null)
-            {
-                Text = @"VolvoWrench - " + Path.GetFileName(CurrentFile);
-                richTextBox1.Text = GetDemoDetails(demo);
-                StripEnabler(demo);
-            }
-            else
-            {
-                richTextBox1.Text = @"Not a demo! ";
-            }
-        }
-
-        /// <summary>
-        /// This returns a nice string which can be assigned to the richtexbox
-        /// </summary>
-        /// <param name="demo"></param>
-        /// <returns></returns>
-        public static string GetDemoDetails(CrossParseResult demo)
-        {
-            var returnstring = "Corrupted file!";
-            #region Print
-            switch (demo.Type)
-            {
-                case Parseresult.UnsupportedFile:
-                    returnstring = @"Unsupported file!";
-                    break;
-                case Parseresult.GoldSource:
-                    if (demo.GsDemoInfo.ParsingErrors.ToArray().Length > 0)
-                    {
-                        returnstring = demo.GsDemoInfo.ParsingErrors.Aggregate("Error while parsing goldsource demo: \r\n", (current, err) => current + ("\n" + err));
-                    }
-                    else
-                    {
-                        returnstring =
-                            $@"Analyzed GoldSource engine demo file ({demo.GsDemoInfo.Header.GameDir}):
-----------------------------------------------------------
-Demo protocol:              {demo.GsDemoInfo.Header.DemoProtocol}
-Net protocol:               {demo.GsDemoInfo.Header.NetProtocol}
-Directory Offset:           {demo.GsDemoInfo.Header.DirectoryOffset}
-Map name:                   {demo.GsDemoInfo.Header.MapName}
-Game directory:             {demo.GsDemoInfo.Header.GameDir}
-Length in seconds:          {demo.GsDemoInfo.DirectoryEntries.Sum(x => x.TrackTime).ToString("n3")}s
-Frame count:                {demo.GsDemoInfo.DirectoryEntries.Sum(x => x.FrameCount)}
-
-Higest FPS:                 {(1 / demo.GsDemoInfo.AditionalStats.FrametimeMin).ToString("N2")}
-Lowest FPS:                 {(1 / demo.GsDemoInfo.AditionalStats.FrametimeMax).ToString("N2")}
-Average FPS:                {(demo.GsDemoInfo.AditionalStats.Count / demo.GsDemoInfo.AditionalStats.FrametimeSum).ToString("N2")}
-Lowest msec:                {(1000.0 / demo.GsDemoInfo.AditionalStats.MsecMin).ToString("N2")} FPS
-Highest msec:               {(1000.0 / demo.GsDemoInfo.AditionalStats.MsecMax).ToString("N2")} FPS
-Average msec:               {(1000.0 / (demo.GsDemoInfo.AditionalStats.MsecSum / (double)demo.GsDemoInfo.AditionalStats.Count)).ToString("N2")} FPS
-----------------------------------------------------------";
-                    }
-                    break;
-                case Parseresult.Hlsooe:
-                    if (demo.HlsooeDemoInfo.ParsingErrors.ToArray().Length > 0)
-                    {
-                        returnstring = demo.HlsooeDemoInfo.ParsingErrors.Aggregate("Error while parsing HLSOOE demo: \r\n", (current, err) => current + (err));
-                    }
-                    else
-                    {
-                        returnstring = $@"Analyzed HLS:OOE engine demo file ({demo.HlsooeDemoInfo.Header.GameDir}):
-----------------------------------------------------------
-Demo protocol:              {demo.HlsooeDemoInfo.Header.DemoProtocol}
-Net protocol:               {demo.HlsooeDemoInfo.Header.NetProtocol}
-Directory offset:           {demo.HlsooeDemoInfo.Header.DirectoryOffset}
-Map name:                   {demo.HlsooeDemoInfo.Header.MapName}
-Game directory:             {demo.HlsooeDemoInfo.Header.GameDir}
-Length in seconds:          {(demo.HlsooeDemoInfo.DirectoryEntries.Where(x=> x.Type == 0).Sum(x => x.Frames.Last().Key.Time)) * 0.015}s
-Tick count:                 {(demo.HlsooeDemoInfo.DirectoryEntries.SkipWhile(x => x.FrameCount < 1).Max(x => x.Frames.Max(y => y.Key.Index)))}
-----------------------------------------------------------";
-                        returnstring = demo.HlsooeDemoInfo.DirectoryEntries.SelectMany(demoDirectoryEntry => demoDirectoryEntry.Flags).Aggregate(returnstring, (current, flag) => current + (flag.Value.Command + " at " + flag.Key.Frame + " -> " + (flag.Key.Frame*0.015).ToString("n3") + "s"));
-                    }
-                    break;
-                case Parseresult.Source:
-                    if (demo.Sdi.ParsingErrors.ToArray().Length > 0)
-                    {
-                        returnstring = demo.Sdi.ParsingErrors.Aggregate(@"Error while parsing Source engine demo: ", (current, err) => current + ("\n" + err));
-                    }
-                    else
-                    {
-                        returnstring =
-                            $@"Analyzed source engine demo file ({demo.Sdi.GameDirectory}):
-----------------------------------------------------------
-Demo protocol:              {demo.Sdi.DemoProtocol}
-Net protocol:               {demo.Sdi.NetProtocol}
-Server name:                {demo.Sdi.ServerName}
-Client name:                {demo.Sdi.ClientName}
-Map name:                   {demo.Sdi.MapName}
-Game directory:             {demo.Sdi.GameDirectory}
-Playback seconds:           {demo.Sdi.Seconds.ToString("n3")}s
-Playback tick:              {demo.Sdi.TickCount}
-Frame count:                {demo.Sdi.FrameCount}
-
-Measured time:              {(demo.Sdi.Messages.SkipWhile(x => x.Type != SourceParser.MessageType.SyncTick).Max(x => x.Tick) * 0.015).ToString("n3")}s
-Measured ticks:             {demo.Sdi.Messages.SkipWhile(x => x.Type != SourceParser.MessageType.SyncTick).Max(x => x.Tick)}
-----------------------------------------------------------";
-                        foreach (var f in demo.Sdi.Flags)
-                            switch (f.Name)
-                            {
-                                case "#SAVE#":
-                                    returnstring += ($"\n#SAVE# flag at Tick: {f.Tick} -> {f.Time}s");
-                                    break;
-                                case "autosave":
-                                    returnstring += ($"\nAutosave at Tick: {f.Tick} -> {f.Time}s");
-                                    break;
-                            }
-                    }
-                    break;
-                case Parseresult.Portal:
-                case Parseresult.L4D2Branch:
-                    if (demo.L4D2BranchInfo.Parsingerrors.ToArray().Length > 0)
-                    {
-                        returnstring = demo.L4D2BranchInfo.Parsingerrors.Aggregate(@"Error while parsing L4D2Branch demo:", (current, err) => current + ("\n" + err));
-                    }
-                    else
-                    {
-                        returnstring = $@"Analyzed L4D2Branch demo file ({demo.L4D2BranchInfo.Header.GameDirectory}):
-----------------------------------------------------------
-Protocol:           {demo.L4D2BranchInfo.Header.Protocol}
-Network protocol:   {demo.L4D2BranchInfo.Header.NetworkProtocol}
-Server name:        {demo.L4D2BranchInfo.Header.ServerName}
-Client name:        {demo.L4D2BranchInfo.Header.ClientName}
-Mapname:            {demo.L4D2BranchInfo.Header.MapName}
-GameDir:            {demo.L4D2BranchInfo.Header.GameDirectory}
-Playbacktime:       {(demo.L4D2BranchInfo.Header.PlaybackTime).ToString("n3")}s
-Playbackticks:      {demo.L4D2BranchInfo.Header.PlaybackTicks}
-Playbackframes:     {demo.L4D2BranchInfo.Header.PlaybackFrames}
-Signonlength:       {demo.L4D2BranchInfo.Header.SignonLength}
-
-Tickrate:           {demo.L4D2BranchInfo.Header.PlaybackTicks / demo.L4D2BranchInfo.Header.PlaybackTime}
-Start tick:         {demo.L4D2BranchInfo.PortalDemoInfo?.StartAdjustmentTick}
-Type:               {demo.L4D2BranchInfo.PortalDemoInfo?.StartAdjustmentType}
-End tick:           {demo.L4D2BranchInfo.PortalDemoInfo?.EndAdjustmentTick}
-Type:               {demo.L4D2BranchInfo.PortalDemoInfo?.EndAdjustmentType}
-
-Adjusted time:      {demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks * (1f / (demo.L4D2BranchInfo.Header.PlaybackTicks / demo.L4D2BranchInfo.Header.PlaybackTime)) + "s"}
-Adjusted ticks:     {demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks}
-----------------------------------------------------------
-";
-                    }
-                    break;
-            }
-            #endregion
-            return returnstring;
-        }
-
-        /// <summary>
-        /// Rescan the demo file.
-        /// </summary>
-        public void RescanFile()
-        {
-            if (CurrentFile != null && (File.Exists(CurrentFile) && Path.GetExtension(CurrentFile) == ".dem"))
-                {
-                    richTextBox1.Text = @"Analyzing file...";
-                    UpdateForm();
-                    CurrentDemoFile = CrossDemoParser.Parse(CurrentFile);
-                }
-                PrintDemoDetails(CurrentDemoFile);
-                Log(Path.GetFileName(CurrentFile) + " rescanned.");
-        }
-
-
-        /// <summary>
-        /// This method highlight the last line of the richtextbox
-        /// </summary>
-        /// <param name="textControl"></param>
-        /// <param name="highlightColor"></param>
-        public void HighlightLastLine(RichTextBox textControl, Color highlightColor)
-        {
-            textControl.Text = textControl.Text.Trim();
-            textControl.SelectionStart = 0;
-            textControl.SelectionLength = 0;
-            textControl.SelectionColor = Color.White;
-            var lastLineText = textControl.Lines[richTextBox1.Lines.Count() - 1];
-            var lastLineStartIndex = richTextBox1.Text.LastIndexOf(lastLineText, StringComparison.Ordinal);
-            textControl.SelectionStart = lastLineStartIndex;
-            textControl.SelectionLength = textControl.Text.Length - 1;
-            textControl.SelectionColor = highlightColor;
-            textControl.DeselectAll();
-            textControl.Select(textControl.Text.Length, 0);
-            Log("Last line highlighted!");
-        }
-
-        /// <summary>
-        ///  This method send a little popup/alert to windows.
-        /// </summary>
-        /// <param name="msg">This is the message which is sent to the notification system</param>
-        public static void Alert(string msg)
-        {
-            using (var ni = new NotifyIcon())
-            {
-                ni.Icon = SystemIcons.Exclamation;
-                ni.Visible = true;
-                ni.ShowBalloonTip(3000, "VolvoWrench", msg, ToolTipIcon.Info);
-            }
-            Log("Alert shown with message " + msg);
-        }
-
-        /// <summary>
-        /// This logs data to our logpath.
-        /// </summary>
-        /// <param name="s"> The logmessage </param>
-        /// <returns></returns>
-        public static Task Log(string s)
-        {
-            try
-            {
-                if (!Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\" + "VolvoWrench"))
-                    Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\" + "VolvoWrench");
-                return WriteTextAsync(LogPath, ("\n" + DateTime.Now.ToString("yyyy-MM-ddTHH\\:mm\\:ss.fffffffzzz") + " " +
-                     $"[{WindowsIdentity.GetCurrent().Name}]" + ": " + s));
-            }
-            catch (Exception)
-            {
-                return Task.FromResult(0);
-            }
-        }
-
-        /// <summary>
-        /// Async logging
-        /// </summary>
-        /// <param name="filePath"> The path </param>
-        /// <param name="text"> The text to log </param>
-        /// <returns></returns>
-        static async Task WriteTextAsync(string filePath, string text)
-        {
-                var encodedText = Encoding.Unicode.GetBytes(text);
-                if (!File.Exists(filePath))
-                    File.Create(filePath);
-                using (var sourceStream = new FileStream(filePath,FileMode.Append, FileAccess.Write, FileShare.None,bufferSize: 4096, useAsync: true))
-                {
-                    await sourceStream.WriteAsync(encodedText, 0, encodedText.Length);
-                }
-        }
-
-        /// <summary>
-        /// This is the event that happens when out form is closing.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Main_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            try
-            {
-                Log("Application exit!");
-                var parser = new FileIniDataParser();
-                var iniD = parser.ReadFile(SettingsPath);
-                var showexitdialog = ToBoolean(int.Parse(iniD["DIALOG_PREFERENCES"]["exit_dialog"]));
-                if (showexitdialog)
-                {
-                    #region Check for the dont show again
-                    var td = new TaskDialog
-                    {
-                        WindowTitle = @"Warning",
-                        Content = @"Are you sure you would like to exit?"
-                    };
-                    td.Buttons.Add(new TaskDialogButton()
-                    {
-                        ButtonType = ButtonType.No
-                        
-                    });
-                    td.Buttons.Add(new TaskDialogButton()
-                    {
-                        ButtonType = ButtonType.Yes,
-                        Default = true
-                    });
-                    var checkbox = new TaskDialogRadioButton
-                    {
-                        Text = @"Never show this again!",
-                        Checked = false
-                    };
-                    td.RadioButtons.Add(checkbox);
-                    if (td.ShowDialog().ButtonType == ButtonType.No)
-                    {
-                        e.Cancel = true;
-                        Log("Exit cancelled!");
-                    }
-                    if (td.RadioButtons[0].Checked)
-                        iniD["DIALOG_PREFERENCES"]["exit_dialog"] = "0";
-                    #endregion
-                }
-                parser.WriteFile(SettingsPath, iniD);
-            }
-            catch (Exception ex)
-            {
-                Log("Terrible error happened at Close!");
-                Log(ex.Message + " => " + ex.Source);
-            }
-        }
-
-        /// <summary>
-        /// This method is responsible for enabling the correct MenuStrips after demoparsing
-        /// </summary>
-        /// <param name="cpr"></param>
-        public void StripEnabler(CrossParseResult cpr)
-        {
-            Log("Strips changed!");
-            switch (cpr.Type)
-            {
-                case Parseresult.UnsupportedFile:
-                    netdecodeToolStripMenuItem.Enabled = false;
-                    statisticsToolStripMenuItem.Enabled = false;
-                    heatmapGeneratorToolStripMenuItem1.Enabled = false;
-                    break;
-                case Parseresult.Hlsooe:
-                case Parseresult.GoldSource:
-                    netdecodeToolStripMenuItem.Enabled = false;
-                    statisticsToolStripMenuItem.Enabled = false;
-                    heatmapGeneratorToolStripMenuItem1.Enabled = false;
-                    break;
-                case Parseresult.Portal:
-                case Parseresult.Source:
-                    netdecodeToolStripMenuItem.Enabled = true;
-                    statisticsToolStripMenuItem.Enabled = true;
-                    heatmapGeneratorToolStripMenuItem1.Enabled = true;
-                    break;
-                case Parseresult.L4D2Branch:
-                    netdecodeToolStripMenuItem.Enabled = true;
-                    statisticsToolStripMenuItem.Enabled = false;
-                    heatmapGeneratorToolStripMenuItem1.Enabled = false;
-                    break;
-            }
-        }
     }
 }

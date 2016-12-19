@@ -1,4 +1,5 @@
 #region License and Terms
+
 // MoreLINQ - Extensions to LINQ to Objects
 // Copyright (c) 2009 Atif Aziz. All rights reserved.
 // 
@@ -13,6 +14,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 #endregion
 
 using System;
@@ -25,36 +27,34 @@ namespace MoreLinq
     static partial class MoreEnumerable
     {
         /// <summary>
-        /// Batches the source sequence into sized buckets.
+        ///     Batches the source sequence into sized buckets.
         /// </summary>
-        /// <typeparam name="TSource">Type of elements in <paramref name="source"/> sequence.</typeparam>
+        /// <typeparam name="TSource">Type of elements in <paramref name="source" /> sequence.</typeparam>
         /// <param name="source">The source sequence.</param>
         /// <param name="size">Size of buckets.</param>
         /// <returns>A sequence of equally sized buckets containing elements of the source collection.</returns>
         /// <remarks>
-        /// This operator uses deferred execution and streams its results (buckets and bucket content). 
-        /// It is also identical to <see cref="Partition{TSource}(System.Collections.Generic.IEnumerable{TSource},int)"/>.
+        ///     This operator uses deferred execution and streams its results (buckets and bucket content).
+        ///     It is also identical to <see cref="Partition{TSource}(System.Collections.Generic.IEnumerable{TSource},int)" />.
         /// </remarks>
-
         public static IEnumerable<IEnumerable<TSource>> Batch<TSource>(this IEnumerable<TSource> source, int size)
         {
             return Batch(source, size, x => x);
         }
 
         /// <summary>
-        /// Batches the source sequence into sized buckets and applies a projection to each bucket.
+        ///     Batches the source sequence into sized buckets and applies a projection to each bucket.
         /// </summary>
-        /// <typeparam name="TSource">Type of elements in <paramref name="source"/> sequence.</typeparam>
-        /// <typeparam name="TResult">Type of result returned by <paramref name="resultSelector"/>.</typeparam>
+        /// <typeparam name="TSource">Type of elements in <paramref name="source" /> sequence.</typeparam>
+        /// <typeparam name="TResult">Type of result returned by <paramref name="resultSelector" />.</typeparam>
         /// <param name="source">The source sequence.</param>
         /// <param name="size">Size of buckets.</param>
         /// <param name="resultSelector">The projection to apply to each bucket.</param>
         /// <returns>A sequence of projections on equally sized buckets containing elements of the source collection.</returns>
         /// <remarks>
-        /// This operator uses deferred execution and streams its results (buckets and bucket content).
-        /// It is also identical to <see cref="Partition{TSource}(System.Collections.Generic.IEnumerable{TSource},int)"/>.
+        ///     This operator uses deferred execution and streams its results (buckets and bucket content).
+        ///     It is also identical to <see cref="Partition{TSource}(System.Collections.Generic.IEnumerable{TSource},int)" />.
         /// </remarks>
-        
         public static IEnumerable<TResult> Batch<TSource, TResult>(this IEnumerable<TSource> source, int size,
             Func<IEnumerable<TSource>, TResult> resultSelector)
         {
@@ -91,7 +91,7 @@ namespace MoreLinq
 
                 // Select is necessary so bucket contents are streamed too
                 yield return resultSelector(bucket.Select(x => x));
-               
+
                 bucket = null;
                 count = 0;
             }

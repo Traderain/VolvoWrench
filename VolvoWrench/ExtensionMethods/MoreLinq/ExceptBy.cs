@@ -1,4 +1,5 @@
 #region License and Terms
+
 // MoreLINQ - Extensions to LINQ to Objects
 // Copyright (c) 2008 Jonathan Skeet. All rights reserved.
 // 
@@ -13,6 +14,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 #endregion
 
 using System;
@@ -24,24 +26,27 @@ namespace MoreLinq
     static partial class MoreEnumerable
     {
         /// <summary>
-        /// Returns the set of elements in the first sequence which aren't
-        /// in the second sequence, according to a given key selector.
+        ///     Returns the set of elements in the first sequence which aren't
+        ///     in the second sequence, according to a given key selector.
         /// </summary>
         /// <remarks>
-        /// This is a set operation; if multiple elements in <paramref name="first"/> have
-        /// equal keys, only the first such element is returned.
-        /// This operator uses deferred execution and streams the results, although
-        /// a set of keys from <paramref name="second"/> is immediately selected and retained.
+        ///     This is a set operation; if multiple elements in <paramref name="first" /> have
+        ///     equal keys, only the first such element is returned.
+        ///     This operator uses deferred execution and streams the results, although
+        ///     a set of keys from <paramref name="second" /> is immediately selected and retained.
         /// </remarks>
         /// <typeparam name="TSource">The type of the elements in the input sequences.</typeparam>
-        /// <typeparam name="TKey">The type of the key returned by <paramref name="keySelector"/>.</typeparam>
+        /// <typeparam name="TKey">The type of the key returned by <paramref name="keySelector" />.</typeparam>
         /// <param name="first">The sequence of potentially included elements.</param>
-        /// <param name="second">The sequence of elements whose keys may prevent elements in
-        /// <paramref name="first"/> from being returned.</param>
+        /// <param name="second">
+        ///     The sequence of elements whose keys may prevent elements in
+        ///     <paramref name="first" /> from being returned.
+        /// </param>
         /// <param name="keySelector">The mapping from source element to key.</param>
-        /// <returns>A sequence of elements from <paramref name="first"/> whose key was not also a key for
-        /// any element in <paramref name="second"/>.</returns>
-        
+        /// <returns>
+        ///     A sequence of elements from <paramref name="first" /> whose key was not also a key for
+        ///     any element in <paramref name="second" />.
+        /// </returns>
         public static IEnumerable<TSource> ExceptBy<TSource, TKey>(this IEnumerable<TSource> first,
             IEnumerable<TSource> second,
             Func<TSource, TKey> keySelector)
@@ -50,26 +55,31 @@ namespace MoreLinq
         }
 
         /// <summary>
-        /// Returns the set of elements in the first sequence which aren't
-        /// in the second sequence, according to a given key selector.
+        ///     Returns the set of elements in the first sequence which aren't
+        ///     in the second sequence, according to a given key selector.
         /// </summary>
         /// <remarks>
-        /// This is a set operation; if multiple elements in <paramref name="first"/> have
-        /// equal keys, only the first such element is returned.
-        /// This operator uses deferred execution and streams the results, although
-        /// a set of keys from <paramref name="second"/> is immediately selected and retained.
+        ///     This is a set operation; if multiple elements in <paramref name="first" /> have
+        ///     equal keys, only the first such element is returned.
+        ///     This operator uses deferred execution and streams the results, although
+        ///     a set of keys from <paramref name="second" /> is immediately selected and retained.
         /// </remarks>
         /// <typeparam name="TSource">The type of the elements in the input sequences.</typeparam>
-        /// <typeparam name="TKey">The type of the key returned by <paramref name="keySelector"/>.</typeparam>
+        /// <typeparam name="TKey">The type of the key returned by <paramref name="keySelector" />.</typeparam>
         /// <param name="first">The sequence of potentially included elements.</param>
-        /// <param name="second">The sequence of elements whose keys may prevent elements in
-        /// <paramref name="first"/> from being returned.</param>
+        /// <param name="second">
+        ///     The sequence of elements whose keys may prevent elements in
+        ///     <paramref name="first" /> from being returned.
+        /// </param>
         /// <param name="keySelector">The mapping from source element to key.</param>
-        /// <param name="keyComparer">The equality comparer to use to determine whether or not keys are equal.
-        /// If null, the default equality comparer for <c>TSource</c> is used.</param>
-        /// <returns>A sequence of elements from <paramref name="first"/> whose key was not also a key for
-        /// any element in <paramref name="second"/>.</returns>
-        
+        /// <param name="keyComparer">
+        ///     The equality comparer to use to determine whether or not keys are equal.
+        ///     If null, the default equality comparer for <c>TSource</c> is used.
+        /// </param>
+        /// <returns>
+        ///     A sequence of elements from <paramref name="first" /> whose key was not also a key for
+        ///     any element in <paramref name="second" />.
+        /// </returns>
         public static IEnumerable<TSource> ExceptBy<TSource, TKey>(this IEnumerable<TSource> first,
             IEnumerable<TSource> second,
             Func<TSource, TKey> keySelector,

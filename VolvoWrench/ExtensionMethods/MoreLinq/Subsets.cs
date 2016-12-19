@@ -1,4 +1,5 @@
 #region License and Terms
+
 // MoreLINQ - Extensions to LINQ to Objects
 // Copyright (c) 2010 Leopold Bushkin. All rights reserved.
 // 
@@ -13,6 +14,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 #endregion
 
 using System;
@@ -23,24 +25,23 @@ using System.Linq;
 namespace MoreLinq
 {
     public static partial class MoreEnumerable
-    {      
+    {
         /// <summary>
-        /// Returns a sequence of <see cref="IList{T}"/> representing all of the subsets
-        /// of any size that are part of the original sequence.
+        ///     Returns a sequence of <see cref="IList{T}" /> representing all of the subsets
+        ///     of any size that are part of the original sequence.
         /// </summary>
         /// <remarks>
-        /// This operator produces all of the subsets of a given sequence. Subsets are returned
-        /// in increasing cardinality, starting with the empty set and terminating with the
-        /// entire original sequence.<br/>
-        /// Subsets are produced in a deferred, streaming manner; however, each subset is returned 
-        /// as a materialized list.<br/>
-        /// There are 2^N subsets of a given sequence, where N => sequence.Count(). 
+        ///     This operator produces all of the subsets of a given sequence. Subsets are returned
+        ///     in increasing cardinality, starting with the empty set and terminating with the
+        ///     entire original sequence.<br />
+        ///     Subsets are produced in a deferred, streaming manner; however, each subset is returned
+        ///     as a materialized list.<br />
+        ///     There are 2^N subsets of a given sequence, where N => sequence.Count().
         /// </remarks>
         /// <param name="sequence">Sequence for which to produce subsets</param>
         /// <typeparam name="T">The type of the elements in the sequence</typeparam>
         /// <returns>A sequence of lists that represent the all subsets of the original sequence</returns>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="sequence"/> is <see langword="null"/></exception>
-        
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="sequence" /> is <see langword="null" /></exception>
         public static IEnumerable<IList<T>> Subsets<T>(this IEnumerable<T> sequence)
         {
             if (sequence == null)
@@ -49,20 +50,19 @@ namespace MoreLinq
         }
 
         /// <summary>
-        /// Returns a sequence of <see cref="IList{T}"/> representing all subsets of the
-        /// specified size that are part of the original sequence.
+        ///     Returns a sequence of <see cref="IList{T}" /> representing all subsets of the
+        ///     specified size that are part of the original sequence.
         /// </summary>
         /// <param name="sequence">Sequence for which to produce subsets</param>
         /// <param name="subsetSize">The size of the subsets to produce</param>
         /// <typeparam name="T">The type of the elements in the sequence</typeparam>
         /// <returns>A sequence of lists that represents of K-sized subsets of the original sequence</returns>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="sequence"/> is <see langword="null"/>
+        ///     Thrown if <paramref name="sequence" /> is <see langword="null" />
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
-        /// Thrown if <paramref name="subsetSize"/> is less than zero.
+        ///     Thrown if <paramref name="subsetSize" /> is less than zero.
         /// </exception>
-        
         public static IEnumerable<IList<T>> Subsets<T>(this IEnumerable<T> sequence, int subsetSize)
         {
             if (sequence == null)
@@ -87,12 +87,11 @@ namespace MoreLinq
         }
 
         /// <summary>
-        /// Underlying implementation for Subsets() overload.
+        ///     Underlying implementation for Subsets() overload.
         /// </summary>
         /// <typeparam name="T">The type of the elements in the sequence</typeparam>
         /// <param name="sequence">Sequence for which to produce subsets</param>
         /// <returns>Sequence of lists representing all subsets of a sequence</returns>
-        
         private static IEnumerable<IList<T>> SubsetsImpl<T>(IEnumerable<T> sequence)
         {
             var sequenceAsList = sequence.ToList();
@@ -118,36 +117,62 @@ namespace MoreLinq
         }
 
         /// <summary>
-        /// This class is responsible for producing the lexographically ordered k-subsets
+        ///     This class is responsible for producing the lexographically ordered k-subsets
         /// </summary>
-        
         private sealed class SubsetGenerator<T> : IEnumerable<IList<T>>
         {
-            /// <summary>
-            /// SubsetEnumerator uses a snapshot of the original sequence, and an
-            /// iterative, reductive swap algorithm to produce all subsets of a
-            /// predetermined size less than or equal to the original set size.
-            /// </summary>
+            private readonly IEnumerable<T> _sequence;
+            private readonly int _subsetSize;
 
+            public SubsetGenerator(IEnumerable<T> sequence, int subsetSize)
+            {
+                if (sequence == null)
+                    throw new ArgumentNullException("sequence");
+                if (subsetSize < 0)
+                    throw new ArgumentOutOfRangeException("subsetSize", "{subsetSize} must be between 0 and set.Count()");
+                _subsetSize = subsetSize;
+                _sequence = sequence;
+            }
+
+            /// <summary>
+            ///     Returns an enumerator that produces all of the k-sized
+            ///     subsets of the initial value set. The enumerator returns
+            ///     and <see cref="IList{T}" /> for each subset.
+            /// </summary>
+            /// <returns>an <see cref="IEnumerator" /> that enumerates all k-sized subsets</returns>
+            public IEnumerator<IList<T>> GetEnumerator()
+            {
+                return new SubsetEnumerator(_sequence.ToList(), _subsetSize);
+            }
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return GetEnumerator();
+            }
+
+            /// <summary>
+            ///     SubsetEnumerator uses a snapshot of the original sequence, and an
+            ///     iterative, reductive swap algorithm to produce all subsets of a
+            ///     predetermined size less than or equal to the original set size.
+            /// </summary>
             private class SubsetEnumerator : IEnumerator<IList<T>>
             {
-                private readonly IList<T> _set;   // the original set of elements
-                private readonly T[] _subset;     // the current subset to return
-                private readonly int[] _indices;  // indices into the original set
-
-                private bool _continue;  // termination indicator, set when all subsets have been produced
-                private int _m;            // previous swap index (upper index)
-                private int _m2;           // current swap index (lower index)
-                private int _k;            // size of the subset being produced
-                private int _n;            // size of the original set (sequence)
-                private int _z;            // count of items excluded from the subet
+                private readonly int[] _indices; // indices into the original set
+                private readonly IList<T> _set; // the original set of elements
+                private readonly T[] _subset; // the current subset to return
+                private bool _continue; // termination indicator, set when all subsets have been produced
+                private int _k; // size of the subset being produced
+                private int _m; // previous swap index (upper index)
+                private int _m2; // current swap index (lower index)
+                private int _n; // size of the original set (sequence)
+                private int _z; // count of items excluded from the subet
 
                 public SubsetEnumerator(IList<T> set, int subsetSize)
                 {
                     // precondition: subsetSize <= set.Count
                     if (subsetSize > set.Count)
                         throw new ArgumentOutOfRangeException("subsetSize", "Subset size must be <= sequence.Count()");
-                    
+
                     // initialize set arrays...
                     _set = set;
                     _subset = new T[subsetSize];
@@ -168,7 +193,7 @@ namespace MoreLinq
 
                 public IList<T> Current
                 {
-                    get { return (IList<T>)_subset.Clone(); }
+                    get { return (IList<T>) _subset.Clone(); }
                 }
 
                 object IEnumerator.Current
@@ -205,7 +230,9 @@ namespace MoreLinq
                     return true;
                 }
 
-                void IDisposable.Dispose() { }
+                void IDisposable.Dispose()
+                {
+                }
 
                 private void ExtractSubset()
                 {
@@ -213,33 +240,6 @@ namespace MoreLinq
                         _subset[i] = _set[_indices[i] - 1];
                 }
             }
-
-            private readonly IEnumerable<T> _sequence;
-            private readonly int _subsetSize;
-
-            public SubsetGenerator(IEnumerable<T> sequence, int subsetSize)
-            {
-                if (sequence == null)
-                    throw new ArgumentNullException("sequence");
-                if (subsetSize < 0)
-                    throw new ArgumentOutOfRangeException("subsetSize", "{subsetSize} must be between 0 and set.Count()");
-                _subsetSize = subsetSize;
-                _sequence = sequence;
-            }
-
-            /// <summary>
-            /// Returns an enumerator that produces all of the k-sized
-            /// subsets of the initial value set. The enumerator returns
-            /// and <see cref="IList{T}"/> for each subset.
-            /// </summary>
-            /// <returns>an <see cref="IEnumerator"/> that enumerates all k-sized subsets</returns>
-
-            public IEnumerator<IList<T>> GetEnumerator()
-            {
-                return new SubsetEnumerator(_sequence.ToList(), _subsetSize);
-            }
-
-            IEnumerator IEnumerable.GetEnumerator() { return GetEnumerator(); }
         }
     }
 }

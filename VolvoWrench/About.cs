@@ -9,12 +9,12 @@ namespace VolvoWrench
         public About()
         {
             InitializeComponent();
-            this.Text = $"About {AssemblyTitle}";
-            this.labelProductName.Text = AssemblyProduct;
-            this.labelVersion.Text = $"Version {AssemblyVersion}";
-            this.labelCopyright.Text = AssemblyCopyright;
-            this.labelCompanyName.Text = AssemblyCompany;
-            this.textBoxDescription.Text = AssemblyDescription;
+            Text = $"About {AssemblyTitle}";
+            labelProductName.Text = AssemblyProduct;
+            labelVersion.Text = $"Version {AssemblyVersion}";
+            labelCopyright.Text = AssemblyCopyright;
+            labelCompanyName.Text = AssemblyCompany;
+            textBoxDescription.Text = AssemblyDescription;
         }
 
         public override sealed string Text
@@ -29,10 +29,11 @@ namespace VolvoWrench
         {
             get
             {
-                var attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyTitleAttribute), false);
+                var attributes = Assembly.GetExecutingAssembly()
+                    .GetCustomAttributes(typeof (AssemblyTitleAttribute), false);
                 if (attributes.Length > 0)
                 {
-                    var titleAttribute = (AssemblyTitleAttribute)attributes[0];
+                    var titleAttribute = (AssemblyTitleAttribute) attributes[0];
                     if (titleAttribute.Title != "")
                         return titleAttribute.Title;
                 }
@@ -46,8 +47,9 @@ namespace VolvoWrench
         {
             get
             {
-                var attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyDescriptionAttribute), false);
-                return attributes.Length == 0 ? "" : ((AssemblyDescriptionAttribute)attributes[0]).Description;
+                var attributes =
+                    Assembly.GetExecutingAssembly().GetCustomAttributes(typeof (AssemblyDescriptionAttribute), false);
+                return attributes.Length == 0 ? "" : ((AssemblyDescriptionAttribute) attributes[0]).Description;
             }
         }
 
@@ -55,8 +57,9 @@ namespace VolvoWrench
         {
             get
             {
-                var attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyProductAttribute), false);
-                return attributes.Length == 0 ? "" : ((AssemblyProductAttribute)attributes[0]).Product;
+                var attributes = Assembly.GetExecutingAssembly()
+                    .GetCustomAttributes(typeof (AssemblyProductAttribute), false);
+                return attributes.Length == 0 ? "" : ((AssemblyProductAttribute) attributes[0]).Product;
             }
         }
 
@@ -64,8 +67,9 @@ namespace VolvoWrench
         {
             get
             {
-                var attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
-                return attributes.Length == 0 ? "" : ((AssemblyCopyrightAttribute)attributes[0]).Copyright;
+                var attributes = Assembly.GetExecutingAssembly()
+                    .GetCustomAttributes(typeof (AssemblyCopyrightAttribute), false);
+                return attributes.Length == 0 ? "" : ((AssemblyCopyrightAttribute) attributes[0]).Copyright;
             }
         }
 
@@ -73,11 +77,12 @@ namespace VolvoWrench
         {
             get
             {
-                var attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyCompanyAttribute), false);
-                return attributes.Length == 0 ? "" : ((AssemblyCompanyAttribute)attributes[0]).Company;
+                var attributes = Assembly.GetExecutingAssembly()
+                    .GetCustomAttributes(typeof (AssemblyCompanyAttribute), false);
+                return attributes.Length == 0 ? "" : ((AssemblyCompanyAttribute) attributes[0]).Company;
             }
         }
-        #endregion
 
+        #endregion
     }
 }

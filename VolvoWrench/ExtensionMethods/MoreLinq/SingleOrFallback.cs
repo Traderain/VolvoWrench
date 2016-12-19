@@ -1,4 +1,5 @@
 #region License and Terms
+
 // MoreLINQ - Extensions to LINQ to Objects
 // Copyright (c) 2008 Jonathan Skeet. All rights reserved.
 // 
@@ -13,6 +14,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 #endregion
 
 using System;
@@ -23,29 +25,30 @@ namespace MoreLinq
     static partial class MoreEnumerable
     {
         /// <summary>
-        /// Returns the single element in the given sequence, or the result
-        /// of executing a fallback delegate if the sequence is empty.
-        /// This method throws an exception if there is more than one element in the sequence.
+        ///     Returns the single element in the given sequence, or the result
+        ///     of executing a fallback delegate if the sequence is empty.
+        ///     This method throws an exception if there is more than one element in the sequence.
         /// </summary>
         /// <remarks>
-        /// The fallback delegate is not executed if the sequence is non-empty.
-        /// This operator uses immediate execution and has optimizations for <see cref="IList{T}"/> sources.
+        ///     The fallback delegate is not executed if the sequence is non-empty.
+        ///     This operator uses immediate execution and has optimizations for <see cref="IList{T}" /> sources.
         /// </remarks>
         /// <typeparam name="TSource">Element type of sequence</typeparam>
         /// <param name="source">The source sequence</param>
         /// <param name="fallback">The fallback delegate to execute if the sequence is empty</param>
         /// <exception cref="ArgumentNullException">source or fallback is null</exception>
         /// <exception cref="InvalidOperationException">The sequence has more than one element</exception>
-        /// <returns>The single element in the sequence, or the result of calling the
-        /// fallback delegate if the sequence is empty.</returns>
+        /// <returns>
+        ///     The single element in the sequence, or the result of calling the
+        ///     fallback delegate if the sequence is empty.
+        /// </returns>
         /// <example>
-        /// <code>
+        ///     <code>
         /// var numbers = { 123, 456, 789 };
         /// var result = numbers.Where(x => x == 100).SingleOrFallback(() => -1);
         /// </code>
-        /// The <c>result</c> variable will contain <c>-1</c>.
+        ///     The <c>result</c> variable will contain <c>-1</c>.
         /// </example>
-
         [Obsolete("Consider using FallbackIfEmpty instead. SingleOrFallback may be removed in a future version. " +
                   "For more information, see https://github.com/morelinq/MoreLINQ/issues/122.")]
         public static TSource SingleOrFallback<TSource>(this IEnumerable<TSource> source, Func<TSource> fallback)

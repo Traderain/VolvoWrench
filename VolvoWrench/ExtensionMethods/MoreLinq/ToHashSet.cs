@@ -1,4 +1,5 @@
 #region License and Terms
+
 // MoreLINQ - Extensions to LINQ to Objects
 // Copyright (c) 2008 Jonathan Skeet. All rights reserved.
 //
@@ -13,6 +14,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 #endregion
 
 using System;
@@ -23,36 +25,38 @@ namespace MoreLinq
     static partial class MoreEnumerable
     {
         /// <summary>
-        /// Returns a <see cref="HashSet{T}"/> of the source items using the default equality
-        /// comparer for the type.
+        ///     Returns a <see cref="HashSet{T}" /> of the source items using the default equality
+        ///     comparer for the type.
         /// </summary>
         /// <typeparam name="TSource">Type of elements in source sequence.</typeparam>
         /// <param name="source">Source sequence</param>
         /// <returns>A hash set of the items in the sequence, using the default equality comparer.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="source" /> is null</exception>
         /// <remarks>
-        /// This evaluates the input sequence completely.
+        ///     This evaluates the input sequence completely.
         /// </remarks>
-
         public static HashSet<TSource> ToHashSet<TSource>(this IEnumerable<TSource> source)
         {
             return source.ToHashSet(null);
         }
 
         /// <summary>
-        /// Returns a <see cref="HashSet{T}"/> of the source items using the specified equality
-        /// comparer for the type.
+        ///     Returns a <see cref="HashSet{T}" /> of the source items using the specified equality
+        ///     comparer for the type.
         /// </summary>
         /// <typeparam name="TSource">Type of elements in source sequence.</typeparam>
         /// <param name="source">Source sequence</param>
-        /// <param name="comparer">Equality comparer to use; a value of null will cause the type's default equality comparer to be used</param>
+        /// <param name="comparer">
+        ///     Equality comparer to use; a value of null will cause the type's default equality comparer to be
+        ///     used
+        /// </param>
         /// <returns>A hash set of the items in the sequence, using the default equality comparer.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="source" /> is null</exception>
         /// <remarks>
-        /// This evaluates the input sequence completely.
+        ///     This evaluates the input sequence completely.
         /// </remarks>
-
-        public static HashSet<TSource> ToHashSet<TSource>(this IEnumerable<TSource> source, IEqualityComparer<TSource> comparer)
+        public static HashSet<TSource> ToHashSet<TSource>(this IEnumerable<TSource> source,
+            IEqualityComparer<TSource> comparer)
         {
             if (source == null) throw new ArgumentNullException("source");
             return new HashSet<TSource>(source, comparer);

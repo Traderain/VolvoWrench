@@ -1,4 +1,5 @@
 #region License and Terms
+
 // MoreLINQ - Extensions to LINQ to Objects
 // Copyright (c) 2010 Leopold Bushkin. All rights reserved.
 // 
@@ -13,6 +14,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 #endregion
 
 using System;
@@ -29,13 +31,12 @@ namespace MoreLinq
         // a public extension method in its own right.
 
         /// <summary>
-        /// Produces a sequence from an action based on the dynamic generation of N nested loops
-        /// who iteration counts are defined by <paramref name="loopCounts"/>.
+        ///     Produces a sequence from an action based on the dynamic generation of N nested loops
+        ///     who iteration counts are defined by <paramref name="loopCounts" />.
         /// </summary>
         /// <param name="action">Action delegate for which to produce a nested loop sequence</param>
         /// <param name="loopCounts">A sequence of loop repetition counts</param>
         /// <returns>A sequence of Action representing the expansion of a set of nested loops</returns>
-       
         public static IEnumerable<Action> NestedLoops(this Action action, IEnumerable<int> loopCounts)
         {
             if (action == null) throw new ArgumentNullException("action");

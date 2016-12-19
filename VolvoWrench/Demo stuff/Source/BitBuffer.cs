@@ -13,13 +13,12 @@ namespace VolvoWrench.Demo_Stuff.Source
         private readonly byte[] _buf;
         private uint _pos;
 
-        public uint CurByte => (uint)(_pos / 8.0f);
-
         public BitBuffer(byte[] data)
         {
             _buf = data;
         }
 
+        public uint CurByte => (uint) (_pos/8.0f);
         public void Seek(uint bits) => _pos += bits;
 
         public uint ReadBits(uint bits)
@@ -29,8 +28,8 @@ namespace VolvoWrench.Demo_Stuff.Source
 
             while (left > 0)
             {
-                var idx = _pos >> 3; 
-                var bit = _pos & 7; 
+                var idx = _pos >> 3;
+                var bit = _pos & 7;
                 var toget = Math.Min(8 - bit, left);
 
                 var nib = (uint) (_buf[idx] >> (int) bit & Mtbl[toget]);

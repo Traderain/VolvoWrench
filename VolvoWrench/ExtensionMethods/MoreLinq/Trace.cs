@@ -1,4 +1,5 @@
 #region License and Terms
+
 // MoreLINQ - Extensions to LINQ to Objects
 // Copyright (c) 2008 Jonathan Skeet. All rights reserved.
 // 
@@ -13,6 +14,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 #endregion
 
 using System;
@@ -24,74 +26,73 @@ namespace MoreLinq
     static partial class MoreEnumerable
     {
         /// <summary>
-        /// Traces the elements of a source sequence for diagnostics.
+        ///     Traces the elements of a source sequence for diagnostics.
         /// </summary>
         /// <typeparam name="TSource">Type of element in the source sequence</typeparam>
         /// <param name="source">Source sequence whose elements to trace.</param>
         /// <returns>
-        /// Return the source sequence unmodified.
+        ///     Return the source sequence unmodified.
         /// </returns>
         /// <remarks>
-        /// This a pass-through operator that uses deferred execution and 
-        /// streams the results.
+        ///     This a pass-through operator that uses deferred execution and
+        ///     streams the results.
         /// </remarks>
-
         public static IEnumerable<TSource> Trace<TSource>(this IEnumerable<TSource> source)
         {
             return Trace(source, (string) null);
         }
 
         /// <summary>
-        /// Traces the elements of a source sequence for diagnostics using
-        /// custom formatting.
+        ///     Traces the elements of a source sequence for diagnostics using
+        ///     custom formatting.
         /// </summary>
         /// <typeparam name="TSource">Type of element in the source sequence</typeparam>
         /// <param name="source">Source sequence whose elements to trace.</param>
         /// <param name="format">
-        /// String to use to format the trace message. If null then the
-        /// element value becomes the traced message.
+        ///     String to use to format the trace message. If null then the
+        ///     element value becomes the traced message.
         /// </param>
         /// <returns>
-        /// Return the source sequence unmodified.
+        ///     Return the source sequence unmodified.
         /// </returns>
         /// <remarks>
-        /// This a pass-through operator that uses deferred execution and 
-        /// streams the results.
+        ///     This a pass-through operator that uses deferred execution and
+        ///     streams the results.
         /// </remarks>
-
         public static IEnumerable<TSource> Trace<TSource>(this IEnumerable<TSource> source, string format)
         {
             if (source == null) throw new ArgumentNullException("source");
 
-            return TraceImpl(source, 
+            return TraceImpl(source,
                 string.IsNullOrEmpty(format)
-                ? (Func<TSource, string>) (x => x == null ? string.Empty : x.ToString())
-                : (x => string.Format(format, x)));
+                    ? (Func<TSource, string>) (x => x == null ? string.Empty : x.ToString())
+                    : (x => string.Format(format, x)));
         }
 
         /// <summary>
-        /// Traces the elements of a source sequence for diagnostics using
-        /// a custom formatter.
+        ///     Traces the elements of a source sequence for diagnostics using
+        ///     a custom formatter.
         /// </summary>
         /// <typeparam name="TSource">Type of element in the source sequence</typeparam>
         /// <param name="source">Source sequence whose elements to trace.</param>
         /// <param name="formatter">Function used to format each source element into a string.</param>
         /// <returns>
-        /// Return the source sequence unmodified.
+        ///     Return the source sequence unmodified.
         /// </returns>
         /// <remarks>
-        /// This a pass-through operator that uses deferred execution and 
-        /// streams the results.
+        ///     This a pass-through operator that uses deferred execution and
+        ///     streams the results.
         /// </remarks>
-
-        public static IEnumerable<TSource> Trace<TSource>(this IEnumerable<TSource> source, Func<TSource, string> formatter)
+        public static IEnumerable<TSource> Trace<TSource>(this IEnumerable<TSource> source,
+            Func<TSource, string> formatter)
         {
             if (source == null) throw new ArgumentNullException("source");
             if (formatter == null) throw new ArgumentNullException("formatter");
             return TraceImpl(source, formatter);
         }
 
-        private static IEnumerable<TSource> TraceImpl<TSource>(IEnumerable<TSource> source, Func<TSource, string> formatter)
+        private static IEnumerable<TSource> TraceImpl<TSource>(IEnumerable<TSource> source,
+            Func<TSource, string> formatter)
         {
             Debug.Assert(source != null);
             Debug.Assert(formatter != null);

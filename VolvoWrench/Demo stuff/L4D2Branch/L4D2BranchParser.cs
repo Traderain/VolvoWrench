@@ -9,7 +9,7 @@ using VolvoWrench.Demo_Stuff.L4D2Branch.PortalStuff.Result;
 namespace VolvoWrench.Demo_Stuff.L4D2Branch
 {
     /// <summary>
-    /// The header of the demo
+    ///     The header of the demo
     /// </summary>
     public class DemoHeader
     {
@@ -46,7 +46,7 @@ namespace VolvoWrench.Demo_Stuff.L4D2Branch
     }
 
     /// <summary>
-    /// The details of the parsed L4D2 branch demo
+    ///     The details of the parsed L4D2 branch demo
     /// </summary>
     public class L4D2BranchDemoInfo
     {
@@ -70,7 +70,7 @@ namespace VolvoWrench.Demo_Stuff.L4D2Branch
                 info.DemoType = Category.Portal2Coop;
             if (Category.Portal2CoopCourse6.Maps.Contains(info.Header.MapName))
                 info.DemoType = Category.Portal2Sp;
-            if(Category.Portal2Sp.Maps.Contains(info.Header.MapName))
+            if (Category.Portal2Sp.Maps.Contains(info.Header.MapName))
                 info.DemoType = Category.Portal2Sp;
             if (!Category.Portal.Maps.Contains(info.Header.MapName) &&
                 !Category.Portal2Coop.Maps.Contains(info.Header.MapName) &&
@@ -91,7 +91,6 @@ namespace VolvoWrench.Demo_Stuff.L4D2Branch
             else
             {
                 info.PortalDemoInfo = PortalStuff.DemoParser.ParseDemo(filename);
-                
             }
             return info;
         }

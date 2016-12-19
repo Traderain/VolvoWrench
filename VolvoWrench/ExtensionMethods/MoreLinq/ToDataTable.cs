@@ -1,4 +1,5 @@
 #region License and Terms
+
 // MoreLINQ - Extensions to LINQ to Objects
 // Copyright (c) 2010 Johannes Rudolph. All rights reserved.
 // 
@@ -13,6 +14,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 #endregion
 
 using System;
@@ -33,7 +35,7 @@ namespace MoreLinq
             // If it's a field access, boxing was used, we need the field
             if ((body.NodeType == ExpressionType.Convert) || (body.NodeType == ExpressionType.ConvertChecked))
             {
-                body = ((UnaryExpression)body).Operand;
+                body = ((UnaryExpression) body).Operand;
             }
 
             // Check if the MemberExpression is valid and is a "first level" member access e.g. not a.b.c 
@@ -46,7 +48,8 @@ namespace MoreLinq
             return memberExpression.Member;
         }
 
-        private static IEnumerable<MemberInfo> PrepareMemberInfos<T>(ICollection<Expression<Func<T, object>>> expressions)
+        private static IEnumerable<MemberInfo> PrepareMemberInfos<T>(
+            ICollection<Expression<Func<T, object>>> expressions)
         {
             //
             // If no lambda expressions supplied then reflect them off the source element type.
@@ -54,10 +57,11 @@ namespace MoreLinq
 
             if (expressions == null || expressions.Count == 0)
             {
-                return from m in typeof(T).GetMembers(BindingFlags.Public | BindingFlags.Instance)
-                       where m.MemberType == MemberTypes.Field
-                             || (m.MemberType == MemberTypes.Property && ((PropertyInfo) m).GetIndexParameters().Length == 0)
-                       select m;
+                return from m in typeof (T).GetMembers(BindingFlags.Public | BindingFlags.Instance)
+                    where m.MemberType == MemberTypes.Field
+                          ||
+                          (m.MemberType == MemberTypes.Property && ((PropertyInfo) m).GetIndexParameters().Length == 0)
+                    select m;
             }
 
             //
@@ -78,10 +82,9 @@ namespace MoreLinq
         }
 
         /// <remarks>
-        /// The resulting array may contain null entries and those represent
-        /// columns for which there is no source member supplying a value.
+        ///     The resulting array may contain null entries and those represent
+        ///     columns for which there is no source member supplying a value.
         /// </remarks>
-
         private static MemberInfo[] BuildOrBindSchema(DataTable table, MemberInfo[] members)
         {
             //
@@ -92,18 +95,18 @@ namespace MoreLinq
             var columns = table.Columns;
 
             var schemas = from m in members
-                          let type = m.MemberType == MemberTypes.Property 
-                                   ? ((PropertyInfo) m).PropertyType 
-                                   : ((FieldInfo) m).FieldType
-                          select new
-                          {
-                              Member = m,
-                              Type = type.IsGenericType
-                                     && typeof(Nullable<>) == type.GetGenericTypeDefinition()
-                                   ? type.GetGenericArguments()[0]
-                                   : type,
-                              Column = columns[m.Name],
-                          };
+                let type = m.MemberType == MemberTypes.Property
+                    ? ((PropertyInfo) m).PropertyType
+                    : ((FieldInfo) m).FieldType
+                select new
+                {
+                    Member = m,
+                    Type = type.IsGenericType
+                           && typeof (Nullable<>) == type.GetGenericTypeDefinition()
+                        ? type.GetGenericArguments()[0]
+                        : type,
+                    Column = columns[m.Name]
+                };
 
             //
             // If the table has no columns then build the schema.
@@ -125,10 +128,13 @@ namespace MoreLinq
                     var column = info.Column;
 
                     if (column == null)
-                        throw new ArgumentException(string.Format("Column named '{0}' is missing.", member.Name), "table");
+                        throw new ArgumentException(string.Format("Column named '{0}' is missing.", member.Name),
+                            "table");
 
                     if (info.Type != column.DataType)
-                        throw new ArgumentException(string.Format("Column named '{0}' has wrong data type. It should be {1} when it is {2}.", member.Name, info.Type, column.DataType), "table");
+                        throw new ArgumentException(
+                            string.Format("Column named '{0}' has wrong data type. It should be {1} when it is {2}.",
+                                member.Name, info.Type, column.DataType), "table");
 
                     members[column.Ordinal] = member;
                 }
@@ -140,12 +146,12 @@ namespace MoreLinq
         private static UnaryExpression CreateMemberAccessor(Expression parameter, MemberInfo member)
         {
             var access = Expression.MakeMemberAccess(parameter, member);
-            return Expression.Convert(access, typeof(object));
+            return Expression.Convert(access, typeof (object));
         }
 
         private static Func<T, object[]> CreateShredder<T>(IEnumerable<MemberInfo> members)
         {
-            var parameter = Expression.Parameter(typeof(T), "e");
+            var parameter = Expression.Parameter(typeof (T), "e");
 
             //
             // It is valid for members sequence to have null entries, in
@@ -154,32 +160,32 @@ namespace MoreLinq
             //
 
             var initializers = members.Select(m => m != null
-                                                   ? (Expression)CreateMemberAccessor(parameter, m)
-                                                   : Expression.Constant(null, typeof(object)));
+                ? (Expression) CreateMemberAccessor(parameter, m)
+                : Expression.Constant(null, typeof (object)));
 
-            var array = Expression.NewArrayInit(typeof(object), initializers);
+            var array = Expression.NewArrayInit(typeof (object), initializers);
 
             var lambda = Expression.Lambda<Func<T, object[]>>(array, parameter);
-            
+
             return lambda.Compile();
         }
 
         /// <summary>
-        /// Appends elements in the sequence as rows of a given <see cref="DataTable"/> 
-        /// object with a set of lambda expressions specifying which members (property
-        /// or field) of each element in the sequence will supply the column values.
+        ///     Appends elements in the sequence as rows of a given <see cref="DataTable" />
+        ///     object with a set of lambda expressions specifying which members (property
+        ///     or field) of each element in the sequence will supply the column values.
         /// </summary>
-        /// <typeparam name="T">The type of the elements of <paramref name="source"/>.</typeparam>
-        /// <typeparam name="TTable">The type of the input and resulting <see cref="DataTable"/> object.</typeparam>
+        /// <typeparam name="T">The type of the elements of <paramref name="source" />.</typeparam>
+        /// <typeparam name="TTable">The type of the input and resulting <see cref="DataTable" /> object.</typeparam>
         /// <param name="source">The source.</param>
-        /// <param name="table">The <see cref="DataTable"/> type of object where to add rows</param>
+        /// <param name="table">The <see cref="DataTable" /> type of object where to add rows</param>
         /// <param name="expressions">Expressions providing access to element members.</param>
         /// <returns>
-        /// A <see cref="DataTable"/> or subclass representing the source.
+        ///     A <see cref="DataTable" /> or subclass representing the source.
         /// </returns>
         /// <remarks>This operator uses immediate execution.</remarks>
-        
-        public static TTable ToDataTable<T, TTable>(this IEnumerable<T> source, TTable table, params Expression<Func<T, object>>[] expressions)
+        public static TTable ToDataTable<T, TTable>(this IEnumerable<T> source, TTable table,
+            params Expression<Func<T, object>>[] expressions)
             where TTable : DataTable
         {
             if (source == null) throw new ArgumentNullException("source");
@@ -214,17 +220,16 @@ namespace MoreLinq
         }
 
         /// <summary>
-        /// Appends elements in the sequence as rows of a given <see cref="DataTable"/> object.
+        ///     Appends elements in the sequence as rows of a given <see cref="DataTable" /> object.
         /// </summary>
-        /// <typeparam name="T">The type of the elements of <paramref name="source"/>.</typeparam>
+        /// <typeparam name="T">The type of the elements of <paramref name="source" />.</typeparam>
         /// <typeparam name="TTable"></typeparam>
         /// <param name="source">The source.</param>
         /// <param name="table"></param>
         /// <returns>
-        /// A <see cref="DataTable"/> or subclass representing the source.
+        ///     A <see cref="DataTable" /> or subclass representing the source.
         /// </returns>
         /// <remarks>This operator uses immediate execution.</remarks>
-        
         public static TTable ToDataTable<T, TTable>(this IEnumerable<T> source, TTable table)
             where TTable : DataTable
         {
@@ -232,33 +237,32 @@ namespace MoreLinq
         }
 
         /// <summary>
-        /// Appends elements in the sequence as rows of a given <see cref="DataTable"/> 
-        /// object with a set of lambda expressions specifying which members (property
-        /// or field) of each element in the sequence will supply the column values.
+        ///     Appends elements in the sequence as rows of a given <see cref="DataTable" />
+        ///     object with a set of lambda expressions specifying which members (property
+        ///     or field) of each element in the sequence will supply the column values.
         /// </summary>
-        /// <typeparam name="T">The type of the elements of <paramref name="source"/>.</typeparam>
+        /// <typeparam name="T">The type of the elements of <paramref name="source" />.</typeparam>
         /// <param name="source">The source.</param>
         /// <param name="expressions">Expressions providing access to element members.</param>
         /// <returns>
-        /// A <see cref="DataTable"/> representing the source.
+        ///     A <see cref="DataTable" /> representing the source.
         /// </returns>
         /// <remarks>This operator uses immediate execution.</remarks>
-       
-        public static DataTable ToDataTable<T>(this IEnumerable<T> source, params Expression<Func<T, object>>[] expressions)
+        public static DataTable ToDataTable<T>(this IEnumerable<T> source,
+            params Expression<Func<T, object>>[] expressions)
         {
             return ToDataTable(source, new DataTable(), expressions);
         }
 
         /// <summary>
-        /// Converts a sequence to a <see cref="DataTable"/> object.
+        ///     Converts a sequence to a <see cref="DataTable" /> object.
         /// </summary>
-        /// <typeparam name="T">The type of the elements of <paramref name="source"/>.</typeparam>
+        /// <typeparam name="T">The type of the elements of <paramref name="source" />.</typeparam>
         /// <param name="source">The source.</param>
         /// <returns>
-        /// A <see cref="DataTable"/> representing the source.
+        ///     A <see cref="DataTable" /> representing the source.
         /// </returns>
         /// <remarks>This operator uses immediate execution.</remarks>
-        
         public static DataTable ToDataTable<T>(this IEnumerable<T> source)
         {
             return ToDataTable(source, new DataTable());

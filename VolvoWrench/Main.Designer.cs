@@ -54,6 +54,11 @@ namespace VolvoWrench
             this.demoTimerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.goldSourceToolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.demoDoctorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveToolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveExplorerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mapToolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.leveloverviewGeneratorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.warpPlannerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.overlayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.launchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -65,11 +70,6 @@ namespace VolvoWrench
             this.hotkeysToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fontToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.HotkeyTimer = new System.Windows.Forms.Timer(this.components);
-            this.mapToolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.leveloverviewGeneratorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.warpPlannerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveToolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveExplorerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -291,6 +291,53 @@ namespace VolvoWrench
             this.demoDoctorToolStripMenuItem.Text = "Demo doctor";
             this.demoDoctorToolStripMenuItem.Click += new System.EventHandler(this.demoDoctorToolStripMenuItem_Click);
             // 
+            // saveToolsToolStripMenuItem
+            // 
+            this.saveToolsToolStripMenuItem.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.saveToolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.saveExplorerToolStripMenuItem});
+            this.saveToolsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
+            this.saveToolsToolStripMenuItem.Name = "saveToolsToolStripMenuItem";
+            this.saveToolsToolStripMenuItem.Size = new System.Drawing.Size(89, 24);
+            this.saveToolsToolStripMenuItem.Text = "Save tools";
+            // 
+            // saveExplorerToolStripMenuItem
+            // 
+            this.saveExplorerToolStripMenuItem.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.saveExplorerToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
+            this.saveExplorerToolStripMenuItem.Name = "saveExplorerToolStripMenuItem";
+            this.saveExplorerToolStripMenuItem.Size = new System.Drawing.Size(174, 26);
+            this.saveExplorerToolStripMenuItem.Text = "Save explorer";
+            this.saveExplorerToolStripMenuItem.Click += new System.EventHandler(this.saveExplorerToolStripMenuItem_Click);
+            // 
+            // mapToolsToolStripMenuItem
+            // 
+            this.mapToolsToolStripMenuItem.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.mapToolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.leveloverviewGeneratorToolStripMenuItem,
+            this.warpPlannerToolStripMenuItem});
+            this.mapToolsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.mapToolsToolStripMenuItem.Name = "mapToolsToolStripMenuItem";
+            this.mapToolsToolStripMenuItem.Size = new System.Drawing.Size(88, 24);
+            this.mapToolsToolStripMenuItem.Text = "Map tools";
+            // 
+            // leveloverviewGeneratorToolStripMenuItem
+            // 
+            this.leveloverviewGeneratorToolStripMenuItem.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.leveloverviewGeneratorToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.leveloverviewGeneratorToolStripMenuItem.Name = "leveloverviewGeneratorToolStripMenuItem";
+            this.leveloverviewGeneratorToolStripMenuItem.Size = new System.Drawing.Size(246, 26);
+            this.leveloverviewGeneratorToolStripMenuItem.Text = "Leveloverview generator";
+            this.leveloverviewGeneratorToolStripMenuItem.Click += new System.EventHandler(this.leveloverviewGeneratorToolStripMenuItem_Click);
+            // 
+            // warpPlannerToolStripMenuItem
+            // 
+            this.warpPlannerToolStripMenuItem.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.warpPlannerToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.warpPlannerToolStripMenuItem.Name = "warpPlannerToolStripMenuItem";
+            this.warpPlannerToolStripMenuItem.Size = new System.Drawing.Size(246, 26);
+            this.warpPlannerToolStripMenuItem.Text = "Warp planner";
+            // 
             // overlayToolStripMenuItem
             // 
             this.overlayToolStripMenuItem.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
@@ -337,7 +384,6 @@ namespace VolvoWrench
             // 
             this.aboutToolStripMenuItem.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.aboutToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
-            this.aboutToolStripMenuItem.Image = global::VolvoWrench.Properties.Resources.bulb;
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
             this.aboutToolStripMenuItem.ShowShortcutKeys = false;
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(189, 26);
@@ -397,53 +443,6 @@ namespace VolvoWrench
             this.HotkeyTimer.Enabled = true;
             this.HotkeyTimer.Interval = 300;
             this.HotkeyTimer.Tick += new System.EventHandler(this.HotkeyTimer_Tick);
-            // 
-            // mapToolsToolStripMenuItem
-            // 
-            this.mapToolsToolStripMenuItem.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.mapToolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.leveloverviewGeneratorToolStripMenuItem,
-            this.warpPlannerToolStripMenuItem});
-            this.mapToolsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.mapToolsToolStripMenuItem.Name = "mapToolsToolStripMenuItem";
-            this.mapToolsToolStripMenuItem.Size = new System.Drawing.Size(88, 24);
-            this.mapToolsToolStripMenuItem.Text = "Map tools";
-            // 
-            // leveloverviewGeneratorToolStripMenuItem
-            // 
-            this.leveloverviewGeneratorToolStripMenuItem.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.leveloverviewGeneratorToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.leveloverviewGeneratorToolStripMenuItem.Name = "leveloverviewGeneratorToolStripMenuItem";
-            this.leveloverviewGeneratorToolStripMenuItem.Size = new System.Drawing.Size(246, 26);
-            this.leveloverviewGeneratorToolStripMenuItem.Text = "Leveloverview generator";
-            this.leveloverviewGeneratorToolStripMenuItem.Click += new System.EventHandler(this.leveloverviewGeneratorToolStripMenuItem_Click);
-            // 
-            // warpPlannerToolStripMenuItem
-            // 
-            this.warpPlannerToolStripMenuItem.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.warpPlannerToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.warpPlannerToolStripMenuItem.Name = "warpPlannerToolStripMenuItem";
-            this.warpPlannerToolStripMenuItem.Size = new System.Drawing.Size(246, 26);
-            this.warpPlannerToolStripMenuItem.Text = "Warp planner";
-            // 
-            // saveToolsToolStripMenuItem
-            // 
-            this.saveToolsToolStripMenuItem.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.saveToolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.saveExplorerToolStripMenuItem});
-            this.saveToolsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
-            this.saveToolsToolStripMenuItem.Name = "saveToolsToolStripMenuItem";
-            this.saveToolsToolStripMenuItem.Size = new System.Drawing.Size(89, 24);
-            this.saveToolsToolStripMenuItem.Text = "Save tools";
-            // 
-            // saveExplorerToolStripMenuItem
-            // 
-            this.saveExplorerToolStripMenuItem.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.saveExplorerToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
-            this.saveExplorerToolStripMenuItem.Name = "saveExplorerToolStripMenuItem";
-            this.saveExplorerToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
-            this.saveExplorerToolStripMenuItem.Text = "Save explorer";
-            this.saveExplorerToolStripMenuItem.Click += new System.EventHandler(this.saveExplorerToolStripMenuItem_Click);
             // 
             // Main
             // 

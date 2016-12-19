@@ -5,68 +5,78 @@ using VolvoWrench.Demo_Stuff.L4D2Branch.CSGODemoInfo.DP.Handler;
 
 namespace VolvoWrench.Demo_Stuff.L4D2Branch.CSGODemoInfo.DP.FastNetmessages
 {
-	public struct PacketEntities
-	{
-		public Int32 MaxEntries;
-		public Int32 UpdatedEntries;
-		private Int32 _IsDelta;
-		public bool IsDelta { get { return _IsDelta != 0; } }
-		private Int32 _UpdateBaseline;
-		public bool UpdateBaseline { get { return _UpdateBaseline != 0; } }
-		public Int32 Baseline;
-		public Int32 DeltaFrom;
+    public struct PacketEntities
+    {
+        private int _IsDelta;
+        private int _UpdateBaseline;
+        public int Baseline;
+        public int DeltaFrom;
+        public int MaxEntries;
+        public int UpdatedEntries;
 
-		public void Parse(IBitStream bitstream, DemoParser parser)
-		{
-			while (!bitstream.ChunkFinished) {
-				var desc = bitstream.ReadProtobufVarInt();
-				var wireType = desc & 7;
-				var fieldnum = desc >> 3;
+        public bool IsDelta
+        {
+            get { return _IsDelta != 0; }
+        }
 
-				if ((fieldnum == 7) && (wireType == 2)) {
-					// Entity data is special.
-					// We'll simply hope that gaben is nice and sends
-					// entity_data last, just like he should.
+        public bool UpdateBaseline
+        {
+            get { return _UpdateBaseline != 0; }
+        }
 
-					var len = bitstream.ReadProtobufVarInt();
-					bitstream.BeginChunk(len * 8);
-					PacketEntitesHandler.Apply(this, bitstream, parser);
-					bitstream.EndChunk();
-					if (!bitstream.ChunkFinished)
-						throw new NotImplementedException("Lord Gaben wasn't nice to us :/");
-					break;
-				}
+        public void Parse(IBitStream bitstream, DemoParser parser)
+        {
+            while (!bitstream.ChunkFinished)
+            {
+                var desc = bitstream.ReadProtobufVarInt();
+                var wireType = desc & 7;
+                var fieldnum = desc >> 3;
 
-				if (wireType != 0)
-					throw new InvalidDataException();
+                if ((fieldnum == 7) && (wireType == 2))
+                {
+                    // Entity data is special.
+                    // We'll simply hope that gaben is nice and sends
+                    // entity_data last, just like he should.
 
-				var val = bitstream.ReadProtobufVarInt();
+                    var len = bitstream.ReadProtobufVarInt();
+                    bitstream.BeginChunk(len*8);
+                    PacketEntitesHandler.Apply(this, bitstream, parser);
+                    bitstream.EndChunk();
+                    if (!bitstream.ChunkFinished)
+                        throw new NotImplementedException("Lord Gaben wasn't nice to us :/");
+                    break;
+                }
 
-				switch (fieldnum) {
-				case 1:
-					MaxEntries = val;
-					break;
-				case 2:
-					UpdatedEntries = val;
-					break;
-				case 3:
-					_IsDelta = val;
-					break;
-				case 4:
-					_UpdateBaseline = val;
-					break;
-				case 5:
-					Baseline = val;
-					break;
-				case 6:
-					DeltaFrom = val;
-					break;
-				default:
-					// silently drop
-					break;
-				}
-			}
-		}
-	}
+                if (wireType != 0)
+                    throw new InvalidDataException();
+
+                var val = bitstream.ReadProtobufVarInt();
+
+                switch (fieldnum)
+                {
+                    case 1:
+                        MaxEntries = val;
+                        break;
+                    case 2:
+                        UpdatedEntries = val;
+                        break;
+                    case 3:
+                        _IsDelta = val;
+                        break;
+                    case 4:
+                        _UpdateBaseline = val;
+                        break;
+                    case 5:
+                        Baseline = val;
+                        break;
+                    case 6:
+                        DeltaFrom = val;
+                        break;
+                    default:
+                        // silently drop
+                        break;
+                }
+            }
+        }
+    }
 }
-

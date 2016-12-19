@@ -1,4 +1,5 @@
 #region License and Terms
+
 // MoreLINQ - Extensions to LINQ to Objects
 // Copyright (c) 2010 Leopold Bushkin. All rights reserved.
 // 
@@ -13,6 +14,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 #endregion
 
 using System;
@@ -24,13 +26,59 @@ namespace MoreLinq
 {
     public static partial class MoreEnumerable
     {
-        #region Nested Classes
         /// <summary>
-        /// The private implementation class that produces permutations of a sequence.
+        ///     Generates a sequence of lists that represent the permutations of the original sequence.
+        /// </summary>
+        /// <remarks>
+        ///     A permutation is a unique re-ordering of the elements of the sequence.<br />
+        ///     This operator returns permutations in a deferred, streaming fashion; however, each
+        ///     permutation is materialized into a new list. There are N! permutations of a sequence,
+        ///     where N => sequence.Count().<br />
+        ///     Be aware that the original sequence is considered one of the permutations and will be
+        ///     returned as one of the results.
+        /// </remarks>
+        /// <typeparam name="T">The type of the elements in the sequence</typeparam>
+        /// <param name="sequence">The original sequence to permute</param>
+        /// <returns>A sequence of lists representing permutations of the original sequence</returns>
+        public static IEnumerable<IList<T>> Permutations<T>(this IEnumerable<T> sequence)
+        {
+            if (sequence == null) throw new ArgumentNullException("sequence");
+
+            return PermutationsImpl(sequence);
+        }
+
+        private static IEnumerable<IList<T>> PermutationsImpl<T>(IEnumerable<T> sequence)
+        {
+            using (var iter = new PermutationEnumerator<T>(sequence))
+            {
+                while (iter.MoveNext())
+                    yield return iter.Current;
+            }
+        }
+
+        #region Nested Classes
+
+        /// <summary>
+        ///     The private implementation class that produces permutations of a sequence.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         private class PermutationEnumerator<T> : IEnumerator<IList<T>>
         {
+            #region Constructors
+
+            public PermutationEnumerator(IEnumerable<T> valueSet)
+            {
+                m_ValueSet = valueSet.ToArray();
+                m_Permutation = new int[m_ValueSet.Count];
+                // The nested loop construction below takes into account the fact that:
+                // 1) for empty sets and sets of cardinality 1, there exists only a single permutation.
+                // 2) for sets larger than 1 element, the number of nested loops needed is: set.Count-1
+                m_Generator = NestedLoops(NextPermutation, Enumerable.Range(2, Math.Max(0, m_ValueSet.Count - 1)));
+                Reset();
+            }
+
+            #endregion
+
             // NOTE: The algorithm used to generate permutations uses the fact that any set
             //       can be put into 1-to-1 correspondence with the set of ordinals number (0..n).
             //       The implementation here is based on the algorithm described by Kenneth H. Rosen,
@@ -68,28 +116,18 @@ namespace MoreLinq
             //                                   DoSomething();
 
             #region Private Fields
+
             private readonly IList<T> m_ValueSet;
             private readonly int[] m_Permutation;
             private readonly IEnumerable<Action> m_Generator;
 
             private IEnumerator<Action> m_GeneratorIterator;
             private bool m_HasMoreResults;
-            #endregion
 
-            #region Constructors
-            public PermutationEnumerator(IEnumerable<T> valueSet)
-            {
-                m_ValueSet = valueSet.ToArray();
-                m_Permutation = new int[m_ValueSet.Count];
-                // The nested loop construction below takes into account the fact that:
-                // 1) for empty sets and sets of cardinality 1, there exists only a single permutation.
-                // 2) for sets larger than 1 element, the number of nested loops needed is: set.Count-1
-                m_Generator = NestedLoops(NextPermutation, Enumerable.Range(2, Math.Max(0, m_ValueSet.Count - 1)));
-                Reset();
-            }
             #endregion
 
             #region IEnumerator Members
+
             public void Reset()
             {
                 if (m_GeneratorIterator != null)
@@ -127,12 +165,16 @@ namespace MoreLinq
                 return prevResult;
             }
 
-            void IDisposable.Dispose() { }
+            void IDisposable.Dispose()
+            {
+            }
+
             #endregion
 
             #region Private Methods
+
             /// <summary>
-            /// Transposes elements in the cached permutation array to produce the next permutation
+            ///     Transposes elements in the cached permutation array to produce the next permutation
             /// </summary>
             private void NextPermutation()
             {
@@ -167,17 +209,17 @@ namespace MoreLinq
             }
 
             /// <summary>
-            /// Creates a new list containing the values from the original
-            /// set in their new permuted order.
+            ///     Creates a new list containing the values from the original
+            ///     set in their new permuted order.
             /// </summary>
             /// <remarks>
-            /// The reason we return a new permuted value set, rather than reuse
-            /// an existing collection, is that we have no control over what the
-            /// consumer will do with the results produced. They could very easily
-            /// generate and store a set of permutations and only then begin to
-            /// process them. If we reused the same collection, the caller would
-            /// be surprised to discover that all of the permutations looked the
-            /// same.
+            ///     The reason we return a new permuted value set, rather than reuse
+            ///     an existing collection, is that we have no control over what the
+            ///     consumer will do with the results produced. They could very easily
+            ///     generate and store a set of permutations and only then begin to
+            ///     process them. If we reused the same collection, the caller would
+            ///     be surprised to discover that all of the permutations looked the
+            ///     same.
             /// </remarks>
             /// <returns>List of permuted source sequence values</returns>
             private IList<T> PermuteValueSet()
@@ -187,39 +229,10 @@ namespace MoreLinq
                     permutedSet[i] = m_ValueSet[m_Permutation[i]];
                 return permutedSet;
             }
+
             #endregion
         }
+
         #endregion
-
-        /// <summary>
-        /// Generates a sequence of lists that represent the permutations of the original sequence.
-        /// </summary>
-        /// <remarks>
-        /// A permutation is a unique re-ordering of the elements of the sequence.<br/>
-        /// This operator returns permutations in a deferred, streaming fashion; however, each
-        /// permutation is materialized into a new list. There are N! permutations of a sequence,
-        /// where N => sequence.Count().<br/>
-        /// Be aware that the original sequence is considered one of the permutations and will be
-        /// returned as one of the results.
-        /// </remarks>
-        /// <typeparam name="T">The type of the elements in the sequence</typeparam>
-        /// <param name="sequence">The original sequence to permute</param>
-        /// <returns>A sequence of lists representing permutations of the original sequence</returns>
-        
-        public static IEnumerable<IList<T>> Permutations<T>(this IEnumerable<T> sequence)
-        {
-            if (sequence == null) throw new ArgumentNullException("sequence");
-
-            return PermutationsImpl(sequence);
-        }
-
-        private static IEnumerable<IList<T>> PermutationsImpl<T>(IEnumerable<T> sequence)
-        {
-            using (var iter = new PermutationEnumerator<T>(sequence))
-            {
-                while (iter.MoveNext())
-                    yield return iter.Current;
-            }
-        }
     }
 }

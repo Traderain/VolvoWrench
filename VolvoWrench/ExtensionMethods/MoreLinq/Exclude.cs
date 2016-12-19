@@ -1,4 +1,5 @@
 #region License and Terms
+
 // MoreLINQ - Extensions to LINQ to Objects
 // Copyright (c) 2010 Leopold Bushkin. All rights reserved.
 // 
@@ -13,6 +14,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 #endregion
 
 using System;
@@ -23,14 +25,13 @@ namespace MoreLinq
     public static partial class MoreEnumerable
     {
         /// <summary>
-        /// Excludes <paramref name="count"/> elements from a sequence starting at a given index
+        ///     Excludes <paramref name="count" /> elements from a sequence starting at a given index
         /// </summary>
         /// <typeparam name="T">The type of the elements of the sequence</typeparam>
         /// <param name="sequence">The sequence to exclude elements from</param>
         /// <param name="startIndex">The zero-based index at which to begin excluding elements</param>
         /// <param name="count">The number of elements to exclude</param>
         /// <returns>A sequence that excludes the specified portion of elements</returns>
-        
         public static IEnumerable<T> Exclude<T>(this IEnumerable<T> sequence, int startIndex, int count)
         {
             if (sequence == null) throw new ArgumentNullException("sequence");

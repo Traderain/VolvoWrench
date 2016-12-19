@@ -20,7 +20,7 @@ namespace VolvoWrench.Hotkey
             var iniD = _parser.ReadFile(Main.SettingsPath);
             DemoPopupKey = Convert.ToInt32(iniD["HOTKEYS"]["demo_popup"], 16);
             OverLayExitKey = Convert.ToInt32(iniD["HOTKEYS"]["overlay_exit"], 16);
-            OverLayRescanKey = Convert.ToInt32(iniD["HOTKEYS"]["overlay_rescan"],16);
+            OverLayRescanKey = Convert.ToInt32(iniD["HOTKEYS"]["overlay_rescan"], 16);
             label1.Text = @"Demo info popup: " + KeyInterop.KeyFromVirtualKey(DemoPopupKey);
             label2.Text = @"Overlay exit: " + KeyInterop.KeyFromVirtualKey(OverLayExitKey);
             label3.Text = @"Overlay rescan: " + KeyInterop.KeyFromVirtualKey(OverLayRescanKey);

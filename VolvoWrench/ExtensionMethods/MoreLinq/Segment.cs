@@ -1,4 +1,5 @@
 #region License and Terms
+
 // MoreLINQ - Extensions to LINQ to Objects
 // Copyright (c) 2010 Leopold Bushkin. All rights reserved.
 // 
@@ -13,6 +14,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 #endregion
 
 using System;
@@ -23,17 +25,20 @@ namespace MoreLinq
     public static partial class MoreEnumerable
     {
         /// <summary>
-        /// Divides a sequence into multiple sequences by using a segment detector based on the original sequence
+        ///     Divides a sequence into multiple sequences by using a segment detector based on the original sequence
         /// </summary>
         /// <typeparam name="T">The type of the elements in the sequence</typeparam>
         /// <param name="source">The sequence to segment</param>
-        /// <param name="newSegmentPredicate">A function, which returns <c>true</c> if the given element begins a new segment, and <c>false</c> otherwise</param>
+        /// <param name="newSegmentPredicate">
+        ///     A function, which returns <c>true</c> if the given element begins a new segment, and
+        ///     <c>false</c> otherwise
+        /// </param>
         /// <returns>A sequence of segment, each of which is a portion of the original sequence</returns>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if either <paramref name="source"/> or <paramref name="newSegmentPredicate"/> are <see langword="null"/>.
+        ///     Thrown if either <paramref name="source" /> or <paramref name="newSegmentPredicate" /> are <see langword="null" />.
         /// </exception>
-        
-        public static IEnumerable<IEnumerable<T>> Segment<T>(this IEnumerable<T> source, Func<T, bool> newSegmentPredicate)
+        public static IEnumerable<IEnumerable<T>> Segment<T>(this IEnumerable<T> source,
+            Func<T, bool> newSegmentPredicate)
         {
             if (newSegmentPredicate == null) throw new ArgumentNullException("newSegmentPredicate");
 
@@ -41,17 +46,20 @@ namespace MoreLinq
         }
 
         /// <summary>
-        /// Divides a sequence into multiple sequences by using a segment detector based on the original sequence
+        ///     Divides a sequence into multiple sequences by using a segment detector based on the original sequence
         /// </summary>
         /// <typeparam name="T">The type of the elements in the sequence</typeparam>
         /// <param name="source">The sequence to segment</param>
-        /// <param name="newSegmentPredicate">A function, which returns <c>true</c> if the given element or index indicate a new segment, and <c>false</c> otherwise</param>
+        /// <param name="newSegmentPredicate">
+        ///     A function, which returns <c>true</c> if the given element or index indicate a new
+        ///     segment, and <c>false</c> otherwise
+        /// </param>
         /// <returns>A sequence of segment, each of which is a portion of the original sequence</returns>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if either <paramref name="source"/> or <paramref name="newSegmentPredicate"/> are <see langword="null"/>.
+        ///     Thrown if either <paramref name="source" /> or <paramref name="newSegmentPredicate" /> are <see langword="null" />.
         /// </exception>
-        
-        public static IEnumerable<IEnumerable<T>> Segment<T>(this IEnumerable<T> source, Func<T, int, bool> newSegmentPredicate)
+        public static IEnumerable<IEnumerable<T>> Segment<T>(this IEnumerable<T> source,
+            Func<T, int, bool> newSegmentPredicate)
         {
             if (newSegmentPredicate == null) throw new ArgumentNullException("newSegmentPredicate");
 
@@ -59,25 +67,29 @@ namespace MoreLinq
         }
 
         /// <summary>
-        /// Divides a sequence into multiple sequences by using a segment detector based on the original sequence
+        ///     Divides a sequence into multiple sequences by using a segment detector based on the original sequence
         /// </summary>
         /// <typeparam name="T">The type of the elements in the sequence</typeparam>
         /// <param name="source">The sequence to segment</param>
-        /// <param name="newSegmentPredicate">A function, which returns <c>true</c> if the given current element, previous element or index indicate a new segment, and <c>false</c> otherwise</param>
+        /// <param name="newSegmentPredicate">
+        ///     A function, which returns <c>true</c> if the given current element, previous element
+        ///     or index indicate a new segment, and <c>false</c> otherwise
+        /// </param>
         /// <returns>A sequence of segment, each of which is a portion of the original sequence</returns>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if either <paramref name="source"/> or <paramref name="newSegmentPredicate"/> are <see langword="null"/>.
+        ///     Thrown if either <paramref name="source" /> or <paramref name="newSegmentPredicate" /> are <see langword="null" />.
         /// </exception>
-        
-        public static IEnumerable<IEnumerable<T>> Segment<T>(this IEnumerable<T> source, Func<T, T, int, bool> newSegmentPredicate)
+        public static IEnumerable<IEnumerable<T>> Segment<T>(this IEnumerable<T> source,
+            Func<T, T, int, bool> newSegmentPredicate)
         {
             if (source == null) throw new ArgumentNullException("source");
             if (newSegmentPredicate == null) throw new ArgumentNullException("newSegmentPredicate");
 
             return SegmentImpl(source, newSegmentPredicate);
         }
-                
-        private static IEnumerable<IEnumerable<T>> SegmentImpl<T>(IEnumerable<T> source, Func<T, T, int, bool> newSegmentPredicate)
+
+        private static IEnumerable<IEnumerable<T>> SegmentImpl<T>(IEnumerable<T> source,
+            Func<T, T, int, bool> newSegmentPredicate)
         {
             var index = -1;
             using (var iter = source.GetEnumerator())
@@ -112,7 +124,7 @@ namespace MoreLinq
                     yield return segment; // yield the completed segment
 
                     // start a new segment...
-                    segment = new List<T> { iter.Current };
+                    segment = new List<T> {iter.Current};
                 }
                 // handle the case of the sequence ending before new segment is detected
                 if (segment.Count > 0)

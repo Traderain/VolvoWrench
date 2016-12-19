@@ -101,21 +101,9 @@ namespace VolvoWrench.Demo_Stuff.Source
                 node.Nodes.Add(bb.ReadString() + ": " + bb.ReadString());
         }
 
-       enum SigOnState : byte
-       {
-             None        = 0,  // no state yet; about to connect
-             Challenge   = 1,  // client challenging server; all OOB packets
-             Connected   = 2,  // client is connected to server; netchans ready
-             New         = 3,  // just got serverinfo and string tables
-             Prespawn    = 4,  // received signon buffers
-             Spawn       = 5,  // ready to receive entity packets
-             Full        = 6,  // we are fully connected; first non-delta packet received
-             ChangeLevel = 7   // server is changing level; please wait
-         }
-
         private static void net_signonstate(BitBuffer bb, TreeNode node)
         {
-            node.Nodes.Add("Signon state: " + (SigOnState)bb.ReadBits(8));
+            node.Nodes.Add("Signon state: " + (SigOnState) bb.ReadBits(8));
             node.Nodes.Add("Spawn count: " + (int) bb.ReadBits(32));
         }
 
@@ -347,6 +335,18 @@ namespace VolvoWrench.Demo_Stuff.Source
             var b = bb.ReadBits(32);
             node.Nodes.Add("Length in bits: " + b);
             bb.Seek(b);
+        }
+
+        private enum SigOnState : byte
+        {
+            None = 0, // no state yet; about to connect
+            Challenge = 1, // client challenging server; all OOB packets
+            Connected = 2, // client is connected to server; netchans ready
+            New = 3, // just got serverinfo and string tables
+            Prespawn = 4, // received signon buffers
+            Spawn = 5, // ready to receive entity packets
+            Full = 6, // we are fully connected; first non-delta packet received
+            ChangeLevel = 7 // server is changing level; please wait
         }
 
         private delegate void MsgHandler(BitBuffer bb, TreeNode node);

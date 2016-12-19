@@ -36,6 +36,7 @@ namespace VolvoWrench.SaveStuff
         public static string Chaptername(int chapter)
         {
             #region MapSwitch
+
             switch (chapter)
             {
                 case 0:
@@ -126,7 +127,7 @@ namespace VolvoWrench.SaveStuff
                 }
                 foreach (var f in result.Files)
                 {
-                 //  f.StateFile =  ParseStateFile(f);
+                    //  f.StateFile =  ParseStateFile(f);
                 }
                 result.Map = Path.GetFileNameWithoutExtension(result.Files.Last().FileName);
                 return result;
@@ -138,7 +139,7 @@ namespace VolvoWrench.SaveStuff
             var vf = new ValvFile();
             using (var br = new BinaryReader(new MemoryStream(stateFile.Data)))
             {
-                SaveFileSectionsInfo_t si = new SaveFileSectionsInfo_t();
+                var si = new SaveFileSectionsInfo_t();
                 vf.MagicWord = br.ReadString(4);
                 vf.Version = br.ReadInt32();
                 si.nBytesSymbols = br.ReadInt32();
@@ -156,15 +157,15 @@ namespace VolvoWrench.SaveStuff
 
         public static uint rotr(uint val, int shift)
         {
-            var num = val;    /* number to rotate */
-            shift &= 0x1f;                  /* modulo 32 -- this will also make
+            var num = val; /* number to rotate */
+            shift &= 0x1f; /* modulo 32 -- this will also make
                                            negative shifts work */
             while (Convert.ToBoolean(shift--))
             {
-                var lobit = num & 1;        /* non-zero means lo bit set */
-                num >>= 1;              /* shift right one bit */
+                var lobit = num & 1; /* non-zero means lo bit set */
+                num >>= 1; /* shift right one bit */
                 if (Convert.ToBoolean(lobit))
-                    num |= 0x80000000;  /* set hi bit if lo bit was set */
+                    num |= 0x80000000; /* set hi bit if lo bit was set */
             }
 
             return num;
@@ -190,22 +191,22 @@ namespace VolvoWrench.SaveStuff
         public class ValvFile
         {
             public string MagicWord;
-            public int Version;
-            public SaveFileSectionsInfo_t SectionsInfo;
             public byte[] pData;
             public byte[] pDataHeaders;
             public byte[] pSymbols;
+            public SaveFileSectionsInfo_t SectionsInfo;
+            public int Version;
         }
 
         [Serializable]
         public class StateFileInfo
         {
-            public string FileName;
-            public string MagicWord;
             public byte[] Data;
-            public Hlfile StateType;
+            public string FileName;
             public int Length;
+            public string MagicWord;
             public ValvFile StateFile;
+            public Hlfile StateType;
         }
 
         #region DataDesc
@@ -221,9 +222,8 @@ namespace VolvoWrench.SaveStuff
         {
             private fixed char comment [80];
             private fixed char landmark [256];
-
             private int mapCount;
-                // the number of map state files in the save file.  This is usually number of maps * 3 (.hl1, .hl2, .hl3 files)
+            // the number of map state files in the save file.  This is usually number of maps * 3 (.hl1, .hl2, .hl3 files)
 
             private fixed char mapName [32];
             private fixed char originMapName [32];
@@ -271,29 +271,48 @@ namespace VolvoWrench.SaveStuff
         public class saverestorelevelinfo_t
         {
             public int connectionCount; // Number of elements in the levelList[]
-            public levellist_t[] levelList = new levellist_t[16]; // List of connections from this level
-
             // smooth transition
             public int fUseLandmark;
-            public char[] szLandmarkName = new char[20]; // landmark we'll spawn near in next level
-            public Vector vecLandmarkOffset; // for landmark transitions
-            public float time;
-            public char[] szCurrentMapName = new char[MAX_MAP_NAME]; // To check global entities
+            public levellist_t[] levelList = new levellist_t[16]; // List of connections from this level
             public int mapVersion;
-
+            public char[] szCurrentMapName = new char[MAX_MAP_NAME]; // To check global entities
+            public char[] szLandmarkName = new char[20]; // landmark we'll spawn near in next level
+            public float time;
+            public Vector vecLandmarkOffset; // for landmark transitions
         }
 
         public class levellist_t
         {
-            public char[] mapName = new char[MAX_MAP_NAME];
             public char[] landmarkName = new char[MAX_MAP_NAME];
+            public char[] mapName = new char[MAX_MAP_NAME];
             //edict_t* pentLandmark;
             public Vector vecLandmarkOrigin;
         }
 
-        struct entitytable_t
+        private struct entitytable_t
         {
-            void Clear()
+            private string classname; // entity class name
+
+            private int edictindex;
+                // saved for if the entity requires a certain edict number when restored (players, world)
+
+            private int flags; // This could be a short -- bit mask of transitions that this entity is in the PVS of
+            private string globalname; // entity global name
+            private int id; // Ordinal ID of this entity (used for entity <--> pointer conversions)
+            private Vector landmarkModelSpace; // a fixed position in model space for comparison
+            private int location; // Offset from the base data of this entity
+            // NOTE: Brush models can be built in different coordiante systems
+            //		in different levels, so this fixes up local quantities to match
+            //		those differences.
+            private string modelname;
+            private int restoreentityindex; // the entity index given to this entity at restore time
+
+            private int saveentityindex;
+                // the entity index the entity had at save time ( for fixing up client side entities )
+
+            private int size; // Byte size of this entity's data
+
+            private void Clear()
             {
                 id = -1;
                 edictindex = -1;
@@ -307,22 +326,8 @@ namespace VolvoWrench.SaveStuff
                 landmarkModelSpace = new Vector();
                 modelname = "";
             }
-
-            int id;             // Ordinal ID of this entity (used for entity <--> pointer conversions)
-            int edictindex;     // saved for if the entity requires a certain edict number when restored (players, world)
-            int saveentityindex; // the entity index the entity had at save time ( for fixing up client side entities )
-            int restoreentityindex; // the entity index given to this entity at restore time
-            int location;       // Offset from the base data of this entity
-            int size;           // Byte size of this entity's data
-            int flags;          // This could be a short -- bit mask of transitions that this entity is in the PVS of
-            string classname;     // entity class name
-            string globalname;        // entity global name
-            Vector landmarkModelSpace;  // a fixed position in model space for comparison
-                                        // NOTE: Brush models can be built in different coordiante systems
-                                        //		in different levels, so this fixes up local quantities to match
-                                        //		those differences.
-            string modelname;
         }
+
         #endregion
     }
 }

@@ -8,86 +8,37 @@ namespace VolvoWrench.Demo_Stuff.L4D2Branch.PortalStuff.GameHandler
 {
     public abstract class GameHandler
     {
-        protected int CurrentTick
-        {
-            get;
-            set;
-        }
-
-        public abstract DemoProtocolVersion DemoVersion
-        {
-            get;
-            protected set;
-        }
-
-        public string FileName
-        {
-            get;
-            set;
-        }
-
-        public string GameDir
-        {
-            get;
-            set;
-        }
-
-        public string Map
-        {
-            get;
-            set;
-        }
-
-        protected string MapEndAdjustType
-        {
-            get;
-            private set;
-        }
-
-        protected List<string> Maps
-        {
-            get;
-            private set;
-        }
-
-        protected string MapStartAdjustType
-        {
-            get;
-            private set;
-        }
-
-        public int NetworkProtocol
-        {
-            get;
-            set;
-        }
-
-        public string PlayerName
-        {
-            get;
-            set;
-        }
-
-        public List<KeyValuePair<string, int>> Flags
-        {
-            get;
-            set;
-        }
-
-        public int SignOnLen
-        {
-            get;
-            set;
-        }
-
         protected GameHandler()
         {
-            this.MapStartAdjustType = "Map Start";
-            this.MapEndAdjustType = "Map End";
-            this.Maps = new List<string>();
-            this.Flags = new List<KeyValuePair<string, int>>();
-                        
+            MapStartAdjustType = "Map Start";
+            MapEndAdjustType = "Map End";
+            Maps = new List<string>();
+            Flags = new List<KeyValuePair<string, int>>();
         }
+
+        protected int CurrentTick { get; set; }
+
+        public abstract DemoProtocolVersion DemoVersion { get; protected set; }
+
+        public string FileName { get; set; }
+
+        public string GameDir { get; set; }
+
+        public string Map { get; set; }
+
+        protected string MapEndAdjustType { get; private set; }
+
+        protected List<string> Maps { get; private set; }
+
+        protected string MapStartAdjustType { get; private set; }
+
+        public int NetworkProtocol { get; set; }
+
+        public string PlayerName { get; set; }
+
+        public List<KeyValuePair<string, int>> Flags { get; set; }
+
+        public int SignOnLen { get; set; }
 
         public static GameHandler getGameHandler(string gameDir, string map)
         {
@@ -95,11 +46,11 @@ namespace VolvoWrench.Demo_Stuff.L4D2Branch.PortalStuff.GameHandler
             {
                 return new PortalGameHandler();
             }
-            if (gameDir == "portal2") {
-                
+            if (gameDir == "portal2")
+            {
                 if (Category.Portal2Sp.Maps.Contains(map))
                 {
-                    return new Portal2SpGameHandler();    
+                    return new Portal2SpGameHandler();
                 }
                 if (Category.Portal2Coop.Maps.Contains(map))
                 {
@@ -114,26 +65,19 @@ namespace VolvoWrench.Demo_Stuff.L4D2Branch.PortalStuff.GameHandler
         }
 
         public abstract DemoParseResult GetResult();
-
         public abstract long HandleCommand(byte command, int tick, BinaryReader br);
-
         public abstract bool IsStop(byte command);
-
         protected abstract ConsoleCmdResult ProcessConsoleCmd(BinaryReader br);
-
         protected abstract long ProcessCustomData(BinaryReader br);
-
         protected abstract PacketResult ProcessPacket(BinaryReader br);
 
         protected int ProcessSignOn(BinaryReader br)
         {
-            br.BaseStream.Seek((long)this.SignOnLen, SeekOrigin.Current);
-            return this.SignOnLen;
+            br.BaseStream.Seek(SignOnLen, SeekOrigin.Current);
+            return SignOnLen;
         }
 
         protected abstract long ProcessStringTables(BinaryReader br);
-
         protected abstract long ProcessUserCmd(BinaryReader br);
     }
-
 }

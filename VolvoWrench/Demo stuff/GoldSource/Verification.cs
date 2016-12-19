@@ -10,17 +10,19 @@ using MoreLinq;
 namespace VolvoWrench.Demo_Stuff.GoldSource
 {
     /// <summary>
-    /// This is a form to aid goldsource run verification
+    ///     This is a form to aid goldsource run verification
     /// </summary>
     public sealed partial class Verification : Form
     {
+        public static Dictionary<string, CrossParseResult> Df = new Dictionary<string, CrossParseResult>();
+
         /// <summary>
-        /// This list contains the paths to the demos
+        ///     This list contains the paths to the demos
         /// </summary>
         public List<string> DemopathList;
 
         /// <summary>
-        /// Default constructor
+        ///     Default constructor
         /// </summary>
         public Verification()
         {
@@ -29,8 +31,6 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
             AllowDrop = true;
         }
 
-        public static Dictionary<string,CrossParseResult> Df = new Dictionary<string, CrossParseResult>();
-
         private void button1_Click(object sender, EventArgs e)
         {
             var of = new OpenFileDialog
@@ -38,7 +38,7 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
                 Filter = @"Demo files (.dem) | *.dem",
                 Multiselect = true
             };
-            
+
             if (of.ShowDialog() == DialogResult.OK && of.FileNames.Length > 1)
             {
                 //CrossDemoParser.MultiDemoParse(of.FileNames);
@@ -52,7 +52,7 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void demostartCommandToClipboardToolStripMenuItem_Click(object sender, EventArgs e)
@@ -60,17 +60,17 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
             if (DemopathList.ToArray().Length <= 32)
                 Clipboard.SetText("startdemos " + DemopathList
                     .Select(Path.GetFileNameWithoutExtension)
-                    .OrderBy(x => int.Parse(Regex.Match(x+"0", @"\d+").Value))
+                    .OrderBy(x => int.Parse(Regex.Match(x + "0", @"\d+").Value))
                     .ToList()
                     .Aggregate((c, n) => c + " " + n));
             else
             {
                 Clipboard.SetText(DemopathList
                     .Select(Path.GetFileNameWithoutExtension)
-                    .OrderBy(x => int.Parse(Regex.Match(x+"0", @"\d+").Value))
+                    .OrderBy(x => int.Parse(Regex.Match(x + "0", @"\d+").Value))
                     .Batch(32)
-                    .Aggregate(String.Empty,(x,y) => x + ";startdemos " + (y.Aggregate((c,n) => c + " " + n))).Substring(1));
-
+                    .Aggregate(string.Empty, (x, y) => x + ";startdemos " + (y.Aggregate((c, n) => c + " " + n)))
+                    .Substring(1));
             }
             using (var ni = new NotifyIcon())
             {
@@ -81,7 +81,7 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
         }
 
         /// <summary>
-        /// This is the actuall verification method     
+        ///     This is the actuall verification method
         /// </summary>
         /// <param name="files">The paths of the files</param>
         public void Verify(string[] files)
@@ -109,7 +109,7 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
                     .ToList()
                     .Aggregate("", (c, n) => c += "\n" + n.Key);
                 MessageBox.Show(@"Broken demos found:
-" + brokendemos,@"Error!",MessageBoxButtons.OK);
+" + brokendemos, @"Error!", MessageBoxButtons.OK);
                 Main.Log("Broken demos when verification: " + brokendemos);
                 mrtb.Text = @"Please fix the demos then reselect the files!";
                 return;
@@ -122,32 +122,54 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
                 mrtb.AppendText("" + "\n");
                 mrtb.AppendText("Parsed demos. Results:" + "\n");
                 mrtb.AppendText("General stats:" + "\n");
-                mrtb.AppendText($@"
-Highest FPS:                {(1/Df.Select(x=> x.Value).ToList().Min(y => y.GsDemoInfo.AditionalStats.FrametimeMin)).ToString("N2")}
-Lowest FPS:                 {(1/Df.Select(x=> x.Value).ToList().Max(y => y.GsDemoInfo.AditionalStats.FrametimeMax)).ToString("N2")}
-Average FPS:                {(Df.Select(z => z.Value).ToList().Average(k => k.GsDemoInfo.AditionalStats.Count/k.GsDemoInfo.AditionalStats.FrametimeSum)).ToString("N2")}
-Lowest msec:                {(1000.0/Df.Select(x => x.Value).ToList().Min(y => y.GsDemoInfo.AditionalStats.MsecMin)).ToString("N2")} FPS
-Highest msec:               {(1000.0/Df.Select(x => x.Value).ToList().Max(y => y.GsDemoInfo.AditionalStats.MsecMax)).ToString("N2")} FPS
-Average msec:               {(Df.Select(x => x.Value).ToList().Average(y => y.GsDemoInfo.AditionalStats.MsecSum / (double)y.GsDemoInfo.AditionalStats.Count)).ToString("N2")} FPS
+                mrtb.AppendText(
+                    $@"
+Highest FPS:                {
+                        (1/Df.Select(x => x.Value).ToList().Min(y => y.GsDemoInfo.AditionalStats.FrametimeMin)).ToString
+                            ("N2")}
+Lowest FPS:                 {
+                        (1/Df.Select(x => x.Value).ToList().Max(y => y.GsDemoInfo.AditionalStats.FrametimeMax)).ToString
+                            ("N2")}
+Average FPS:                {
+                        (Df.Select(z => z.Value)
+                            .ToList()
+                            .Average(k => k.GsDemoInfo.AditionalStats.Count/k.GsDemoInfo.AditionalStats.FrametimeSum))
+                            .ToString("N2")}
+Lowest msec:                {
+                        (1000.0/Df.Select(x => x.Value).ToList().Min(y => y.GsDemoInfo.AditionalStats.MsecMin)).ToString
+                            ("N2")} FPS
+Highest msec:               {
+                        (1000.0/Df.Select(x => x.Value).ToList().Max(y => y.GsDemoInfo.AditionalStats.MsecMax)).ToString
+                            ("N2")} FPS
+Average msec:               {
+                        (Df.Select(x => x.Value)
+                            .ToList()
+                            .Average(y => y.GsDemoInfo.AditionalStats.MsecSum/(double) y.GsDemoInfo.AditionalStats.Count))
+                            .ToString("N2")} FPS
 
-Total time of the demos:    {Df.Sum(x => x.Value.GsDemoInfo.DirectoryEntries.Sum(y => y.TrackTime))}s" + "\n\n");
+Total time of the demos:    {
+                        Df.Sum(x => x.Value.GsDemoInfo.DirectoryEntries.Sum(y => y.TrackTime))}s" + "\n\n");
                 mrtb.AppendText("Demo cheat check:" + "\n");
                 foreach (var dem in Df)
                 {
                     mrtb.AppendText(Path.GetFileName(dem.Key) + " -> " + dem.Value.GsDemoInfo.Header.MapName + "\n");
                     foreach (var f in dem.Value.GsDemoInfo.DirectoryEntries.SelectMany(entry =>
-                                    (from frame in entry.Frames.Where(
-                                            x => x.Key.Type == GoldSource.DemoFrameType.ConsoleCommand)
-                                     select (GoldSource.ConsoleCommandFrame)frame.Value into f
-                                     let cheats = new List<string>
-                                        {
-                                                "+lookup",
-                                                "+lookdown",
-                                                "+left",
-                                                "+right" //TODO: When yalter is not lazy and adds the anticheat frames add them here.
-                                     }
-                                     where cheats.Contains(f.Command)
-                                     select f))) { mrtb.AppendText(f.Command + "\n"); }
+                        (from frame in entry.Frames.Where(
+                            x => x.Key.Type == GoldSource.DemoFrameType.ConsoleCommand)
+                            select (GoldSource.ConsoleCommandFrame) frame.Value
+                            into f
+                            let cheats = new List<string>
+                            {
+                                "+lookup",
+                                "+lookdown",
+                                "+left",
+                                "+right" //TODO: When yalter is not lazy and adds the anticheat frames add them here.
+                            }
+                            where cheats.Contains(f.Command)
+                            select f)))
+                    {
+                        mrtb.AppendText(f.Command + "\n");
+                    }
                 }
             }
         }
@@ -159,13 +181,12 @@ Total time of the demos:    {Df.Sum(x => x.Value.GsDemoInfo.DirectoryEntries.Sum
 
         private void Verification_DragDrop(object sender, DragEventArgs e)
         {
-            var dropfiles = (string[])e.Data.GetData(DataFormats.FileDrop);
+            var dropfiles = (string[]) e.Data.GetData(DataFormats.FileDrop);
             Verify(dropfiles);
         }
 
         private void Verification_DragLeave(object sender, EventArgs e)
         {
-            
         }
     }
 }

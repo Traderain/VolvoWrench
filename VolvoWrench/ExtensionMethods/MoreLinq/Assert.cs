@@ -1,4 +1,5 @@
 #region License and Terms
+
 // MoreLINQ - Extensions to LINQ to Objects
 // Copyright (c) 2013 Atif Aziz. All rights reserved.
 // 
@@ -13,6 +14,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 #endregion
 
 using System;
@@ -23,43 +25,44 @@ namespace MoreLinq
     static partial class MoreEnumerable
     {
         /// <summary>
-        /// Asserts that all elements of a sequence meet a given condition
-        /// otherwise throws an <see cref="Exception"/> object.
+        ///     Asserts that all elements of a sequence meet a given condition
+        ///     otherwise throws an <see cref="Exception" /> object.
         /// </summary>
-        /// <typeparam name="TSource">Type of elements in <paramref name="source"/> sequence.</typeparam>
+        /// <typeparam name="TSource">Type of elements in <paramref name="source" /> sequence.</typeparam>
         /// <param name="source">Source sequence.</param>
-        /// <param name="predicate">Function that asserts an element of the <paramref name="source"/> sequence for a condition.</param>
+        /// <param name="predicate">Function that asserts an element of the <paramref name="source" /> sequence for a condition.</param>
         /// <returns>
-        /// Returns the original sequence.
+        ///     Returns the original sequence.
         /// </returns>
-        /// <exception cref="InvalidOperationException">The input sequence
-        /// contains an element that does not meet the condition being 
-        /// asserted.</exception>
+        /// <exception cref="InvalidOperationException">
+        ///     The input sequence
+        ///     contains an element that does not meet the condition being
+        ///     asserted.
+        /// </exception>
         /// <remarks>
-        /// This operator uses deferred execution and streams its results.
+        ///     This operator uses deferred execution and streams its results.
         /// </remarks>
-        
-        public static IEnumerable<TSource> Assert<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
+        public static IEnumerable<TSource> Assert<TSource>(this IEnumerable<TSource> source,
+            Func<TSource, bool> predicate)
         {
             return Assert(source, predicate, null);
         }
 
         /// <summary>
-        /// Asserts that all elements of a sequence meet a given condition
-        /// otherwise throws an <see cref="Exception"/> object.
+        ///     Asserts that all elements of a sequence meet a given condition
+        ///     otherwise throws an <see cref="Exception" /> object.
         /// </summary>
-        /// <typeparam name="TSource">Type of elements in <paramref name="source"/> sequence.</typeparam>
+        /// <typeparam name="TSource">Type of elements in <paramref name="source" /> sequence.</typeparam>
         /// <param name="source">Source sequence.</param>
         /// <param name="predicate">Function that asserts an element of the input sequence for a condition.</param>
-        /// <param name="errorSelector">Function that returns the <see cref="Exception"/> object to throw.</param>
+        /// <param name="errorSelector">Function that returns the <see cref="Exception" /> object to throw.</param>
         /// <returns>
-        /// Returns the original sequence.
+        ///     Returns the original sequence.
         /// </returns>
         /// <remarks>
-        /// This operator uses deferred execution and streams its results.
+        ///     This operator uses deferred execution and streams its results.
         /// </remarks>
-        
-        public static IEnumerable<TSource> Assert<TSource>(this IEnumerable<TSource> source, 
+        public static IEnumerable<TSource> Assert<TSource>(this IEnumerable<TSource> source,
             Func<TSource, bool> predicate, Func<TSource, Exception> errorSelector)
         {
             if (source == null) throw new ArgumentNullException("source");
@@ -68,7 +71,7 @@ namespace MoreLinq
             return AssertImpl(source, predicate, errorSelector ?? delegate { return null; });
         }
 
-        private static IEnumerable<TSource> AssertImpl<TSource>(IEnumerable<TSource> source, 
+        private static IEnumerable<TSource> AssertImpl<TSource>(IEnumerable<TSource> source,
             Func<TSource, bool> predicate, Func<TSource, Exception> errorSelector)
         {
             foreach (var element in source)

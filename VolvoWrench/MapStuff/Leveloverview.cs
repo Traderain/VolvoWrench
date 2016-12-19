@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using VolvoWrench.Properties;
 
@@ -15,18 +9,21 @@ namespace VolvoWrench.MapStuff
 {
     public partial class Leveloverview : Form
     {
+        /// <summary>
+        /// This generates cl_leveloverview from bsp files
+        /// </summary>
         public Leveloverview()
         {
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e) 
+        private void button1_Click(object sender, EventArgs e)
         {
-            using (var of = new OpenFileDialog())
+            using (var of = new FolderBrowserDialog())
             {
                 if (of.ShowDialog() == DialogResult.OK)
                 {
-                    textBox1.Text = of.FileName;
+                    textBox1.Text = of.SelectedPath;
                 }
             }
         }
@@ -37,10 +34,10 @@ namespace VolvoWrench.MapStuff
             return; //TODO: finish implementing this
             if (File.Exists(textBox1.Text) && Path.GetExtension(textBox1.Text) == ".bsp")
             {
-                var sf = new SaveFileDialog { Filter = @"Demo files .dem | *.dem" };
+                var sf = new SaveFileDialog {Filter = @"Demo files .dem | *.dem"};
                 if (sf.ShowDialog() == DialogResult.OK)
                 {
-                    Random r = new Random();
+                    var r = new Random();
                     var ran = r.Next(1, 2873432);
                     var path = Path.Combine(Path.GetTempPath(), "demo-repair" + ran + ".exe");
                     File.WriteAllBytes(path, Resources.demo_repair);
@@ -60,14 +57,10 @@ namespace VolvoWrench.MapStuff
                     File.Delete(path);
                     if (File.Exists(sf.FileName))
                         MessageBox.Show(@"Please make sure you enteret correct values and a valid map is used!");
-                    else
-                        pictureBox1.Image = Image.FromFile("");
+                    pictureBox1.Image = Image.FromFile("");
                 }
             }
-            else
-            {
-                MessageBox.Show(@"Please make sure you enteret correct values and a valid map is used!");
-            }
+            MessageBox.Show(@"Please make sure you enteret correct values and a valid map is used!");
         }
     }
 }

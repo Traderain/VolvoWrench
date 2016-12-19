@@ -1,87 +1,98 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using VolvoWrench.Demo_Stuff.L4D2Branch.BitStreamUtil;
 using VolvoWrench.Demo_Stuff.L4D2Branch.CSGODemoInfo.DP.Handler;
 
 namespace VolvoWrench.Demo_Stuff.L4D2Branch.CSGODemoInfo.DP.FastNetmessages
 {
-	public struct GameEventList
-	{
-		public struct Key
-		{
-			public Int32 Type;
-			public String Name;
+    public struct GameEventList
+    {
+        public void Parse(IBitStream bitstream, DemoParser parser)
+        {
+            GameEventHandler.HandleGameEventList(ReadDescriptors(bitstream), parser);
+        }
 
-			public void Parse(IBitStream bitstream)
-			{
-				while (!bitstream.ChunkFinished) {
-					var desc = bitstream.ReadProtobufVarInt();
-					var wireType = desc & 7;
-					var fieldnum = desc >> 3;
-					if ((wireType == 0) && (fieldnum == 1)) {
-						Type = bitstream.ReadProtobufVarInt();
-					} else if ((wireType == 2) && (fieldnum == 2)) {
-						Name = bitstream.ReadProtobufString();
-					} else
-						throw new InvalidDataException();
-				}
-			}
-		}
+        private IEnumerable<Descriptor> ReadDescriptors(IBitStream bitstream)
+        {
+            while (!bitstream.ChunkFinished)
+            {
+                var desc = bitstream.ReadProtobufVarInt();
+                var wireType = desc & 7;
+                var fieldnum = desc >> 3;
+                if ((wireType != 2) || (fieldnum != 1))
+                    throw new InvalidDataException();
 
-		public struct Descriptor
-		{
-			public Int32 EventId;
-			public String Name;
-			public Key[] Keys;
+                var length = bitstream.ReadProtobufVarInt();
+                bitstream.BeginChunk(length*8);
+                var descriptor = new Descriptor();
+                descriptor.Parse(bitstream);
+                yield return descriptor;
+                bitstream.EndChunk();
+            }
+        }
 
-			public void Parse(IBitStream bitstream)
-			{
-				var keys = new List<Key>();
-				while (!bitstream.ChunkFinished) {
-					var desc = bitstream.ReadProtobufVarInt();
-					var wireType = desc & 7;
-					var fieldnum = desc >> 3;
-					if ((wireType == 0) && (fieldnum == 1)) {
-						EventId = bitstream.ReadProtobufVarInt();
-					} else if ((wireType == 2) && (fieldnum == 2)) {
-						Name = bitstream.ReadProtobufString();
-					} else if ((wireType == 2) && (fieldnum == 3)) {
-						var length = bitstream.ReadProtobufVarInt();
-						bitstream.BeginChunk(length * 8);
-						var key = new Key();
-						key.Parse(bitstream);
-						keys.Add(key);
-						bitstream.EndChunk();
-					} else
-						throw new InvalidDataException();
-				}
-				Keys = keys.ToArray();
-			}
-		}
+        public struct Key
+        {
+            public string Name;
+            public int Type;
 
-		public void Parse(IBitStream bitstream, DemoParser parser)
-		{
-			GameEventHandler.HandleGameEventList(ReadDescriptors(bitstream), parser);
-		}
+            public void Parse(IBitStream bitstream)
+            {
+                while (!bitstream.ChunkFinished)
+                {
+                    var desc = bitstream.ReadProtobufVarInt();
+                    var wireType = desc & 7;
+                    var fieldnum = desc >> 3;
+                    if ((wireType == 0) && (fieldnum == 1))
+                    {
+                        Type = bitstream.ReadProtobufVarInt();
+                    }
+                    else if ((wireType == 2) && (fieldnum == 2))
+                    {
+                        Name = bitstream.ReadProtobufString();
+                    }
+                    else
+                        throw new InvalidDataException();
+                }
+            }
+        }
 
-		private IEnumerable<Descriptor> ReadDescriptors(IBitStream bitstream)
-		{
-			while (!bitstream.ChunkFinished) {
-				var desc = bitstream.ReadProtobufVarInt();
-				var wireType = desc & 7;
-				var fieldnum = desc >> 3;
-				if ((wireType != 2) || (fieldnum != 1))
-					throw new InvalidDataException();
+        public struct Descriptor
+        {
+            public int EventId;
+            public Key[] Keys;
+            public string Name;
 
-				var length = bitstream.ReadProtobufVarInt();
-				bitstream.BeginChunk(length * 8);
-				var descriptor = new Descriptor();
-				descriptor.Parse(bitstream);
-				yield return descriptor;
-				bitstream.EndChunk();
-			}
-		}
-	}
+            public void Parse(IBitStream bitstream)
+            {
+                var keys = new List<Key>();
+                while (!bitstream.ChunkFinished)
+                {
+                    var desc = bitstream.ReadProtobufVarInt();
+                    var wireType = desc & 7;
+                    var fieldnum = desc >> 3;
+                    if ((wireType == 0) && (fieldnum == 1))
+                    {
+                        EventId = bitstream.ReadProtobufVarInt();
+                    }
+                    else if ((wireType == 2) && (fieldnum == 2))
+                    {
+                        Name = bitstream.ReadProtobufString();
+                    }
+                    else if ((wireType == 2) && (fieldnum == 3))
+                    {
+                        var length = bitstream.ReadProtobufVarInt();
+                        bitstream.BeginChunk(length*8);
+                        var key = new Key();
+                        key.Parse(bitstream);
+                        keys.Add(key);
+                        bitstream.EndChunk();
+                    }
+                    else
+                        throw new InvalidDataException();
+                }
+                Keys = keys.ToArray();
+            }
+        }
+    }
 }
-

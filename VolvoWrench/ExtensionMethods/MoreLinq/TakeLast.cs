@@ -1,4 +1,5 @@
 #region License and Terms
+
 // MoreLINQ - Extensions to LINQ to Objects
 // Copyright (c) 2009 Atif Aziz. All rights reserved.
 // 
@@ -13,6 +14,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 #endregion
 
 using System;
@@ -24,28 +26,27 @@ namespace MoreLinq
     static partial class MoreEnumerable
     {
         /// <summary>
-        /// Returns a specified number of contiguous elements from the end of 
-        /// a sequence.
+        ///     Returns a specified number of contiguous elements from the end of
+        ///     a sequence.
         /// </summary>
-        /// <typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam>
+        /// <typeparam name="TSource">The type of the elements of <paramref name="source" />.</typeparam>
         /// <param name="source">The sequence to return the last element of.</param>
         /// <param name="count">The number of elements to return.</param>
         /// <returns>
-        /// An <see cref="IEnumerable{T}"/> that contains the specified number of 
-        /// elements from the end of the input sequence.
+        ///     An <see cref="IEnumerable{T}" /> that contains the specified number of
+        ///     elements from the end of the input sequence.
         /// </returns>
         /// <remarks>
-        /// This operator uses deferred execution and streams its results.
+        ///     This operator uses deferred execution and streams its results.
         /// </remarks>
         /// <example>
-        /// <code>
+        ///     <code>
         /// int[] numbers = { 12, 34, 56, 78 };
         /// IEnumerable&lt;int&gt; result = numbers.TakeLast(2);
         /// </code>
-        /// The <c>result</c> variable, when iterated over, will yield 
-        /// 56 and 78 in turn.
+        ///     The <c>result</c> variable, when iterated over, will yield
+        ///     56 and 78 in turn.
         /// </example>
-
         public static IEnumerable<TSource> TakeLast<TSource>(this IEnumerable<TSource> source, int count)
         {
             if (source == null) throw new ArgumentNullException("source");
@@ -70,6 +71,6 @@ namespace MoreLinq
 
             foreach (var item in q)
                 yield return item;
-       }
+        }
     }
 }

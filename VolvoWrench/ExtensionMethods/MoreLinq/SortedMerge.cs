@@ -1,4 +1,5 @@
 #region License and Terms
+
 // MoreLINQ - Extensions to LINQ to Objects
 // Copyright (c) 2010 Leopold Bushkin. All rights reserved.
 // 
@@ -13,6 +14,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 #endregion
 
 using System;
@@ -24,16 +26,15 @@ namespace MoreLinq
     public static partial class MoreEnumerable
     {
         /// <summary>
-        /// Merges two or more sequences that are in a common order (either ascending or descending) into
-        /// a single sequence that preserves that order.
+        ///     Merges two or more sequences that are in a common order (either ascending or descending) into
+        ///     a single sequence that preserves that order.
         /// </summary>
         /// <remarks>
-        /// Using SortedMerge on sequences that are not ordered or are not in the same order produces
-        /// undefined results.<br/>
-        /// <c>SortedMerge</c> uses performs the merge in a deferred, streaming manner. <br/>
-        /// 
-        /// Here is an example of a merge, as well as the produced result:
-        /// <code>
+        ///     Using SortedMerge on sequences that are not ordered or are not in the same order produces
+        ///     undefined results.<br />
+        ///     <c>SortedMerge</c> uses performs the merge in a deferred, streaming manner. <br />
+        ///     Here is an example of a merge, as well as the produced result:
+        ///     <code>
         ///   var s1 = new[] { 3, 7, 11 };
         ///   var s2 = new[] { 2, 4, 20 };
         ///   var s3 = new[] { 17, 19, 25 };
@@ -48,15 +49,15 @@ namespace MoreLinq
         /// <param name="direction">The ordering that all sequences must already exhibit</param>
         /// <param name="otherSequences">A variable argument array of zero or more other sequences to merge with</param>
         /// <returns>A merged, order-preserving sequence containing all of the elements of the original sequences</returns>
-        
-        public static IEnumerable<TSource> SortedMerge<TSource>(this IEnumerable<TSource> source, OrderByDirection direction, params IEnumerable<TSource>[] otherSequences)
+        public static IEnumerable<TSource> SortedMerge<TSource>(this IEnumerable<TSource> source,
+            OrderByDirection direction, params IEnumerable<TSource>[] otherSequences)
         {
             return SortedMerge(source, direction, null, otherSequences);
         }
 
         /// <summary>
-        /// Merges two or more sequences that are in a common order (either ascending or descending) into
-        /// a single sequence that preserves that order.
+        ///     Merges two or more sequences that are in a common order (either ascending or descending) into
+        ///     a single sequence that preserves that order.
         /// </summary>
         /// <typeparam name="TSource">The type of the elements in the sequence</typeparam>
         /// <param name="source">The primary sequence with which to merge</param>
@@ -64,8 +65,8 @@ namespace MoreLinq
         /// <param name="comparer">The comparer used to evaluate the relative order between elements</param>
         /// <param name="otherSequences">A variable argument array of zero or more other sequences to merge with</param>
         /// <returns>A merged, order-preserving sequence containing al of the elements of the original sequences</returns>
-        
-        public static IEnumerable<TSource> SortedMerge<TSource>(this IEnumerable<TSource> source, OrderByDirection direction, IComparer<TSource> comparer, params IEnumerable<TSource>[] otherSequences)
+        public static IEnumerable<TSource> SortedMerge<TSource>(this IEnumerable<TSource> source,
+            OrderByDirection direction, IComparer<TSource> comparer, params IEnumerable<TSource>[] otherSequences)
         {
             if (source == null) throw new ArgumentNullException("source");
             if (otherSequences == null) throw new ArgumentNullException("otherSequences");
@@ -79,28 +80,27 @@ namespace MoreLinq
             // this is a function that will return True if (b) should precede (a)
             var precedenceFunc =
                 direction == OrderByDirection.Ascending
-                    ? (Func<TSource, TSource, bool>)((a, b) => comparer.Compare(b, a) < 0)
+                    ? (Func<TSource, TSource, bool>) ((a, b) => comparer.Compare(b, a) < 0)
                     : (a, b) => comparer.Compare(b, a) > 0;
 
             // return the sorted merge result
-            return SortedMergeImpl(precedenceFunc, new[] { source }.Concat(otherSequences));
+            return SortedMergeImpl(precedenceFunc, new[] {source}.Concat(otherSequences));
         }
 
         /// <summary>
-        /// Private implementation method that performs a merge of multiple, ordered sequences using
-        /// a precedence function which encodes order-sensitive comparison logic based on the caller's arguments.
+        ///     Private implementation method that performs a merge of multiple, ordered sequences using
+        ///     a precedence function which encodes order-sensitive comparison logic based on the caller's arguments.
         /// </summary>
         /// <remarks>
-        /// The algorithm employed in this implementation is not necessarily the most optimal way to merge
-        /// two sequences. A swap-compare version would probably be somewhat more efficient - but at the
-        /// expense of considerably more complexity. One possible optimization would be to detect that only
-        /// a single sequence remains (all other being consumed) and break out of the main while-loop and
-        /// simply yield the items that are part of the final sequence.
-        /// 
-        /// The algorithm used here will perform N*(K1+K2+...Kn-1) comparisons, where <c>N => otherSequences.Count()+1.</c>
+        ///     The algorithm employed in this implementation is not necessarily the most optimal way to merge
+        ///     two sequences. A swap-compare version would probably be somewhat more efficient - but at the
+        ///     expense of considerably more complexity. One possible optimization would be to detect that only
+        ///     a single sequence remains (all other being consumed) and break out of the main while-loop and
+        ///     simply yield the items that are part of the final sequence.
+        ///     The algorithm used here will perform N*(K1+K2+...Kn-1) comparisons, where <c>N => otherSequences.Count()+1.</c>
         /// </remarks>
-        
-        private static IEnumerable<T> SortedMergeImpl<T>(Func<T, T, bool> precedenceFunc, IEnumerable<IEnumerable<T>> otherSequences)
+        private static IEnumerable<T> SortedMergeImpl<T>(Func<T, T, bool> precedenceFunc,
+            IEnumerable<IEnumerable<T>> otherSequences)
         {
             using (var disposables = new DisposableGroup<T>(otherSequences.Select(e => e.GetEnumerator()).Acquire()))
             {
@@ -143,10 +143,9 @@ namespace MoreLinq
         }
 
         /// <summary>
-        /// Class used to assist in ensuring that groups of disposable iterators
-        /// are disposed - either when Excluded or when the DisposableGroup is disposed.
+        ///     Class used to assist in ensuring that groups of disposable iterators
+        ///     are disposed - either when Excluded or when the DisposableGroup is disposed.
         /// </summary>
-        
         private sealed class DisposableGroup<T> : IDisposable
         {
             public DisposableGroup(IEnumerable<IEnumerator<T>> iterators)
@@ -154,19 +153,22 @@ namespace MoreLinq
                 Iterators = new List<IEnumerator<T>>(iterators);
             }
 
-            public List<IEnumerator<T>> Iterators { get; private set; }
+            public List<IEnumerator<T>> Iterators { get; }
 
-            public IEnumerator<T> this[int index] { get { return Iterators[index]; } }
-
-            public void Exclude(int index)
+            public IEnumerator<T> this[int index]
             {
-                Iterators[index].Dispose();
-                Iterators.RemoveAt(index);
+                get { return Iterators[index]; }
             }
 
             public void Dispose()
             {
                 Iterators.ForEach(iter => iter.Dispose());
+            }
+
+            public void Exclude(int index)
+            {
+                Iterators[index].Dispose();
+                Iterators.RemoveAt(index);
             }
         }
     }

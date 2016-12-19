@@ -1,4 +1,5 @@
 #region License and Terms
+
 // MoreLINQ - Extensions to LINQ to Objects
 // Copyright (c) 2016 Felipe Sateler. All rights reserved.
 //
@@ -13,15 +14,16 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 #endregion
 
 using System.Collections.Generic;
 
 namespace MoreLinq
 {
-    sealed class ReverseComparer<T> : IComparer<T>
+    internal sealed class ReverseComparer<T> : IComparer<T>
     {
-        readonly IComparer<T> _underlying;
+        private readonly IComparer<T> _underlying;
 
         public ReverseComparer(IComparer<T> underlying)
         {

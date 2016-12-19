@@ -1,4 +1,5 @@
 #region License and Terms
+
 // MoreLINQ - Extensions to LINQ to Objects
 // Copyright (c) 2008 Jonathan Skeet. All rights reserved.
 //
@@ -13,6 +14,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 #endregion
 
 using System;
@@ -23,22 +25,22 @@ namespace MoreLinq
     static partial class MoreEnumerable
     {
         /// <summary>
-        /// Returns a projection of tuples, where each tuple contains the N-th element
-        /// from each of the argument sequences.
+        ///     Returns a projection of tuples, where each tuple contains the N-th element
+        ///     from each of the argument sequences.
         /// </summary>
         /// <remarks>
-        /// If the two input sequences are of different lengths then the result
-        /// sequence will always be as long as the longer of the two input sequences.
-        /// The default value of the shorter sequence element type is used for padding.
-        /// This operator uses deferred execution and streams its results.
+        ///     If the two input sequences are of different lengths then the result
+        ///     sequence will always be as long as the longer of the two input sequences.
+        ///     The default value of the shorter sequence element type is used for padding.
+        ///     This operator uses deferred execution and streams its results.
         /// </remarks>
         /// <example>
-        /// <code>
+        ///     <code>
         /// int[] numbers = { 1, 2, 3 };
         /// string[] letters = { "A", "B", "C", "D" };
         /// var zipped = numbers.EquiZip(letters, (n, l) => n + l);
         /// </code>
-        /// The <c>zipped</c> variable, when iterated over, will yield "1A", "2B", "3C", "0D" in turn.
+        ///     The <c>zipped</c> variable, when iterated over, will yield "1A", "2B", "3C", "0D" in turn.
         /// </example>
         /// <typeparam name="TFirst">Type of elements in first sequence</typeparam>
         /// <typeparam name="TSecond">Type of elements in second sequence</typeparam>
@@ -47,13 +49,12 @@ namespace MoreLinq
         /// <param name="second">Second sequence</param>
         /// <param name="resultSelector">Function to apply to each pair of elements</param>
         /// <returns>
-        /// A sequence that contains elements of the two input sequences,
-        /// combined by <paramref name="resultSelector"/>.
+        ///     A sequence that contains elements of the two input sequences,
+        ///     combined by <paramref name="resultSelector" />.
         /// </returns>
-
         public static IEnumerable<TResult> ZipLongest<TFirst, TSecond, TResult>(this IEnumerable<TFirst> first,
-             IEnumerable<TSecond> second,
-             Func<TFirst, TSecond, TResult> resultSelector)
+            IEnumerable<TSecond> second,
+            Func<TFirst, TSecond, TResult> resultSelector)
         {
             if (first == null) throw new ArgumentNullException("first");
             if (second == null) throw new ArgumentNullException("second");
@@ -62,7 +63,7 @@ namespace MoreLinq
             return ZipLongestImpl(first, second, resultSelector);
         }
 
-        static IEnumerable<TResult> ZipLongestImpl<TFirst, TSecond, TResult>(
+        private static IEnumerable<TResult> ZipLongestImpl<TFirst, TSecond, TResult>(
             IEnumerable<TFirst> first,
             IEnumerable<TSecond> second,
             Func<TFirst, TSecond, TResult> resultSelector)
@@ -78,15 +79,19 @@ namespace MoreLinq
                     }
                     else
                     {
-                        do { yield return resultSelector(e1.Current, default(TSecond)); }
-                        while (e1.MoveNext());
+                        do
+                        {
+                            yield return resultSelector(e1.Current, default(TSecond));
+                        } while (e1.MoveNext());
                         yield break;
                     }
                 }
                 if (e2.MoveNext())
                 {
-                    do { yield return resultSelector(default(TFirst), e2.Current); }
-                    while (e2.MoveNext());
+                    do
+                    {
+                        yield return resultSelector(default(TFirst), e2.Current);
+                    } while (e2.MoveNext());
                 }
             }
         }

@@ -5,74 +5,83 @@ using VolvoWrench.Demo_Stuff.L4D2Branch.CSGODemoInfo.DP.Handler;
 
 namespace VolvoWrench.Demo_Stuff.L4D2Branch.CSGODemoInfo.DP.FastNetmessages
 {
-	public struct CreateStringTable
-	{
-		public string Name;
-		public Int32 MaxEntries;
-		public Int32 NumEntries;
-		private Int32 _UserDataFixedSize;
-		public bool UserDataFixedSize { get { return _UserDataFixedSize != 0; }}
-		public Int32 UserDataSize;
-		public Int32 UserDataSizeBits;
-		public Int32 Flags;
+    public struct CreateStringTable
+    {
+        private int _UserDataFixedSize;
+        public int Flags;
+        public int MaxEntries;
+        public string Name;
+        public int NumEntries;
+        public int UserDataSize;
+        public int UserDataSizeBits;
 
-		public void Parse(IBitStream bitstream, DemoParser parser)
-		{
-			while (!bitstream.ChunkFinished) {
-				var desc = bitstream.ReadProtobufVarInt();
-				var wireType = desc & 7;
-				var fieldnum = desc >> 3;
+        public bool UserDataFixedSize
+        {
+            get { return _UserDataFixedSize != 0; }
+        }
 
-				if (wireType == 2) {
-					if (fieldnum == 1) {
-						Name = bitstream.ReadProtobufString();
-						continue;
-					} else if (fieldnum == 8) {
-						// String data is special.
-						// We'll simply hope that gaben is nice and sends
-						// string_data last, just like he should.
-						var len = bitstream.ReadProtobufVarInt();
-						bitstream.BeginChunk(len * 8);
-						CreateStringTableUserInfoHandler.Apply(this, bitstream, parser);
-						bitstream.EndChunk();
-						if (!bitstream.ChunkFinished)
-							throw new NotImplementedException("Lord Gaben wasn't nice to us :/");
-						break;
-					} else
-						throw new InvalidDataException("yes I know we should drop this but we" +
-							"probably want to know that they added a new big field");
-				}
+        public void Parse(IBitStream bitstream, DemoParser parser)
+        {
+            while (!bitstream.ChunkFinished)
+            {
+                var desc = bitstream.ReadProtobufVarInt();
+                var wireType = desc & 7;
+                var fieldnum = desc >> 3;
 
-				if (wireType != 0)
-					throw new InvalidDataException();
+                if (wireType == 2)
+                {
+                    if (fieldnum == 1)
+                    {
+                        Name = bitstream.ReadProtobufString();
+                        continue;
+                    }
+                    if (fieldnum == 8)
+                    {
+                        // String data is special.
+                        // We'll simply hope that gaben is nice and sends
+                        // string_data last, just like he should.
+                        var len = bitstream.ReadProtobufVarInt();
+                        bitstream.BeginChunk(len*8);
+                        CreateStringTableUserInfoHandler.Apply(this, bitstream, parser);
+                        bitstream.EndChunk();
+                        if (!bitstream.ChunkFinished)
+                            throw new NotImplementedException("Lord Gaben wasn't nice to us :/");
+                        break;
+                    }
+                    throw new InvalidDataException("yes I know we should drop this but we" +
+                                                   "probably want to know that they added a new big field");
+                }
 
-				var val = bitstream.ReadProtobufVarInt();
+                if (wireType != 0)
+                    throw new InvalidDataException();
 
-				switch (fieldnum) {
-				case 2:
-					MaxEntries = val;
-					break;
-				case 3:
-					NumEntries = val;
-					break;
-				case 4:
-					_UserDataFixedSize = val;
-					break;
-				case 5:
-					UserDataSize = val;
-					break;
-				case 6:
-					UserDataSizeBits = val;
-					break;
-				case 7:
-					Flags = val;
-					break;
-				default:
-					// silently drop
-					break;
-				}
-			}
-		}
-	}
+                var val = bitstream.ReadProtobufVarInt();
+
+                switch (fieldnum)
+                {
+                    case 2:
+                        MaxEntries = val;
+                        break;
+                    case 3:
+                        NumEntries = val;
+                        break;
+                    case 4:
+                        _UserDataFixedSize = val;
+                        break;
+                    case 5:
+                        UserDataSize = val;
+                        break;
+                    case 6:
+                        UserDataSizeBits = val;
+                        break;
+                    case 7:
+                        Flags = val;
+                        break;
+                    default:
+                        // silently drop
+                        break;
+                }
+            }
+        }
+    }
 }
-
