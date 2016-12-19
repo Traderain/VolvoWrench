@@ -297,10 +297,10 @@
     <Compile Include="ExtensionMethods\MoreLinq\ZipLongest.cs" />
     <Compile Include="ExtensionMethods\MoreLinq\ZipShortest.cs" />
     <Compile Include="ExtensionMethods\Traderain.cs" />
-    <Compile Include="MainSettings.cs">
+    <Compile Include="Settings\MainSettings.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainSettings.Designer.cs">
+    <Compile Include="Settings\MainSettings.Designer.cs">
       <DependentUpon>MainSettings.cs</DependentUpon>
     </Compile>
     <Compile Include="MapStuff\Leveloverview.cs">
@@ -313,17 +313,11 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Overlay\Form1.Designer.cs" />
-    <Compile Include="Overlay\OverlaySettings.cs">
+    <Compile Include="Settings\OverlaySettings.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Overlay\OverlaySettings.Designer.cs">
+    <Compile Include="Settings\OverlaySettings.Designer.cs">
       <DependentUpon>OverlaySettings.cs</DependentUpon>
-    </Compile>
-    <Compile Include="SaveStuff\SaveFileExplorer.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SaveStuff\SaveFileExplorer.Designer.cs">
-      <DependentUpon>SaveFileExplorer.cs</DependentUpon>
     </Compile>
     <Compile Include="SaveStuff\Save analyzer.cs">
       <SubType>Form</SubType>
@@ -331,10 +325,10 @@
     <Compile Include="SaveStuff\Save analyzer.Designer.cs">
       <DependentUpon>Save analyzer.cs</DependentUpon>
     </Compile>
-    <Compile Include="Hotkey\hotkey.cs">
+    <Compile Include="Settings\hotkey.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Hotkey\hotkey.Designer.cs">
+    <Compile Include="Settings\hotkey.Designer.cs">
       <DependentUpon>hotkey.cs</DependentUpon>
     </Compile>
     <Compile Include="Main.cs">
@@ -345,7 +339,7 @@
     </Compile>
     <Compile Include="Demo stuff\GoldSource\GoldSourceParser.cs" />
     <Compile Include="SaveStuff\SaveParser.cs" />
-    <Compile Include="Hotkey\KeyInput.cs" />
+    <Compile Include="Settings\KeyInput.cs" />
     <Compile Include="Demo stuff\Source\BitBuffer.cs" />
     <Compile Include="Demo stuff\Source\DataTables.cs" />
     <Compile Include="Demo stuff\Source\SourceParser.cs" />
@@ -379,28 +373,25 @@
     <EmbeddedResource Include="Demo stuff\L4D2Branch\PortalStuff\Demo Timer.resx">
       <DependentUpon>Demo Timer.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainSettings.resx">
+    <EmbeddedResource Include="Settings\MainSettings.resx">
       <DependentUpon>MainSettings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MapStuff\Leveloverview.resx">
       <DependentUpon>Leveloverview.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Overlay\Form1.resx" />
-    <EmbeddedResource Include="Overlay\OverlaySettings.resx">
+    <EmbeddedResource Include="Settings\OverlaySettings.resx">
       <DependentUpon>OverlaySettings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SaveStuff\Save analyzer.resx">
       <DependentUpon>Save analyzer.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Hotkey\hotkey.resx">
+    <EmbeddedResource Include="Settings\hotkey.resx">
       <DependentUpon>hotkey.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SaveStuff\SaveFileExplorer.resx">
-      <DependentUpon>SaveFileExplorer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Demo stuff\Source\DemoDecoder.resx">
       <DependentUpon>DemoDecoder.cs</DependentUpon>

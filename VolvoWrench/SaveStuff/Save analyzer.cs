@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace VolvoWrench.SaveStuff
@@ -32,19 +34,42 @@ namespace VolvoWrench.SaveStuff
             }
         }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            if (CurrentSaveFile != null && CurrentSaveFile?.Files.Count > 1)
-                using (var a = new SaveFileExplorer(CurrentSaveFile.Files))
-                    a.ShowDialog();
-            else
-                MessageBox.Show(@"Bad file!", @"Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
-
         public void PrintandAnalyze(string s)
         {
             CurrentSaveFile = Listsave.ParseSaveFile(s);
             propertyGrid1.SelectedObject = CurrentSaveFile;
+            PFileliList = CurrentSaveFile.Files;
+            PopulateTreeView(CurrentSaveFile.Files);
+        }
+
+        public List<Listsave.StateFileInfo> PFileliList;
+
+        private void PopulateTreeView(List<Listsave.StateFileInfo> FileList)
+        {
+            if (FileList.Count > 1)
+            {
+                var rootNode = new TreeNode("Savefile");
+                GetDirectories(FileList, rootNode);
+                treeView1.Nodes.Add(rootNode);
+            }
+        }
+
+        private void GetDirectories(List<Listsave.StateFileInfo> vlvs, TreeNode nodeToAddTo)
+        {
+            foreach (Listsave.StateFileInfo subDir in vlvs)
+            {
+                var aNode = new TreeNode(subDir.FileName, 0, 0)
+                {
+                    Tag = subDir,
+                    ImageKey = @"folder"
+                };
+                nodeToAddTo.Nodes.Add(aNode);
+            }
+        }
+
+        private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            propertyGrid1.SelectedObject = PFileliList.FirstOrDefault(x => e.Node.Text.Contains(x.FileName));
         }
     }
 }

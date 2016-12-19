@@ -31,6 +31,8 @@ namespace VolvoWrench.SaveStuff
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(saveanalyzerform));
             this.button1 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -38,11 +40,20 @@ namespace VolvoWrench.SaveStuff
             this.info = new System.Windows.Forms.TabPage();
             this.statefiles = new System.Windows.Forms.TabPage();
             this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
+            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.treeView1 = new System.Windows.Forms.TreeView();
+            this.propertyGrid2 = new System.Windows.Forms.PropertyGrid();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.info.SuspendLayout();
+            this.statefiles.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
+            this.splitContainer2.Panel1.SuspendLayout();
+            this.splitContainer2.Panel2.SuspendLayout();
+            this.splitContainer2.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
@@ -109,6 +120,7 @@ namespace VolvoWrench.SaveStuff
             // statefiles
             // 
             this.statefiles.BackColor = System.Drawing.Color.Black;
+            this.statefiles.Controls.Add(this.splitContainer2);
             this.statefiles.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.statefiles.Location = new System.Drawing.Point(4, 25);
             this.statefiles.Name = "statefiles";
@@ -132,6 +144,54 @@ namespace VolvoWrench.SaveStuff
             this.propertyGrid1.ViewBackColor = System.Drawing.Color.Black;
             this.propertyGrid1.ViewForeColor = System.Drawing.SystemColors.InactiveBorder;
             // 
+            // splitContainer2
+            // 
+            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer2.Location = new System.Drawing.Point(3, 3);
+            this.splitContainer2.Name = "splitContainer2";
+            // 
+            // splitContainer2.Panel1
+            // 
+            this.splitContainer2.Panel1.Controls.Add(this.treeView1);
+            // 
+            // splitContainer2.Panel2
+            // 
+            this.splitContainer2.Panel2.Controls.Add(this.propertyGrid2);
+            this.splitContainer2.Size = new System.Drawing.Size(770, 458);
+            this.splitContainer2.SplitterDistance = 256;
+            this.splitContainer2.TabIndex = 1;
+            // 
+            // treeView1
+            // 
+            this.treeView1.BackColor = System.Drawing.SystemColors.InactiveCaptionText;
+            this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeView1.ForeColor = System.Drawing.SystemColors.InactiveBorder;
+            this.treeView1.Location = new System.Drawing.Point(0, 0);
+            this.treeView1.Name = "treeView1";
+            this.treeView1.Size = new System.Drawing.Size(256, 458);
+            this.treeView1.TabIndex = 0;
+            // 
+            // propertyGrid2
+            // 
+            this.propertyGrid2.DisabledItemForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.propertyGrid2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.propertyGrid2.HelpBackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.propertyGrid2.HelpForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.propertyGrid2.LineColor = System.Drawing.SystemColors.InactiveCaption;
+            this.propertyGrid2.Location = new System.Drawing.Point(0, 0);
+            this.propertyGrid2.Name = "propertyGrid2";
+            this.propertyGrid2.Size = new System.Drawing.Size(510, 458);
+            this.propertyGrid2.TabIndex = 0;
+            this.propertyGrid2.ViewBackColor = System.Drawing.SystemColors.InfoText;
+            this.propertyGrid2.ViewForeColor = System.Drawing.SystemColors.Window;
+            // 
+            // imageList1
+            // 
+            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList1.Images.SetKeyName(0, "08 Wrench.ico");
+            this.imageList1.Images.SetKeyName(1, "stack.png");
+            // 
             // saveanalyzerform
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -151,6 +211,11 @@ namespace VolvoWrench.SaveStuff
             this.splitContainer1.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.info.ResumeLayout(false);
+            this.statefiles.ResumeLayout(false);
+            this.splitContainer2.Panel1.ResumeLayout(false);
+            this.splitContainer2.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
+            this.splitContainer2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -165,5 +230,9 @@ namespace VolvoWrench.SaveStuff
         private TabPage info;
         private PropertyGrid propertyGrid1;
         private TabPage statefiles;
+        private SplitContainer splitContainer2;
+        private TreeView treeView1;
+        private PropertyGrid propertyGrid2;
+        private ImageList imageList1;
     }
 }
