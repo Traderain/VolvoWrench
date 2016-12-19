@@ -33,12 +33,16 @@ namespace VolvoWrench.SaveStuff
         {
             this.button1 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.button2 = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.info = new System.Windows.Forms.TabPage();
+            this.statefiles = new System.Windows.Forms.TabPage();
             this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.tabControl1.SuspendLayout();
+            this.info.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
@@ -65,18 +69,6 @@ namespace VolvoWrench.SaveStuff
             this.label1.TabIndex = 1;
             this.label1.Text = "No file opened";
             // 
-            // button2
-            // 
-            this.button2.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.button2.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.button2.Location = new System.Drawing.Point(647, 12);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(125, 46);
-            this.button2.TabIndex = 3;
-            this.button2.Text = "View state files";
-            this.button2.UseVisualStyleBackColor = false;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -86,10 +78,44 @@ namespace VolvoWrench.SaveStuff
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.propertyGrid1);
+            this.splitContainer1.Panel2.Controls.Add(this.tabControl1);
             this.splitContainer1.Size = new System.Drawing.Size(784, 556);
             this.splitContainer1.SplitterDistance = 59;
             this.splitContainer1.TabIndex = 4;
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.info);
+            this.tabControl1.Controls.Add(this.statefiles);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl1.Location = new System.Drawing.Point(0, 0);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(784, 493);
+            this.tabControl1.TabIndex = 0;
+            // 
+            // info
+            // 
+            this.info.BackColor = System.Drawing.Color.Black;
+            this.info.Controls.Add(this.propertyGrid1);
+            this.info.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.info.Location = new System.Drawing.Point(4, 25);
+            this.info.Name = "info";
+            this.info.Padding = new System.Windows.Forms.Padding(3);
+            this.info.Size = new System.Drawing.Size(776, 464);
+            this.info.TabIndex = 0;
+            this.info.Text = "Info";
+            // 
+            // statefiles
+            // 
+            this.statefiles.BackColor = System.Drawing.Color.Black;
+            this.statefiles.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.statefiles.Location = new System.Drawing.Point(4, 25);
+            this.statefiles.Name = "statefiles";
+            this.statefiles.Padding = new System.Windows.Forms.Padding(3);
+            this.statefiles.Size = new System.Drawing.Size(776, 464);
+            this.statefiles.TabIndex = 1;
+            this.statefiles.Text = "State files";
             // 
             // propertyGrid1
             // 
@@ -98,11 +124,11 @@ namespace VolvoWrench.SaveStuff
             this.propertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.propertyGrid1.HelpBackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.propertyGrid1.HelpForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.propertyGrid1.Location = new System.Drawing.Point(0, 0);
+            this.propertyGrid1.Location = new System.Drawing.Point(3, 3);
             this.propertyGrid1.Name = "propertyGrid1";
             this.propertyGrid1.SelectedItemWithFocusForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.propertyGrid1.Size = new System.Drawing.Size(784, 493);
-            this.propertyGrid1.TabIndex = 0;
+            this.propertyGrid1.Size = new System.Drawing.Size(770, 458);
+            this.propertyGrid1.TabIndex = 1;
             this.propertyGrid1.ViewBackColor = System.Drawing.Color.Black;
             this.propertyGrid1.ViewForeColor = System.Drawing.SystemColors.InactiveBorder;
             // 
@@ -112,7 +138,6 @@ namespace VolvoWrench.SaveStuff
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.ClientSize = new System.Drawing.Size(784, 556);
-            this.Controls.Add(this.button2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.splitContainer1);
@@ -124,6 +149,8 @@ namespace VolvoWrench.SaveStuff
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.tabControl1.ResumeLayout(false);
+            this.info.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -133,8 +160,10 @@ namespace VolvoWrench.SaveStuff
 
         private Button button1;
         private Label label1;
-        private Button button2;
         private SplitContainer splitContainer1;
+        private TabControl tabControl1;
+        private TabPage info;
         private PropertyGrid propertyGrid1;
+        private TabPage statefiles;
     }
 }

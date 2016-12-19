@@ -22,7 +22,7 @@ namespace VolvoWrench.MapStuff
 
         private void button1_Click(object sender, EventArgs e) 
         {
-            using (OpenFileDialog of = new OpenFileDialog())
+            using (var of = new OpenFileDialog())
             {
                 if (of.ShowDialog() == DialogResult.OK)
                 {
