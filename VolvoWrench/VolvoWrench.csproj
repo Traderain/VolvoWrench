@@ -1182,6 +1182,7 @@
     <None Include="Resources\zoom.png" />
     <None Include="Resources\zoom-in.png" />
     <None Include="Resources\zoom-out.png" />
+    <None Include="Resources\BSP_slicer.exe" />
     <Content Include="savicon.ico" />
     <None Include="Resources\Save.ico" />
     <None Include="Resources\08 Wrench.ico" />

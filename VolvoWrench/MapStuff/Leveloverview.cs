@@ -15,37 +15,42 @@ namespace VolvoWrench.MapStuff
         public Leveloverview()
         {
             InitializeComponent();
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            using (var of = new FolderBrowserDialog())
+            using (var of = new OpenFileDialog())
             {
+                of.Filter = @"Valve map files (.bsp) | *.bsp";
                 if (of.ShowDialog() == DialogResult.OK)
                 {
-                    textBox1.Text = of.SelectedPath;
+                    textBox1.Text = of.FileName;
                 }
             }
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(@"Not implemented yet properly!");
-            return; //TODO: finish implementing this
             if (File.Exists(textBox1.Text) && Path.GetExtension(textBox1.Text) == ".bsp")
             {
-                var sf = new SaveFileDialog {Filter = @"Demo files .dem | *.dem"};
-                if (sf.ShowDialog() == DialogResult.OK)
-                {
-                    var r = new Random();
-                    var ran = r.Next(1, 2873432);
-                    var path = Path.Combine(Path.GetTempPath(), "demo-repair" + ran + ".exe");
-                    File.WriteAllBytes(path, Resources.demo_repair);
+                    var path = Path.Combine(Path.GetTempPath(), "BSP_Slicer.exe");
+                    string args = "-c";
+                    if (numericUpDown1.Value != 0 && numericUpDown2.Value != 0)
+                        args += " -bN" + numericUpDown1.Value + " -eN" + numericUpDown2.Value;
+                    if (File.Exists(textBox1.Text) && Path.GetExtension(textBox1.Text) == ".bsp")
+                        args += " " + "\"" + textBox1.Text + "\"";
+                    else
+                    {
+                        MessageBox.Show(@"Sorry the map you selected is invalid!");
+                        return;
+                    }
+                    File.WriteAllBytes(path, Resources.BSP_slicer);
                     var p = new Process
                     {
                         StartInfo = new ProcessStartInfo(path)
                         {
-                            Arguments = "\"" + textBox1.Text + "\"" + " " + "\"" + sf.FileName + "\"",
+                            Arguments = args,
                             WorkingDirectory = Path.GetTempPath(),
                             CreateNoWindow = true,
                             UseShellExecute = false
@@ -54,13 +59,10 @@ namespace VolvoWrench.MapStuff
                     p.Start();
 
                     p.WaitForExit();
-                    File.Delete(path);
-                    if (File.Exists(sf.FileName))
-                        MessageBox.Show(@"Please make sure you enteret correct values and a valid map is used!");
-                    pictureBox1.Image = Image.FromFile("");
+                    //File.Delete(path);                    
+                    pictureBox1.Image = Image.FromFile(Path.GetTempPath() + "\\" + ".bmp");
+                    //File.Delete(Path.GetTempPath() + "\\" + ".bmp");
                 }
-            }
-            MessageBox.Show(@"Please make sure you enteret correct values and a valid map is used!");
         }
     }
 }
