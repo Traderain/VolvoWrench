@@ -22,17 +22,18 @@ Upcoming features:
   If you have any idea for a feature please make an Issue and I will most likely add it.
 ***
 Thanks to:
-  - CBenni
-  - stgn
-  - Chrisaster
-  - asherki
-  - Didrole
-  - YaLTeR
-  - CSGODemoinfo team
-  - Complexity gaming
-  - WimReddingius
-  - Griffin
-  - NekZ
+  - CBenni for SEDT
+  - Jeffrey "botman" Broome for BSP Tools
+  - stgn for Netdecode
+  - Chrisaster for demo research
+  - asherki for demo research
+  - Didrole for demo research
+  - YaLTeR for his goldsource demo tools
+  - CSGODemoinfo team for the csgo demoinfo tool
+  - Complexity gaming for coldemoplayer
+  - WimReddingius for the portal corrections
+  - Griffin for feedback
+  - NekZ for feedback
  
  ***
  <h3>And special thanks to Valve:<h3>
