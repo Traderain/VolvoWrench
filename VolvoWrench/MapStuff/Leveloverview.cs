@@ -7,6 +7,9 @@ using VolvoWrench.Properties;
 
 namespace VolvoWrench.MapStuff
 {
+    /// <summary>
+    /// A form to generate leveloverview
+    /// </summary>
     public partial class Leveloverview : Form
     {
         /// <summary>
@@ -16,6 +19,7 @@ namespace VolvoWrench.MapStuff
         {
             InitializeComponent();
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            richTextBox1.Text = @"Please select a file and press the button to generate the leveloverview.";
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -52,6 +56,7 @@ namespace VolvoWrench.MapStuff
                         {
                             Arguments = args,
                             WorkingDirectory = Path.GetTempPath(),
+                            RedirectStandardOutput = true,
                             CreateNoWindow = true,
                             UseShellExecute = false
                         }
@@ -59,10 +64,36 @@ namespace VolvoWrench.MapStuff
                     p.Start();
 
                     p.WaitForExit();
-                    //File.Delete(path);                    
-                    pictureBox1.Image = Image.FromFile(Path.GetTempPath() + "\\" + ".bmp");
-                    //File.Delete(Path.GetTempPath() + "\\" + ".bmp");
+                    richTextBox1.Text = p.StandardOutput.ReadToEnd();               
+                    pictureBox1.Image = Image.FromFile(Path.Combine(Path.GetTempPath(),"result.bmp"));
+                    Main.Alert("Leveloverview created!");
                 }
+        }
+
+        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (pictureBox1.Image != null)
+            {
+                using (var sf = new SaveFileDialog())
+                {
+                    sf.Filter = @"Bmp files | *.bmp";
+                    if (sf.ShowDialog() == DialogResult.OK)
+                    {
+                        pictureBox1.Image.Save(sf.FileName);
+                        Main.Alert("Saved as " + sf.FileName);
+                    }
+
+                }
+            }
+        }
+
+        private void copyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (pictureBox1.Image != null)
+            {
+                Clipboard.SetImage(pictureBox1.Image);
+                Main.Alert("Copied!");
+            }
         }
     }
 }
