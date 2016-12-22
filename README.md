@@ -20,7 +20,14 @@ Upcoming features:
  - Check the roadmap file for more info! (I will try to update it)
   
   If you have any idea for a feature please make an Issue and I will most likely add it.
+  
 ***
+
+Linux & Mac support:
+ - Try with wine/mono if it doesnt work switch to windows.
+ 
+***
+
 Thanks to:
   - CBenni for SEDT
   - Jeffrey "botman" Broome for BSP Tools
