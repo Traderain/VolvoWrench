@@ -39,6 +39,8 @@ namespace VolvoWrench
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + Path.PathSeparator + "VolvoWrench" +
             Path.PathSeparator + "VWSettings.ini";
 
+        public bool HighPerf = !SystemInformation.UIEffectsEnabled;
+
         /// <summary>
         ///     The button we use to open the demo details popup
         /// </summary>

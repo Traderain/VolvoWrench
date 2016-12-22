@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
+using MoreLinq;
 using VolvoWrench.Properties;
 
 namespace VolvoWrench.MapStuff
@@ -38,36 +41,43 @@ namespace VolvoWrench.MapStuff
         {
             if (File.Exists(textBox1.Text) && Path.GetExtension(textBox1.Text) == ".bsp")
             {
-                    var path = Path.Combine(Path.GetTempPath(), "BSP_Slicer.exe");
-                    string args = "-c";
-                    if (numericUpDown1.Value != 0 && numericUpDown2.Value != 0)
-                        args += " -bN" + numericUpDown1.Value + " -eN" + numericUpDown2.Value;
-                    if (File.Exists(textBox1.Text) && Path.GetExtension(textBox1.Text) == ".bsp")
-                        args += " " + "\"" + textBox1.Text + "\"";
-                    else
+                var path = Path.Combine(Path.GetTempPath(), "BSP_Slicer.exe");
+                string args = "-c";
+                if (numericUpDown1.Value != 0 && numericUpDown2.Value != 0)
+                    args += " -bN" + numericUpDown1.Value + " -eN" + numericUpDown2.Value;
+                if (File.Exists(textBox1.Text) && Path.GetExtension(textBox1.Text) == ".bsp")
+                    args += " " + "\"" + textBox1.Text + "\"";
+                else
+                {
+                    MessageBox.Show(@"Sorry the map you selected is invalid!");
+                    return;
+                }
+                File.WriteAllBytes(path, Resources.BSP_slicer);
+                var p = new Process
+                {
+                    StartInfo = new ProcessStartInfo(path)
                     {
-                        MessageBox.Show(@"Sorry the map you selected is invalid!");
-                        return;
+                        Arguments = args,
+                        WorkingDirectory = Path.GetTempPath(),
+                        RedirectStandardOutput = true,
+                        CreateNoWindow = true,
+                        UseShellExecute = false
                     }
-                    File.WriteAllBytes(path, Resources.BSP_slicer);
-                    var p = new Process
-                    {
-                        StartInfo = new ProcessStartInfo(path)
-                        {
-                            Arguments = args,
-                            WorkingDirectory = Path.GetTempPath(),
-                            RedirectStandardOutput = true,
-                            CreateNoWindow = true,
-                            UseShellExecute = false
-                        }
-                    };
+                };
                     p.Start();
-
+                    richTextBox1.Text = @"Generating image...";
                     p.WaitForExit();
-                    richTextBox1.Text = p.StandardOutput.ReadToEnd();               
-                    pictureBox1.Image = Image.FromFile(Path.Combine(Path.GetTempPath(),"result.bmp"));
+                    richTextBox1.Text = p.StandardOutput.ReadToEnd();
+                if (!richTextBox1.Text.Contains("ERROR"))
+                {
+                    pictureBox1.Image = Image.FromFile(Path.Combine(Path.GetTempPath(), "result.bmp"));
                     Main.Alert("Leveloverview created!");
                 }
+                else
+                {
+                    MessageBox.Show(@"Failed to create leveloverview!");
+                }              
+            }
         }
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
