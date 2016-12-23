@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -105,7 +106,6 @@ namespace VolvoWrench.SaveStuff
                             FileName = Encoding.ASCII.GetString(br.ReadBytes(260)).TrimEnd('\0').Replace("\0", "")
                             //BUG: bunch of \0 in string
                         };
-                        tempvalv.StateType = (Hlfile) tempvalv.FileName[tempvalv.Length];
                         if (UnexpectedEof(br, 8))
                         {
                             var filelength = br.ReadInt32();
@@ -125,52 +125,59 @@ namespace VolvoWrench.SaveStuff
                     else
                         endoffile = true;
                 }
-                foreach (var f in result.Files)
+                for (var i = 0; i < result.Files.Count; i++)
                 {
-                    //  f.StateFile =  ParseStateFile(f);
+                    result.Files[i] = ParseStateFile(result.Files[i]);
                 }
                 result.Map = (result.Files.Last().FileName);
                 return result;
             }
         }
 
-        public static ValvFile ParseStateFile(StateFileInfo stateFile)
+        public static StateFileInfo ParseStateFile(StateFileInfo stateFile)
         {
-            var vf = new ValvFile();
+            if (stateFile.Data.Length < 16)
+                return stateFile;
             using (var br = new BinaryReader(new MemoryStream(stateFile.Data)))
             {
                 var si = new SaveFileSectionsInfo_t();
-                vf.MagicWord = br.ReadString(4);
-                vf.Version = br.ReadInt32();
+                if (!UnexpectedEof(br,20))
+                    return stateFile;
+                stateFile.MagicWord = br.ReadString(4);
+                stateFile.Version = br.ReadInt32();
                 si.nBytesSymbols = br.ReadInt32();
                 si.nSymbols = br.ReadInt32();
                 si.nBytesDataHeaders = br.ReadInt32();
                 si.nBytesData = br.ReadInt32();
-                vf.pSymbols = br.ReadBytes(si.nSymbols);
-                vf.pDataHeaders = br.ReadBytes(si.nBytesDataHeaders);
-                vf.pData = br.ReadBytes(si.nBytesData);
-                var pos = br.BaseStream.Position;
-                var length = br.BaseStream.Length;
+                if(!UnexpectedEof(br,si.nSymbols+si.nBytesDataHeaders+si.nBytesData))
+                    return stateFile;
+                stateFile.pSymbols = br.ReadBytes(si.nSymbols);
+                stateFile.pDataHeaders = br.ReadBytes(si.nBytesDataHeaders);
+                stateFile.pData = br.ReadBytes(si.nBytesData);
             }
-            return new ValvFile();
+            return stateFile;
         }
 
         public static uint rotr(uint val, int shift)
         {
-            var num = val; /* number to rotate */
-            shift &= 0x1f; /* modulo 32 -- this will also make
-                                           negative shifts work */
+            var num = val;
+            shift &= 0x1f; 
             while (Convert.ToBoolean(shift--))
             {
-                var lobit = num & 1; /* non-zero means lo bit set */
-                num >>= 1; /* shift right one bit */
+                var lobit = num & 1;
+                num >>= 1;
                 if (Convert.ToBoolean(lobit))
-                    num |= 0x80000000; /* set hi bit if lo bit was set */
+                    num |= 0x80000000;
             }
-
             return num;
         }
 
+        /// <summary>
+        /// Checks if the length the binaryreader is trying to read will be over the end of the file
+        /// </summary>
+        /// <param name="b"></param>
+        /// <param name="lengthtocheck"></param>
+        /// <returns></returns>
         public static bool UnexpectedEof(BinaryReader b, int lengthtocheck)
             => b.BaseStream.Position + lengthtocheck < b.BaseStream.Length;
 
@@ -188,25 +195,17 @@ namespace VolvoWrench.SaveStuff
         }
 
         [Serializable]
-        public class ValvFile
-        {
-            public string MagicWord;
-            public byte[] pData;
-            public byte[] pDataHeaders;
-            public byte[] pSymbols;
-            public SaveFileSectionsInfo_t SectionsInfo;
-            public int Version;
-        }
-
-        [Serializable]
         public class StateFileInfo
         {
             public byte[] Data { get; set; }
             public string FileName { get; set; }
             public int Length { get; set; }
             public string MagicWord { get; set; }
-            public ValvFile StateFile { get; set; }
-            public Hlfile StateType { get; set; }
+            public byte[] pData { get; set; }
+            public byte[] pDataHeaders { get; set; }
+            public byte[] pSymbols { get; set; }
+            public SaveFileSectionsInfo_t SectionsInfo { get; set; }
+            public int Version { get; set; }
         }
 
         #region DataDesc
@@ -255,17 +254,14 @@ namespace VolvoWrench.SaveStuff
             private int version;
         };
 
+        [Serializable]
+        [TypeConverter(typeof(ExpandableObjectConverter))]
         public class SaveFileSectionsInfo_t
         {
-            public int nBytesData;
-            public int nBytesDataHeaders;
-            public int nBytesSymbols;
-            public int nSymbols;
-
-            public int SumBytes()
-            {
-                return (nBytesSymbols + nBytesDataHeaders + nBytesData);
-            }
+            public int nBytesData { get; set; }
+            public int nBytesDataHeaders { get; set; }
+            public int nBytesSymbols { get; set; }
+            public int nSymbols { get; set; }
         }
 
         public class saverestorelevelinfo_t
