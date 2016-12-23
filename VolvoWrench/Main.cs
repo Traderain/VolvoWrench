@@ -39,6 +39,9 @@ namespace VolvoWrench
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + Path.PathSeparator + "VolvoWrench" +
             Path.PathSeparator + "VWSettings.ini";
 
+        /// <summary>
+        /// This is a bool whether the os is running in high perf mode
+        /// </summary>
         public bool HighPerf = !SystemInformation.UIEffectsEnabled;
 
         /// <summary>
@@ -179,16 +182,19 @@ namespace VolvoWrench
         }
 
         #region Map toolstrip item
-
         private void leveloverviewGeneratorToolStripMenuItem_Click(object sender, EventArgs e)
         {
             using (var lf = new Leveloverview())
             {
-                Log("Levelovervie form opened.");
+                Log("Leveloverview form opened.");
                 lf.ShowDialog();
             }
         }
 
+        private void warpPlannerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(@"Feature not implemented yet!");
+        }
         #endregion
 
         /// <summary>

@@ -129,7 +129,7 @@ namespace VolvoWrench.SaveStuff
                 {
                     //  f.StateFile =  ParseStateFile(f);
                 }
-                result.Map = Path.GetFileNameWithoutExtension(result.Files.Last().FileName);
+                result.Map = (result.Files.Last().FileName);
                 return result;
             }
         }
@@ -201,12 +201,12 @@ namespace VolvoWrench.SaveStuff
         [Serializable]
         public class StateFileInfo
         {
-            public byte[] Data;
-            public string FileName;
-            public int Length;
-            public string MagicWord;
-            public ValvFile StateFile;
-            public Hlfile StateType;
+            public byte[] Data { get; set; }
+            public string FileName { get; set; }
+            public int Length { get; set; }
+            public string MagicWord { get; set; }
+            public ValvFile StateFile { get; set; }
+            public Hlfile StateType { get; set; }
         }
 
         #region DataDesc

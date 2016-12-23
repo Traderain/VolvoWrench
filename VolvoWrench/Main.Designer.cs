@@ -82,11 +82,11 @@ namespace VolvoWrench
             this.richTextBox1.EnableAutoDragDrop = true;
             this.richTextBox1.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.richTextBox1.ForeColor = System.Drawing.SystemColors.Window;
-            this.richTextBox1.Location = new System.Drawing.Point(0, 28);
+            this.richTextBox1.Location = new System.Drawing.Point(0, 24);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.ReadOnly = true;
             this.richTextBox1.ShowSelectionMargin = true;
-            this.richTextBox1.Size = new System.Drawing.Size(849, 471);
+            this.richTextBox1.Size = new System.Drawing.Size(849, 475);
             this.richTextBox1.TabIndex = 0;
             this.richTextBox1.Text = "";
             // 
@@ -100,14 +100,14 @@ namespace VolvoWrench
             this.rescanFileToolStripMenuItem,
             this.renameDemoToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(205, 134);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(168, 114);
             // 
             // exportDemoDataToolStripMenuItem
             // 
             this.exportDemoDataToolStripMenuItem.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.exportDemoDataToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
             this.exportDemoDataToolStripMenuItem.Name = "exportDemoDataToolStripMenuItem";
-            this.exportDemoDataToolStripMenuItem.Size = new System.Drawing.Size(204, 26);
+            this.exportDemoDataToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.exportDemoDataToolStripMenuItem.Text = "Export demo data";
             this.exportDemoDataToolStripMenuItem.Click += new System.EventHandler(this.exportDemoDataToolStripMenuItem_Click);
             // 
@@ -116,7 +116,7 @@ namespace VolvoWrench
             this.showLogToolStripMenuItem.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.showLogToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
             this.showLogToolStripMenuItem.Name = "showLogToolStripMenuItem";
-            this.showLogToolStripMenuItem.Size = new System.Drawing.Size(204, 26);
+            this.showLogToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.showLogToolStripMenuItem.Text = "Show log";
             this.showLogToolStripMenuItem.Click += new System.EventHandler(this.showLogToolStripMenuItem_Click);
             // 
@@ -125,7 +125,7 @@ namespace VolvoWrench
             this.copyAllToolStripMenuItem.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.copyAllToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
             this.copyAllToolStripMenuItem.Name = "copyAllToolStripMenuItem";
-            this.copyAllToolStripMenuItem.Size = new System.Drawing.Size(204, 26);
+            this.copyAllToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.copyAllToolStripMenuItem.Text = "Copy all";
             this.copyAllToolStripMenuItem.Click += new System.EventHandler(this.copyAllToolStripMenuItem_Click);
             // 
@@ -134,7 +134,7 @@ namespace VolvoWrench
             this.rescanFileToolStripMenuItem.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.rescanFileToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
             this.rescanFileToolStripMenuItem.Name = "rescanFileToolStripMenuItem";
-            this.rescanFileToolStripMenuItem.Size = new System.Drawing.Size(204, 26);
+            this.rescanFileToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.rescanFileToolStripMenuItem.Text = "Rescan file";
             this.rescanFileToolStripMenuItem.Click += new System.EventHandler(this.rescanFileToolStripMenuItem_Click);
             // 
@@ -143,7 +143,7 @@ namespace VolvoWrench
             this.renameDemoToolStripMenuItem.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.renameDemoToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
             this.renameDemoToolStripMenuItem.Name = "renameDemoToolStripMenuItem";
-            this.renameDemoToolStripMenuItem.Size = new System.Drawing.Size(204, 26);
+            this.renameDemoToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.renameDemoToolStripMenuItem.Text = "Rename demo";
             this.renameDemoToolStripMenuItem.Click += new System.EventHandler(this.renameDemoToolStripMenuItem_Click);
             // 
@@ -162,7 +162,7 @@ namespace VolvoWrench
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(849, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(849, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -174,7 +174,7 @@ namespace VolvoWrench
             this.exportToolStripMenuItem});
             this.fileToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(44, 24);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // openToolStripMenuItem
@@ -182,7 +182,7 @@ namespace VolvoWrench
             this.openToolStripMenuItem.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.openToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
@@ -191,7 +191,7 @@ namespace VolvoWrench
             this.exportToolStripMenuItem.BackColor = System.Drawing.Color.Black;
             this.exportToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-            this.exportToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.exportToolStripMenuItem.Text = "Export";
             // 
             // demoToolsToolStripMenuItem
@@ -202,7 +202,7 @@ namespace VolvoWrench
             this.goldSourceToolsToolStripMenuItem});
             this.demoToolsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
             this.demoToolsToolStripMenuItem.Name = "demoToolsToolStripMenuItem";
-            this.demoToolsToolStripMenuItem.Size = new System.Drawing.Size(99, 24);
+            this.demoToolsToolStripMenuItem.Size = new System.Drawing.Size(80, 20);
             this.demoToolsToolStripMenuItem.Text = "Demo tools";
             // 
             // toolsToolStripMenuItem
@@ -214,7 +214,7 @@ namespace VolvoWrench
             this.statisticsToolStripMenuItem});
             this.toolsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(200, 26);
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.toolsToolStripMenuItem.Text = "Source Tools";
             // 
             // netdecodeToolStripMenuItem
@@ -222,7 +222,7 @@ namespace VolvoWrench
             this.netdecodeToolStripMenuItem.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.netdecodeToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
             this.netdecodeToolStripMenuItem.Name = "netdecodeToolStripMenuItem";
-            this.netdecodeToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.netdecodeToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
             this.netdecodeToolStripMenuItem.Text = "Netdecode";
             this.netdecodeToolStripMenuItem.Click += new System.EventHandler(this.netdecodeToolStripMenuItem_Click);
             // 
@@ -231,7 +231,7 @@ namespace VolvoWrench
             this.heatmapGeneratorToolStripMenuItem1.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.heatmapGeneratorToolStripMenuItem1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.heatmapGeneratorToolStripMenuItem1.Name = "heatmapGeneratorToolStripMenuItem1";
-            this.heatmapGeneratorToolStripMenuItem1.Size = new System.Drawing.Size(216, 26);
+            this.heatmapGeneratorToolStripMenuItem1.Size = new System.Drawing.Size(178, 22);
             this.heatmapGeneratorToolStripMenuItem1.Text = "Heatmap Generator";
             // 
             // statisticsToolStripMenuItem
@@ -239,7 +239,7 @@ namespace VolvoWrench
             this.statisticsToolStripMenuItem.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.statisticsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.statisticsToolStripMenuItem.Name = "statisticsToolStripMenuItem";
-            this.statisticsToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.statisticsToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
             this.statisticsToolStripMenuItem.Text = "Statistics";
             this.statisticsToolStripMenuItem.Click += new System.EventHandler(this.statisticsToolStripMenuItem_Click);
             // 
@@ -251,7 +251,7 @@ namespace VolvoWrench
             this.demoTimerToolStripMenuItem});
             this.multidemoToolsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
             this.multidemoToolsToolStripMenuItem.Name = "multidemoToolsToolStripMenuItem";
-            this.multidemoToolsToolStripMenuItem.Size = new System.Drawing.Size(200, 26);
+            this.multidemoToolsToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.multidemoToolsToolStripMenuItem.Text = "Multi-demo tools";
             // 
             // demoVerificationToolToolStripMenuItem
@@ -259,7 +259,7 @@ namespace VolvoWrench
             this.demoVerificationToolToolStripMenuItem.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.demoVerificationToolToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.demoVerificationToolToolStripMenuItem.Name = "demoVerificationToolToolStripMenuItem";
-            this.demoVerificationToolToolStripMenuItem.Size = new System.Drawing.Size(234, 26);
+            this.demoVerificationToolToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
             this.demoVerificationToolToolStripMenuItem.Text = "Demo verification tool";
             this.demoVerificationToolToolStripMenuItem.Click += new System.EventHandler(this.demoVerificationToolToolStripMenuItem_Click);
             // 
@@ -268,7 +268,7 @@ namespace VolvoWrench
             this.demoTimerToolStripMenuItem.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.demoTimerToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.demoTimerToolStripMenuItem.Name = "demoTimerToolStripMenuItem";
-            this.demoTimerToolStripMenuItem.Size = new System.Drawing.Size(234, 26);
+            this.demoTimerToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
             this.demoTimerToolStripMenuItem.Text = "Demo timer";
             this.demoTimerToolStripMenuItem.Click += new System.EventHandler(this.demoTimerToolStripMenuItem_Click);
             // 
@@ -279,7 +279,7 @@ namespace VolvoWrench
             this.demoDoctorToolStripMenuItem});
             this.goldSourceToolsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.goldSourceToolsToolStripMenuItem.Name = "goldSourceToolsToolStripMenuItem";
-            this.goldSourceToolsToolStripMenuItem.Size = new System.Drawing.Size(200, 26);
+            this.goldSourceToolsToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.goldSourceToolsToolStripMenuItem.Text = "GoldSource Tools";
             // 
             // demoDoctorToolStripMenuItem
@@ -287,7 +287,7 @@ namespace VolvoWrench
             this.demoDoctorToolStripMenuItem.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.demoDoctorToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.demoDoctorToolStripMenuItem.Name = "demoDoctorToolStripMenuItem";
-            this.demoDoctorToolStripMenuItem.Size = new System.Drawing.Size(173, 26);
+            this.demoDoctorToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
             this.demoDoctorToolStripMenuItem.Text = "Demo doctor";
             this.demoDoctorToolStripMenuItem.Click += new System.EventHandler(this.demoDoctorToolStripMenuItem_Click);
             // 
@@ -298,7 +298,7 @@ namespace VolvoWrench
             this.saveExplorerToolStripMenuItem});
             this.saveToolsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
             this.saveToolsToolStripMenuItem.Name = "saveToolsToolStripMenuItem";
-            this.saveToolsToolStripMenuItem.Size = new System.Drawing.Size(89, 24);
+            this.saveToolsToolStripMenuItem.Size = new System.Drawing.Size(72, 20);
             this.saveToolsToolStripMenuItem.Text = "Save tools";
             // 
             // saveExplorerToolStripMenuItem
@@ -306,7 +306,7 @@ namespace VolvoWrench
             this.saveExplorerToolStripMenuItem.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.saveExplorerToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
             this.saveExplorerToolStripMenuItem.Name = "saveExplorerToolStripMenuItem";
-            this.saveExplorerToolStripMenuItem.Size = new System.Drawing.Size(174, 26);
+            this.saveExplorerToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.saveExplorerToolStripMenuItem.Text = "Save explorer";
             this.saveExplorerToolStripMenuItem.Click += new System.EventHandler(this.saveExplorerToolStripMenuItem_Click);
             // 
@@ -318,7 +318,7 @@ namespace VolvoWrench
             this.warpPlannerToolStripMenuItem});
             this.mapToolsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.mapToolsToolStripMenuItem.Name = "mapToolsToolStripMenuItem";
-            this.mapToolsToolStripMenuItem.Size = new System.Drawing.Size(88, 24);
+            this.mapToolsToolStripMenuItem.Size = new System.Drawing.Size(72, 20);
             this.mapToolsToolStripMenuItem.Text = "Map tools";
             // 
             // leveloverviewGeneratorToolStripMenuItem
@@ -326,7 +326,7 @@ namespace VolvoWrench
             this.leveloverviewGeneratorToolStripMenuItem.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.leveloverviewGeneratorToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.leveloverviewGeneratorToolStripMenuItem.Name = "leveloverviewGeneratorToolStripMenuItem";
-            this.leveloverviewGeneratorToolStripMenuItem.Size = new System.Drawing.Size(246, 26);
+            this.leveloverviewGeneratorToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.leveloverviewGeneratorToolStripMenuItem.Text = "Leveloverview generator";
             this.leveloverviewGeneratorToolStripMenuItem.Click += new System.EventHandler(this.leveloverviewGeneratorToolStripMenuItem_Click);
             // 
@@ -335,8 +335,9 @@ namespace VolvoWrench
             this.warpPlannerToolStripMenuItem.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.warpPlannerToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.warpPlannerToolStripMenuItem.Name = "warpPlannerToolStripMenuItem";
-            this.warpPlannerToolStripMenuItem.Size = new System.Drawing.Size(246, 26);
+            this.warpPlannerToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.warpPlannerToolStripMenuItem.Text = "Warp planner";
+            this.warpPlannerToolStripMenuItem.Click += new System.EventHandler(this.warpPlannerToolStripMenuItem_Click);
             // 
             // overlayToolStripMenuItem
             // 
@@ -346,7 +347,7 @@ namespace VolvoWrench
             this.settingsToolStripMenuItem1});
             this.overlayToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.overlayToolStripMenuItem.Name = "overlayToolStripMenuItem";
-            this.overlayToolStripMenuItem.Size = new System.Drawing.Size(71, 24);
+            this.overlayToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
             this.overlayToolStripMenuItem.Text = "Overlay";
             // 
             // launchToolStripMenuItem
@@ -354,7 +355,7 @@ namespace VolvoWrench
             this.launchToolStripMenuItem.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.launchToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.launchToolStripMenuItem.Name = "launchToolStripMenuItem";
-            this.launchToolStripMenuItem.Size = new System.Drawing.Size(137, 26);
+            this.launchToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.launchToolStripMenuItem.Text = "Launch";
             this.launchToolStripMenuItem.Click += new System.EventHandler(this.launchToolStripMenuItem_Click);
             // 
@@ -363,7 +364,7 @@ namespace VolvoWrench
             this.settingsToolStripMenuItem1.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.settingsToolStripMenuItem1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.settingsToolStripMenuItem1.Name = "settingsToolStripMenuItem1";
-            this.settingsToolStripMenuItem1.Size = new System.Drawing.Size(137, 26);
+            this.settingsToolStripMenuItem1.Size = new System.Drawing.Size(116, 22);
             this.settingsToolStripMenuItem1.Text = "Settings";
             this.settingsToolStripMenuItem1.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
@@ -377,7 +378,7 @@ namespace VolvoWrench
             this.sourcerunsToolStripMenuItem});
             this.helpToolStripMenuItem1.ForeColor = System.Drawing.SystemColors.Control;
             this.helpToolStripMenuItem1.Name = "helpToolStripMenuItem1";
-            this.helpToolStripMenuItem1.Size = new System.Drawing.Size(53, 24);
+            this.helpToolStripMenuItem1.Size = new System.Drawing.Size(44, 20);
             this.helpToolStripMenuItem1.Text = "Help";
             // 
             // aboutToolStripMenuItem
@@ -386,7 +387,7 @@ namespace VolvoWrench
             this.aboutToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
             this.aboutToolStripMenuItem.ShowShortcutKeys = false;
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(189, 26);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(163, 26);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -396,7 +397,7 @@ namespace VolvoWrench
             this.sourcerunsWikiToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.sourcerunsWikiToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("sourcerunsWikiToolStripMenuItem.Image")));
             this.sourcerunsWikiToolStripMenuItem.Name = "sourcerunsWikiToolStripMenuItem";
-            this.sourcerunsWikiToolStripMenuItem.Size = new System.Drawing.Size(189, 26);
+            this.sourcerunsWikiToolStripMenuItem.Size = new System.Drawing.Size(163, 26);
             this.sourcerunsWikiToolStripMenuItem.Text = "Sourceruns Wiki";
             this.sourcerunsWikiToolStripMenuItem.Click += new System.EventHandler(this.sourcerunsWikiToolStripMenuItem_Click);
             // 
@@ -406,7 +407,7 @@ namespace VolvoWrench
             this.sourcerunsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.sourcerunsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("sourcerunsToolStripMenuItem.Image")));
             this.sourcerunsToolStripMenuItem.Name = "sourcerunsToolStripMenuItem";
-            this.sourcerunsToolStripMenuItem.Size = new System.Drawing.Size(189, 26);
+            this.sourcerunsToolStripMenuItem.Size = new System.Drawing.Size(163, 26);
             this.sourcerunsToolStripMenuItem.Text = "Sourceruns";
             this.sourcerunsToolStripMenuItem.Click += new System.EventHandler(this.sourcerunsToolStripMenuItem_Click);
             // 
@@ -417,7 +418,7 @@ namespace VolvoWrench
             this.fontToolStripMenuItem1});
             this.settingsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(74, 24);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
             this.settingsToolStripMenuItem.Text = "Settings";
             // 
             // hotkeysToolStripMenuItem
@@ -425,7 +426,7 @@ namespace VolvoWrench
             this.hotkeysToolStripMenuItem.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.hotkeysToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.hotkeysToolStripMenuItem.Name = "hotkeysToolStripMenuItem";
-            this.hotkeysToolStripMenuItem.Size = new System.Drawing.Size(137, 26);
+            this.hotkeysToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
             this.hotkeysToolStripMenuItem.Text = "Hotkeys";
             this.hotkeysToolStripMenuItem.Click += new System.EventHandler(this.hotkeysToolStripMenuItem_Click_1);
             // 
@@ -434,7 +435,7 @@ namespace VolvoWrench
             this.fontToolStripMenuItem1.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.fontToolStripMenuItem1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.fontToolStripMenuItem1.Name = "fontToolStripMenuItem1";
-            this.fontToolStripMenuItem1.Size = new System.Drawing.Size(137, 26);
+            this.fontToolStripMenuItem1.Size = new System.Drawing.Size(117, 22);
             this.fontToolStripMenuItem1.Text = "Font";
             this.fontToolStripMenuItem1.Click += new System.EventHandler(this.fontToolStripMenuItem1_Click);
             // 
@@ -446,7 +447,7 @@ namespace VolvoWrench
             // 
             // Main
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.ClientSize = new System.Drawing.Size(849, 499);

@@ -69,9 +69,9 @@ namespace VolvoWrench.SaveStuff
             }
         }
 
-        private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        private void treeView1_NodeMouseClick_1(object sender, TreeNodeMouseClickEventArgs e)
         {
-            propertyGrid1.SelectedObject = PFileliList.FirstOrDefault(x => e.Node.Text.Contains(x.FileName));
+            propertyGrid2.SelectedObject = PFileliList.FirstOrDefault(x => e.Node.Text.Contains(x.FileName));
         }
     }
 }
