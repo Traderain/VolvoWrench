@@ -245,41 +245,20 @@ namespace VolvoWrench
                             $@"Analyzed GoldSource engine demo file ({demo.GsDemoInfo.Header.GameDir
                                 }):
 ----------------------------------------------------------
-Demo protocol:              {
-                                demo.GsDemoInfo.Header.DemoProtocol}
-Net protocol:               {
-                                demo.GsDemoInfo.Header.NetProtocol}
-Directory Offset:           {
-                                demo.GsDemoInfo.Header.DirectoryOffset}
-Map name:                   {
-                                demo.GsDemoInfo.Header.MapName}
-Game directory:             {
-                                demo.GsDemoInfo.Header.GameDir}
-Length in seconds:          {
-                                demo.GsDemoInfo.DirectoryEntries.Sum(x => x.TrackTime).ToString("n3")
-                                }s
-Frame count:                {demo.GsDemoInfo.DirectoryEntries.Sum(x => x.FrameCount)
-                                }
+Demo protocol:              {demo.GsDemoInfo.Header.DemoProtocol}
+Net protocol:               {demo.GsDemoInfo.Header.NetProtocol}
+Directory Offset:           {demo.GsDemoInfo.Header.DirectoryOffset}
+Map name:                   {demo.GsDemoInfo.Header.MapName}
+Game directory:             {demo.GsDemoInfo.Header.GameDir}
+Length in seconds:          {demo.GsDemoInfo.DirectoryEntries.Sum(x => x.TrackTime).ToString("n3")}s
+Frame count:                {demo.GsDemoInfo.DirectoryEntries.Sum(x => x.FrameCount)}
 
-Higest FPS:                 {
-                                (1/demo.GsDemoInfo.AditionalStats.FrametimeMin).ToString("N2")
-                                }
-Lowest FPS:                 {
-                                (1/demo.GsDemoInfo.AditionalStats.FrametimeMax).ToString("N2")
-                                }
-Average FPS:                {
-                                (demo.GsDemoInfo.AditionalStats.Count/demo.GsDemoInfo.AditionalStats.FrametimeSum)
-                                    .ToString("N2")}
-Lowest msec:                {
-                                (1000.0/demo.GsDemoInfo.AditionalStats.MsecMin).ToString("N2")
-                                } FPS
-Highest msec:               {
-                                (1000.0/demo.GsDemoInfo.AditionalStats.MsecMax).ToString("N2")
-                                } FPS
-Average msec:               {
-                                (1000.0/
-                                 (demo.GsDemoInfo.AditionalStats.MsecSum/(double) demo.GsDemoInfo.AditionalStats.Count))
-                                    .ToString("N2")} FPS
+Higest FPS:                 {(1/demo.GsDemoInfo.AditionalStats.FrametimeMin).ToString("N2")}
+Lowest FPS:                 {(1/demo.GsDemoInfo.AditionalStats.FrametimeMax).ToString("N2")}
+Average FPS:                {(demo.GsDemoInfo.AditionalStats.Count/demo.GsDemoInfo.AditionalStats.FrametimeSum).ToString("N2")}
+Lowest msec:                {(1000.0/demo.GsDemoInfo.AditionalStats.MsecMin).ToString("N2")} FPS
+Highest msec:               {(1000.0/demo.GsDemoInfo.AditionalStats.MsecMax).ToString("N2")} FPS
+Average msec:               {(1000.0/(demo.GsDemoInfo.AditionalStats.MsecSum/(double) demo.GsDemoInfo.AditionalStats.Count)).ToString("N2")} FPS
 ----------------------------------------------------------";
                     }
                     break;
@@ -296,23 +275,13 @@ Average msec:               {
                             $@"Analyzed HLS:OOE engine demo file ({demo.HlsooeDemoInfo.Header.GameDir
                                 }):
 ----------------------------------------------------------
-Demo protocol:              {
-                                demo.HlsooeDemoInfo.Header.DemoProtocol}
-Net protocol:               {
-                                demo.HlsooeDemoInfo.Header.NetProtocol}
-Directory offset:           {
-                                demo.HlsooeDemoInfo.Header.DirectoryOffset}
-Map name:                   {
-                                demo.HlsooeDemoInfo.Header.MapName}
-Game directory:             {
-                                demo.HlsooeDemoInfo.Header.GameDir}
-Length in seconds:          {
-                                (demo.HlsooeDemoInfo.DirectoryEntries.Where(x => x.Type == 0)
-                                    .Sum(x => x.Frames.Last().Key.Time))*0.015}s
-Tick count:                 {
-                                (demo.HlsooeDemoInfo.DirectoryEntries.SkipWhile(x => x.FrameCount < 1)
-                                    .Max(x => x.Frames.Max(y => y.Key.Index)))
-                                }
+Demo protocol:              {demo.HlsooeDemoInfo.Header.DemoProtocol}
+Net protocol:               {demo.HlsooeDemoInfo.Header.NetProtocol}
+Directory offset:           {demo.HlsooeDemoInfo.Header.DirectoryOffset}
+Map name:                   {demo.HlsooeDemoInfo.Header.MapName}
+Game directory:             {demo.HlsooeDemoInfo.Header.GameDir}
+Length in seconds:          {(demo.HlsooeDemoInfo.DirectoryEntries.Where(x => x.Type == 0).Sum(x => x.Frames.Last().Key.Time))*0.015}s
+Tick count:                 {(demo.HlsooeDemoInfo.DirectoryEntries.SkipWhile(x => x.FrameCount < 1).Max(x => x.Frames.Max(y => y.Key.Index)))}
 ----------------------------------------------------------";
                         returnstring =
                             demo.HlsooeDemoInfo.DirectoryEntries.SelectMany(
@@ -336,28 +305,18 @@ Tick count:                 {
                             $@"Analyzed source engine demo file ({demo.Sdi.GameDirectory
                                 }):
 ----------------------------------------------------------
-Demo protocol:              {
-                                demo.Sdi.DemoProtocol}
-Net protocol:               {demo.Sdi.NetProtocol
-                                }
+Demo protocol:              {demo.Sdi.DemoProtocol}
+Net protocol:               {demo.Sdi.NetProtocol}
 Server name:                {demo.Sdi.ServerName}
-Client name:                {
-                                demo.Sdi.ClientName}
-Map name:                   {demo.Sdi.MapName
-                                }
+Client name:                {demo.Sdi.ClientName}
+Map name:                   {demo.Sdi.MapName}
 Game directory:             {demo.Sdi.GameDirectory}
-Playback seconds:           {
-                                demo.Sdi.Seconds.ToString("n3")}s
-Playback tick:              {demo.Sdi.TickCount
-                                }
+Playback seconds:           {demo.Sdi.Seconds.ToString("n3")}s
+Playback tick:              {demo.Sdi.TickCount}
 Frame count:                {demo.Sdi.FrameCount}
 
-Measured time:              {
-                                (demo.Sdi.Messages.SkipWhile(x => x.Type != SourceParser.MessageType.SyncTick)
-                                    .Max(x => x.Tick)*0.015).ToString("n3")}s
-Measured ticks:             {
-                                demo.Sdi.Messages.SkipWhile(x => x.Type != SourceParser.MessageType.SyncTick)
-                                    .Max(x => x.Tick)}
+Measured time:              {(demo.Sdi.Messages.SkipWhile(x => x.Type != SourceParser.MessageType.SyncTick).Max(x => x.Tick)*0.015).ToString("n3")}s
+Measured ticks:             {demo.Sdi.Messages.SkipWhile(x => x.Type != SourceParser.MessageType.SyncTick).Max(x => x.Tick)}
 ----------------------------------------------------------";
                         foreach (var f in demo.Sdi.Flags)
                             switch (f.Name)
@@ -385,45 +344,25 @@ Measured ticks:             {
                             $@"Analyzed L4D2Branch demo file ({demo.L4D2BranchInfo.Header.GameDirectory
                                 }):
 ----------------------------------------------------------
-Protocol:           {
-                                demo.L4D2BranchInfo.Header.Protocol}
-Network protocol:   {
-                                demo.L4D2BranchInfo.Header.NetworkProtocol}
-Server name:        {
-                                demo.L4D2BranchInfo.Header.ServerName}
-Client name:        {
-                                demo.L4D2BranchInfo.Header.ClientName}
-Mapname:            {
-                                demo.L4D2BranchInfo.Header.MapName}
-GameDir:            {
-                                demo.L4D2BranchInfo.Header.GameDirectory}
-Playbacktime:       {
-                                (demo.L4D2BranchInfo.Header.PlaybackTime).ToString("n3")}s
-Playbackticks:      {
-                                demo.L4D2BranchInfo.Header.PlaybackTicks}
-Playbackframes:     {
-                                demo.L4D2BranchInfo.Header.PlaybackFrames}
-Signonlength:       {
-                                demo.L4D2BranchInfo.Header.SignonLength}
+Protocol:           {demo.L4D2BranchInfo.Header.Protocol}
+Network protocol:   {demo.L4D2BranchInfo.Header.NetworkProtocol}
+Server name:        {demo.L4D2BranchInfo.Header.ServerName}
+Client name:        {demo.L4D2BranchInfo.Header.ClientName}
+Mapname:            {demo.L4D2BranchInfo.Header.MapName}
+GameDir:            {demo.L4D2BranchInfo.Header.GameDirectory}
+Playbacktime:       {(demo.L4D2BranchInfo.Header.PlaybackTime).ToString("n3")}s
+Playbackticks:      {demo.L4D2BranchInfo.Header.PlaybackTicks}
+Playbackframes:     {demo.L4D2BranchInfo.Header.PlaybackFrames}
+Signonlength:       {demo.L4D2BranchInfo.Header.SignonLength}
 
-Tickrate:           {
-                                demo.L4D2BranchInfo.Header.PlaybackTicks/demo.L4D2BranchInfo.Header.PlaybackTime
-                                }
-Start tick:         {demo.L4D2BranchInfo.PortalDemoInfo?.StartAdjustmentTick
-                                }
-Type:               {demo.L4D2BranchInfo.PortalDemoInfo?.StartAdjustmentType
-                                }
-End tick:           {demo.L4D2BranchInfo.PortalDemoInfo?.EndAdjustmentTick
-                                }
-Type:               {demo.L4D2BranchInfo.PortalDemoInfo?.EndAdjustmentType
-                                }
+Tickrate:           {demo.L4D2BranchInfo.Header.PlaybackTicks/demo.L4D2BranchInfo.Header.PlaybackTime}
+Start tick:         {demo.L4D2BranchInfo.PortalDemoInfo?.StartAdjustmentTick}
+Type:               {demo.L4D2BranchInfo.PortalDemoInfo?.StartAdjustmentType}
+End tick:           {demo.L4D2BranchInfo.PortalDemoInfo?.EndAdjustmentTick}
+Type:               {demo.L4D2BranchInfo.PortalDemoInfo?.EndAdjustmentType}
 
-Adjusted time:      {
-                                demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks*
-                                (1f/(demo.L4D2BranchInfo.Header.PlaybackTicks/demo.L4D2BranchInfo.Header.PlaybackTime)) +
-                                "s"}
-Adjusted ticks:     {demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks
-                                }
+Adjusted time:      {demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks*(1f/(demo.L4D2BranchInfo.Header.PlaybackTicks/demo.L4D2BranchInfo.Header.PlaybackTime))}s
+Adjusted ticks:     {demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks}
 ----------------------------------------------------------
 ";
                     }
@@ -794,7 +733,7 @@ Adjusted ticks:     {demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks
                             $"{stime}" + "-" + CurrentDemoFile.Sdi.ClientName + ".dem");
                         break;
                 }
-                Log("Renamed demo");
+                Log("Renamed demo"); //TODO: Fix the bugs in this
             }
             else
             {
