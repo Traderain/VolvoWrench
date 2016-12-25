@@ -12,7 +12,15 @@ Features:
   - Global hotkeys
   - Parsing any valve made game's save file
 
-***  
+***
+
+Contributing:
+ - Please do.
+ - Create a pull request and if the code is wokring I will most likely merge it.
+ - Please report any bugs or if you have any feature request make an Issue here.
+ 
+ 
+ ***
 
  ![](http://forthebadge.com/images/badges/fuck-it-ship-it.svg)
 
