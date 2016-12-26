@@ -48,6 +48,7 @@ Thanks to:
   - WimReddingius for the portal corrections
   - Griffin for feedback
   - NekZ for feedback
+  - Fatalis for SourceSplit
  
  ***
  <h3>And special thanks to Valve:<h3>
