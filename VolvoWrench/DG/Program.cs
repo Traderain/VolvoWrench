@@ -24,7 +24,7 @@ namespace VolvoWrench.DG
                 if (cla.Any(x => Path.GetExtension(x) == ".dem"))
                     Application.Run(new Main(cla.First(x => Path.GetExtension(x) == ".dem")));
                 else if (cla.Any(x => Path.GetExtension(x) == ".sav"))
-                    Application.Run(new saveanalyzerform(cla.First(x => Path.GetExtension(x) == ".sav")));
+                    Application.Run(new Saveanalyzerform(cla.First(x => Path.GetExtension(x) == ".sav")));
                 else
                     Application.Run(new Main());
             else

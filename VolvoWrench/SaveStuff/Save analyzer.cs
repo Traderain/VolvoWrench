@@ -6,19 +6,20 @@ using System.Windows.Forms;
 
 namespace VolvoWrench.SaveStuff
 {
-    public partial class saveanalyzerform : Form
+    public partial class Saveanalyzerform : Form
     {
         public Listsave.SaveFile CurrentSaveFile;
         public List<Listsave.StateFileInfo> PFileliList;
+        public string SaveFileName;
 
-        public saveanalyzerform()
+        public Saveanalyzerform()
         {
             InitializeComponent();
             splitContainer1.FixedPanel = FixedPanel.Panel1;
             propertyGrid1.AutoScaleMode = AutoScaleMode.None;
         }
 
-        public saveanalyzerform(string file)
+        public Saveanalyzerform(string file)
         {
             InitializeComponent();
             PrintandAnalyze(file);
@@ -32,8 +33,11 @@ namespace VolvoWrench.SaveStuff
                 of.Multiselect = false;
                 of.Filter = @"Demo files (*.sav) | *.sav";
                 if (of.ShowDialog() == DialogResult.OK)
+                {
+                    SaveFileName = of.FileName;
                     PrintandAnalyze(of.FileName);
-                Text = @"Save analyzer - " + Path.GetFileName(of.FileName);
+                    Text = @"Save analyzer - " + Path.GetFileName(of.FileName);
+                }
             }
         }
 
@@ -45,26 +49,25 @@ namespace VolvoWrench.SaveStuff
             PopulateTreeView(CurrentSaveFile.Files);
         }
 
-        private void PopulateTreeView(List<Listsave.StateFileInfo> FileList)
+        private void PopulateTreeView(IReadOnlyCollection<Listsave.StateFileInfo> fileList)
         {
             treeView1.Nodes.Clear();
-            if (FileList.Count > 1)
+            if (fileList.Count > 1)
             {
-                var rootNode = new TreeNode("Savefile");
-                GetDirectories(FileList, rootNode);
+                var rootNode = new TreeNode(Path.GetFileName(SaveFileName));
+                GetDirectories(fileList, rootNode);
                 treeView1.Nodes.Add(rootNode);
             }
         }
 
-        private void GetDirectories(List<Listsave.StateFileInfo> vlvs, TreeNode nodeToAddTo)
+        private static void GetDirectories(IEnumerable<Listsave.StateFileInfo> vlvs, TreeNode nodeToAddTo)
         {
-            foreach (var subDir in vlvs)
+            foreach (var aNode in vlvs.Select(subDir => new TreeNode(subDir.FileName, 0, 0)
             {
-                var aNode = new TreeNode(subDir.FileName, 0, 0)
-                {
-                    Tag = subDir,
-                    ImageKey = @"folder"
-                };
+                Tag = subDir,
+                ImageKey = @"folder"
+            }))
+            {
                 nodeToAddTo.Nodes.Add(aNode);
             }
         }

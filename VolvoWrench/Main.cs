@@ -450,6 +450,32 @@ Adjusted ticks:     {demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks}
         }
 
         /// <summary>
+        /// Log the exception that happened
+        /// </summary>
+        /// <param name="e">The exception that happened</param>
+        /// <returns></returns>
+        public static Task Log(Exception e)
+        {
+            var s = "Error happened! Message: " + e.Message + " Source: " + e.Source + " Stacktrace: " + e.StackTrace +
+                       " Innerexception: " + e.InnerException;
+            try
+            {
+                if (
+                    !Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\" +
+                                      "VolvoWrench"))
+                    Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) +
+                                              "\\" + "VolvoWrench");
+                return WriteTextAsync(LogPath,
+                    ("\n" + DateTime.Now.ToString("yyyy-MM-ddTHH\\:mm\\:ss.fffffffzzz") + " " +
+                     $"[{WindowsIdentity.GetCurrent().Name}]" + ": " + s));
+            }
+            catch (Exception)
+            {
+                return Task.FromResult(0);
+            }
+        }
+
+        /// <summary>
         ///     Async logging
         /// </summary>
         /// <param name="filePath"> The path </param>
@@ -568,7 +594,7 @@ Adjusted ticks:     {demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks}
         private void saveExplorerToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Log("Save analyzer opened!");
-            using (var sa = new saveanalyzerform())
+            using (var sa = new Saveanalyzerform())
             {
                 sa.ShowDialog();
             }
@@ -697,47 +723,68 @@ Adjusted ticks:     {demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks}
         /// <param name="e"></param>
         private void renameDemoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (CurrentFile != null && File.Exists(CurrentFile) && Path.GetExtension(CurrentFile) == ".dem")
+            try
             {
-                if (CurrentDemoFile == null)
+                if (CurrentFile != null && File.Exists(CurrentFile) && Path.GetExtension(CurrentFile) == ".dem")
                 {
-                    richTextBox1.Text = @"Analyzing file...";
-                    UpdateForm();
-                    CurrentDemoFile = CrossDemoParser.Parse(CurrentFile);
+                    if (CurrentDemoFile == null)
+                    {
+                        richTextBox1.Text = @"Analyzing file...";
+                        UpdateForm();
+                        CurrentDemoFile = CrossDemoParser.Parse(CurrentFile);
+                    }
+                    switch (CurrentDemoFile.Type)
+                    {
+                        case Parseresult.UnsupportedFile:
+                            MessageBox.Show(@"Couldn't rename! There is no file loaded/non-supported file!");
+                            Log("Tried to rename file but failed " + CurrentFile);
+                            break;
+                        case Parseresult.GoldSource:
+                            File.Move(CurrentFile,
+                                Path.GetDirectoryName(CurrentFile) + "\\" +
+                                CurrentDemoFile.GsDemoInfo.Header.MapName + "-" +
+                                $"{CurrentDemoFile.GsDemoInfo.DirectoryEntries.Last().TrackTime.ToString("#,0.000")}" + "-" +
+                                Environment.UserName + ".dem");
+                            break;
+                        case Parseresult.Hlsooe:
+                            File.Move(CurrentFile,
+                                Path.GetDirectoryName(CurrentFile) + "\\" +
+                                CurrentDemoFile.HlsooeDemoInfo.Header.MapName + "-" +
+                                $"{CurrentDemoFile.HlsooeDemoInfo.DirectoryEntries.Last().PlaybackTime.ToString("#,0.000")}" +
+                                "-" + Environment.UserName + ".dem");
+                            break;
+                        case Parseresult.Source:
+                            var stime = (CurrentDemoFile.Sdi.Flags.Count(x => x.Name == "#SAVE#") == 0)
+                                ? CurrentDemoFile.Sdi.Seconds.ToString("#,0.000")
+                                : CurrentDemoFile.Sdi.Flags.Last(x => x.Name == "#SAVE#").Time.ToString("#,0.000");
+                            File.Move(CurrentFile,
+                                Path.GetDirectoryName(CurrentFile) + "\\" +
+                                CurrentDemoFile.Sdi.MapName + "-" +
+                                $"{stime}" + "-" + CurrentDemoFile.Sdi.ClientName + ".dem");
+                            break;
+                        case Parseresult.Portal:
+                            File.Move(CurrentFile,
+                            Path.GetDirectoryName(CurrentFile) + "\\" +
+                            CurrentDemoFile.L4D2BranchInfo.PortalDemoInfo.MapName + "-" +
+                            (CurrentDemoFile.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks * (1f / (CurrentDemoFile.L4D2BranchInfo.Header.PlaybackTicks / CurrentDemoFile.L4D2BranchInfo.Header.PlaybackTime))) + "-" + CurrentDemoFile.L4D2BranchInfo.PortalDemoInfo.PlayerName + ".dem");
+                            break;
+                        case Parseresult.L4D2Branch:
+                            File.Move(CurrentFile,
+                            Path.GetDirectoryName(CurrentFile) + "\\" +
+                            CurrentDemoFile.L4D2BranchInfo.Header.MapName + "-" +
+                            (CurrentDemoFile.L4D2BranchInfo.Header.PlaybackTime) + "-" + CurrentDemoFile.L4D2BranchInfo.Header.ClientName + ".dem");
+                            break;
+                    }
+                    Log("Renamed demo");
                 }
-                switch (CurrentDemoFile.Type)
+                else
                 {
-                    case Parseresult.UnsupportedFile:
-                        break;
-                    case Parseresult.GoldSource:
-                        File.Move(CurrentFile,
-                            Path.GetDirectoryName(CurrentFile) + "\\" +
-                            CurrentDemoFile.GsDemoInfo.Header.MapName + "-" +
-                            $"{CurrentDemoFile.GsDemoInfo.DirectoryEntries.Last().TrackTime.ToString("#,0.000")}" + "-" +
-                            Environment.UserName + ".dem");
-                        break;
-                    case Parseresult.Hlsooe:
-                        File.Move(CurrentFile,
-                            Path.GetDirectoryName(CurrentFile) + "\\" +
-                            CurrentDemoFile.HlsooeDemoInfo.Header.MapName + "-" +
-                            $"{CurrentDemoFile.HlsooeDemoInfo.DirectoryEntries.Last().PlaybackTime.ToString("#,0.000")}" +
-                            "-" + Environment.UserName + ".dem");
-                        break;
-                    case Parseresult.Source:
-                        var stime = (CurrentDemoFile.Sdi.Flags.Count(x => x.Name == "#SAVE#") == 0)
-                            ? CurrentDemoFile.Sdi.Seconds.ToString("#,0.000")
-                            : CurrentDemoFile.Sdi.Flags.Last(x => x.Name == "#SAVE#").Time.ToString("#,0.000");
-                        File.Move(CurrentFile,
-                            Path.GetDirectoryName(CurrentFile) + "\\" +
-                            CurrentDemoFile.Sdi.MapName + "-" +
-                            $"{stime}" + "-" + CurrentDemoFile.Sdi.ClientName + ".dem");
-                        break;
+                    richTextBox1.Text = @"Please select a file first!";
                 }
-                Log("Renamed demo"); //TODO: Fix the bugs in this
             }
-            else
+            catch (Exception ex)
             {
-                richTextBox1.Text = @"Please select a file first!";
+                Log(ex);
             }
         }
 

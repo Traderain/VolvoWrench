@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows;
 using VolvoWrench.ExtensionMethods;
@@ -184,28 +185,59 @@ namespace VolvoWrench.SaveStuff
         [Serializable]
         public class SaveFile
         {
+            [Category("File")]
+            [Description("The name of the file.")]
             public string FileName { get; set; }
+            [Category("File")]
+            [Description("The header or magic word of the file which identifies it. Should be ('J','S','A','V')")]
             public string Header { get; set; }
+            [Category("File")]
+            [Description("The version of the save files. This is for some reason 115 for nearly any save file. The people at valve forgot to change it for some reason probably.")]
             public int SaveVersion { get; set; }
+            [Category("File")]
+            [Description("The map the save was made on. This is the filename of the last statefile since that is the last one, that is the one the save was made on.")]
             public string Map { get; set; }
+            [Category("Tokentable details")]
+            [Description("The byte offset from the begining to the end of the File table.")]
             public int TokenTableFileTableOffset { get; set; }
+            [Category("Tokentable details")]
+            [Description("The byte offset from the begining until the end of the Token table.")]
             public int TokenTableSize { get; set; }
+            [Category("Tokentable details")]
+            [Description("The number of tokens in the Tokentable.")]
             public int TokenCount { get; set; }
+            [Category("Statefiles")]
+            [Description("The statefiles in the save. These store the actual state of the game. The last one is the current one.")]
             public List<StateFileInfo> Files { get; set; }
         }
 
         [Serializable]
         public class StateFileInfo
         {
+            [Category("Statefile details")]
+            [Description("This is the contents of the statefile as a byte array.")]
             public byte[] Data { get; set; }
+            [Category("Statefile details")]
+            [Description("Name of the statefile. (Mapname.hl?) There are mostly 3 of this per map.")]
             public string FileName { get; set; }
+            [Category("Statefile details")]
+            [Description("Length of the statefile")]
             public int Length { get; set; }
+            [Category("Statefile details")]
+            [Description("The identifier/header or magic word of the statefile. Should be ('V','A','L','V')")]
             public string MagicWord { get; set; }
-            public byte[] pData { get; set; }
-            public byte[] pDataHeaders { get; set; }
-            public byte[] pSymbols { get; set; }
-            public SaveFileSectionsInfo_t SectionsInfo { get; set; }
+            [Category("Statefile details")]
+            [Description("Version of the statefile. Mostly 115 (same as the save for the same reason)")]
             public int Version { get; set; }
+            [Category("Sections")]
+            [Description("The offsets and lengths of the sections in the statefile.")]
+            public SaveFileSectionsInfo_t SectionsInfo { get; set; }
+            [Category("Sections")]
+            public byte[] pData { get; set; }
+            [Category("Sections")]
+            public byte[] pDataHeaders { get; set; }
+            [Category("Sections")]
+            public byte[] pSymbols { get; set; }
         }
 
         #region DataDesc

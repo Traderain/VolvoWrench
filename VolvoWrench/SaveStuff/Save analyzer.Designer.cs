@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace VolvoWrench.SaveStuff
 {
-    partial class saveanalyzerform
+    partial class Saveanalyzerform
     {
         /// <summary>
         /// Required designer variable.
@@ -32,7 +32,7 @@ namespace VolvoWrench.SaveStuff
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(saveanalyzerform));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Saveanalyzerform));
             this.button1 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -217,7 +217,7 @@ namespace VolvoWrench.SaveStuff
             this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "saveanalyzerform";
+            this.Name = "Saveanalyzerform";
             this.ShowIcon = false;
             this.Text = "Save analyzer";
             this.splitContainer1.Panel2.ResumeLayout(false);
