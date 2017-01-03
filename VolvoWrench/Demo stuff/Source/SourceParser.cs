@@ -91,14 +91,12 @@ namespace VolvoWrench.Demo_Stuff.Source
                 switch (msg.Type)
                 {
                     case MessageType.Signon:
-                        reader.BaseStream.Seek(Info.SignonLength, SeekOrigin.Current);
-                        break;
                     case MessageType.Packet:
                     case MessageType.ConsoleCmd:
                     case MessageType.UserCmd:
                     case MessageType.DataTables:
                     case MessageType.StringTables:
-                        if (msg.Type == MessageType.Packet)
+                        if (msg.Type == MessageType.Packet || msg.Type == MessageType.Signon)
                             reader.BaseStream.Seek(0x54, SeekOrigin.Current); // command/sequence info
                         else if (msg.Type == MessageType.UserCmd)
                             reader.BaseStream.Seek(0x4, SeekOrigin.Current); // unknown

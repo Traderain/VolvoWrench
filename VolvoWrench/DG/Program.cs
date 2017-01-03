@@ -1,7 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
+using CrashReporterDotNET;
 using VolvoWrench.SaveStuff;
 
 namespace VolvoWrench.DG
@@ -16,9 +18,10 @@ namespace VolvoWrench.DG
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            Application.ThreadException += ApplicationThreadException;
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
             var argsappended = args.ToList();
-            argsappended.Add(AppDomain.CurrentDomain?.SetupInformation?.ActivationArguments?.ActivationData[0]);
-                //This fixes the OpenWith on clickonce apps
+            argsappended.Add(AppDomain.CurrentDomain?.SetupInformation?.ActivationArguments?.ActivationData[0]); //This fixes the OpenWith on clickonce apps
             var cla = argsappended;
             if (cla.Any(x => Path.GetExtension(x) == ".dem" || Path.GetExtension(x) == ".sav"))
                 if (cla.Any(x => Path.GetExtension(x) == ".dem"))
@@ -29,6 +32,26 @@ namespace VolvoWrench.DG
                     Application.Run(new Main());
             else
                 Application.Run(new Main());
+        }
+
+        private static void CurrentDomainOnUnhandledException(object sender, UnhandledExceptionEventArgs unhandledExceptionEventArgs)
+        {
+            ReportCrash((Exception)unhandledExceptionEventArgs.ExceptionObject);
+            Environment.Exit(0);
+        }
+
+        private static void ApplicationThreadException(object sender, ThreadExceptionEventArgs e)
+        {
+            ReportCrash(e.Exception);
+        }
+
+        private static void ReportCrash(Exception exception)
+        {
+            var reportCrash = new ReportCrash
+            {
+                ToEmail = "hambalko.bence@gmail.com"
+            };
+            reportCrash.Send(exception);
         }
     }
 }

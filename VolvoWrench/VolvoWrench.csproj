@@ -92,6 +92,10 @@
     </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CrashReporter.NET, Version=1.5.1.0, Culture=neutral, PublicKeyToken=986591a91592b7e6, processorArchitecture=MSIL">
+      <HintPath>..\packages\CrashReporter.NET.Official.1.5.1\lib\net40\CrashReporter.NET.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="INIFileParser, Version=2.3.0.0, Culture=neutral, PublicKeyToken=79af7b307b65cf3c, processorArchitecture=MSIL">
       <HintPath>..\packages\ini-parser.2.3.0\lib\net20\INIFileParser.dll</HintPath>
       <Private>True</Private>
