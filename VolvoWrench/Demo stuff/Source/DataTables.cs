@@ -7,9 +7,9 @@ namespace VolvoWrench.Demo_Stuff.Source
     {
         private static void ParseTables(BitBuffer bb, TreeNode node)
         {
-            while (bb.ReadBool())
+            while (bb.ReadBoolean())
             {
-                var needsdecoder = bb.ReadBool();
+                var needsdecoder = bb.ReadBoolean();
                 var dtnode = node.Nodes.Add(bb.ReadString());
                 if (needsdecoder) dtnode.Text += "*";
 
@@ -30,7 +30,7 @@ namespace VolvoWrench.Demo_Stuff.Source
                             propnode.Text += "[" + bb.ReadBits(10) + "]";
                         else
                         {
-                            bb.Seek(64);
+                            bb.SeekBits(64);
                             propnode.Text += " (" + bb.ReadBits(7) + " bits)";
                         }
                     }

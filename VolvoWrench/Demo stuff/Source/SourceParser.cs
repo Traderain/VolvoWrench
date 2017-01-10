@@ -147,24 +147,24 @@ namespace VolvoWrench.Demo_Stuff.Source
         public static void ParseIntoTreeNode(byte[] data, TreeNode node)
         {
             var bb = new BitBuffer(data);
-            if (bb.ReadBool()) node.Nodes.Add("Command number: " + bb.ReadBits(32));
-            if (bb.ReadBool()) node.Nodes.Add("Tick count: " + bb.ReadBits(32));
-            if (bb.ReadBool()) node.Nodes.Add("Viewangle pitch: " + bb.ReadFloat());
-            if (bb.ReadBool()) node.Nodes.Add("Viewangle yaw: " + bb.ReadFloat());
-            if (bb.ReadBool()) node.Nodes.Add("Viewangle roll: " + bb.ReadFloat());
-            if (bb.ReadBool()) node.Nodes.Add("Foward move: " + bb.ReadFloat());
-            if (bb.ReadBool()) node.Nodes.Add("Side move: " + bb.ReadFloat());
-            if (bb.ReadBool()) node.Nodes.Add("Up move: " + bb.ReadFloat());
-            if (bb.ReadBool())
+            if (bb.ReadBoolean()) node.Nodes.Add("Command number: " + bb.ReadBits(32));
+            if (bb.ReadBoolean()) node.Nodes.Add("Tick count: " + bb.ReadBits(32));
+            if (bb.ReadBoolean()) node.Nodes.Add("Viewangle pitch: " + bb.ReadSingle());
+            if (bb.ReadBoolean()) node.Nodes.Add("Viewangle yaw: " + bb.ReadSingle());
+            if (bb.ReadBoolean()) node.Nodes.Add("Viewangle roll: " + bb.ReadSingle());
+            if (bb.ReadBoolean()) node.Nodes.Add("Foward move: " + bb.ReadSingle());
+            if (bb.ReadBoolean()) node.Nodes.Add("Side move: " + bb.ReadSingle());
+            if (bb.ReadBoolean()) node.Nodes.Add("Up move: " + bb.ReadSingle());
+            if (bb.ReadBoolean())
             {
                 var k = KeyInterop.KeyFromVirtualKey(Convert.ToInt32(bb.ReadBits(32)));
                 node.Nodes.Add("Buttons: " + k);
             }
-            if (bb.ReadBool()) node.Nodes.Add("Impulse: " + bb.ReadBits(8));
-            if (bb.ReadBool()) node.Nodes.Add("Weaponselect: " + bb.ReadBits(11));
-            if (bb.ReadBool()) node.Nodes.Add("Weapon subtype: " + bb.ReadBits(6));
-            if (bb.ReadBool()) node.Nodes.Add("Mouse X: " + bb.ReadCoord());
-            if (bb.ReadBool()) node.Nodes.Add("Mouse Y: " + bb.ReadCoord());
+            if (bb.ReadBoolean()) node.Nodes.Add("Impulse: " + bb.ReadBits(8));
+            if (bb.ReadBoolean()) node.Nodes.Add("Weaponselect: " + bb.ReadBits(11));
+            if (bb.ReadBoolean()) node.Nodes.Add("Weapon subtype: " + bb.ReadBits(6));
+            if (bb.ReadBoolean()) node.Nodes.Add("Mouse X: " + bb.ReadCoord());
+            if (bb.ReadBoolean()) node.Nodes.Add("Mouse Y: " + bb.ReadCoord());
         }
     }
 }

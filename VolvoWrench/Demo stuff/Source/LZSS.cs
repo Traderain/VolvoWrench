@@ -56,9 +56,7 @@ namespace netdecode
                 }
                 cmdByte = cmdByte >> 1;
             }
-            Console.WriteLine();
-            throw new Exception();
-            //return bufOut;
+            return bufOut;
         }
     }
 }

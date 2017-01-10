@@ -1,6 +1,8 @@
-﻿- Statefile decompressor
-- Demo doctor fix  -> Done
-- Statistics : Nearly done
-- HTML Display instead of the richtextbox
-- High performance mode fix for Griffin -> wontix kek
-- Verification check if broken demo -> Done
+﻿- Save parser statefile parser
+- Overlay 2.0
+- Settings 2.0
+- L4D2 Netdecode
+- Statistics
+- Heatmap
+- Demo doctor c#
+- Warp planner

@@ -112,7 +112,7 @@ namespace VolvoWrench
             }
             else
             {
-                toolsToolStripMenuItem.Enabled = false;
+                SourceToolsToolStripMenuItem.Enabled = false;
                 goldSourceToolsToolStripMenuItem.Enabled = false;
                 richTextBox1.Text = @"^ Use demo_file->Open to open a correct .dem file or drop the file here!";
                 UpdateForm();
@@ -158,7 +158,7 @@ namespace VolvoWrench
                 }
                 else
                 {
-                    toolsToolStripMenuItem.Enabled = false;
+                    SourceToolsToolStripMenuItem.Enabled = false;
                     goldSourceToolsToolStripMenuItem.Enabled = false;
                     richTextBox1.Text = @"^ Use demo_file->Open to open a correct .dem file or drop the file here!";
                     UpdateForm();
@@ -560,23 +560,27 @@ Adjusted ticks:     {demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks}
             switch (cpr.Type)
             {
                 case Parseresult.UnsupportedFile:
+                    SourceToolsToolStripMenuItem.Enabled = false;
                     netdecodeToolStripMenuItem.Enabled = false;
                     statisticsToolStripMenuItem.Enabled = false;
                     heatmapGeneratorToolStripMenuItem1.Enabled = false;
                     break;
                 case Parseresult.Hlsooe:
                 case Parseresult.GoldSource:
+                    SourceToolsToolStripMenuItem.Enabled = false;
                     netdecodeToolStripMenuItem.Enabled = false;
                     statisticsToolStripMenuItem.Enabled = false;
                     heatmapGeneratorToolStripMenuItem1.Enabled = false;
                     break;
                 case Parseresult.Portal:
                 case Parseresult.Source:
+                    SourceToolsToolStripMenuItem.Enabled = true;
                     netdecodeToolStripMenuItem.Enabled = true;
                     statisticsToolStripMenuItem.Enabled = true;
                     heatmapGeneratorToolStripMenuItem1.Enabled = true;
                     break;
                 case Parseresult.L4D2Branch:
+                    SourceToolsToolStripMenuItem.Enabled = false;
                     netdecodeToolStripMenuItem.Enabled = true;
                     statisticsToolStripMenuItem.Enabled = false;
                     heatmapGeneratorToolStripMenuItem1.Enabled = false;
