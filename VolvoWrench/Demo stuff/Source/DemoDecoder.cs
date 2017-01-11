@@ -3,6 +3,7 @@ using System.Drawing;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
+using VolvoWrench.Demo_stuff.Source;
 
 namespace VolvoWrench.Demo_Stuff.Source
 {
@@ -30,7 +31,6 @@ namespace VolvoWrench.Demo_Stuff.Source
             var node = new TreeNode($"{msg.Type}, tick {msg.Tick}, {msg.Data.Length} bytes");
             node.Expand();
             node.BackColor = DemoMessageItem.GetTypeColor(msg.Type);
-
             switch (msg.Type)
             {
                 case SourceParser.MessageType.ConsoleCmd:
@@ -49,8 +49,12 @@ namespace VolvoWrench.Demo_Stuff.Source
                 case SourceParser.MessageType.SyncTick:
                     node.Nodes.Add("Sync client clock to demo tick");
                     break;
+                case SourceParser.MessageType.StringTables:
+                    StringTable.ParsePacket(msg.Data,node);
+                    break;
+
                 default:
-                    node.Nodes.Add($"Unhandled demo message type - {msg.Data} - {msg.Type} - {msg.Tick}");
+                    node.Nodes.Add($"Unhandled demo message type - [{msg.Data}] - [{msg.Type}] - [{msg.Tick}tick]");
 
                     break;
             }
@@ -61,7 +65,6 @@ namespace VolvoWrench.Demo_Stuff.Source
         private void messageList_SelectedIndexChanged(object sender, EventArgs e)
         {
             messageTree.Nodes.Clear();
-
             foreach (DemoMessageItem item in messageList.SelectedItems)
             {
                 ParseIntoTree(item.Msg);
@@ -88,12 +91,15 @@ namespace VolvoWrench.Demo_Stuff.Source
             switch (type)
             {
                 case SourceParser.MessageType.Signon:
+                    return Color.DarkBlue;
                 case SourceParser.MessageType.Packet:
                     return Color.Indigo;
                 case SourceParser.MessageType.UserCmd:
                     return Color.DarkGreen;
                 case SourceParser.MessageType.ConsoleCmd:
                     return Color.DarkRed;
+                case SourceParser.MessageType.StringTables:
+                    return Color.DarkSlateBlue;
                 default:
                     return Color.Black;
             }

@@ -94,7 +94,7 @@ namespace VolvoWrench.Demo_Stuff.Source
             // 
             // MsgSize
             // 
-            this.MsgSize.Text = "TokenTableFileTableOffset";
+            this.MsgSize.Text = "Size";
             this.MsgSize.Width = 87;
             // 
             // messageTree

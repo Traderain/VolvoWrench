@@ -155,11 +155,7 @@ namespace VolvoWrench.Demo_Stuff.Source
             if (bb.ReadBoolean()) node.Nodes.Add("Foward move: " + bb.ReadSingle());
             if (bb.ReadBoolean()) node.Nodes.Add("Side move: " + bb.ReadSingle());
             if (bb.ReadBoolean()) node.Nodes.Add("Up move: " + bb.ReadSingle());
-            if (bb.ReadBoolean())
-            {
-                var k = KeyInterop.KeyFromVirtualKey(Convert.ToInt32(bb.ReadBits(32)));
-                node.Nodes.Add("Buttons: " + k);
-            }
+            if (bb.ReadBoolean()) node.Nodes.Add("Buttons: " + KeyInterop.KeyFromVirtualKey(Convert.ToInt32(bb.ReadBits(32))));
             if (bb.ReadBoolean()) node.Nodes.Add("Impulse: " + bb.ReadBits(8));
             if (bb.ReadBoolean()) node.Nodes.Add("Weaponselect: " + bb.ReadBits(11));
             if (bb.ReadBoolean()) node.Nodes.Add("Weapon subtype: " + bb.ReadBits(6));

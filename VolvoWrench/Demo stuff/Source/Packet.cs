@@ -1,10 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
 namespace VolvoWrench.Demo_Stuff.Source
 {
+    public static class EX
+    {
+        public static T GetAttributeOfType<T>(this Enum enumVal) where T : System.Attribute
+        {
+            var type = enumVal.GetType();
+            var memInfo = type.GetMember(enumVal.ToString());
+            var attributes = memInfo[0].GetCustomAttributes(typeof(T), false);
+            return (attributes.Length > 0) ? (T)attributes[0] : null;
+        }
+    }
     internal class Packet
     {
         private static readonly Dictionary<uint, MsgHandler> Handlers = new Dictionary<uint, MsgHandler>
@@ -339,14 +350,22 @@ namespace VolvoWrench.Demo_Stuff.Source
 
         private enum SigOnState : byte
         {
-            None = 0, // no state yet; about to connect
-            Challenge = 1, // client challenging server; all OOB packets
-            Connected = 2, // client is connected to server; netchans ready
-            New = 3, // just got serverinfo and string tables
-            Prespawn = 4, // received signon buffers
-            Spawn = 5, // ready to receive entity packets
-            Full = 6, // we are fully connected; first non-delta packet received
-            ChangeLevel = 7 // server is changing level; please wait
+            [Description("No state yet! About to connect.")]
+            None = 0,
+            [Description("Client challenging the server with all OOB packets.")]
+            Challenge = 1,
+            [Description("Client has connected to the server! Netchans ready.")]
+            Connected = 2,
+            [Description("Got serverinfo and stringtables.")]
+            New = 3,
+            [Description("Recieved signon buffers.")]
+            Prespawn = 4,
+            [Description("Ready to recieve entity packets.")]
+            Spawn = 5,
+            [Description("Fully connected, first non-delta packet recieved.")]
+            Full = 6,
+            [Description("Server is changing level.")]
+            ChangeLevel = 7
         }
 
         private delegate void MsgHandler(BitBuffer bb, TreeNode node);

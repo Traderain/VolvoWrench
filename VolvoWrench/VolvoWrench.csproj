@@ -145,6 +145,7 @@
     <Compile Include="About.Designer.cs">
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
+    <Compile Include="Demo stuff\BinaryReaderExtension.cs" />
     <Compile Include="Demo stuff\DemoInfo.cs" />
     <Compile Include="Demo stuff\L4D2Branch\Category.cs" />
     <Compile Include="Demo stuff\L4D2Branch\BitStreamUtil\BitArrayStream.cs" />
@@ -227,6 +228,7 @@
     <Compile Include="Demo stuff\L4D2Branch\PortalStuff\Result\PacketResult.cs" />
     <Compile Include="Demo stuff\Source\GameStringTable.cs" />
     <Compile Include="Demo stuff\Source\LZSS.cs" />
+    <Compile Include="Demo stuff\Source\StringTable.cs" />
     <Compile Include="Demo stuff\Source\StringTokenizer.cs" />
     <Compile Include="ExtensionMethods\MoreLinq\Acquire.cs" />
     <Compile Include="ExtensionMethods\MoreLinq\Assert.cs" />
