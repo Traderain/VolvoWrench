@@ -443,31 +443,58 @@ namespace VolvoWrench.Demo_Stuff.Source
         /// </summary>
         public int Length => _data.Count;
 
+        /// <summary>
+        /// The current bit we are on
+        /// </summary>
         public int CurrentBit { get; private set; }
 
+        /// <summary>
+        /// The byte we are reading the bits of currently
+        /// </summary>
         public int CurrentByte => (CurrentBit - (CurrentBit%8))/8;
 
+        /// <summary>
+        /// Bits left from the buffer
+        /// </summary>
         public int BitsLeft => (_data.Count*8) - CurrentBit;
 
+        /// <summary>
+        /// Bytes left from the buffer
+        /// </summary>
         public int BytesLeft => _data.Count - CurrentByte;
 
+        /// <summary>
+        /// The data of the buffer
+        /// </summary>
         public byte[] Data => _data.ToArray();
 
+        /// <summary>
+        /// Byte sorting
+        /// </summary>
         public EndianType Endian { get; set; }
 
         #endregion
     }
 
+    /// <summary>
+    /// Methods to write bits to the buffer
+    /// </summary>
     public class BitWriter
     {
         private readonly List<byte> _data;
         private int _currentBit;
 
+        /// <summary>
+        /// Constructor of the bitwriter it initializes an empty buffer
+        /// </summary>
         public BitWriter()
         {
             _data = new List<byte>();
         }
 
+        /// <summary>
+        /// The data in buffer
+        /// </summary>
         public byte[] Data => _data.ToArray();
 
         public void WriteUnsignedBits(uint value, int nBits)

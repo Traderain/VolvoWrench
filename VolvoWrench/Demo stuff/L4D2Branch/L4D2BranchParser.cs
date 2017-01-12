@@ -23,7 +23,7 @@ namespace VolvoWrench.Demo_Stuff.L4D2Branch
         public string GameDirectory { get; private set; } // Name of game directory (com_gamedir)
         public float PlaybackTime { get; private set; } // Time of track
         public int PlaybackTicks { get; private set; } // # of ticks in track
-        public int PlaybackFrames { get; private set; } // # of frames in track
+        public int EventCount { get; private set; } // # of frames in track
         public int SignonLength { get; private set; } // length of sigondata in bytes
 
         public static DemoHeader ParseFrom(IBitStream reader)
@@ -39,7 +39,7 @@ namespace VolvoWrench.Demo_Stuff.L4D2Branch
                 GameDirectory = reader.ReadCString(MaxOspath),
                 PlaybackTime = Math.Abs(reader.ReadFloat()),
                 PlaybackTicks = Math.Abs(reader.ReadSignedInt(32)),
-                PlaybackFrames = Math.Abs(reader.ReadSignedInt(32)),
+                EventCount = Math.Abs(reader.ReadSignedInt(32)),
                 SignonLength = Math.Abs(reader.ReadSignedInt(32))
             };
         }

@@ -226,10 +226,7 @@
     <Compile Include="Demo stuff\L4D2Branch\PortalStuff\Result\ConsoleCmdResult.cs" />
     <Compile Include="Demo stuff\L4D2Branch\PortalStuff\Result\DemoParseResult.cs" />
     <Compile Include="Demo stuff\L4D2Branch\PortalStuff\Result\PacketResult.cs" />
-    <Compile Include="Demo stuff\Source\GameStringTable.cs" />
-    <Compile Include="Demo stuff\Source\LZSS.cs" />
     <Compile Include="Demo stuff\Source\StringTable.cs" />
-    <Compile Include="Demo stuff\Source\StringTokenizer.cs" />
     <Compile Include="ExtensionMethods\MoreLinq\Acquire.cs" />
     <Compile Include="ExtensionMethods\MoreLinq\Assert.cs" />
     <Compile Include="ExtensionMethods\MoreLinq\AssertCount.cs" />
@@ -1193,7 +1190,6 @@
     <None Include="Resources\Save.ico" />
     <None Include="Resources\08 Wrench.ico" />
     <Content Include="demoicon.ico" />
-    <Content Include="SaveStuff\08 Wrench.ico" />
     <Content Include="DG\08 Wrench.ico" />
     <None Include="Resources\wakodemo.png" />
     <None Include="Resources\noi_rep1.png" />

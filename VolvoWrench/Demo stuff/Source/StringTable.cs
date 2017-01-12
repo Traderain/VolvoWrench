@@ -87,7 +87,7 @@ namespace VolvoWrench.Demo_stuff.Source
             }
 
         }
-
+        //Might be interesting: https://github.com/LestaD/SourceEngine2007/blob/43a5c90a5ada1e69ca044595383be67f40b33c61/src_main/common/protocol.h
         private static void ParseStringTable(BitBuffer bb, string tableName,TreeNode node)
         {
             var numStrings = bb.ReadInt16();
@@ -119,11 +119,24 @@ namespace VolvoWrench.Demo_stuff.Source
                         node.Nodes.Add("Costumfile 3: " + info.customFiles2);
                         node.Nodes.Add("Costumfile 4: " + info.customFiles3);
                     }
+                    else if (tableName == "soundprecache" || tableName == "decalprecache" || tableName == "modelprecache")
+                    {
+                        node.Nodes.Add(stringName);
+                    }
+                    else if (tableName == "server_query_info")
+                    {
+                        node.Nodes.Add(stringName + ": " + bb.ReadUInt16());
+                    }
+                    else if (tableName == "instancebaseline")
+                    {
+                        node.Nodes.Add("ID: " + int.Parse(stringName));
+                    }
                     else
                     {
                         node.Nodes.Add(stringName);
                         node.Nodes.Add("Data -[" + data.Length + "]bytes");
                     }
+
                     //TODO: Parse data
                 }
                 else
@@ -151,10 +164,6 @@ namespace VolvoWrench.Demo_stuff.Source
                         node.Nodes.Add("No user data");
                     }
                 }
-            }
-            else
-            {
-                node.Nodes.Add("No client data");
             }
         }
     }

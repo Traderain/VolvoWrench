@@ -311,14 +311,9 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
             public float Volume;
         };
 
-        public struct DemoBufferFrame : IFrame
-        {
-            public byte[] Buffer;
-        };
+        public struct DemoBufferFrame : IFrame { public byte[] Buffer;};
 
-        public struct DemoStartFrame : IFrame
-        {
-        }
+        public struct DemoStartFrame : IFrame { }
 
         // Otherwise, netmsg.
         public struct NetMsgFrame : IFrame
@@ -503,7 +498,6 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
         public static GoldSourceDemoInfoHlsooe ParseDemoHlsooe(string s)
         {
             //TODO: Finnaly fix this. It's a joke this is still not fixed at this point. ResidentSleeper
-            var mf = Application.OpenForms.OfType<Main>().FirstOrDefault();
             var hlsooeDemo = new GoldSourceDemoInfoHlsooe
             {
                 Header = new Hlsooe.DemoHeader(),
@@ -514,7 +508,7 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
             {
                 using (var br = new BinaryReader(new MemoryStream(File.ReadAllBytes(s))))
                 {
-                    if (UnexpectedEof(br, (8 + 4 + 4 + 260 + 260 + 4))) //520 + 12 + 8 = 540 -> Header size
+                    if (UnexpectedEof(br, (540))) //520 + 12 + 8 = 540 -> Header size
                     {
                         hlsooeDemo.ParsingErrors.Add("Unexpected end of file at the header!");
                         return hlsooeDemo;
@@ -540,7 +534,7 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
                         var entryCount = br.ReadInt32();
                         for (var i = 0; i < entryCount; i++)
                         {
-                            if (UnexpectedEof(br, (4 + 4 + 4 + 4 + 4)))
+                            if (UnexpectedEof(br, (20)))
                             {
                                 hlsooeDemo.ParsingErrors.Add("Unexpected end of when reading frames!");
                                 return hlsooeDemo;
@@ -571,7 +565,7 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
                             {
                                 if (!nextSectionRead)
                                 {
-                                    if (UnexpectedEof(br, (1 + 4 + 4)))
+                                    if (UnexpectedEof(br, (9)))
                                     {
                                         hlsooeDemo.ParsingErrors.Add(
                                             "Failed to read next frame details after frame no.: " + i);
@@ -839,7 +833,6 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
         /// <returns></returns>
         public static GoldSourceDemoInfo ParseGoldSourceDemo(string s)
         {
-            var mf = Application.OpenForms.OfType<Main>().FirstOrDefault();
             var gDemo = new GoldSourceDemoInfo
             {
                 Header = new GoldSource.DemoHeader(),

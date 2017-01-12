@@ -6,26 +6,12 @@ using System.Windows.Forms;
 
 namespace VolvoWrench.Demo_Stuff.Source
 {
-    public static class EX
-    {
-        public static T GetAttributeOfType<T>(this Enum enumVal) where T : System.Attribute
-        {
-            var type = enumVal.GetType();
-            var memInfo = type.GetMember(enumVal.ToString());
-            var attributes = memInfo[0].GetCustomAttributes(typeof(T), false);
-            return (attributes.Length > 0) ? (T)attributes[0] : null;
-        }
-    }
     internal class Packet
     {
         private static readonly Dictionary<uint, MsgHandler> Handlers = new Dictionary<uint, MsgHandler>
         {
             {
-                0, (_, node) =>
-                {
-                    node.Text = @"net_nop";
-                    node.ForeColor = Color.Gray;
-                }
+                0, (_, node) => { node.Text = @"net_nop"; node.ForeColor = Color.Gray;}
             },
             {1, net_disconnect},
             {2, net_file},
@@ -74,7 +60,7 @@ namespace VolvoWrench.Demo_Stuff.Source
                 }
                 else
                 {
-                    node.Nodes.Add("unknown message type " + type).ForeColor = Color.Crimson;
+                    node.Nodes.Add("unknown message type [" + type + "]").ForeColor = Color.Crimson;
                     break;
                 }
             }

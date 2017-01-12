@@ -16,7 +16,7 @@ namespace VolvoWrench.Demo_Stuff.Source
 
     public struct SourceDemoInfo
     {
-        public int DemoProtocol, NetProtocol, TickCount, FrameCount, SignonLength;
+        public int DemoProtocol, NetProtocol, TickCount, EventCount, SignonLength;
         public List<Saveflag> Flags;
         public List<SourceParser.DemoMessage> Messages;
         public List<string> ParsingErrors;
@@ -77,7 +77,7 @@ namespace VolvoWrench.Demo_Stuff.Source
 
             Info.Seconds = Math.Abs(reader.ReadSingle());
             Info.TickCount = Math.Abs(reader.ReadInt32());
-            Info.FrameCount = Math.Abs(reader.ReadInt32());
+            Info.EventCount = Math.Abs(reader.ReadInt32());
 
             Info.SignonLength = reader.ReadInt32();
 

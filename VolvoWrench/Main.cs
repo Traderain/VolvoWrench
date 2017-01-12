@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -207,171 +208,13 @@ namespace VolvoWrench
             if (demo != null)
             {
                 Text = @"VolvoWrench - " + Path.GetFileName(CurrentFile);
-                richTextBox1.Text = GetDemoDetails(demo);
+                PrintDetails(richTextBox1, demo.DisplayData);
                 StripEnabler(demo);
             }
             else
             {
                 richTextBox1.Text = @"Not a demo! ";
             }
-        }
-
-        /// <summary>
-        ///     This returns a nice string which can be assigned to the richtexbox
-        /// </summary>
-        /// <param name="demo"></param>
-        /// <returns></returns>
-        public static string GetDemoDetails(CrossParseResult demo)
-        {
-            var returnstring = "Corrupted file!";
-
-            #region Print
-
-            switch (demo.Type)
-            {
-                case Parseresult.UnsupportedFile:
-                    returnstring = @"Unsupported file!";
-                    break;
-                case Parseresult.GoldSource:
-                    if (demo.GsDemoInfo.ParsingErrors.ToArray().Length > 0)
-                    {
-                        returnstring =
-                            demo.GsDemoInfo.ParsingErrors.Aggregate("Error while parsing goldsource demo: \r\n",
-                                (current, err) => current + ("\n" + err));
-                    }
-                    else
-                    {
-                        returnstring =
-                            $@"Analyzed GoldSource engine demo file ({demo.GsDemoInfo.Header.GameDir
-                                }):
-----------------------------------------------------------
-Demo protocol:              {demo.GsDemoInfo.Header.DemoProtocol}
-Net protocol:               {demo.GsDemoInfo.Header.NetProtocol}
-Directory Offset:           {demo.GsDemoInfo.Header.DirectoryOffset}
-Map name:                   {demo.GsDemoInfo.Header.MapName}
-Game directory:             {demo.GsDemoInfo.Header.GameDir}
-Length in seconds:          {demo.GsDemoInfo.DirectoryEntries.Sum(x => x.TrackTime).ToString("n3")}s
-Frame count:                {demo.GsDemoInfo.DirectoryEntries.Sum(x => x.FrameCount)}
-
-Higest FPS:                 {(1/demo.GsDemoInfo.AditionalStats.FrametimeMin).ToString("N2")}
-Lowest FPS:                 {(1/demo.GsDemoInfo.AditionalStats.FrametimeMax).ToString("N2")}
-Average FPS:                {(demo.GsDemoInfo.AditionalStats.Count/demo.GsDemoInfo.AditionalStats.FrametimeSum).ToString("N2")}
-Lowest msec:                {(1000.0/demo.GsDemoInfo.AditionalStats.MsecMin).ToString("N2")} FPS
-Highest msec:               {(1000.0/demo.GsDemoInfo.AditionalStats.MsecMax).ToString("N2")} FPS
-Average msec:               {(1000.0/(demo.GsDemoInfo.AditionalStats.MsecSum/(double) demo.GsDemoInfo.AditionalStats.Count)).ToString("N2")} FPS
-----------------------------------------------------------";
-                    }
-                    break;
-                case Parseresult.Hlsooe:
-                    if (demo.HlsooeDemoInfo.ParsingErrors.ToArray().Length > 0)
-                    {
-                        returnstring =
-                            demo.HlsooeDemoInfo.ParsingErrors.Aggregate("Error while parsing HLSOOE demo: \r\n",
-                                (current, err) => current + (err));
-                    }
-                    else
-                    {
-                        returnstring =
-                            $@"Analyzed HLS:OOE engine demo file ({demo.HlsooeDemoInfo.Header.GameDir
-                                }):
-----------------------------------------------------------
-Demo protocol:              {demo.HlsooeDemoInfo.Header.DemoProtocol}
-Net protocol:               {demo.HlsooeDemoInfo.Header.NetProtocol}
-Directory offset:           {demo.HlsooeDemoInfo.Header.DirectoryOffset}
-Map name:                   {demo.HlsooeDemoInfo.Header.MapName}
-Game directory:             {demo.HlsooeDemoInfo.Header.GameDir}
-Length in seconds:          {(demo.HlsooeDemoInfo.DirectoryEntries.Where(x => x.Type == 0).Sum(x => x.Frames.Last().Key.Time))*0.015}s
-Tick count:                 {(demo.HlsooeDemoInfo.DirectoryEntries.SkipWhile(x => x.FrameCount < 1).Max(x => x.Frames.Max(y => y.Key.Index)))}
-----------------------------------------------------------";
-                        returnstring =
-                            demo.HlsooeDemoInfo.DirectoryEntries.SelectMany(
-                                demoDirectoryEntry => demoDirectoryEntry.Flags)
-                                .Aggregate(returnstring,
-                                    (current, flag) =>
-                                        current +
-                                        (flag.Value.Command + " at " + flag.Key.Frame + " -> " +
-                                         (flag.Key.Frame*0.015).ToString("n3") + "s"));
-                    }
-                    break;
-                case Parseresult.Source:
-                    if (demo.Sdi.ParsingErrors.ToArray().Length > 0)
-                    {
-                        returnstring = demo.Sdi.ParsingErrors.Aggregate(@"Error while parsing Source engine demo: ",
-                            (current, err) => current + ("\n" + err));
-                    }
-                    else
-                    {
-                        returnstring =
-                            $@"Analyzed source engine demo file ({demo.Sdi.GameDirectory
-                                }):
-----------------------------------------------------------
-Demo protocol:              {demo.Sdi.DemoProtocol}
-Net protocol:               {demo.Sdi.NetProtocol}
-Server name:                {demo.Sdi.ServerName}
-Client name:                {demo.Sdi.ClientName}
-Map name:                   {demo.Sdi.MapName}
-Game directory:             {demo.Sdi.GameDirectory}
-Playback seconds:           {demo.Sdi.Seconds.ToString("n3")}s
-Playback tick:              {demo.Sdi.TickCount}
-Frame count:                {demo.Sdi.FrameCount}
-
-Measured time:              {(demo.Sdi.Messages.SkipWhile(x => x.Type != SourceParser.MessageType.SyncTick).Max(x => x.Tick)*0.015).ToString("n3")}s
-Measured ticks:             {demo.Sdi.Messages.SkipWhile(x => x.Type != SourceParser.MessageType.SyncTick).Max(x => x.Tick)}
-----------------------------------------------------------";
-                        foreach (var f in demo.Sdi.Flags)
-                            switch (f.Name)
-                            {
-                                case "#SAVE#":
-                                    returnstring += ($"\n#SAVE# flag at Tick: {f.Tick} -> {f.Time}s");
-                                    break;
-                                case "autosave":
-                                    returnstring += ($"\nAutosave at Tick: {f.Tick} -> {f.Time}s");
-                                    break;
-                            }
-                    }
-                    break;
-                case Parseresult.Portal:
-                case Parseresult.L4D2Branch:
-                    if (demo.L4D2BranchInfo.Parsingerrors.ToArray().Length > 0)
-                    {
-                        returnstring =
-                            demo.L4D2BranchInfo.Parsingerrors.Aggregate(@"Error while parsing L4D2Branch demo:",
-                                (current, err) => current + ("\n" + err));
-                    }
-                    else
-                    {
-                        returnstring =
-                            $@"Analyzed L4D2Branch demo file ({demo.L4D2BranchInfo.Header.GameDirectory
-                                }):
-----------------------------------------------------------
-Protocol:           {demo.L4D2BranchInfo.Header.Protocol}
-Network protocol:   {demo.L4D2BranchInfo.Header.NetworkProtocol}
-Server name:        {demo.L4D2BranchInfo.Header.ServerName}
-Client name:        {demo.L4D2BranchInfo.Header.ClientName}
-Mapname:            {demo.L4D2BranchInfo.Header.MapName}
-GameDir:            {demo.L4D2BranchInfo.Header.GameDirectory}
-Playbacktime:       {(demo.L4D2BranchInfo.Header.PlaybackTime).ToString("n3")}s
-Playbackticks:      {demo.L4D2BranchInfo.Header.PlaybackTicks}
-Playbackframes:     {demo.L4D2BranchInfo.Header.PlaybackFrames}
-Signonlength:       {demo.L4D2BranchInfo.Header.SignonLength}
-
-Tickrate:           {demo.L4D2BranchInfo.Header.PlaybackTicks/demo.L4D2BranchInfo.Header.PlaybackTime}
-Start tick:         {demo.L4D2BranchInfo.PortalDemoInfo?.StartAdjustmentTick}
-Type:               {demo.L4D2BranchInfo.PortalDemoInfo?.StartAdjustmentType}
-End tick:           {demo.L4D2BranchInfo.PortalDemoInfo?.EndAdjustmentTick}
-Type:               {demo.L4D2BranchInfo.PortalDemoInfo?.EndAdjustmentType}
-
-Adjusted time:      {demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks*(1f/(demo.L4D2BranchInfo.Header.PlaybackTicks/demo.L4D2BranchInfo.Header.PlaybackTime))}s
-Adjusted ticks:     {demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks}
-----------------------------------------------------------
-";
-                    }
-                    break;
-            }
-
-            #endregion
-
-            return returnstring;
         }
 
         /// <summary>
@@ -551,6 +394,21 @@ Adjusted ticks:     {demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks}
         }
 
         /// <summary>
+        /// Prints the demo tuple details to given richtextbox
+        /// </summary>
+        /// <param name="rtb">Box to print to</param>
+        /// <param name="details">Details of the demo</param>
+        public static void PrintDetails(RichTextBox rtb, List<Tuple<string, string>> details)
+        {
+            rtb.Text = "";
+            foreach (var detail in details)
+            {
+                rtb.AppendText(detail.Item1 + detail.Item2 + "\n");
+            }
+            Log("Printed demo details to richtextbox");
+        }
+
+        /// <summary>
         ///     This method is responsible for enabling the correct MenuStrips after demoparsing
         /// </summary>
         /// <param name="cpr"></param>
@@ -561,6 +419,7 @@ Adjusted ticks:     {demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks}
             {
                 case Parseresult.UnsupportedFile:
                     SourceToolsToolStripMenuItem.Enabled = false;
+                    goldSourceToolsToolStripMenuItem.Enabled = false;
                     netdecodeToolStripMenuItem.Enabled = false;
                     statisticsToolStripMenuItem.Enabled = false;
                     heatmapGeneratorToolStripMenuItem1.Enabled = false;
@@ -568,6 +427,7 @@ Adjusted ticks:     {demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks}
                 case Parseresult.Hlsooe:
                 case Parseresult.GoldSource:
                     SourceToolsToolStripMenuItem.Enabled = false;
+                    goldSourceToolsToolStripMenuItem.Enabled = true;
                     netdecodeToolStripMenuItem.Enabled = false;
                     statisticsToolStripMenuItem.Enabled = false;
                     heatmapGeneratorToolStripMenuItem1.Enabled = false;
@@ -576,12 +436,14 @@ Adjusted ticks:     {demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks}
                 case Parseresult.Source:
                     SourceToolsToolStripMenuItem.Enabled = true;
                     netdecodeToolStripMenuItem.Enabled = true;
+                    goldSourceToolsToolStripMenuItem.Enabled = false;
                     statisticsToolStripMenuItem.Enabled = true;
                     heatmapGeneratorToolStripMenuItem1.Enabled = true;
                     break;
                 case Parseresult.L4D2Branch:
                     SourceToolsToolStripMenuItem.Enabled = false;
                     netdecodeToolStripMenuItem.Enabled = true;
+                    goldSourceToolsToolStripMenuItem.Enabled = false;
                     statisticsToolStripMenuItem.Enabled = false;
                     heatmapGeneratorToolStripMenuItem1.Enabled = false;
                     break;
@@ -937,7 +799,7 @@ Adjusted ticks:     {demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks}
                     TopMost = false;
                 }
                 RescanFile();
-                MessageBox.Show(GetDemoDetails(CurrentDemoFile));
+                //MessageBox.Show(GetDemoDetails(CurrentDemoFile)); //TODO: Once the l4d2 parser is done resolve this
             }
         }
 
