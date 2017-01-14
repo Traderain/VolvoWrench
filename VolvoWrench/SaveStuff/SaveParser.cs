@@ -176,6 +176,20 @@ namespace VolvoWrench.SaveStuff
             return stateFile;
         }
 
+        public static Tuple<int, int[]> ParseEntityPatch(StateFileInfo stateFile)
+        {
+            using (var br = new BinaryReader(new MemoryStream(stateFile.Data)))
+            {
+                var entityIds = new List<int>();
+                var size = br.ReadInt32();
+                for (var i = 0; i < size; i++)
+                {   
+                    entityIds.Add(br.ReadInt32());
+                }
+                return new Tuple<int,int[]>(size,entityIds.ToArray());
+            }
+        }
+
         public static uint rotr(uint val, int shift)
         {
             var num = val;
@@ -304,7 +318,7 @@ namespace VolvoWrench.SaveStuff
            public byte[] musicdata;
         }
 
-    private unsafe struct SaveGameDescription_t
+        private unsafe struct SaveGameDescription_t
         {
             private int iSize;
             private int iTimestamp;
