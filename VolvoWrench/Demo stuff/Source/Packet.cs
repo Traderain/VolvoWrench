@@ -51,6 +51,7 @@ namespace VolvoWrench.Demo_Stuff.Source
             while (bb.BitsLeft > 6)
             {
                 var type = bb.ReadBits(6);
+
                 MsgHandler handler;
                 if (Handlers.TryGetValue((uint)type, out handler))
                 {
@@ -60,7 +61,7 @@ namespace VolvoWrench.Demo_Stuff.Source
                 }
                 else
                 {
-                    node.Nodes.Add("unknown message type [" + type + "]").ForeColor = Color.Crimson;
+                    node.Nodes.Add("unknown message type [" + (uint)(type) + "]").ForeColor = Color.Crimson;
                     break;
                 }
             }
@@ -69,7 +70,7 @@ namespace VolvoWrench.Demo_Stuff.Source
         // do we even encounter these in demo files?
         private static void net_disconnect(BitBuffer bb, TreeNode node)
         {
-            node.Nodes.Add("Reason: " + bb.ReadString());
+            node.Nodes.Add("Reason: " + bb.ReadString(1024));
         }
 
         private static void net_file(BitBuffer bb, TreeNode node)
@@ -125,7 +126,7 @@ namespace VolvoWrench.Demo_Stuff.Source
             node.Nodes.Add("Current player count: " + bb.ReadBits(8));
             node.Nodes.Add("Max player count: " + bb.ReadBits(8));
             node.Nodes.Add("Interval per tick: " + bb.ReadSingle());
-            node.Nodes.Add("Platform: " + (char) bb.ReadBits(8));
+            node.Nodes.Add("Platform: " + (((char)bb.ReadBits(8)).ToString().ToUpper() == "W" ? "Windows":"Linux"));
             node.Nodes.Add("Game directory: " + bb.ReadString());
             node.Nodes.Add("Map name: " + bb.ReadString());
             node.Nodes.Add("Skybox name: " + bb.ReadString());

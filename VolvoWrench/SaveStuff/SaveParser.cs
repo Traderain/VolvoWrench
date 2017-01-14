@@ -9,6 +9,23 @@ using System.Text;
 using System.Windows;
 using VolvoWrench.ExtensionMethods;
 
+
+
+/*  NOTES
+ *  SaveGameState is .hl1
+ *  RestoreAdjacenClientState is .hl2
+ *  EntityPatch is .hl3
+ *  TODO: figure out this:https://github.com/LestaD/SourceEngine2007/blob/43a5c90a5ada1e69ca044595383be67f40b33c61/src_main/engine/host_saverestore.cpp#L1399
+ *  Note we need different parsers for .hl? files so the enum is indeed necesarry
+ * 
+ * 
+ * 
+ * 
+ */
+
+
+
+
 namespace VolvoWrench.SaveStuff
 {
     public class Flag
@@ -145,11 +162,11 @@ namespace VolvoWrench.SaveStuff
                 if (!UnexpectedEof(br,20))
                     return stateFile;
                 stateFile.MagicWord = br.ReadString(4);
-                stateFile.Version = br.ReadInt32();
-                si.nBytesSymbols = br.ReadInt32();
-                si.nSymbols = br.ReadInt32();
-                si.nBytesDataHeaders = br.ReadInt32();
-                si.nBytesData = br.ReadInt32();
+                stateFile.Version = br.ReadByte();
+                si.nBytesSymbols = Math.Abs(br.ReadInt32());
+                si.nSymbols = Math.Abs(br.ReadInt32());
+                si.nBytesDataHeaders = Math.Abs(br.ReadInt32());
+                si.nBytesData = Math.Abs(br.ReadInt32());
                 if(!UnexpectedEof(br,si.nSymbols+si.nBytesDataHeaders+si.nBytesData))
                     return stateFile;
                 stateFile.pSymbols = br.ReadBytes(si.nSymbols);
@@ -260,7 +277,34 @@ namespace VolvoWrench.SaveStuff
             private fixed char originMapName [32];
         };
 
-        private unsafe struct SaveGameDescription_t
+        public class baseclientsections_t
+        {
+            public int entitysize;
+            public int headersize;
+            public int decalsize;
+            public int musicsize;
+            public int symbolsize;
+             
+            public int decalcount;
+            public int musiccount;
+            public int symbolcount;
+
+            public int SumBytes()
+            {
+                return entitysize + headersize + decalsize + symbolsize + musicsize;
+            }
+        };
+
+        public class clientsections_t : baseclientsections_t
+        {
+           public byte[] symboldata;
+           public byte[] entitydata;
+           public byte[] headerdata;
+           public byte[] decaldata;
+           public byte[] musicdata;
+        }
+
+    private unsafe struct SaveGameDescription_t
         {
             private int iSize;
             private int iTimestamp;
@@ -294,7 +338,20 @@ namespace VolvoWrench.SaveStuff
             public int nBytesDataHeaders { get; set; }
             public int nBytesSymbols { get; set; }
             public int nSymbols { get; set; }
-        }
+
+            public int SumBytes()
+	        {
+	        	return ( nBytesSymbols + nBytesDataHeaders + nBytesData );
+	        }
+
+    }
+
+        public struct SaveFileSections_t
+        {
+        	public byte[] pSymbols { get; set; }
+            public byte[] pDataHeaders { get; set; }
+            public byte[] pData { get; set; }
+        };
 
         public class saverestorelevelinfo_t
         {
@@ -307,6 +364,20 @@ namespace VolvoWrench.SaveStuff
             public char[] szLandmarkName = new char[20]; // landmark we'll spawn near in next level
             public float time;
             public Vector vecLandmarkOffset; // for landmark transitions
+        }
+
+        public class CSaveRestoreSegment
+        {
+            byte[] pBaseData;        // Start of all entity save data
+            byte[] pCurrentData; // Current buffer pointer for sequential access
+            int size;           // Current data size, aka, pCurrentData - pBaseData
+            int bufferSize;     // Total space for data
+
+            //---------------------------------
+            // Symbol table
+            //
+            int tokenCount;     // Number of elements in the pTokens table
+            byte[,] pTokens;		// Hash table of entity strings (sparse)
         }
 
         public class levellist_t

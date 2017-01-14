@@ -123,6 +123,7 @@ namespace VolvoWrench.Demo_Stuff.Source
 
         private uint ReadUnsignedBitsLittleEndian(int nBits)
         {
+            nBits = Math.Abs(nBits);
             if (nBits <= 0 || nBits > 32)
             {
                 throw new ArgumentException(@"Value must be a positive integer between 1 and 32 inclusive.", nameof(nBits));
