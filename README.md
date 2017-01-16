@@ -16,7 +16,7 @@ Features:
 
 Contributing:
  - Please do.
- - Create a pull request and if the code is wokring I will most likely merge it.
+ - Create a pull request and if the code is working I will most likely merge it.
  - Please report any bugs or if you have any feature request make an Issue here.
  
 ***
