@@ -147,6 +147,12 @@
     </Compile>
     <Compile Include="Demo stuff\BinaryReaderExtension.cs" />
     <Compile Include="Demo stuff\DemoInfo.cs" />
+    <Compile Include="Demo stuff\GoldSource\frmFrameView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Demo stuff\GoldSource\frmFrameView.Designer.cs">
+      <DependentUpon>frmFrameView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Demo stuff\L4D2Branch\Category.cs" />
     <Compile Include="Demo stuff\L4D2Branch\BitStreamUtil\BitArrayStream.cs" />
     <Compile Include="Demo stuff\L4D2Branch\BitStreamUtil\BitStreamUtil.cs" />
@@ -366,6 +372,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Demo stuff\GoldSource\Demo doctor.resx">
       <DependentUpon>Demo doctor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Demo stuff\GoldSource\frmFrameView.resx">
+      <DependentUpon>frmFrameView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Demo stuff\GoldSource\Verification.resx">
       <DependentUpon>Verification.cs</DependentUpon>

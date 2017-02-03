@@ -150,7 +150,7 @@ namespace VolvoWrench.Demo_Stuff
             {
                 case Parseresult.GoldSource:
                     cpr.Type = Parseresult.GoldSource;
-                    cpr.GsDemoInfo = GoldSourceParser.ParseGoldSourceDemo(filename);
+                    cpr.GsDemoInfo = GoldSourceParser.ReadGoldSourceDemo(filename);
                     break;
                 case Parseresult.UnsupportedFile:
                     cpr.Type = Parseresult.UnsupportedFile;
