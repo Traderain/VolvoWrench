@@ -31,49 +31,54 @@ namespace VolvoWrench.Demo_stuff.GoldSource
             {
                 foreach (var frame in info.DirectoryEntries[index].Frames)
                 {
-                    string[] row = { index.ToString(),
-                        frame.Key.Index.ToString(),
-                        frame.Key.Time.ToString(),
-                        frame.Key.Type.ToString().ToUpper(),};
+                    var row = index + "/" + frame.Key.FrameIndex + " " + "[" + frame.Key.Time + "s]: " +
+                              frame.Key.Type.ToString().ToUpper();
+                    var node = new TreeNode();
+                    var subnode = new TreeNode();
+                    node.ForeColor = Color.White;
+                    subnode.ForeColor = Color.White;                   
                     switch (frame.Key.Type)
                     {
                         case Demo_Stuff.GoldSource.GoldSource.DemoFrameType.DemoStart:
+                            break;
                         case Demo_Stuff.GoldSource.GoldSource.DemoFrameType.ConsoleCommand:
+                        {
+                            subnode.Text = ((Demo_Stuff.GoldSource.GoldSource.ConsoleCommandFrame) frame.Value).Command;
+                            node.BackColor = Color.DarkRed;
+                            break;
+                        }
                         case Demo_Stuff.GoldSource.GoldSource.DemoFrameType.ClientData:
+                            
+                            break;
                         case Demo_Stuff.GoldSource.GoldSource.DemoFrameType.NextSection:
+                        {
+                            subnode.Text = @"End of the DirectoryEntry!";
+                            break;
+                            }
                         case Demo_Stuff.GoldSource.GoldSource.DemoFrameType.Event:
+                            break;
                         case Demo_Stuff.GoldSource.GoldSource.DemoFrameType.WeaponAnim:
+                            break;
                         case Demo_Stuff.GoldSource.GoldSource.DemoFrameType.Sound:
+                            break;
                         case Demo_Stuff.GoldSource.GoldSource.DemoFrameType.DemoBuffer:
                             break;
                         default:
                         {
-                            var nframe = (Demo_Stuff.GoldSource.GoldSource.NetMsgFrame) frame.Value;
-                            row = new string[]{
-                                index.ToString(),
-                                frame.Key.Index.ToString(),
-                                frame.Key.Time.ToString(),
-                                "NETMESSAGE",
-                                nframe.RParms.Frametime.ToString(),
-                                nframe.UCmd.Msec.ToString()};
+                            node.BackColor = Color.Green;
+                            row = index + "/" + frame.Key.FrameIndex + " " + "[" + frame.Key.Time + "s]: " +
+                              "NETMESSAGE";
+                            var current = (Demo_Stuff.GoldSource.GoldSource.NetMsgFrame)frame.Value;
+                            subnode.Text = 1/current.RParms.Frametime + @" FPS";
                             break;
                         }
                     }
-                    frameListView.Items.Add(new ListViewItem(row));
+                    node.Text = row;
+                    if(subnode?.Text?.Length > 0)
+                        node.Nodes.Add(subnode);
+                    frameTreeView.Nodes.Add(node);
                 }
             }
-            frameListView.Columns[0].AutoResize(ColumnHeaderAutoResizeStyle.HeaderSize);
-            frameListView.Columns[1].AutoResize(ColumnHeaderAutoResizeStyle.HeaderSize);
-            frameListView.Columns[2].AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
-            frameListView.Columns[3].AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
-            frameListView.Columns[4].AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
-            frameListView.Columns[5].AutoResize(ColumnHeaderAutoResizeStyle.HeaderSize);
-            this.Width = frameListView.Columns[0].Width +
-                         frameListView.Columns[1].Width +
-                         frameListView.Columns[2].Width +
-                         frameListView.Columns[3].Width +
-                         frameListView.Columns[4].Width +
-                         frameListView.Columns[5].Width;
         }
     }
 }
