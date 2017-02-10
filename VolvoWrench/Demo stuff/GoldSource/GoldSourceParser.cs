@@ -456,6 +456,11 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
         ///     The header of the demo
         /// </summary>
         public GoldSource.DemoHeader Header;
+
+        /// <summary>
+        /// Whether there are any non allowed commands in the demo
+        /// </summary>
+        public List<string> Cheats;
     }
 
     /// <summary>
@@ -855,7 +860,8 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
             {
                 Header = new GoldSource.DemoHeader(),
                 ParsingErrors = new List<string>(),
-                DirectoryEntries = new List<GoldSource.DemoDirectoryEntry>()
+                DirectoryEntries = new List<GoldSource.DemoDirectoryEntry>(),
+                Cheats = new List<string>()
             };
             try
             {
@@ -949,6 +955,7 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
                                     switch (currentDemoFrame.Type)
                                     {
                                         case GoldSource.DemoFrameType.DemoStart: //No extra dat
+                                            entry.Frames.Add(currentDemoFrame,new GoldSource.DemoStartFrame());
                                             break;
                                         case GoldSource.DemoFrameType.ConsoleCommand:
                                             var ccframe = new GoldSource.ConsoleCommandFrame();
@@ -963,6 +970,18 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
                                                 .Trim('\0')
                                                 .Replace("\0", string.Empty);
                                             entry.Frames.Add(currentDemoFrame, ccframe);
+                                            var blacklistedcommands = new List<string>
+                                                {
+                                                    "lookup",
+                                                    "lookdown",
+                                                    "left",
+                                                    "right"
+                                                    //TODO: When yalter is not lazy and adds the anticheat frames add them here.
+                                                };
+                                            if (blacklistedcommands.Any(x => ccframe.Command.Contains(x)))
+                                            {
+                                                gDemo.Cheats.Add(ccframe.Command);
+                                            }
                                             break;
                                         case GoldSource.DemoFrameType.ClientData:
                                             var cdframe = new GoldSource.ClientDataFrame();

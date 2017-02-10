@@ -54,7 +54,7 @@ namespace VolvoWrench.Demo_stuff.GoldSource
                         {
                             subnode.Text = @"End of the DirectoryEntry!";
                             break;
-                            }
+                        }
                         case Demo_Stuff.GoldSource.GoldSource.DemoFrameType.Event:
                             break;
                         case Demo_Stuff.GoldSource.GoldSource.DemoFrameType.WeaponAnim:
