@@ -32,15 +32,17 @@ namespace VolvoWrench.Demo_Stuff.L4D2Branch.PortalStuff.GameHandler
 
         public override long HandleCommand(byte command, int tick, BinaryReader br)
         {
-            if (tick < 0 || CurrentTick == 0 && tick > 66)
-            {
-                tick = 0;
-            }
-            if (tick > CurrentTick)
-            {
-                CurrentTick = tick;
-            }
-            Enum.IsDefined(typeof (HL2DemoCommands), (HL2DemoCommands) command);
+			if (CurrentTick == -1)
+			{
+				if (tick == 0)
+					CurrentTick = tick;
+			}
+			else if ((tick > 0) && (tick > CurrentTick))
+			{
+				CurrentTick = tick;
+			}
+
+			Enum.IsDefined(typeof (HL2DemoCommands), (HL2DemoCommands) command);
             if (command == 1)
             {
                 return ProcessSignOn(br);
@@ -73,13 +75,7 @@ namespace VolvoWrench.Demo_Stuff.L4D2Branch.PortalStuff.GameHandler
         }
 
         public override bool IsStop(byte command)
-        {
-            if (command == 7)
-            {
-                return true;
-            }
-            return false;
-        }
+            => command == 7;
 
         protected override ConsoleCmdResult ProcessConsoleCmd(BinaryReader br)
         {

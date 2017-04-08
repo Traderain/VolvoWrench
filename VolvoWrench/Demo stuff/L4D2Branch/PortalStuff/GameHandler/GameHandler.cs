@@ -16,7 +16,7 @@ namespace VolvoWrench.Demo_Stuff.L4D2Branch.PortalStuff.GameHandler
             Flags = new List<KeyValuePair<string, int>>();
         }
 
-        protected int CurrentTick { get; set; }
+		protected int CurrentTick { get; set; } = -1;
 
         public abstract DemoProtocolVersion DemoVersion { get; protected set; }
 
