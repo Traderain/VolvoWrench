@@ -73,13 +73,7 @@ namespace VolvoWrench.Demo_Stuff.L4D2Branch.PortalStuff.GameHandler
         }
 
         public override bool IsStop(byte command)
-        {
-            if (command == 7)
-            {
-                return true;
-            }
-            return false;
-        }
+            => command == 7;
 
         protected override ConsoleCmdResult ProcessConsoleCmd(BinaryReader br)
         {
