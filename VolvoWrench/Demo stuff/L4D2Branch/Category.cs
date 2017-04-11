@@ -97,11 +97,6 @@ namespace VolvoWrench.Demo_Stuff.L4D2Branch
 			});
 
 		/// <summary>
-		///     The details of Portal 2's workshop mode
-		/// </summary>
-		public static readonly Category Portal2Workshop = new Category("Portal 2 Workshop", 60);
-
-		/// <summary>
 		///     The details of Course 6 in Portal 2's co-operative mode
 		/// </summary>
 		public static readonly Category Portal2CoopCourse6 = new Category("Portal 2 Coop - Course 6", 60,
@@ -116,6 +111,145 @@ namespace VolvoWrench.Demo_Stuff.L4D2Branch
 				"Lobby", "Separation", "Triple Axis", "Catapult Catch", "Bridge Gels", "Maintenance", "Bridge Catch",
 				"Double Lift", "Gel Maze", "Crazier Box"
 			});
+
+		/// <summary>
+		///     The details of Portal 2's workshop mode
+		/// </summary>
+		public static readonly Category Portal2Workshop = new Category("Portal 2 Workshop", 60);
+
+		/// <summary>
+		///     The details of Aperture Tag
+		/// </summary>
+		public static readonly Category ApertureTag = new Category("Aperture Tag", 60,
+			new[]
+			{
+				"gg_intro_wakeup",
+				"gg_blue_only",
+				"gg_blue_only_2",
+				"gg_blue_only_3",
+				"gg_blue_only_2_pt2",
+				"gg_a1_intro4",
+				"gg_blue_upplatform",
+				"gg_red_only",
+				"gg_red_surf",
+				"gg_all_intro",
+				"gg_all_rotating_wall",
+				"gg_all_fizzler",
+				"gg_all_intro_2",
+				"gg_a2_column_blocker",
+				"gg_all_puzzle2",
+				"gg_all2_puzzle1",
+				"gg_all_puzzle1",
+				"gg_all2_escape",
+				"gg_stage_reveal",
+				"gg_stage_bridgebounce_2",
+				"gg_stage_redfirst",
+				"gg_stage_laserrelay",
+				"gg_stage_beamscotty",
+				"gg_stage_bridgebounce",
+				"gg_stage_roofbounce",
+				"gg_stage_pickbounce",
+				"gg_stage_theend",
+				"gg_tag_remix",
+				"gg_trailer_map"
+			});
+
+		/// <summary>
+		///     The details of Aperture Tag's workshop mode
+		/// </summary>
+		public static readonly Category ApertureTagWorkshop = new Category("Aperture Tag Workshop", 60);
+
+		/// <summary>
+		///     The details of Portal Stories: Mel
+		/// </summary>
+		public static readonly Category PortalStoriesMel = new Category("Portal Stories: Mel", 60,
+			new[]
+			{
+				"sp_a1_tramride",
+				"sp_a1_mel_intro",
+				"sp_a1_lift",
+				"sp_a1_garden",
+				"sp_a2_garden_de",
+				"sp_a2_underbounce",
+				"sp_a2_once_upon",
+				"sp_a2_past_power",
+				"sp_a2_ramp",
+				"sp_a2_firestorm",
+				"sp_a3_junkyard",
+				"sp_a3_concepts",
+				"sp_a3_paint_fling",
+				"sp_a3_faith_plate",
+				"sp_a3_transition",
+				"sp_a4_overgrown",
+				"sp_a4_tb_over_goo",
+				"sp_a4_two_of_a_kind",
+				"sp_a4_destroyed",
+				"sp_a4_factory",
+				"sp_a4_core_access",
+				"sp_a4_finale",
+				"st_a1_tramride",
+				"st_a1_mel_intro",
+				"st_a1_lift",
+				"st_a1_garden",
+				"st_a2_garden_de",
+				"st_a2_underbounce",
+				"st_a2_once_upon",
+				"st_a2_past_power",
+				"st_a2_ramp",
+				"st_a2_firestorm",
+				"st_a3_junkyard",
+				"st_a3_concepts",
+				"st_a3_paint_fling",
+				"st_a3_faith_plate",
+				"st_a3_transition",
+				"st_a4_overgrown",
+				"st_a4_tb_over_goo",
+				"st_a4_two_of_a_kind",
+				"st_a4_destroyed",
+				"st_a4_factory",
+				"st_a4_core_access",
+				"st_a4_finale"
+			});
+
+		/// <summary>
+		///     The details of INFRA
+		/// </summary>
+		public static readonly Category Infra = new Category("INFRA", 120,
+			new[]
+			{
+				"infra_c1_m1_office",
+				"infra_c2_m1_reserve1",
+				"infra_c2_m2_reserve2",
+				"infra_c2_m3_reserve3",
+				"infra_c3_m1_tunnel",
+				"infra_c3_m2_tunnel2",
+				"infra_c3_m3_tunnel3",
+				"infra_c3_m4_tunnel4",
+				"infra_c4_m2_furnace",
+				"infra_c4_m3_tower",
+				"infra_c5_m1_watertreatment",
+				"infra_c5_m2_sewer",
+				"infra_c5_m2b_sewer2",
+				"infra_c6_m1_sewer3",
+				"infra_c6_m2_metro",
+				"infra_c6_m3_metroride",
+				"infra_c6_m4_waterplant",
+				"infra_c6_m5_minitrain",
+				"infra_c6_m6_central",
+				"infra_c7_m1_servicetunnel",
+				"infra_c7_m1b_skyscraper",
+				"infra_c7_m2_bunker",
+				"infra_c7_m3_stormdrain",
+				"infra_c7_m4_cistern",
+				"infra_c7_m5_powerstation",
+				"infra_ee_hallway",
+				"main_menu"
+			});
+
+		/// <summary>
+		///     The details of INFRA's workshop mode
+		/// </summary>
+		public static readonly Category InfraWorkshop = new Category("INFRA Workshop", 120);
 
 		private static readonly Category HalfLife2 = new Category("Half Life 2", 66.6666666666667,
 			new[]
@@ -167,6 +301,12 @@ namespace VolvoWrench.Demo_Stuff.L4D2Branch
 				yield return Portal2Sp;
 				yield return Portal2Coop;
 				yield return Portal2CoopCourse6;
+				yield return Portal2Workshop;
+				yield return ApertureTag;
+				yield return ApertureTagWorkshop;
+				yield return PortalStoriesMel;
+				yield return Infra;
+				yield return InfraWorkshop;
 				yield return HalfLife2;
 				yield return Uncommon;
 			}
@@ -200,8 +340,14 @@ namespace VolvoWrench.Demo_Stuff.L4D2Branch
 		public static Category FromName(string name)
 			=> Values.FirstOrDefault(category => name == category.Name);
 
-		// Extension
-		public bool HasMap(string name)
-			=> (bool)Maps?.Contains(name);
+		/// <summary>
+		///     Checks if the category contains the specified map
+		/// </summary>
+		/// <param name="mapName">Name of the map</param>
+		/// <param name="ignoreCase">Set to true if name cases should be ignored</param>
+		/// <returns></returns>
+		public bool HasMap(string mapName, bool ignoreCase = false)
+			=> (ignoreCase) ? (bool)Maps?.Select(map => map.ToLower()).Contains(mapName.ToLower())
+							: (bool)Maps?.Contains(mapName);
 	}
 }

@@ -86,6 +86,28 @@ namespace VolvoWrench.Demo_Stuff.L4D2Branch
 					info.DemoType = Category.Portal2Workshop;
 				info.PortalDemoInfo = PortalStuff.DemoParser.ParseDemo(filename);
 			}
+			else if (game == "aperturetag")
+			{
+				if (Category.ApertureTag.HasMap(map))
+					info.DemoType = Category.ApertureTag;
+				else
+					info.DemoType = Category.ApertureTagWorkshop;
+				info.PortalDemoInfo = PortalStuff.DemoParser.ParseDemo(filename);
+			}
+			else if (game == "portal_stories")
+			{
+				if (Category.PortalStoriesMel.HasMap(map))
+					info.DemoType = Category.PortalStoriesMel;
+				info.PortalDemoInfo = PortalStuff.DemoParser.ParseDemo(filename);
+			}
+			else if (game == "infra")
+			{
+				if (Category.Infra.HasMap(map, true))
+					info.DemoType = Category.Infra;
+				else
+					info.DemoType = Category.InfraWorkshop;
+				info.PortalDemoInfo = PortalStuff.DemoParser.ParseDemo(filename);
+			}
 			else if (game == "csgo")
 			{
 				info.DemoType = Category.Csgo;
