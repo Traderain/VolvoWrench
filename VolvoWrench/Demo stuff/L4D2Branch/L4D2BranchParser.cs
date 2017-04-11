@@ -25,6 +25,11 @@ namespace VolvoWrench.Demo_Stuff.L4D2Branch
 		public int EventCount { get; private set; }         // Number of frames in track
 		public int SignonLength { get; private set; }       // Length of signondata in bytes
 
+		public int Tickrate
+			=> (int)Math.Round(PlaybackTicks / PlaybackTime);
+		public float TicksPerSecond
+			=> PlaybackTime / PlaybackTicks;
+
 		public static DemoHeader ParseFrom(IBitStream reader)
 		{
 			return new DemoHeader
