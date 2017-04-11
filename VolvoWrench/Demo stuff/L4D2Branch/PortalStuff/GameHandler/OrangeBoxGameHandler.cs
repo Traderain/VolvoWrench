@@ -113,12 +113,15 @@ namespace VolvoWrench.Demo_Stuff.L4D2Branch.PortalStuff.GameHandler
             var single2 = br.ReadSingle();
             if (NetworkProtocol != 2001)
             {
-                if (NetworkProtocol != 7108 && NetworkProtocol != 1028)
-                {
-                    throw new Exception("unknown protocol");
-                }
-                num = 296;
-            }
+                if ((NetworkProtocol != 7108) && (NetworkProtocol != 1028))
+				{
+					num = 144;
+				}
+				else
+				{
+					num = 296;
+				}
+			}
             else
             {
                 num = 144;
