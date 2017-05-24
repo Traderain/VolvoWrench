@@ -31,14 +31,14 @@ namespace VolvoWrench
         ///     The path of the log file
         /// </summary>
         public static readonly string LogPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) +
-                                                Path.PathSeparator + "VolvoWrench" + Path.PathSeparator + "VWLog.log";
+                                                "\\" + "VolvoWrench" + "\\" + "VWLog.log";
 
         /// <summary>
         ///     The path of the settings file
         /// </summary>
         public static readonly string SettingsPath =
-            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + Path.PathSeparator + "VolvoWrench" +
-            Path.PathSeparator + "VWSettings.ini";
+            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\" + "VolvoWrench" +
+            "\\" + "VWSettings.ini";
 
         /// <summary>
         /// This is a bool whether the os is running in high perf mode
