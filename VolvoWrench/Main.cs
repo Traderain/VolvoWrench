@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using IniParser;
 using Ookii.Dialogs;
+using VolvoWrench.Demo_stuff.GoldSource;
 using VolvoWrench.Demo_Stuff;
 using VolvoWrench.Demo_Stuff.GoldSource;
 using VolvoWrench.Demo_Stuff.L4D2Branch.PortalStuff;
@@ -672,6 +673,18 @@ namespace VolvoWrench
                 Log("Netdecode opened");
                 nd.ShowDialog();
             }
+        }
+
+        /// <summary>
+        /// Opens a treeview form to view frames
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void frameViewToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (CurrentDemoFile.Type == Parseresult.GoldSource)
+                using (var fw = new frmFrameView(CurrentDemoFile.GsDemoInfo))
+                    fw.ShowDialog();
         }
 
         /// <summary>

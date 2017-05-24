@@ -122,53 +122,32 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
                 mrtb.AppendText("" + "\n");
                 mrtb.AppendText("Parsed demos. Results:" + "\n");
                 mrtb.AppendText("General stats:" + "\n");
-                mrtb.AppendText(
-                    $@"
-Highest FPS:                {
-                        (1/Df.Select(x => x.Value).ToList().Min(y => y.GsDemoInfo.AditionalStats.FrametimeMin)).ToString
-                            ("N2")}
-Lowest FPS:                 {
-                        (1/Df.Select(x => x.Value).ToList().Max(y => y.GsDemoInfo.AditionalStats.FrametimeMax)).ToString
-                            ("N2")}
-Average FPS:                {
-                        (Df.Select(z => z.Value)
-                            .ToList()
-                            .Average(k => k.GsDemoInfo.AditionalStats.Count/k.GsDemoInfo.AditionalStats.FrametimeSum))
-                            .ToString("N2")}
-Lowest msec:                {
-                        (1000.0/Df.Select(x => x.Value).ToList().Min(y => y.GsDemoInfo.AditionalStats.MsecMin)).ToString
-                            ("N2")} FPS
-Highest msec:               {
-                        (1000.0/Df.Select(x => x.Value).ToList().Max(y => y.GsDemoInfo.AditionalStats.MsecMax)).ToString
-                            ("N2")} FPS
-Average msec:               {
-                        (Df.Select(x => x.Value)
-                            .ToList()
-                            .Average(y => y.GsDemoInfo.AditionalStats.MsecSum/(double) y.GsDemoInfo.AditionalStats.Count))
-                            .ToString("N2")} FPS
+                mrtb.AppendText($@"
+Highest FPS:                {(1/Df.Select(x => x.Value).ToList().Min(y => y.GsDemoInfo.AditionalStats.FrametimeMin)).ToString("N2")}
+Lowest FPS:                 {(1/Df.Select(x => x.Value).ToList().Max(y => y.GsDemoInfo.AditionalStats.FrametimeMax)).ToString("N2")}
+Average FPS:                {(Df.Select(z => z.Value).ToList().Average(k => k.GsDemoInfo.AditionalStats.Count/k.GsDemoInfo.AditionalStats.FrametimeSum)).ToString("N2")}
+Lowest msec:                {(1000.0/Df.Select(x => x.Value).ToList().Min(y => y.GsDemoInfo.AditionalStats.MsecMin)).ToString("N2")} FPS
+Highest msec:               {(1000.0/Df.Select(x => x.Value).ToList().Max(y => y.GsDemoInfo.AditionalStats.MsecMax)).ToString("N2")} FPS
+Average msec:               {(Df.Select(x => x.Value).ToList().Average(y => y.GsDemoInfo.AditionalStats.MsecSum/(double) y.GsDemoInfo.AditionalStats.Count)).ToString("N2")} FPS
 
-Total time of the demos:    {
-                        Df.Sum(x => x.Value.GsDemoInfo.DirectoryEntries.Sum(y => y.TrackTime))}s" + "\n\n");
+Total time of the demos:    {Df.Sum(x => x.Value.GsDemoInfo.DirectoryEntries.Sum(y => y.TrackTime))}s
+Human readable time:        {TimeSpan.FromSeconds(Df.Sum(x => x.Value.GsDemoInfo.DirectoryEntries.Sum(y => y.TrackTime))).ToString("g")}" + "\n\n");
+
                 mrtb.AppendText("Demo cheat check:" + "\n");
                 foreach (var dem in Df)
                 {
-                    mrtb.AppendText(Path.GetFileName(dem.Key) + " -> " + dem.Value.GsDemoInfo.Header.MapName + "\n");
-                    foreach (var f in dem.Value.GsDemoInfo.DirectoryEntries.SelectMany(entry =>
-                        (from frame in entry.Frames.Where(
-                            x => x.Key.Type == GoldSource.DemoFrameType.ConsoleCommand)
-                            select (GoldSource.ConsoleCommandFrame) frame.Value
-                            into f
-                            let cheats = new List<string>
-                            {
-                                "+lookup",
-                                "+lookdown",
-                                "+left",
-                                "+right" //TODO: When yalter is not lazy and adds the anticheat frames add them here.
-                            }
-                            where cheats.Contains(f.Command)
-                            select f)))
+                    mrtb.AppendText(Path.GetFileName(dem.Key) + " -> " + dem.Value.GsDemoInfo.Header.MapName);
+                    if (dem.Value.GsDemoInfo.Cheats.Count > 0)
                     {
-                        mrtb.AppendText(f.Command + "\n");
+                        mrtb.AppendText("\nCommands:\n");
+                        foreach (var cheat in dem.Value.GsDemoInfo.Cheats.Distinct())
+                        {
+                            mrtb.AppendText("\t" + cheat + "\n");
+                        }
+                    }
+                    else
+                    {
+                        mrtb.AppendText("✓ OK \n");
                     }
                 }
             }

@@ -456,6 +456,11 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
         ///     The header of the demo
         /// </summary>
         public GoldSource.DemoHeader Header;
+
+        /// <summary>
+        /// Whether there are any non allowed commands in the demo
+        /// </summary>
+        public List<string> Cheats;
     }
 
     /// <summary>
@@ -488,6 +493,24 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
         public static bool UnexpectedEof(BinaryReader b, long lengthtocheck)
         {
             return (b.BaseStream.Position + lengthtocheck) > b.BaseStream.Length;
+        }
+
+        /// <summary>
+        /// Convert a string to a byte array which can later be used to write it on disk as a demo detail.
+        /// </summary>
+        /// <param name="original">The original string.</param>
+        /// <param name="length">The length of the byte array we want returned.</param>
+        /// <returns>A null terminated string in a byte array which is the specified size.</returns>
+        public static byte[] FormatDemoString(string original, int length = 260)
+        {
+            var nulled = original[original.Length] == '\0'
+                ? Encoding.ASCII.GetBytes(original)
+                : Encoding.ASCII.GetBytes(original + '\0');
+            if (length - nulled.Length > 0)
+            {
+                Array.Resize(ref nulled, 260);
+            }
+            return nulled;
         }
 
         /// <summary>
@@ -831,13 +854,14 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
         /// </summary>
         /// <param name="s">Path to the file</param>
         /// <returns></returns>
-        public static GoldSourceDemoInfo ParseGoldSourceDemo(string s)
+        public static GoldSourceDemoInfo ReadGoldSourceDemo(string s)
         {
             var gDemo = new GoldSourceDemoInfo
             {
                 Header = new GoldSource.DemoHeader(),
                 ParsingErrors = new List<string>(),
-                DirectoryEntries = new List<GoldSource.DemoDirectoryEntry>()
+                DirectoryEntries = new List<GoldSource.DemoDirectoryEntry>(),
+                Cheats = new List<string>()
             };
             try
             {
@@ -931,6 +955,7 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
                                     switch (currentDemoFrame.Type)
                                     {
                                         case GoldSource.DemoFrameType.DemoStart: //No extra dat
+                                            entry.Frames.Add(currentDemoFrame,new GoldSource.DemoStartFrame());
                                             break;
                                         case GoldSource.DemoFrameType.ConsoleCommand:
                                             var ccframe = new GoldSource.ConsoleCommandFrame();
@@ -945,6 +970,18 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
                                                 .Trim('\0')
                                                 .Replace("\0", string.Empty);
                                             entry.Frames.Add(currentDemoFrame, ccframe);
+                                            var blacklistedcommands = new List<string>
+                                                {
+                                                    "lookup",
+                                                    "lookdown",
+                                                    "left",
+                                                    "right"
+                                                    //TODO: When yalter is not lazy and adds the anticheat frames add them here.
+                                                };
+                                            if (blacklistedcommands.Any(x => ccframe.Command.Contains(x)))
+                                            {
+                                                gDemo.Cheats.Add(ccframe.Command);
+                                            }
                                             break;
                                         case GoldSource.DemoFrameType.ClientData:
                                             var cdframe = new GoldSource.ClientDataFrame();
@@ -1247,144 +1284,6 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
                 }
             }
             return gDemo;
-        }
-    }
-
-    /// <summary>
-    /// Methods for fixing broken demo files
-    /// </summary>
-    public class DemoRepair
-    {
-        /// <summary>
-        /// Convert a string to a byte array which can later be used to write it on disk as a demo detail.
-        /// </summary>
-        /// <param name="original">The original string.</param>
-        /// <param name="length">The length of the byte array we want returned.</param>
-        /// <returns>A null terminated string in a byte array which is the specified size.</returns>
-        public static byte[] FormatDemoString(string original, int length = 260)
-        {
-            var nulled = original[original.Length] == '\0'
-                ? Encoding.ASCII.GetBytes(original)
-                : Encoding.ASCII.GetBytes(original + '\0');
-            if (length - nulled.Length > 0)
-            {
-                Array.Resize(ref nulled, 260);
-            }
-            return nulled;
-        }
-
-        /// <summary>
-        ///     This checks if we are will be past the end of the file if we read lengthtocheck
-        /// </summary>
-        /// <param name="b"></param>
-        /// <param name="lengthtocheck"></param>
-        /// <returns></returns>
-        public static bool UnexpectedEof(BinaryReader b, long lengthtocheck)
-        {
-            return (b.BaseStream.Position + lengthtocheck) > b.BaseStream.Length;
-        }
-
-        /// <summary>
-        /// This fixes a broken goldsource engine demo. Note it may make correct ones corrupted.
-        /// </summary>
-        /// <param name="filePath">The path of the file to repair</param>
-        /// <param name="savePath">The path where to save the repaired demo</param>
-        /// <returns>A bool which determines if repairing was sucessfull</returns>
-        public static bool FixDemoGoldSourceDemo(string filePath, string savePath)
-        {
-            if (File.Exists(filePath) && CrossDemoParser.CheckDemoType(filePath) == Parseresult.GoldSource)
-            {
-                using (var br = new BinaryReader(new MemoryStream(File.ReadAllBytes(filePath))))
-                using (var bw = new BinaryWriter(new FileStream(savePath, FileMode.Create)))
-                {
-                    var mw = Encoding.ASCII.GetString(br.ReadBytes(8)).Trim('\0').Replace("\0", string.Empty);
-                    if (UnexpectedEof(br, (544)))
-                        return false;
-                    if (br.ReadInt32() != 5)
-                        return false;
-                    br.BaseStream.Seek(544, SeekOrigin.Begin);
-                    for (var i = 0; i < 2; i++)
-                    {
-                        if (UnexpectedEof(br, (92)))
-                            return false;
-                        br.BaseStream.Seek(92, SeekOrigin.Current);
-                        var nextSectionRead = false;
-                        while (!nextSectionRead)
-                        {
-                            if (UnexpectedEof(br, (9)))
-                                return false;
-                            var Type = (GoldSource.DemoFrameType) br.ReadSByte();
-                            br.BaseStream.Seek(8, SeekOrigin.Current);
-
-                            #region Frame Switch
-
-                            switch (Type)
-                            {
-                                case GoldSource.DemoFrameType.DemoStart: //No extra dat
-                                    break;
-                                case GoldSource.DemoFrameType.ConsoleCommand:
-                                    if (UnexpectedEof(br, (64)))
-                                        return false;
-                                    br.BaseStream.Seek(64, SeekOrigin.Current);
-                                    break;
-                                case GoldSource.DemoFrameType.ClientData:
-                                    if (UnexpectedEof(br, (32)))
-                                        return false;
-                                    br.BaseStream.Seek(32, SeekOrigin.Current);
-                                    break;
-                                case GoldSource.DemoFrameType.NextSection:
-                                    nextSectionRead = true;
-                                    break;
-                                case GoldSource.DemoFrameType.Event:
-                                    if (UnexpectedEof(br, (84)))
-                                        return false;
-                                    br.BaseStream.Seek(84, SeekOrigin.Current);
-                                    break;
-                                case GoldSource.DemoFrameType.WeaponAnim:
-                                    if (UnexpectedEof(br, (8)))
-                                        return false;
-                                    br.BaseStream.Seek(8, SeekOrigin.Current);
-                                    break;
-                                case GoldSource.DemoFrameType.Sound:
-                                    if (UnexpectedEof(br, (8)))
-                                        return false;
-                                    br.BaseStream.Seek(4, SeekOrigin.Current);
-                                    var samplelength = br.ReadInt32();
-                                    if (UnexpectedEof(br, (samplelength + 16)))
-                                        return false;
-                                    br.BaseStream.Seek(16 + samplelength, SeekOrigin.Current);
-                                    break;
-                                case GoldSource.DemoFrameType.DemoBuffer:
-                                    if (UnexpectedEof(br, (4)))
-                                        return false;
-                                    var buggerlength = br.ReadInt32();
-                                    if (UnexpectedEof(br, (buggerlength)))
-                                        return false;
-                                    br.BaseStream.Seek(buggerlength, SeekOrigin.Current);
-                                    break;
-                                default:
-                                    Main.Log("Unknow frame type read at " + br.BaseStream.Position);
-                                    var nf = new GoldSource.NetMsgFrame();
-                                    if (UnexpectedEof(br, (468)))
-                                        return false;
-                                    br.BaseStream.Seek(468, SeekOrigin.Current);
-                                    var msglength = br.ReadInt32();
-                                    if (UnexpectedEof(br, (msglength)))
-                                        return false;
-                                    br.BaseStream.Seek(msglength, SeekOrigin.Current);
-                                    break;
-                            }
-
-                            #endregion
-                        }
-                    }
-                }
-                return true;
-            }
-            else
-            {
-                return false;
-            }
         }
     }
 }

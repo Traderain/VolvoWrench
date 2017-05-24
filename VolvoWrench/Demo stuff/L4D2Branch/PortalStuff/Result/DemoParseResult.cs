@@ -30,25 +30,20 @@ namespace VolvoWrench.Demo_Stuff.L4D2Branch.PortalStuff.Result
             }
         }
 
-        public int EndAdjustmentTick { get; set; }
-
+		public int EndAdjustmentTick { get; set; }
         public string EndAdjustmentType { get; set; }
-
         public string FileName { get; set; }
-
         public string GameDir { get; set; }
-
         public string MapName { get; set; }
-
         public string PlayerName { get; set; }
-
         public int StartAdjustmentTick { get; set; }
-
         public string StartAdjustmentType { get; set; }
-
         public int TotalTicks { get; set; }
 
-        public object Clone()
+		public float AdjustTime(float ticksPerSecond)
+			=> AdjustedTicks * ticksPerSecond;
+
+		public object Clone()
         {
             var demoParseResult = new DemoParseResult
             {

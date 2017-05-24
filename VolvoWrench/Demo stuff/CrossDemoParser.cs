@@ -90,7 +90,7 @@ namespace VolvoWrench.Demo_Stuff
         /// with spaces the seconds ones are as long as they are
         /// this lets you print the data of the demo in human readable form
         /// </summary>
-        public List<Tuple<string, string>> DisplayData; 
+        public List<Tuple<string, string>> DisplayData;
         /// <summary>
         /// Full constructor
         /// </summary>
@@ -127,7 +127,7 @@ namespace VolvoWrench.Demo_Stuff
         }
 
         /// <summary>
-        /// This does an asyncronous demo parse.
+        /// This does an asynchronous demo parse.
         /// </summary>
         /// <param name="filepath"></param>
         /// <returns></returns>
@@ -144,13 +144,12 @@ namespace VolvoWrench.Demo_Stuff
         public static CrossParseResult Parse(string filename)
         {
             var cpr = new CrossParseResult();
-            
 
             switch (CheckDemoType(filename))
             {
                 case Parseresult.GoldSource:
                     cpr.Type = Parseresult.GoldSource;
-                    cpr.GsDemoInfo = GoldSourceParser.ParseGoldSourceDemo(filename);
+                    cpr.GsDemoInfo = GoldSourceParser.ReadGoldSourceDemo(filename);
                     break;
                 case Parseresult.UnsupportedFile:
                     cpr.Type = Parseresult.UnsupportedFile;
@@ -187,7 +186,7 @@ namespace VolvoWrench.Demo_Stuff
             {
                 if (MessageBox.Show(@"Would you like to open the demo doctor?", @"Demo errors detected!", MessageBoxButtons.YesNo) == DialogResult.Yes)
                     using (var dd = new DemoDoctor(filename))
-                        dd.ShowDialog();              
+                        dd.ShowDialog();
             }
             cpr.DisplayData = GetDemoDataTuples(cpr);
             return cpr;
@@ -223,7 +222,7 @@ namespace VolvoWrench.Demo_Stuff
                         new Tuple<string,string>($"Length in seconds",$"{demo.GsDemoInfo.DirectoryEntries.Sum(x => x.TrackTime).ToString("n3")}s"),
                         new Tuple<string,string>($"Directory Offset",$"{demo.GsDemoInfo.Header.DirectoryOffset}"),
                         new Tuple<string,string>($"Frame count",$"{demo.GsDemoInfo.DirectoryEntries.Sum(x => x.FrameCount)}"),
-                        new Tuple<string,string>($"Higest FPS",$"{(1 / demo.GsDemoInfo.AditionalStats.FrametimeMin).ToString("N2")}"),
+                        new Tuple<string,string>($"Highest FPS",$"{(1 / demo.GsDemoInfo.AditionalStats.FrametimeMin).ToString("N2")}"),
                         new Tuple<string,string>($"Lowest FPS",$"{(1 / demo.GsDemoInfo.AditionalStats.FrametimeMax).ToString("N2")}"),
                         new Tuple<string,string>($"Average FPS",$"{(demo.GsDemoInfo.AditionalStats.Count / demo.GsDemoInfo.AditionalStats.FrametimeSum).ToString("N2")}"),
                         new Tuple<string,string>($"Lowest msec",$"{(1000.0 / demo.GsDemoInfo.AditionalStats.MsecMin).ToString("N2")} FPS"),
@@ -241,7 +240,7 @@ namespace VolvoWrench.Demo_Stuff
                         new Tuple<string, string>($"Map name", $"{demo.HlsooeDemoInfo.Header.MapName}"),
                         new Tuple<string, string>($"Game directory", $"{demo.HlsooeDemoInfo.Header.GameDir}"),
                         new Tuple<string, string>($"Length in seconds", $"{demo.HlsooeDemoInfo.Header.DirectoryOffset}"),
-                        new Tuple<string, string>($"Tick count", $"{(demo.HlsooeDemoInfo.DirectoryEntries.SkipWhile(x => x.FrameCount < 1).Max(x => x.Frames.Max(y => y.Key.Index)))}")
+                        new Tuple<string, string>($"Tick count", $"{demo.HlsooeDemoInfo.DirectoryEntries.SkipWhile(x => x.FrameCount < 1).Max(x => x.Frames.Max(y => y.Key.Index))}")
                     };
                     break;
                 case Parseresult.Source:
@@ -273,14 +272,13 @@ namespace VolvoWrench.Demo_Stuff
                         new Tuple<string, string>($"Playback tick count", $"{demo.L4D2BranchInfo.Header.PlaybackTicks}"),
                         new Tuple<string, string>($"Event count", $"{demo.L4D2BranchInfo.Header.EventCount}"),
                         new Tuple<string, string>($"Signon Length", $"{demo.L4D2BranchInfo.Header.SignonLength}"),
-                        new Tuple<string, string>($"Tickrate", $"{demo.L4D2BranchInfo.Header.PlaybackTicks / demo.L4D2BranchInfo.Header.PlaybackTime}"),
+                        new Tuple<string, string>($"Tickrate", $"{demo.L4D2BranchInfo.Header.Tickrate}"),
                         new Tuple<string, string>($"Start tick", $"{demo.L4D2BranchInfo.PortalDemoInfo?.StartAdjustmentTick}"),
                         new Tuple<string, string>($"Type", $"{demo.L4D2BranchInfo.PortalDemoInfo?.StartAdjustmentType}"),
                         new Tuple<string, string>($"End tick", $"{demo.L4D2BranchInfo.PortalDemoInfo?.EndAdjustmentTick}"),
                         new Tuple<string, string>($"Type", $"{demo.L4D2BranchInfo.PortalDemoInfo?.EndAdjustmentType}"),
-                        new Tuple<string, string>($"Adjusted time", $"{demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks * (1f / (demo.L4D2BranchInfo.Header.PlaybackTicks / demo.L4D2BranchInfo.Header.PlaybackTime))}s"),
+                        new Tuple<string, string>($"Adjusted time", $"{demo.L4D2BranchInfo.PortalDemoInfo?.AdjustTime(demo.L4D2BranchInfo.Header.TicksPerSecond).ToString("n3")}s"),
                         new Tuple<string, string>($"Adjusted ticks", $"{demo.L4D2BranchInfo.PortalDemoInfo?.AdjustedTicks}"),
-
                     };
                     break;
             }
