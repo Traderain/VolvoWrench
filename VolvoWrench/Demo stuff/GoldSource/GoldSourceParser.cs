@@ -531,7 +531,7 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
             {
                 using (var br = new BinaryReader(new MemoryStream(File.ReadAllBytes(s))))
                 {
-                    if (UnexpectedEof(br, (540))) //520 + 12 + 8 = 540 -> Header size
+                    if (UnexpectedEof(br, (540))) //520 + 12 + 8 = 540 -> IDString size
                     {
                         hlsooeDemo.ParsingErrors.Add("Unexpected end of file at the header!");
                         return hlsooeDemo;
@@ -547,7 +547,7 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
                         hlsooeDemo.Header.GameDir =
                             Encoding.ASCII.GetString(br.ReadBytes(260)).Trim('\0').Replace("\0", string.Empty);
                         hlsooeDemo.Header.DirectoryOffset = br.ReadInt32();
-                        //Header Parsed... now we read the directory entries
+                        //IDString Parsed... now we read the directory entries
                         br.BaseStream.Seek(hlsooeDemo.Header.DirectoryOffset, SeekOrigin.Begin);
                         if (UnexpectedEof(br, (4)))
                         {
@@ -885,7 +885,7 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
                             .Replace("\0", string.Empty);
                         gDemo.Header.MapCrc = br.ReadUInt32();
                         gDemo.Header.DirectoryOffset = br.ReadInt32();
-                        //Header Parsed... now we read the directory entries
+                        //IDString Parsed... now we read the directory entries
                         if (UnexpectedEof(br, (gDemo.Header.DirectoryOffset - br.BaseStream.Position)))
                         {
                             gDemo.ParsingErrors.Add("Unexpected end of file when seeking to directory offset!");

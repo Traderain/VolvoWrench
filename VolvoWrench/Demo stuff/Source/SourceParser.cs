@@ -152,9 +152,24 @@ namespace VolvoWrench.Demo_Stuff.Source
             if (bb.ReadBoolean()) node.Nodes.Add("Viewangle pitch: " + bb.ReadSingle());
             if (bb.ReadBoolean()) node.Nodes.Add("Viewangle yaw: " + bb.ReadSingle());
             if (bb.ReadBoolean()) node.Nodes.Add("Viewangle roll: " + bb.ReadSingle());
-            if (bb.ReadBoolean()) node.Nodes.Add("Foward move: " + bb.ReadSingle());
-            if (bb.ReadBoolean()) node.Nodes.Add("Side move: " + bb.ReadSingle());
-            if (bb.ReadBoolean()) node.Nodes.Add("Up move: " + bb.ReadSingle());
+            if (bb.ReadBoolean())
+            {
+                var xDiff = bb.ReadSingle();
+                node.Nodes.Add("Foward move: " + xDiff);
+                node.Nodes.Add("X velocity: " + xDiff/0.015 + "ups");
+            }
+            if (bb.ReadBoolean())
+            {
+                var xDiff = bb.ReadSingle();
+                node.Nodes.Add("Side move: " + xDiff);
+                node.Nodes.Add("Y velocity: " + xDiff / 0.015 + "ups");
+            }
+            if (bb.ReadBoolean())
+            {
+                var xDiff = bb.ReadSingle();
+                node.Nodes.Add("Foward move: " + xDiff);
+                node.Nodes.Add("Z velocity: " + xDiff / 0.015 + "ups");
+            }
             if (bb.ReadBoolean()) node.Nodes.Add("Buttons: " + KeyInterop.KeyFromVirtualKey(Convert.ToInt32(bb.ReadBits(32))));
             if (bb.ReadBoolean()) node.Nodes.Add("Impulse: " + bb.ReadBits(8));
             if (bb.ReadBoolean()) node.Nodes.Add("Weaponselect: " + bb.ReadBits(11));

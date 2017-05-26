@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -8,17 +9,18 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows;
 using VolvoWrench.ExtensionMethods;
+#pragma warning disable 1591
 
 
 
 /*  NOTES
  *  SaveGameState is .hl1
- *  RestoreAdjacenClientState is .hl2
+ *  ClientState is .hl2
  *  EntityPatch is .hl3
  *  TODO: figure out this:https://github.com/LestaD/SourceEngine2007/blob/43a5c90a5ada1e69ca044595383be67f40b33c61/src_main/engine/host_saverestore.cpp#L1399
  *  Note we need different parsers for .hl? files so the enum is indeed necesarry
  *  Main save load method: https://github.com/LestaD/SourceEngine2007/blob/43a5c90a5ada1e69ca044595383be67f40b33c61/se2007/engine/host_state.cpp#L148
- * 
+ *  
  * 
  * 
  */
@@ -42,7 +44,9 @@ namespace VolvoWrench.SaveStuff
 		public string Type { get; set; }
 	}
 
-	public class Listsave
+    [SuppressMessage("ReSharper", "UseObjectOrCollectionInitializer")]
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
+    public class Listsave
 	{
 		[Serializable]
 		public enum Hlfile
@@ -101,7 +105,7 @@ namespace VolvoWrench.SaveStuff
 			{
 				result.FileName = Path.GetFileName(file);
 				result.Files = new List<StateFileInfo>();
-				result.Header = (Encoding.ASCII.GetString(br.ReadBytes(sizeof (int))));
+				result.IDString = (Encoding.ASCII.GetString(br.ReadBytes(sizeof (int))));
 				result.SaveVersion = br.ReadInt32();
 				result.TokenTableFileTableOffset = br.ReadInt32();
 				result.TokenCount = br.ReadInt32();
@@ -185,8 +189,8 @@ namespace VolvoWrench.SaveStuff
 		/// <returns></returns>
 		public static StateFileInfo ParseStateFile(StateFileInfo stateFile)
 		{
-			if (stateFile.Data.Length < 16)
-				return stateFile;
+			//if (stateFile.Data.Length < 16)
+				return stateFile;            
 			using (var br = new BinaryReader(new MemoryStream(stateFile.Data)))
 			{
 				var si = new SaveFileSectionsInfo_t();
@@ -219,7 +223,59 @@ namespace VolvoWrench.SaveStuff
 			return stateFile;
 		}
 
-		/// <summary>
+	    /// <summary>
+	    /// Parses a .hl2 statefile which contains the client state
+	    /// </summary>
+	    /// <param name="stateFile"></param>
+	    /// <returns></returns>
+	    public static ClientState ParseClienState(StateFileInfo stateFile)
+	    {
+	        using (var br = new BinaryReader(new MemoryStream(stateFile.Data)))
+	        {
+                ClientState cs = new ClientState();
+	            cs.IdString = br.ReadBytes(4);
+	            long savepos = br.BaseStream.Position;
+	            cs.Magicnumber = br.ReadUInt32();
+	            if (cs.Magicnumber == SECTION_MAGIC_NUMBER)
+	            {
+	                cs.Baseclientsections.entitysize = br.ReadInt32();
+                    cs.Baseclientsections.headersize = br.ReadInt32();
+                    cs.Baseclientsections.decalsize = br.ReadInt32();
+                    cs.Baseclientsections.musicsize = br.ReadInt32();
+                    cs.Baseclientsections.symbolsize = br.ReadInt32();
+
+                    cs.Baseclientsections.decalcount = br.ReadInt32();
+                    cs.Baseclientsections.musiccount = br.ReadInt32();
+                    cs.Baseclientsections.symbolcount = br.ReadInt32();
+	            }
+	            else
+	            {
+	                br.BaseStream.Seek(savepos, SeekOrigin.Begin);
+	                cs.Baseclientsectionsold.entitysize = br.ReadInt32();
+	                cs.Baseclientsectionsold.headersize = br.ReadInt32();
+                    cs.Baseclientsectionsold.decalsize = br.ReadInt32();
+                    cs.Baseclientsectionsold.symbolsize = br.ReadInt32();
+                    cs.Baseclientsectionsold.decalcount = br.ReadInt32();
+                    cs.Baseclientsectionsold.symbolcount = br.ReadInt32();
+
+                    cs.Baseclientsections.entitysize = cs.Baseclientsectionsold.entitysize;
+                    cs.Baseclientsections.headersize = cs.Baseclientsectionsold.headersize;
+                    cs.Baseclientsections.decalsize = cs.Baseclientsectionsold.decalsize;
+                    cs.Baseclientsections.symbolsize = cs.Baseclientsectionsold.symbolsize;
+
+                    cs.Baseclientsections.decalcount = cs.Baseclientsectionsold.decalcount;
+                    cs.Baseclientsections.symbolcount = cs.Baseclientsectionsold.symbolcount;
+                }
+
+	            byte[] pszTokenList = br.ReadBytes(cs.Baseclientsections.SumBytes());
+
+
+	            return cs;
+	        }
+	    }
+
+
+	    /// <summary>
 		/// This parses .hl3 files
 		/// </summary>
 		/// <param name="stateFile">The .hl3 file</param>
@@ -270,7 +326,7 @@ namespace VolvoWrench.SaveStuff
 			public string FileName { get; set; }
 			[Category("File")]
 			[Description("The header or magic word of the file which identifies it. Should be ('J','S','A','V')")]
-			public string Header { get; set; }
+			public string IDString { get; set; }
 			[Category("File")]
 			[Description("The version of the save files. This is for some reason 115 for nearly any save file. The people at valve forgot to change it for some reason probably.")]
 			public int SaveVersion { get; set; }
@@ -320,6 +376,55 @@ namespace VolvoWrench.SaveStuff
 			public byte[] pSymbols { get; set; }
 		}
 
+	    /// <summary>
+	    /// This client state which are in .hl2 files
+	    /// </summary>
+	    public class ClientState : IStateFile
+        {
+	        /// <summary>
+	        /// The Magic of the file
+	        /// </summary>
+	        [Description("The magic word of the file")]
+	        public byte[] IdString;
+
+            /// <summary>
+            /// Version compatibility number
+            /// </summary>
+            [Description("A number to help version compatibility")]
+	        public uint Magicnumber;
+
+            /// <summary>
+            /// The base client sections
+            /// </summary>
+            [Description("The base client sections")]
+            public baseclientsections_t Baseclientsections;
+
+            /// <summary>
+            /// The base client sections for old save files
+            /// </summary>
+            [Description("The base client sections for old save files")]
+            public baseclientsectionsold_t Baseclientsectionsold;
+
+	    }
+
+        /// <summary>
+        /// The entity patch .hl3 file which contains entity IDs.
+        /// </summary>
+        public class EntityPatchStateFile : IStateFile
+        {
+            /// <summary>
+            /// Ids of the entities
+            /// </summary>
+            [Description("These ids get the FENTTABLE_REMOVED flag")]
+            [Category("Details")]
+            public int[] EntityIds;
+        }
+
+        /// <summary>
+        /// The interface all 3 statefiles implement
+        /// </summary>
+        public interface IStateFile { }
+
 		#region DataDesc
 
 		public const int SAVEGAME_MAPNAME_LEN = 32;
@@ -361,7 +466,23 @@ namespace VolvoWrench.SaveStuff
 			}
 		};
 
-		class CHostState
+        public struct baseclientsectionsold_t
+        {
+            public int entitysize;
+            public int headersize;
+            public int decalsize;
+            public int symbolsize;
+
+            public int decalcount;
+            public int symbolcount;
+
+            public int SumBytes()
+            {
+                return entitysize + headersize + decalsize + symbolsize;
+            }
+        };
+
+        class CHostState
 		{ 
 			HOSTSTATES m_currentState;
 			HOSTSTATES m_nextState;

@@ -21,7 +21,7 @@ namespace VolvoWrench.Demo_Stuff.L4D2Branch.CSGODemoInfo
         #region Events
 
         /// <summary>
-        ///     Raised once when the Header of the demo is parsed
+        ///     Raised once when the IDString of the demo is parsed
         /// </summary>
         public event EventHandler<HeaderParsedEventArgs> HeaderParsed;
 
