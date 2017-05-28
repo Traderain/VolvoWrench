@@ -147,12 +147,14 @@
     </Compile>
     <Compile Include="Demo stuff\BinaryReaderExtension.cs" />
     <Compile Include="Demo stuff\DemoInfo.cs" />
+    <Compile Include="Demo stuff\GoldSource\BXT.cs" />
     <Compile Include="Demo stuff\GoldSource\frmFrameView.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Demo stuff\GoldSource\frmFrameView.Designer.cs">
       <DependentUpon>frmFrameView.cs</DependentUpon>
     </Compile>
+    <Compile Include="Demo stuff\GoldSource\TEA.cs" />
     <Compile Include="Demo stuff\L4D2Branch\Category.cs" />
     <Compile Include="Demo stuff\L4D2Branch\BitStreamUtil\BitArrayStream.cs" />
     <Compile Include="Demo stuff\L4D2Branch\BitStreamUtil\BitStreamUtil.cs" />

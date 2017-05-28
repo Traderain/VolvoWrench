@@ -514,6 +514,24 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
         }
 
         /// <summary>
+        /// Unescapes bytes coded into demos by BXT.
+        /// </summary>
+        /// <param name="originalBytes">Bytes read from the demo.</param>
+        /// <returns>Unescaped bytes.</returns>
+        public static byte[] UnescapeGoldSourceBytes(byte[] originalBytes)
+        {
+            var escapeCharacters = new Dictionary<int, int>
+            {
+                { 0x00, 0x01 },
+                {'"', 0x02 },
+                {'\n', 0x03 },
+                {';', 0x04 },
+                {0xFF, 0xFF }
+		    };
+            throw new NotImplementedException("Not implemented yet! D");
+        }
+
+        /// <summary>
         ///     Parses a HLS:OOE Demo
         /// </summary>
         /// <param name="s">Path to the file</param>
