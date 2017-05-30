@@ -32,58 +32,23 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.button1 = new System.Windows.Forms.Button();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.mrtb = new System.Windows.Forms.RichTextBox();
-            this.demoparserslave = new System.ComponentModel.BackgroundWorker();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.demostartCommandToClipboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.demoparserslave = new System.ComponentModel.BackgroundWorker();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openDemosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.BXTTreeView = new System.Windows.Forms.TreeView();
+            this.mrtb = new System.Windows.Forms.RichTextBox();
+            this.contextMenuStrip1.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // button1
-            // 
-            this.button1.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.button1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.button1.Location = new System.Drawing.Point(12, 12);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(118, 50);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "Select demos";
-            this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // splitContainer1
-            // 
-            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
-            this.splitContainer1.IsSplitterFixed = true;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer1.Name = "splitContainer1";
-            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splitContainer1.Panel2
-            // 
-            this.splitContainer1.Panel2.Controls.Add(this.mrtb);
-            this.splitContainer1.Size = new System.Drawing.Size(1125, 554);
-            this.splitContainer1.SplitterDistance = 75;
-            this.splitContainer1.TabIndex = 2;
-            // 
-            // mrtb
-            // 
-            this.mrtb.BackColor = System.Drawing.SystemColors.InfoText;
-            this.mrtb.ContextMenuStrip = this.contextMenuStrip1;
-            this.mrtb.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mrtb.ForeColor = System.Drawing.SystemColors.InactiveBorder;
-            this.mrtb.Location = new System.Drawing.Point(0, 0);
-            this.mrtb.Name = "mrtb";
-            this.mrtb.Size = new System.Drawing.Size(1125, 475);
-            this.mrtb.TabIndex = 1;
-            this.mrtb.Text = "No files selected!";
             // 
             // contextMenuStrip1
             // 
@@ -112,6 +77,76 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
+            // menuStrip1
+            // 
+            this.menuStrip1.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(1125, 28);
+            this.menuStrip1.TabIndex = 1;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // fileToolStripMenuItem
+            // 
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openDemosToolStripMenuItem});
+            this.fileToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(44, 24);
+            this.fileToolStripMenuItem.Text = "File";
+            // 
+            // openDemosToolStripMenuItem
+            // 
+            this.openDemosToolStripMenuItem.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.openDemosToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.openDemosToolStripMenuItem.Name = "openDemosToolStripMenuItem";
+            this.openDemosToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.openDemosToolStripMenuItem.Text = "Open demos";
+            this.openDemosToolStripMenuItem.Click += new System.EventHandler(this.openDemosToolStripMenuItem_Click);
+            // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.Location = new System.Drawing.Point(0, 28);
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.BXTTreeView);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.mrtb);
+            this.splitContainer1.Size = new System.Drawing.Size(1125, 526);
+            this.splitContainer1.SplitterDistance = 375;
+            this.splitContainer1.TabIndex = 2;
+            // 
+            // BXTTreeView
+            // 
+            this.BXTTreeView.BackColor = System.Drawing.SystemColors.InactiveCaptionText;
+            this.BXTTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.BXTTreeView.ForeColor = System.Drawing.SystemColors.InactiveBorder;
+            this.BXTTreeView.LineColor = System.Drawing.Color.White;
+            this.BXTTreeView.Location = new System.Drawing.Point(0, 0);
+            this.BXTTreeView.Name = "BXTTreeView";
+            this.BXTTreeView.Size = new System.Drawing.Size(375, 526);
+            this.BXTTreeView.TabIndex = 0;
+            // 
+            // mrtb
+            // 
+            this.mrtb.BackColor = System.Drawing.SystemColors.MenuText;
+            this.mrtb.ContextMenuStrip = this.contextMenuStrip1;
+            this.mrtb.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mrtb.ForeColor = System.Drawing.SystemColors.InactiveBorder;
+            this.mrtb.Location = new System.Drawing.Point(0, 0);
+            this.mrtb.Name = "mrtb";
+            this.mrtb.Size = new System.Drawing.Size(746, 526);
+            this.mrtb.TabIndex = 0;
+            this.mrtb.Text = "";
+            // 
             // Verification
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -119,8 +154,9 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.ClientSize = new System.Drawing.Size(1125, 554);
             this.ContextMenuStrip = this.contextMenuStrip1;
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.splitContainer1);
+            this.Controls.Add(this.menuStrip1);
+            this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Verification";
@@ -129,22 +165,28 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
             this.Text = "Verification";
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.Verification_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.Verification_DragEnter);
-            this.DragLeave += new System.EventHandler(this.Verification_DragLeave);
+            this.contextMenuStrip1.ResumeLayout(false);
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
+            this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
-        private Button button1;
-        private SplitContainer splitContainer1;
-        private RichTextBox mrtb;
         private BackgroundWorker demoparserslave;
         private ContextMenuStrip contextMenuStrip1;
         private ToolStripMenuItem demostartCommandToClipboardToolStripMenuItem;
         private ToolStripMenuItem exitToolStripMenuItem;
+        private MenuStrip menuStrip1;
+        private ToolStripMenuItem fileToolStripMenuItem;
+        private ToolStripMenuItem openDemosToolStripMenuItem;
+        private SplitContainer splitContainer1;
+        private TreeView BXTTreeView;
+        private RichTextBox mrtb;
     }
 }

@@ -29,6 +29,8 @@ namespace VolvoWrench.Demo_stuff.GoldSource
         {
             for (var index = 0; index < info.DirectoryEntries.Count; index++)
             {
+                var entrynode = new TreeNode("Directory entry [" + (index+1) + "] - " + info.DirectoryEntries[index].FrameCount);
+                entrynode.ForeColor = Color.Chartreuse;
                 foreach (var frame in info.DirectoryEntries[index].Frames)
                 {
                     var row = index + "/" + frame.Key.FrameIndex + " " + "[" + frame.Key.Time + "s]: " +
@@ -44,11 +46,11 @@ namespace VolvoWrench.Demo_stuff.GoldSource
                         case Demo_Stuff.GoldSource.GoldSource.DemoFrameType.ConsoleCommand:
                         {
                             subnode.Text = ((Demo_Stuff.GoldSource.GoldSource.ConsoleCommandFrame) frame.Value).Command;
+                            subnode.Nodes.Add(new TreeNode("Bytes: " + ((Demo_Stuff.GoldSource.GoldSource.ConsoleCommandFrame)frame.Value).BxtData?.Length){ForeColor = Color.AliceBlue});
                             node.BackColor = Color.DarkRed;
                             break;
                         }
                         case Demo_Stuff.GoldSource.GoldSource.DemoFrameType.ClientData:
-                            
                             break;
                         case Demo_Stuff.GoldSource.GoldSource.DemoFrameType.NextSection:
                         {
@@ -76,8 +78,9 @@ namespace VolvoWrench.Demo_stuff.GoldSource
                     node.Text = row;
                     if(subnode?.Text?.Length > 0)
                         node.Nodes.Add(subnode);
-                    frameTreeView.Nodes.Add(node);
+                    entrynode.Nodes.Add(node);
                 }
+                frameTreeView.Nodes.Add(entrynode);
             }
         }
     }

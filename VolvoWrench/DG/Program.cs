@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -22,6 +24,8 @@ namespace VolvoWrench.DG
             Application.ThreadException += ApplicationThreadException;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
 #endif
+            if (Debugger.IsAttached)
+                CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.GetCultureInfo("en-US");
             var argsappended = args.ToList();
             argsappended.Add(AppDomain.CurrentDomain?.SetupInformation?.ActivationArguments?.ActivationData[0]); //This fixes the OpenWith on clickonce apps
             var cla = argsappended;

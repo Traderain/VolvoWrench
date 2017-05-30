@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using MoreLinq;
+using VolvoWrench.Demo_stuff.GoldSource;
 
 namespace VolvoWrench.Demo_Stuff.GoldSource
 {
@@ -28,10 +29,13 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
         {
             InitializeComponent();
             DemopathList = new List<string>();
+            this.mrtb.DragDrop += Verification_DragDrop;
+            this.mrtb.DragEnter += Verification_DragEnter;
+            this.mrtb.AllowDrop = true;
             AllowDrop = true;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void openDemosToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var of = new OpenFileDialog
             {
@@ -41,7 +45,6 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
 
             if (of.ShowDialog() == DialogResult.OK && of.FileNames.Length > 1)
             {
-                //CrossDemoParser.MultiDemoParse(of.FileNames);
                 Verify(of.FileNames);
             }
             else
@@ -134,6 +137,7 @@ Total time of the demos:    {Df.Sum(x => x.Value.GsDemoInfo.DirectoryEntries.Sum
 Human readable time:        {TimeSpan.FromSeconds(Df.Sum(x => x.Value.GsDemoInfo.DirectoryEntries.Sum(y => y.TrackTime))).ToString("g")}" + "\n\n");
 
                 mrtb.AppendText("Demo cheat check:" + "\n");
+
                 foreach (var dem in Df)
                 {
                     mrtb.AppendText(Path.GetFileName(dem.Key) + " -> " + dem.Value.GsDemoInfo.Header.MapName);
@@ -147,9 +151,114 @@ Human readable time:        {TimeSpan.FromSeconds(Df.Sum(x => x.Value.GsDemoInfo
                     }
                     else
                     {
-                        mrtb.AppendText("✓ OK \n");
+                        mrtb.AppendText(" - ✓ OK \n");
                     }
+
                 }
+                ParseBxtData(Df);
+            }
+        }
+
+        /// <summary>
+        /// Parses the bxt data into treenodes
+        /// </summary>
+        /// <param name="Infos"></param>
+        public void ParseBxtData(Dictionary<string, CrossParseResult> Infos)
+        {
+            BXTTreeView.Nodes.Clear();
+            foreach (var info in Infos)
+            {
+                var demonode = new TreeNode(Path.GetFileName(info.Key)) {ForeColor = Color.White};
+                for (int i = 0; i < info.Value.GsDemoInfo.IncludedBXtData.Count; i++)
+                {
+                    var datanode = new TreeNode("BXT Data Frame [" + i + "]") { ForeColor = Color.White };
+                    foreach (KeyValuePair<Bxt.RuntimeDataType, Bxt.BXTData> t in info.Value.GsDemoInfo.IncludedBXtData[i].Objects)
+                    {
+                        switch (t.Key)
+                        {
+                            case Bxt.RuntimeDataType.VERSION_INFO:
+                            {
+                                datanode.Nodes.Add(new TreeNode("Version info")
+                                {
+                                    ForeColor = Color.White,
+                                    Nodes =
+                                    {
+                                        new TreeNode("Game version: " + ((Bxt.VersionInfo)t.Value).build_number),
+                                        new TreeNode("BXT Version: " + ((Bxt.VersionInfo)t.Value).bxt_version)
+                                    }
+                                });
+                                break;
+                            }
+                            case Bxt.RuntimeDataType.CVAR_VALUES:
+                            {
+                                var cvarnode = new TreeNode("Cvars [" + ((Bxt.CVarValues)t.Value).CVars.Count + "]") {ForeColor = Color.White};
+                                cvarnode.Nodes.AddRange(((Bxt.CVarValues)t.Value).CVars.Select(x => new TreeNode(x.Key + " " + x.Value) { ForeColor = Color.White}).ToArray());
+                                datanode.Nodes.Add(cvarnode);
+                                break;
+                            }
+                            case Bxt.RuntimeDataType.TIME:
+                            {
+                                datanode.Nodes.Add(new TreeNode("Time: " + ((Bxt.Time)t.Value).ToString()) { ForeColor = Color.White });
+                                break;
+                            }
+                            case Bxt.RuntimeDataType.BOUND_COMMAND:
+                            {
+                                datanode.Nodes.Add(new TreeNode("Bound command: " + ((Bxt.BoundCommand)t.Value).command) { ForeColor = Color.White });
+                                break;
+                            }
+                            case Bxt.RuntimeDataType.ALIAS_EXPANSION:
+                            {
+                                datanode.Nodes.Add(new TreeNode("Alias name: " + ((Bxt.AliasExpansion)t.Value).name + "Command:" + ((Bxt.AliasExpansion)t.Value).command) { ForeColor = Color.White });
+                                break;
+                            }
+                            case Bxt.RuntimeDataType.SCRIPT_EXECUTION:
+                            {
+                                datanode.Nodes.Add(new TreeNode("Script: " + ((Bxt.ScriptExecution)t.Value).filename)
+                                {
+                                    ForeColor = Color.White,
+                                    Nodes = { new TreeNode(((Bxt.ScriptExecution)t.Value).contents) {ForeColor = Color.White} }
+                                });
+                                break;
+                            }
+                            case Bxt.RuntimeDataType.COMMAND_EXECUTION:
+                            {
+                                datanode.Nodes.Add(new TreeNode("Command: " + ((Bxt.CommandExecution)t.Value).command) { ForeColor = Color.White });
+                                break;
+                            }
+                            case Bxt.RuntimeDataType.GAME_END_MARKER:
+                            {
+                                datanode.Nodes.Add(new TreeNode("-- GAME END --") { ForeColor = Color.White });
+                                break;
+                            }
+                            case Bxt.RuntimeDataType.LOADED_MODULES:
+                            {
+                                var modulesnode = new TreeNode("Loaded modules [" + ((Bxt.LoadedModules)t.Value).filenames.Count + "]") { ForeColor = Color.White };
+                                modulesnode.Nodes.AddRange(((Bxt.LoadedModules)t.Value).filenames.Select(x=> new TreeNode(x) { ForeColor = Color.White }).ToArray());
+                                datanode.Nodes.Add(modulesnode);
+                                break;
+                            }
+                            case Bxt.RuntimeDataType.CUSTOM_TRIGGER_COMMAND:
+                            {
+                                var trigger = (Bxt.CustomTriggerCommand) t.Value;
+                                datanode.Nodes.Add(new TreeNode($"Costum trigger X1:{trigger.corner_max.X} Y1:{trigger.corner_max.Y} Z1:{trigger.corner_max.Z} X2:{trigger.corner_min.X} Y2:{trigger.corner_min.Y} Z2:{trigger.corner_min.Z}")
+                                {
+                                    ForeColor = Color.White,
+                                    Nodes = { new TreeNode("Command: " + trigger.command) {ForeColor = Color.White} }
+                             
+                                });
+                                break;
+                            }
+                            default:
+                            {
+                                datanode.Nodes.Add(new TreeNode("Invalid bxt data!") {ForeColor = Color.Red});
+                                break;
+                            }
+                                
+                        }
+                    }
+                    demonode.Nodes.Add(datanode);
+                }
+                BXTTreeView.Nodes.Add(demonode);
             }
         }
 
@@ -162,10 +271,7 @@ Human readable time:        {TimeSpan.FromSeconds(Df.Sum(x => x.Value.GsDemoInfo
         {
             var dropfiles = (string[]) e.Data.GetData(DataFormats.FileDrop);
             Verify(dropfiles);
-        }
-
-        private void Verification_DragLeave(object sender, EventArgs e)
-        {
+            e.Effect = DragDropEffects.None;
         }
     }
 }
