@@ -577,12 +577,13 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
 		/// <returns>The parsed data.</returns>
 		public static GoldSource.IncludedBXtData FormatBxtData(byte[] bxtdata)
 		{
+			File.WriteAllBytes(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\extracted\\" + Path.GetRandomFileName() + ".bin",bxtdata);
 			var res = new GoldSource.IncludedBXtData {Objects = new List<KeyValuePair<Bxt.RuntimeDataType, Bxt.BXTData>>()};
 			if (bxtdata.Length == 0)
 				return res;
 			var decryptedBxtData = new List<UInt32>();
-		    if (bxtdata.Count()%8 != 0)
-		        bxtdata = bxtdata.Take(bxtdata.Length - (bxtdata.Length%8)).ToArray();
+			if (bxtdata.Count()%8 != 0)
+				bxtdata = bxtdata.Take(bxtdata.Length - (bxtdata.Length%8)).ToArray();
 			if (bxtdata.Count()%8 == 0)
 			{
 				foreach (var packedbytes in bxtdata.Select((x, i) => new { Index = i, Value = x }).GroupBy(x => x.Index / 8).Select(x => x.Select(v => v.Value).ToList()).ToList())
@@ -595,8 +596,8 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
 					var objects = br.ReadUInt32();
 					for (var i = 0; i < objects; i++)
 					{
-					    if (UnexpectedEof(br, 1))
-					        return res;
+						if (UnexpectedEof(br, 1))
+							return res;
 						var type = (Bxt.RuntimeDataType) br.ReadByte();
 						switch (type)
 						{
@@ -623,7 +624,7 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
 							case Bxt.RuntimeDataType.ALIAS_EXPANSION:
 								var ae = new Bxt.AliasExpansion();
 								ae.Read(br);
-								res.Objects.Add(new KeyValuePair<Bxt.RuntimeDataType, Bxt.BXTData>(Bxt.RuntimeDataType.VERSION_INFO, ae));
+								res.Objects.Add(new KeyValuePair<Bxt.RuntimeDataType, Bxt.BXTData>(Bxt.RuntimeDataType.ALIAS_EXPANSION, ae));
 								break;
 							case Bxt.RuntimeDataType.SCRIPT_EXECUTION:
 								var se = new Bxt.ScriptExecution();
@@ -674,13 +675,18 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
 			foreach (var entry in Gsdemo.DirectoryEntries)
 			{
 				ret.AddRange(entry.Frames.Where(y => y.Key.Type == GoldSource.DemoFrameType.ConsoleCommand)
-                    .GroupBy(x => x.Key.FrameIndex).Select(x => x.Where(y => ((GoldSource.ConsoleCommandFrame) (y.Value)).BxtData.Count() > 0)).Select(framegroup => GoldSourceParser.UnescapeGoldSourceBytes((framegroup.SelectMany(y => Tea.TrimBytes(((GoldSource.ConsoleCommandFrame) (y.Value)).BxtData)).ToArray()))).ToArray());
+					.GroupBy(x => x.Key.FrameIndex)
+					.Select(x => x.Where(y => ((GoldSource.ConsoleCommandFrame) (y.Value)).BxtData.Count() > 0))
+					.Select(framegroup => UnescapeGoldSourceBytes((framegroup
+							.SelectMany(y => Tea.TrimBytes(((GoldSource.ConsoleCommandFrame) (y.Value)).BxtData))
+							.ToArray())))
+							.ToArray());
 			}
 			return ret;
 		}
 
 		/// <summary>
-		/// Locates //BXT? is present and extracts it
+		/// Locates //BXTD and if it is present extracts it
 		/// </summary>
 		/// <param name="bytes">Console command fram data</param>
 		/// <returns>Extracted bxt data</returns>
@@ -963,7 +969,6 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
 											entry.Frames.Add(currentDemoFrame, new Hlsooe.NextSectionFrame());
 											break;
 										default:
-											Main.Log($"Error: Frame type: + {currentDemoFrame.Type} at parsing.");
 											if (UnexpectedEof(br, (108)))
 											{
 												hlsooeDemo.ParsingErrors.Add(
@@ -1044,6 +1049,8 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
 			{
 				using (var br = new BinaryReader(new MemoryStream(File.ReadAllBytes(s))))
 				{
+					//var s1 = new System.Diagnostics.Stopwatch();
+					//s1.Start();
 					var mw = Encoding.ASCII.GetString(br.ReadBytes(8)).Trim('\0').Replace("\0", string.Empty);
 					if (mw == "HLDEMO")
 					{
@@ -1097,6 +1104,9 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
 							};
 							gDemo.DirectoryEntries.Add(tempvar);
 						}
+						//s1.Stop();
+						//var s2 = new System.Diagnostics.Stopwatch();
+						//s2.Start();
 						//Demo directory entries parsed... now we parse the frames.
 						foreach (var entry in gDemo.DirectoryEntries)
 						{
@@ -1108,26 +1118,24 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
 							br.BaseStream.Seek(entry.Offset, SeekOrigin.Begin);
 							var ind = 0;
 							var nextSectionRead = false;
-							for (var i = 0; i < entry.FrameCount; i++)
+							while(!nextSectionRead)
 							{
 								ind++;
-								if (!nextSectionRead)
+								if (UnexpectedEof(br, (1 + 4 + 4)))
 								{
-									if (UnexpectedEof(br, (1 + 4 + 4)))
-									{
-										gDemo.ParsingErrors.Add(
-											"Unexpected end of file when reading the header of the frame: " + ind + 1);
-										return gDemo;
-									}
-									var currentDemoFrame = new GoldSource.DemoFrame
-									{
-										Type = (GoldSource.DemoFrameType) br.ReadSByte(),
-										Time = br.ReadSingle(),
-										FrameIndex = br.ReadInt32(),
-										Index = ind
-									};
-
-									#region Frame Switch
+									gDemo.ParsingErrors.Add(
+										"Unexpected end of file when reading the header of the frame: " + ind + 1);
+									return gDemo;
+								}
+								var currentDemoFrame = new GoldSource.DemoFrame
+								{
+									Type = (GoldSource.DemoFrameType) br.ReadSByte(),
+									Time = br.ReadSingle(),
+									FrameIndex = br.ReadInt32(),
+									Index = ind
+								};
+								Application.DoEvents();
+								#region Frame Switch
 
 									switch (currentDemoFrame.Type)
 									{
@@ -1269,7 +1277,6 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
 											entry.Frames.Add(currentDemoFrame, bframe);
 											break;
 										default:
-											Main.Log("Unknow frame type read at " + br.BaseStream.Position);
 											var nf = new GoldSource.NetMsgFrame();
 											if (UnexpectedEof(br, (468)))
 											{
@@ -1436,7 +1443,6 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
 									}
 
 									#endregion
-								}
 							}
 						}
 
@@ -1466,7 +1472,14 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
 								gDemo.AditionalStats.MsecMax = Math.Max(gDemo.AditionalStats.MsecMax, f.UCmd.Msec);
 							}
 						}
+						//s2.Stop();
+						//var s3 = new System.Diagnostics.Stopwatch();
+						//s3.Start();
 						gDemo.IncludedBXtData = ParseIncludedBytes(gDemo).Select(FormatBxtData).ToList();
+						//s3.Stop();
+						/*MessageBox.Show($@"Parsing header: {s1.ElapsedMilliseconds}ms
+Parsing frames:{s2.ElapsedMilliseconds}ms
+Parsing bxt data:{s3.ElapsedMilliseconds}ms");*/
 					}
 					else
 					{
