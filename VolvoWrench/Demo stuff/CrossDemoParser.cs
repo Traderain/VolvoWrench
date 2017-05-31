@@ -239,8 +239,8 @@ namespace VolvoWrench.Demo_Stuff
                         new Tuple<string, string>($"Directory offset", $"{demo.HlsooeDemoInfo.Header.DirectoryOffset}"),
                         new Tuple<string, string>($"Map name", $"{demo.HlsooeDemoInfo.Header.MapName}"),
                         new Tuple<string, string>($"Game directory", $"{demo.HlsooeDemoInfo.Header.GameDir}"),
-                        new Tuple<string, string>($"Length in seconds", $"{demo.HlsooeDemoInfo.Header.DirectoryOffset}"),
-                        new Tuple<string, string>($"Tick count", $"{demo.HlsooeDemoInfo.DirectoryEntries.SkipWhile(x => x.FrameCount < 1).Max(x => x.Frames.Max(y => y.Key.Index))}")
+                        new Tuple<string, string>($"Length in seconds", $"{demo.HlsooeDemoInfo.DirectoryEntries.SkipWhile(x => x.FrameCount < 1).Max(x => x.Frames.Max(y => y.Key.Index))*0.015}s [{demo.HlsooeDemoInfo.DirectoryEntries.SkipWhile(x => x.FrameCount < 1).Max(x => x.Frames.Max(y => y.Key.Index))}ticks]"),
+                        new Tuple<string,string>($"Save flag:",$"{demo.HlsooeDemoInfo.DirectoryEntries.SkipWhile(x => x.FrameCount < 1).Max(x => x.Frames.Where((y => y.Key.Type == Hlsooe.DemoFrameType.ConsoleCommand)).FirstOrDefault(z => ((Hlsooe.ConsoleCommandFrame)(z.Value)).Command.Contains("#SAVE#")).Key.Index)*0.015} [{demo.HlsooeDemoInfo.DirectoryEntries.SkipWhile(x => x.FrameCount < 1).Max(x => x.Frames.Where((y => y.Key.Type == Hlsooe.DemoFrameType.ConsoleCommand)).FirstOrDefault(z => ((Hlsooe.ConsoleCommandFrame)(z.Value)).Command.Contains("#SAVE#")).Key.Index)}ticks]")
                     };
                     break;
                 case Parseresult.Source:

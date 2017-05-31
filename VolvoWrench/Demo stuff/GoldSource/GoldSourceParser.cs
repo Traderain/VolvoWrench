@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Windows.Forms;
 using System.Windows.Media.Media3D;
@@ -703,7 +702,6 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
 		/// <returns></returns>
 		public static GoldSourceDemoInfoHlsooe ParseDemoHlsooe(string s)
 		{
-			//TODO: Finnaly fix this. It's a joke this is still not fixed at this point. ResidentSleeper
 			var hlsooeDemo = new GoldSourceDemoInfoHlsooe
 			{
 				Header = new Hlsooe.DemoHeader(),
@@ -758,263 +756,257 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
 							hlsooeDemo.DirectoryEntries.Add(tempvar);
 						}
 						//Demo directory entries parsed... now we parse the frames.
-						foreach (var entry in hlsooeDemo.DirectoryEntries)
-						{
-							if (entry.Offset > br.BaseStream.Length)
-							{
-								hlsooeDemo.ParsingErrors.Add("Couldn't seek to directoryentry the file is corrupted.");
-								return hlsooeDemo;
-							}
-							br.BaseStream.Seek(entry.Offset, SeekOrigin.Begin);
-							var nextSectionRead = false;
-							for (var i = 0; i < entry.FrameCount; i++)
-							{
-								if (!nextSectionRead)
-								{
-									if (UnexpectedEof(br, (9)))
-									{
-										hlsooeDemo.ParsingErrors.Add(
-											"Failed to read next frame details after frame no.: " + i);
-										return hlsooeDemo;
-									}
-									var currentDemoFrame = new Hlsooe.DemoFrame
-									{
-										Type = (Hlsooe.DemoFrameType) br.ReadSByte(),
-										Time = br.ReadSingle(),
-										Index = br.ReadInt32(),
-										Frame = i + 1
-									};
+					    foreach (var entry in hlsooeDemo.DirectoryEntries)
+					    {
+					        if (entry.Offset > br.BaseStream.Length)
+					        {
+					            hlsooeDemo.ParsingErrors.Add("Couldn't seek to directoryentry the file is corrupted.");
+					            return hlsooeDemo;
+					        }
+					        br.BaseStream.Seek(entry.Offset, SeekOrigin.Begin);
+					        int i = 0;
+					        var nextSectionRead = false;
+					        while (!nextSectionRead)
+					        {
+					            if (UnexpectedEof(br, (9)))
+					            {
+					                hlsooeDemo.ParsingErrors.Add(
+					                    "Failed to read next frame details after frame no.: " + i);
+					                return hlsooeDemo;
+					            }
+					            var currentDemoFrame = new Hlsooe.DemoFrame
+					            {
+					                Type = (Hlsooe.DemoFrameType) br.ReadSByte(),
+					                Time = br.ReadSingle(),
+					                Index = br.ReadInt32(),
+					                Frame = i + 1
+					            };
 
-									#region FrameType Switch
+					            #region FrameType Switch
 
-									switch (currentDemoFrame.Type)
-									{
-										case Hlsooe.DemoFrameType.StartupPacket:
-											if (UnexpectedEof(br, (108)))
-											{
-												hlsooeDemo.ParsingErrors.Add("Failed to read startup packet at frame:" +
-																			 i);
-												return hlsooeDemo;
-											}
-											var g = new Hlsooe.StartupPacketFrame
-											{
-												Flags = br.ReadInt32(),
-												ViewOrigins =
-													new Point3D(br.ReadSingle(), br.ReadSingle(), br.ReadSingle()),
-												ViewAngles =
-													new Point3D(br.ReadSingle(), br.ReadSingle(), br.ReadSingle()),
-												LocalViewAngles =
-													new Point3D(br.ReadSingle(), br.ReadSingle(), br.ReadSingle()),
-												ViewOrigin2 =
-													new Point3D(br.ReadSingle(), br.ReadSingle(), br.ReadSingle()),
-												ViewAngles2 =
-													new Point3D(br.ReadSingle(), br.ReadSingle(), br.ReadSingle()),
-												LocalViewAngles2 =
-													new Point3D(br.ReadSingle(), br.ReadSingle(), br.ReadSingle()),
-												IncomingSequence = br.ReadInt32(),
-												IncomingAcknowledged = br.ReadInt32(),
-												IncomingReliableAcknowledged = br.ReadInt32(),
-												IncomingReliableSequence = br.ReadInt32(),
-												OutgoingSequence = br.ReadInt32(),
-												ReliableSequence = br.ReadInt32(),
-												LastReliableSequence = br.ReadInt32()
-											};
-											var spml = br.ReadInt32();
-											g.Msg = Encoding.ASCII.GetString(br.ReadBytes(spml))
-												.Trim('\0')
-												.Replace("\0", string.Empty);
-											entry.Frames.Add(currentDemoFrame, g);
-											break;
-										case Hlsooe.DemoFrameType.NetworkPacket:
-											if (UnexpectedEof(br, (108)))
-											{
-												hlsooeDemo.ParsingErrors.Add("Failed to read netmessage at frame: " + i);
-												return hlsooeDemo;
-											}
-											var b = new Hlsooe.NetMsgFrame
-											{
-												Flags = br.ReadInt32(),
-												ViewOrigins =
-													new Point3D(br.ReadSingle(), br.ReadSingle(), br.ReadSingle()),
-												ViewAngles =
-													new Point3D(br.ReadSingle(), br.ReadSingle(), br.ReadSingle()),
-												LocalViewAngles =
-													new Point3D(br.ReadSingle(), br.ReadSingle(), br.ReadSingle()),
-												ViewAngles2 =
-													new Point3D(br.ReadSingle(), br.ReadSingle(), br.ReadSingle()),
-												LocalViewAngles2 =
-													new Point3D(br.ReadSingle(), br.ReadSingle(), br.ReadSingle()),
-												ViewOrigin2 =
-													new Point3D(br.ReadSingle(), br.ReadSingle(), br.ReadSingle()),
-												IncomingSequence = br.ReadInt32(),
-												IncomingAcknowledged = br.ReadInt32(),
-												IncomingReliableAcknowledged = br.ReadInt32(),
-												IncomingReliableSequence = br.ReadInt32(),
-												OutgoingSequence = br.ReadInt32(),
-												ReliableSequence = br.ReadInt32(),
-												LastReliableSequence = br.ReadInt32()
-											};
-											var nml = br.ReadInt32();
-											b.Msg = Encoding.ASCII.GetString(br.ReadBytes(nml))
-												.Trim('\0')
-												.Replace("\0", string.Empty);
-											entry.Frames.Add(currentDemoFrame, b);
-											break;
-										case Hlsooe.DemoFrameType.Jumptime:
-											//No extra stuff
-											entry.Frames.Add(currentDemoFrame, new Hlsooe.JumpTimeFrame());
-											break;
-										case Hlsooe.DemoFrameType.ConsoleCommand:
-											if (UnexpectedEof(br, (4)))
-											{
-												hlsooeDemo.ParsingErrors.Add(
-													"Unexpected enf of file when reading console command length at frame: " +
-													i + " brpos: " + br.BaseStream.Position);
-												return hlsooeDemo;
-											}
-											var a = new Hlsooe.ConsoleCommandFrame();
-											var commandlength = br.ReadInt32();
-											if (UnexpectedEof(br, (commandlength)))
-											{
-												hlsooeDemo.ParsingErrors.Add(
-													"Unexpected end of file when reading the console command at frame: " +
-													i + " brpos: " + br.BaseStream.Position);
-												return hlsooeDemo;
-											}
-											a.Command = Encoding.ASCII.GetString(br.ReadBytes(commandlength))
-												.Trim('\0')
-												.Replace("\0", string.Empty);
-											if (a.Command.Contains("#SAVE#"))
-												entry.Flags.Add(currentDemoFrame, a);
-											if (a.Command.Contains("autosave"))
-												entry.Flags.Add(currentDemoFrame, a);
-											if (a.Command.Contains("changelevel2"))
-												entry.Flags.Add(currentDemoFrame, a);
-											entry.Frames.Add(currentDemoFrame, a);
-											break;
-										case Hlsooe.DemoFrameType.Usercmd:
-											if (UnexpectedEof(br, (4 + 4 + 2)))
-											{
-												hlsooeDemo.ParsingErrors.Add(
-													"Unexpected end of file when reading UserCMD header at frame: " + i +
-													" brpos: " + br.BaseStream.Position);
-												return hlsooeDemo;
-											}
-											var c = new Hlsooe.UserCmdFrame
-											{
-												OutgoingSequence = br.ReadInt32(),
-												Slot = br.ReadInt32()
-											};
-											var usercmdlength = br.ReadInt16();
-											if (UnexpectedEof(br, (usercmdlength)))
-											{
-												hlsooeDemo.ParsingErrors.Add(
-													"Unexpected end of file when reading userCMD at frame: " + i +
-													" brpos: " + br.BaseStream.Position);
-												return hlsooeDemo;
-											}
-											c.Data =
-												Encoding.ASCII.GetString(br.ReadBytes(usercmdlength))
-													.Trim('\0')
-													.Replace("\0", string.Empty);
-											entry.Frames.Add(currentDemoFrame, c);
-											break;
-										case Hlsooe.DemoFrameType.Stringtables:
-											var e = new Hlsooe.StringTablesFrame();
-											if (UnexpectedEof(br, (4)))
-											{
-												hlsooeDemo.ParsingErrors.Add(
-													"Unexpected end of file when reading stringtablelength at frame: " +
-													i + " brpos: " + br.BaseStream.Position);
-												return hlsooeDemo;
-											}
-											var stringtablelength = br.ReadInt32();
-											if (UnexpectedEof(br, (stringtablelength)))
-											{
-												hlsooeDemo.ParsingErrors.Add(
-													"Unexpected end of file when reading stringtable data at frame: " +
-													i + " brpos: " + br.BaseStream.Position);
-												return hlsooeDemo;
-											}
-											var edata = Encoding.ASCII.GetString(br.ReadBytes(stringtablelength))
-												.Trim('\0')
-												.Replace("\0", string.Empty);
-											e.Data = edata;
-											entry.Frames.Add(currentDemoFrame, e);
-											break;
-										case Hlsooe.DemoFrameType.NetworkDataTable:
-											var d = new Hlsooe.NetworkDataTableFrame();
-											if (UnexpectedEof(br, (4)))
-											{
-												hlsooeDemo.ParsingErrors.Add(
-													"Unexpected end of file when reading networktable length at frame: " +
-													i + " brpos: " + br.BaseStream.Position);
-												return hlsooeDemo;
-											}
-											var networktablelength = br.ReadInt32();
-											if (UnexpectedEof(br, (4)))
-											{
-												hlsooeDemo.ParsingErrors.Add(
-													"Unexpected end of file when reading NetWorkTable data at frame: " +
-													i + " brpos: " + br.BaseStream.Position);
-												return hlsooeDemo;
-											}
-											d.Data = Encoding.ASCII.GetString(br.ReadBytes(networktablelength))
-												.Trim('\0')
-												.Replace("\0", string.Empty);
-											entry.Frames.Add(currentDemoFrame, d);
-											break;
-										case Hlsooe.DemoFrameType.NextSection:
-											nextSectionRead = true;
-											entry.Frames.Add(currentDemoFrame, new Hlsooe.NextSectionFrame());
-											break;
-										default:
-											if (UnexpectedEof(br, (108)))
-											{
-												hlsooeDemo.ParsingErrors.Add(
-													"Unexpected end of file when reading default frame at frame: " + i +
-													" brpos: " + br.BaseStream.Position);
-												return hlsooeDemo;
-											}
-											var err = new Hlsooe.ErrorFrame
-											{
-												Flags = br.ReadInt32(),
-												ViewOrigins =
-													new Point3D(br.ReadSingle(), br.ReadSingle(), br.ReadSingle()),
-												ViewAngles =
-													new Point3D(br.ReadSingle(), br.ReadSingle(), br.ReadSingle()),
-												LocalViewAngles =
-													new Point3D(br.ReadSingle(), br.ReadSingle(), br.ReadSingle()),
-												ViewOrigin2 =
-													new Point3D(br.ReadSingle(), br.ReadSingle(), br.ReadSingle()),
-												ViewAngles2 =
-													new Point3D(br.ReadSingle(), br.ReadSingle(), br.ReadSingle()),
-												LocalViewAngles2 =
-													new Point3D(br.ReadSingle(), br.ReadSingle(), br.ReadSingle()),
-												IncomingSequence = br.ReadInt32(),
-												IncomingAcknowledged = br.ReadInt32(),
-												IncomingReliableAcknowledged = br.ReadInt32(),
-												IncomingReliableSequence = br.ReadInt32(),
-												OutgoingSequence = br.ReadInt32(),
-												ReliableSequence = br.ReadInt32(),
-												LastReliableSequence = br.ReadInt32()
-											};
-											var dml = br.ReadInt32();
-											err.Msg = Encoding.ASCII.GetString(br.ReadBytes(dml))
-												.Trim('\0')
-												.Replace("\0", string.Empty);
-											entry.Frames.Add(currentDemoFrame, err);
-											break;
-									}
+					            switch (currentDemoFrame.Type)
+					            {
+					                case Hlsooe.DemoFrameType.StartupPacket:
+					                    if (UnexpectedEof(br, (108)))
+					                    {
+					                        hlsooeDemo.ParsingErrors.Add("Failed to read startup packet at frame:" +
+					                                                     i);
+					                        return hlsooeDemo;
+					                    }
+					                    var g = new Hlsooe.StartupPacketFrame
+					                    {
+					                        Flags = br.ReadInt32(),
+					                        ViewOrigins =
+					                            new Point3D(br.ReadSingle(), br.ReadSingle(), br.ReadSingle()),
+					                        ViewAngles =
+					                            new Point3D(br.ReadSingle(), br.ReadSingle(), br.ReadSingle()),
+					                        LocalViewAngles =
+					                            new Point3D(br.ReadSingle(), br.ReadSingle(), br.ReadSingle()),
+					                        ViewOrigin2 =
+					                            new Point3D(br.ReadSingle(), br.ReadSingle(), br.ReadSingle()),
+					                        ViewAngles2 =
+					                            new Point3D(br.ReadSingle(), br.ReadSingle(), br.ReadSingle()),
+					                        LocalViewAngles2 =
+					                            new Point3D(br.ReadSingle(), br.ReadSingle(), br.ReadSingle()),
+					                        IncomingSequence = br.ReadInt32(),
+					                        IncomingAcknowledged = br.ReadInt32(),
+					                        IncomingReliableAcknowledged = br.ReadInt32(),
+					                        IncomingReliableSequence = br.ReadInt32(),
+					                        OutgoingSequence = br.ReadInt32(),
+					                        ReliableSequence = br.ReadInt32(),
+					                        LastReliableSequence = br.ReadInt32()
+					                    };
+					                    var spml = br.ReadInt32();
+					                    g.Msg = Encoding.ASCII.GetString(br.ReadBytes(spml))
+					                        .Trim('\0')
+					                        .Replace("\0", string.Empty);
+					                    entry.Frames.Add(currentDemoFrame, g);
+					                    break;
+					                case Hlsooe.DemoFrameType.NetworkPacket:
+					                    if (UnexpectedEof(br, (108)))
+					                    {
+					                        hlsooeDemo.ParsingErrors.Add("Failed to read netmessage at frame: " + i);
+					                        return hlsooeDemo;
+					                    }
+					                    var b = new Hlsooe.NetMsgFrame
+					                    {
+					                        Flags = br.ReadInt32(),
+					                        ViewOrigins =
+					                            new Point3D(br.ReadSingle(), br.ReadSingle(), br.ReadSingle()),
+					                        ViewAngles =
+					                            new Point3D(br.ReadSingle(), br.ReadSingle(), br.ReadSingle()),
+					                        LocalViewAngles =
+					                            new Point3D(br.ReadSingle(), br.ReadSingle(), br.ReadSingle()),
+					                        ViewAngles2 =
+					                            new Point3D(br.ReadSingle(), br.ReadSingle(), br.ReadSingle()),
+					                        LocalViewAngles2 =
+					                            new Point3D(br.ReadSingle(), br.ReadSingle(), br.ReadSingle()),
+					                        ViewOrigin2 =
+					                            new Point3D(br.ReadSingle(), br.ReadSingle(), br.ReadSingle()),
+					                        IncomingSequence = br.ReadInt32(),
+					                        IncomingAcknowledged = br.ReadInt32(),
+					                        IncomingReliableAcknowledged = br.ReadInt32(),
+					                        IncomingReliableSequence = br.ReadInt32(),
+					                        OutgoingSequence = br.ReadInt32(),
+					                        ReliableSequence = br.ReadInt32(),
+					                        LastReliableSequence = br.ReadInt32()
+					                    };
+					                    var nml = br.ReadInt32();
+					                    b.Msg = Encoding.ASCII.GetString(br.ReadBytes(nml))
+					                        .Trim('\0')
+					                        .Replace("\0", string.Empty);
+					                    entry.Frames.Add(currentDemoFrame, b);
+					                    break;
+					                case Hlsooe.DemoFrameType.Jumptime:
+					                    //No extra stuff
+					                    entry.Frames.Add(currentDemoFrame, new Hlsooe.JumpTimeFrame());
+					                    break;
+					                case Hlsooe.DemoFrameType.ConsoleCommand:
+					                    if (UnexpectedEof(br, (4)))
+					                    {
+					                        hlsooeDemo.ParsingErrors.Add(
+					                            "Unexpected enf of file when reading console command length at frame: " +
+					                            i + " brpos: " + br.BaseStream.Position);
+					                        return hlsooeDemo;
+					                    }
+					                    var a = new Hlsooe.ConsoleCommandFrame();
+					                    var commandlength = br.ReadInt32();
+					                    if (UnexpectedEof(br, (commandlength)))
+					                    {
+					                        hlsooeDemo.ParsingErrors.Add(
+					                            "Unexpected end of file when reading the console command at frame: " +
+					                            i + " brpos: " + br.BaseStream.Position);
+					                        return hlsooeDemo;
+					                    }
+					                    a.Command = Encoding.ASCII.GetString(br.ReadBytes(commandlength))
+					                        .Trim('\0')
+					                        .Replace("\0", string.Empty);
+					                    if (a.Command.Contains("#SAVE#"))
+					                        entry.Flags.Add(currentDemoFrame, a);
+					                    if (a.Command.Contains("autosave"))
+					                        entry.Flags.Add(currentDemoFrame, a);
+					                    if (a.Command.Contains("changelevel2"))
+					                        entry.Flags.Add(currentDemoFrame, a);
+					                    entry.Frames.Add(currentDemoFrame, a);
+					                    break;
+					                case Hlsooe.DemoFrameType.Usercmd:
+					                    if (UnexpectedEof(br, (4 + 4 + 2)))
+					                    {
+					                        hlsooeDemo.ParsingErrors.Add(
+					                            "Unexpected end of file when reading UserCMD header at frame: " + i +
+					                            " brpos: " + br.BaseStream.Position);
+					                        return hlsooeDemo;
+					                    }
+					                    var c = new Hlsooe.UserCmdFrame
+					                    {
+					                        OutgoingSequence = br.ReadInt32(),
+					                        Slot = br.ReadInt32()
+					                    };
+					                    var usercmdlength = br.ReadInt16();
+					                    if (UnexpectedEof(br, (usercmdlength)))
+					                    {
+					                        hlsooeDemo.ParsingErrors.Add(
+					                            "Unexpected end of file when reading userCMD at frame: " + i +
+					                            " brpos: " + br.BaseStream.Position);
+					                        return hlsooeDemo;
+					                    }
+					                    c.Data =
+					                        Encoding.ASCII.GetString(br.ReadBytes(usercmdlength))
+					                            .Trim('\0')
+					                            .Replace("\0", string.Empty);
+					                    entry.Frames.Add(currentDemoFrame, c);
+					                    break;
+					                case Hlsooe.DemoFrameType.Stringtables:
+					                    var e = new Hlsooe.StringTablesFrame();
+					                    if (UnexpectedEof(br, (4)))
+					                    {
+					                        hlsooeDemo.ParsingErrors.Add(
+					                            "Unexpected end of file when reading stringtablelength at frame: " +
+					                            i + " brpos: " + br.BaseStream.Position);
+					                        return hlsooeDemo;
+					                    }
+					                    var stringtablelength = br.ReadInt32();
+					                    if (UnexpectedEof(br, (stringtablelength)))
+					                    {
+					                        hlsooeDemo.ParsingErrors.Add(
+					                            "Unexpected end of file when reading stringtable data at frame: " +
+					                            i + " brpos: " + br.BaseStream.Position);
+					                        return hlsooeDemo;
+					                    }
+					                    var edata = Encoding.ASCII.GetString(br.ReadBytes(stringtablelength))
+					                        .Trim('\0')
+					                        .Replace("\0", string.Empty);
+					                    e.Data = edata;
+					                    entry.Frames.Add(currentDemoFrame, e);
+					                    break;
+					                case Hlsooe.DemoFrameType.NetworkDataTable:
+					                    var d = new Hlsooe.NetworkDataTableFrame();
+					                    if (UnexpectedEof(br, (4)))
+					                    {
+					                        hlsooeDemo.ParsingErrors.Add(
+					                            "Unexpected end of file when reading networktable length at frame: " +
+					                            i + " brpos: " + br.BaseStream.Position);
+					                        return hlsooeDemo;
+					                    }
+					                    var networktablelength = br.ReadInt32();
+					                    if (UnexpectedEof(br, (4)))
+					                    {
+					                        hlsooeDemo.ParsingErrors.Add(
+					                            "Unexpected end of file when reading NetWorkTable data at frame: " +
+					                            i + " brpos: " + br.BaseStream.Position);
+					                        return hlsooeDemo;
+					                    }
+					                    d.Data = Encoding.ASCII.GetString(br.ReadBytes(networktablelength))
+					                        .Trim('\0')
+					                        .Replace("\0", string.Empty);
+					                    entry.Frames.Add(currentDemoFrame, d);
+					                    break;
+					                case Hlsooe.DemoFrameType.NextSection:
+					                    nextSectionRead = true;
+					                    entry.Frames.Add(currentDemoFrame, new Hlsooe.NextSectionFrame());
+					                    break;
+					                default:
+					                    if (UnexpectedEof(br, (108)))
+					                    {
+					                        hlsooeDemo.ParsingErrors.Add(
+					                            "Unexpected end of file when reading default frame at frame: " + i +
+					                            " brpos: " + br.BaseStream.Position);
+					                        return hlsooeDemo;
+					                    }
+					                    var err = new Hlsooe.ErrorFrame
+					                    {
+					                        Flags = br.ReadInt32(),
+					                        ViewOrigins =
+					                            new Point3D(br.ReadSingle(), br.ReadSingle(), br.ReadSingle()),
+					                        ViewAngles =
+					                            new Point3D(br.ReadSingle(), br.ReadSingle(), br.ReadSingle()),
+					                        LocalViewAngles =
+					                            new Point3D(br.ReadSingle(), br.ReadSingle(), br.ReadSingle()),
+					                        ViewOrigin2 =
+					                            new Point3D(br.ReadSingle(), br.ReadSingle(), br.ReadSingle()),
+					                        ViewAngles2 =
+					                            new Point3D(br.ReadSingle(), br.ReadSingle(), br.ReadSingle()),
+					                        LocalViewAngles2 =
+					                            new Point3D(br.ReadSingle(), br.ReadSingle(), br.ReadSingle()),
+					                        IncomingSequence = br.ReadInt32(),
+					                        IncomingAcknowledged = br.ReadInt32(),
+					                        IncomingReliableAcknowledged = br.ReadInt32(),
+					                        IncomingReliableSequence = br.ReadInt32(),
+					                        OutgoingSequence = br.ReadInt32(),
+					                        ReliableSequence = br.ReadInt32(),
+					                        LastReliableSequence = br.ReadInt32()
+					                    };
+					                    var dml = br.ReadInt32();
+					                    err.Msg = Encoding.ASCII.GetString(br.ReadBytes(dml))
+					                        .Trim('\0')
+					                        .Replace("\0", string.Empty);
+					                    entry.Frames.Add(currentDemoFrame, err);
+					                    break;
 
-									#endregion
-								}
-								else
-								{
-									break;
-								}
-							}
-						}
+					                    #endregion
+					            }
+					        }
+					    }
 					}
 					else
 					{
