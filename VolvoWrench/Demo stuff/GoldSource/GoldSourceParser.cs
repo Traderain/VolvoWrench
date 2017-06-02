@@ -576,7 +576,7 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
 		/// <returns>The parsed data.</returns>
 		public static GoldSource.IncludedBXtData FormatBxtData(byte[] bxtdata)
 		{
-			File.WriteAllBytes(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\extracted\\" + Path.GetRandomFileName() + ".bin",bxtdata);
+			//File.WriteAllBytes(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\extracted\\" + Path.GetRandomFileName() + ".bin",bxtdata);
 			var res = new GoldSource.IncludedBXtData {Objects = new List<KeyValuePair<Bxt.RuntimeDataType, Bxt.BXTData>>()};
 			if (bxtdata.Length == 0)
 				return res;
