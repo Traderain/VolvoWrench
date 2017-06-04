@@ -149,8 +149,8 @@ Human readable time:        {TimeSpan.FromSeconds(Df.Sum(x => x.Value.GsDemoInfo
                         }
                     }
                     mrtb.AppendText(Path.GetFileName(dem.Key) + " -> " + dem.Value.GsDemoInfo.Header.MapName);
-                    mrtb.AppendText("BXTData:\n");
-                    mrtb.AppendText(ParseBxtData(dem));
+                    mrtb.AppendText("\nBXTData:");
+                    mrtb.AppendText("\n" + ParseBxtData(dem));
                 }
             }
         }
@@ -162,7 +162,7 @@ Human readable time:        {TimeSpan.FromSeconds(Df.Sum(x => x.Value.GsDemoInfo
         public string ParseBxtData(KeyValuePair<string, CrossParseResult> info)
         {
             string ret = "\n";
-            const string bxtVersion = "38e0a2740eeed2575085aaf6608013217f998a14-CLEAN based on may-30-2017";
+            const string bxtVersion = "7e9089359bf7bee6e460d5652298bc2f8788749b-CLEAN based on may-31-2017";
             const string bxxVersion = "";
             var cvarRules = new Dictionary<string, string>()
             {
@@ -211,7 +211,7 @@ Human readable time:        {TimeSpan.FromSeconds(Df.Sum(x => x.Value.GsDemoInfo
             var demonode = new TreeNode(Path.GetFileName(info.Key)) { ForeColor = Color.White };
             for (int i = 0; i < info.Value.GsDemoInfo.IncludedBXtData.Count; i++)
             {
-                var datanode = new TreeNode("BXT Data Frame [" + i + "]") { ForeColor = Color.White };
+                var datanode = new TreeNode("\nBXT Data Frame [" + i + "]") { ForeColor = Color.White };
                 for (int index = 0; index < info.Value.GsDemoInfo.IncludedBXtData[i].Objects.Count; index++)
                 {
                     KeyValuePair<Bxt.RuntimeDataType, Bxt.BXTData> t = info.Value.GsDemoInfo.IncludedBXtData[i].Objects[index];
@@ -219,7 +219,7 @@ Human readable time:        {TimeSpan.FromSeconds(Df.Sum(x => x.Value.GsDemoInfo
                     {
                         case Bxt.RuntimeDataType.VERSION_INFO:
                             {
-                                ret +=("\t" + "BXT Version: " + ((Bxt.VersionInfo)t.Value).bxt_version == bxtVersion ? "Good" : ("INVALID=" + ((Bxt.VersionInfo)t.Value).bxt_version) + "\n");
+                                ret +=("\t" + "BXT Version: " + ((((Bxt.VersionInfo)t.Value).bxt_version == bxtVersion) ? "Good" : ("INVALID=" + ((Bxt.VersionInfo)t.Value).bxt_version)) + "\n");
                                 ret +=("\t" + "Game Version: " + ((Bxt.VersionInfo)t.Value).build_number + "\n");
                                 datanode.Nodes.Add(new TreeNode("Version info")
                                 {
