@@ -1148,17 +1148,6 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
 												.Trim('\0')
 												.Replace("\0", string.Empty);
 											ccframe.BxtData = ExtractIncludedBytes(cmd);
-											var blacklistedcommands = new List<string>
-												{
-													"lookup",
-													"lookdown",
-													"left",
-													"right"
-												};
-											if (blacklistedcommands.Any(x => ccframe.Command.Contains(x)))
-											{
-												gDemo.Cheats.Add(ccframe.Command);
-											}
 											entry.Frames.Add(currentDemoFrame, ccframe);
 											break;
 										case GoldSource.DemoFrameType.ClientData:

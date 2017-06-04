@@ -57,14 +57,14 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
             this.demostartCommandToClipboardToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(312, 56);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(255, 48);
             // 
             // demostartCommandToClipboardToolStripMenuItem
             // 
             this.demostartCommandToClipboardToolStripMenuItem.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.demostartCommandToClipboardToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.demostartCommandToClipboardToolStripMenuItem.Name = "demostartCommandToClipboardToolStripMenuItem";
-            this.demostartCommandToClipboardToolStripMenuItem.Size = new System.Drawing.Size(311, 26);
+            this.demostartCommandToClipboardToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
             this.demostartCommandToClipboardToolStripMenuItem.Text = "Demostart command to clipboard";
             this.demostartCommandToClipboardToolStripMenuItem.Click += new System.EventHandler(this.demostartCommandToClipboardToolStripMenuItem_Click);
             // 
@@ -73,7 +73,7 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
             this.exitToolStripMenuItem.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.exitToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(311, 26);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -85,7 +85,8 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
             this.fileToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1125, 28);
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
+            this.menuStrip1.Size = new System.Drawing.Size(844, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -95,7 +96,7 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
             this.openDemosToolStripMenuItem});
             this.fileToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(44, 24);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // openDemosToolStripMenuItem
@@ -103,14 +104,15 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
             this.openDemosToolStripMenuItem.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.openDemosToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.openDemosToolStripMenuItem.Name = "openDemosToolStripMenuItem";
-            this.openDemosToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.openDemosToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
             this.openDemosToolStripMenuItem.Text = "Open demos";
             this.openDemosToolStripMenuItem.Click += new System.EventHandler(this.openDemosToolStripMenuItem_Click);
             // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 28);
+            this.splitContainer1.Location = new System.Drawing.Point(0, 24);
+            this.splitContainer1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -120,19 +122,21 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.mrtb);
-            this.splitContainer1.Size = new System.Drawing.Size(1125, 526);
-            this.splitContainer1.SplitterDistance = 375;
+            this.splitContainer1.Size = new System.Drawing.Size(844, 426);
+            this.splitContainer1.SplitterDistance = 281;
+            this.splitContainer1.SplitterWidth = 3;
             this.splitContainer1.TabIndex = 2;
             // 
             // BXTTreeView
             // 
-            this.BXTTreeView.BackColor = System.Drawing.SystemColors.InactiveCaptionText;
+            this.BXTTreeView.BackColor = System.Drawing.SystemColors.Desktop;
             this.BXTTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.BXTTreeView.ForeColor = System.Drawing.SystemColors.InactiveBorder;
             this.BXTTreeView.LineColor = System.Drawing.Color.White;
             this.BXTTreeView.Location = new System.Drawing.Point(0, 0);
+            this.BXTTreeView.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.BXTTreeView.Name = "BXTTreeView";
-            this.BXTTreeView.Size = new System.Drawing.Size(375, 526);
+            this.BXTTreeView.Size = new System.Drawing.Size(281, 426);
             this.BXTTreeView.TabIndex = 0;
             // 
             // mrtb
@@ -142,21 +146,23 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
             this.mrtb.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mrtb.ForeColor = System.Drawing.SystemColors.InactiveBorder;
             this.mrtb.Location = new System.Drawing.Point(0, 0);
+            this.mrtb.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.mrtb.Name = "mrtb";
-            this.mrtb.Size = new System.Drawing.Size(746, 526);
+            this.mrtb.Size = new System.Drawing.Size(560, 426);
             this.mrtb.TabIndex = 0;
             this.mrtb.Text = "";
             // 
             // Verification
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.ClientSize = new System.Drawing.Size(1125, 554);
+            this.ClientSize = new System.Drawing.Size(844, 450);
             this.ContextMenuStrip = this.contextMenuStrip1;
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Verification";
