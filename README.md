@@ -1,5 +1,7 @@
 # VolvoWrench
 ***
+[![Build status](https://ci.appveyor.com/api/projects/status/ssholwum3ssioesd?svg=true)](https://ci.appveyor.com/project/Traderain/volvowrench)
+
 ![](http://forthebadge.com/images/badges/built-with-love.svg)
 
 This tool is a cross engine fully featured demo analyzing tool. It works with GoldSource and Source-engine demos.
