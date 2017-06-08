@@ -214,7 +214,7 @@ Human readable time:        {TimeSpan.FromSeconds(Df.Sum(x => x.Value.GsDemoInfo
                     {
                         case Bxt.RuntimeDataType.VERSION_INFO:
                             {
-                                ret +=("\t" + "BXT Version: " + ((((Bxt.VersionInfo)t.Value).bxt_version == bxtVersion) ? "Good" : ("INVALID=" + ((Bxt.VersionInfo)t.Value).bxt_version)) + "\n");
+                                ret +=("\t" + "BXT Version: " + ((((Bxt.VersionInfo)t.Value).bxt_version == bxtVersion) ? "Good" : ("INVALID=" + ((Bxt.VersionInfo)t.Value).bxt_version)) + " Frame: " + i + "\n");
                                 ret +=("\t" + "Game Version: " + ((Bxt.VersionInfo)t.Value).build_number + "\n");
                                 datanode.Nodes.Add(new TreeNode("Version info")
                                 {
@@ -231,7 +231,7 @@ Human readable time:        {TimeSpan.FromSeconds(Df.Sum(x => x.Value.GsDemoInfo
                             {
                                 foreach (var cvar in ((Bxt.CVarValues)t.Value).CVars.Where(cvar => cvarRules.ContainsKey(cvar.Key.ToUpper())).Where(cvar => cvarRules[cvar.Key.ToUpper()] != cvar.Value.ToUpper()))
                                 {
-                                    ret +=("\t" + "Illegal Cvar: " + cvar.Key + " " + cvar.Value + "\n");
+                                    ret +=("\t" + "Illegal Cvar: " + cvar.Key + " " + cvar.Value + " Frame: " + i + "\n");
                                 }
                                 var cvarnode = new TreeNode("Cvars [" + ((Bxt.CVarValues)t.Value).CVars.Count + "]")
                                 {
@@ -247,7 +247,7 @@ Human readable time:        {TimeSpan.FromSeconds(Df.Sum(x => x.Value.GsDemoInfo
                             {
                                 if (i+1 == info.Value.GsDemoInfo.IncludedBXtData.Count)
                                 {
-                                    ret +=("\t" + "Demo bxt time: " + ((Bxt.Time)t.Value).ToString() + "\n");
+                                    ret +=("\t" + "Demo bxt time: " + ((Bxt.Time)t.Value).ToString() + " Frame: " + i + "\n");
                                 }
                                 datanode.Nodes.Add(new TreeNode("Time: " + ((Bxt.Time)t.Value).ToString())
                                 {
@@ -267,7 +267,7 @@ Human readable time:        {TimeSpan.FromSeconds(Df.Sum(x => x.Value.GsDemoInfo
                                     dm = true;
                                 if (((Bxt.BoundCommand) t.Value).command.ToUpper().Contains(";"))
                                 {
-                                    ret +=("\t" + "Possible script: " + ((Bxt.BoundCommand)t.Value).command + "\n");
+                                    ret +=("\t" + "Possible script: " + ((Bxt.BoundCommand)t.Value).command + " Frame: " + i + "\n");
                                 }
                                 datanode.Nodes.Add(new TreeNode("Bound command: " + ((Bxt.BoundCommand)t.Value).command)
                                 {
@@ -277,7 +277,7 @@ Human readable time:        {TimeSpan.FromSeconds(Df.Sum(x => x.Value.GsDemoInfo
                             }
                         case Bxt.RuntimeDataType.ALIAS_EXPANSION:
                             {
-                                ret +=("\t" + "Alias [" + ((Bxt.AliasExpansion)t.Value).name + "]: " + ((Bxt.AliasExpansion)t.Value).command + "\n");
+                                ret +=("\t" + "Alias [" + ((Bxt.AliasExpansion)t.Value).name + "]: " + ((Bxt.AliasExpansion)t.Value).command + " Frame: " + i + "\n");
                                 datanode.Nodes.Add( new TreeNode("Alias name: " + ((Bxt.AliasExpansion)t.Value).name + "Command:" + ((Bxt.AliasExpansion)t.Value).command) { ForeColor = Color.White });
                                 break;
                             }
@@ -299,25 +299,25 @@ Human readable time:        {TimeSpan.FromSeconds(Df.Sum(x => x.Value.GsDemoInfo
                                     if (jp)
                                         jp = false;
                                     else
-                                        ret += ("\t" + "Possible autojump: " + ((Bxt.CommandExecution) t.Value).command + "\n");
+                                        ret += ("\t" + "Possible autojump: " + ((Bxt.CommandExecution) t.Value).command + " Frame: " + i + "\n");
                                 if (((Bxt.CommandExecution)t.Value).command.ToUpper().Contains("-JUMP"))
                                     if (jm)
                                         jm = false;
                                     else
-                                        ret += ("\t" + "Possible autojump: " + ((Bxt.CommandExecution)t.Value).command + "\n");
+                                        ret += ("\t" + "Possible autojump: " + ((Bxt.CommandExecution)t.Value).command + " Frame: " + i + "\n");
                                 if (((Bxt.CommandExecution)t.Value).command.ToUpper().Contains("+DUCK"))
                                     if (dp)
                                         dp = false;
                                     else
-                                        ret += ("\t" + "Possible autojump: " + ((Bxt.CommandExecution)t.Value).command + "\n");
+                                        ret += ("\t" + "Possible ducktap: " + ((Bxt.CommandExecution)t.Value).command + " Frame: " + i + "\n");
                                 if (((Bxt.CommandExecution)t.Value).command.ToUpper().Contains("-DUCK"))
                                     if (dm)
                                         dm = false;
                                     else
-                                        ret += ("\t" + "Possible autojump: " + ((Bxt.CommandExecution)t.Value).command + "\n");
+                                        ret += ("\t" + "Possible ducktap: " + ((Bxt.CommandExecution)t.Value).command + " Frame: " + i + "\n");
                                 if (((Bxt.CommandExecution) t.Value).command.ToUpper().ToUpper().Contains("BXT"))
                                 {
-                                    ret +=("\t" + "Disallowed bxt command: " + ((Bxt.CommandExecution)t.Value).command + "\n");
+                                    ret +=("\t" + "Disallowed bxt command: " + ((Bxt.CommandExecution)t.Value).command + " Frame: " + i + "\n");
                                 }
                                 datanode.Nodes.Add(new TreeNode("Command: " + ((Bxt.CommandExecution)t.Value).command)
                                 {
@@ -340,7 +340,7 @@ Human readable time:        {TimeSpan.FromSeconds(Df.Sum(x => x.Value.GsDemoInfo
                         case Bxt.RuntimeDataType.CUSTOM_TRIGGER_COMMAND:
                             {
                                 var trigger = (Bxt.CustomTriggerCommand)t.Value;
-                                ret +=("\t" + $"Costum trigger X1:{trigger.corner_max.X} Y1:{trigger.corner_max.Y} Z1:{trigger.corner_max.Z} X2:{trigger.corner_min.X} Y2:{trigger.corner_min.Y} Z2:{trigger.corner_min.Z}" + "\n");
+                                ret +=("\t" + $"Costum trigger X1:{trigger.corner_max.X} Y1:{trigger.corner_max.Y} Z1:{trigger.corner_max.Z} X2:{trigger.corner_min.X} Y2:{trigger.corner_min.Y} Z2:{trigger.corner_min.Z}" + " Frame: " + i + "\n");
                                 datanode.Nodes.Add(new TreeNode($"Costum trigger X1:{trigger.corner_max.X} Y1:{trigger.corner_max.Y} Z1:{trigger.corner_max.Z} X2:{trigger.corner_min.X} Y2:{trigger.corner_min.Y} Z2:{trigger.corner_min.Z}")
                                 {
                                     ForeColor = Color.White,
