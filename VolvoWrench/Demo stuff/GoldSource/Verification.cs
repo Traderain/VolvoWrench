@@ -257,15 +257,15 @@ Human readable time:        {TimeSpan.FromSeconds(Df.Sum(x => x.Value.GsDemoInfo
                             }
                         case Bxt.RuntimeDataType.BOUND_COMMAND:
                             {
-                                if (((Bxt.BoundCommand)t.Value).command.Contains("+JUMP"))
+                                if (((Bxt.BoundCommand)t.Value).command.ToUpper().Contains("+JUMP"))
                                     jp = true;
-                                if (((Bxt.BoundCommand)t.Value).command.Contains("-JUMP"))
+                                if (((Bxt.BoundCommand)t.Value).command.ToUpper().Contains("-JUMP"))
                                     jm = true;
-                                if (((Bxt.BoundCommand)t.Value).command.Contains("+DUCK"))
+                                if (((Bxt.BoundCommand)t.Value).command.ToUpper().Contains("+DUCK"))
                                     dp = true;
-                                if (((Bxt.BoundCommand)t.Value).command.Contains("-DUCK"))
+                                if (((Bxt.BoundCommand)t.Value).command.ToUpper().Contains("-DUCK"))
                                     dm = true;
-                                if (((Bxt.BoundCommand) t.Value).command.Contains(";"))
+                                if (((Bxt.BoundCommand) t.Value).command.ToUpper().Contains(";"))
                                 {
                                     ret +=("\t" + "Possible script: " + ((Bxt.BoundCommand)t.Value).command + "\n");
                                 }
@@ -295,27 +295,27 @@ Human readable time:        {TimeSpan.FromSeconds(Df.Sum(x => x.Value.GsDemoInfo
                             }
                         case Bxt.RuntimeDataType.COMMAND_EXECUTION:
                             {
-                                if (((Bxt.CommandExecution) t.Value).command.Contains("+JUMP"))
+                                if (((Bxt.CommandExecution) t.Value).command.ToUpper().Contains("+JUMP"))
                                     if (jp)
                                         jp = false;
                                     else
                                         ret += ("\t" + "Possible autojump: " + ((Bxt.CommandExecution) t.Value).command + "\n");
-                                if (((Bxt.CommandExecution)t.Value).command.Contains("-JUMP"))
+                                if (((Bxt.CommandExecution)t.Value).command.ToUpper().Contains("-JUMP"))
                                     if (jm)
                                         jm = false;
                                     else
                                         ret += ("\t" + "Possible autojump: " + ((Bxt.CommandExecution)t.Value).command + "\n");
-                                if (((Bxt.CommandExecution)t.Value).command.Contains("+DUCK"))
+                                if (((Bxt.CommandExecution)t.Value).command.ToUpper().Contains("+DUCK"))
                                     if (dp)
                                         dp = false;
                                     else
                                         ret += ("\t" + "Possible autojump: " + ((Bxt.CommandExecution)t.Value).command + "\n");
-                                if (((Bxt.CommandExecution)t.Value).command.Contains("-DUCK"))
+                                if (((Bxt.CommandExecution)t.Value).command.ToUpper().Contains("-DUCK"))
                                     if (dm)
                                         dm = false;
                                     else
                                         ret += ("\t" + "Possible autojump: " + ((Bxt.CommandExecution)t.Value).command + "\n");
-                                if (((Bxt.CommandExecution) t.Value).command.ToUpper().Contains("BXT"))
+                                if (((Bxt.CommandExecution) t.Value).command.ToUpper().ToUpper().Contains("BXT"))
                                 {
                                     ret +=("\t" + "Disallowed bxt command: " + ((Bxt.CommandExecution)t.Value).command + "\n");
                                 }
