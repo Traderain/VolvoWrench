@@ -205,7 +205,7 @@ Human readable time:        {TimeSpan.FromSeconds(Df.Sum(x => x.Value.GsDemoInfo
             var demonode = new TreeNode(Path.GetFileName(info.Key)) { ForeColor = Color.White };
             for (int i = 0; i < info.Value.GsDemoInfo.IncludedBXtData.Count; i++)
             {
-                bool jp = false, jm = false, dp = false, dm = false;
+                int jp = 0, jm = 0, dp = 0, dm = 0;
                 var datanode = new TreeNode("\nBXT Data Frame [" + i + "]") { ForeColor = Color.White };
                 for (int index = 0; index < info.Value.GsDemoInfo.IncludedBXtData[i].Objects.Count; index++)
                 {
@@ -258,13 +258,13 @@ Human readable time:        {TimeSpan.FromSeconds(Df.Sum(x => x.Value.GsDemoInfo
                         case Bxt.RuntimeDataType.BOUND_COMMAND:
                             {
                                 if (((Bxt.BoundCommand)t.Value).command.ToUpper().Contains("+JUMP"))
-                                    jp = true;
+                                    jp++;
                                 if (((Bxt.BoundCommand)t.Value).command.ToUpper().Contains("-JUMP"))
-                                    jm = true;
+                                    jm++;
                                 if (((Bxt.BoundCommand)t.Value).command.ToUpper().Contains("+DUCK"))
-                                    dp = true;
+                                    dp++;
                                 if (((Bxt.BoundCommand)t.Value).command.ToUpper().Contains("-DUCK"))
-                                    dm = true;
+                                    dm++;
                                 if (((Bxt.BoundCommand) t.Value).command.ToUpper().Contains(";"))
                                 {
                                     ret +=("\t" + "Possible script: " + ((Bxt.BoundCommand)t.Value).command + " Frame: " + i + "\n");
@@ -296,25 +296,33 @@ Human readable time:        {TimeSpan.FromSeconds(Df.Sum(x => x.Value.GsDemoInfo
                         case Bxt.RuntimeDataType.COMMAND_EXECUTION:
                             {
                                 if (((Bxt.CommandExecution) t.Value).command.ToUpper().Contains("+JUMP"))
-                                    if (jp)
-                                        jp = false;
-                                    else
-                                        ret += ("\t" + "Possible autojump: " + ((Bxt.CommandExecution) t.Value).command + " Frame: " + i + "\n");
-                                if (((Bxt.CommandExecution)t.Value).command.ToUpper().Contains("-JUMP"))
-                                    if (jm)
-                                        jm = false;
-                                    else
+                                {
+                                    if (jp == 0)
                                         ret += ("\t" + "Possible autojump: " + ((Bxt.CommandExecution)t.Value).command + " Frame: " + i + "\n");
-                                if (((Bxt.CommandExecution)t.Value).command.ToUpper().Contains("+DUCK"))
-                                    if (dp)
-                                        dp = false;
                                     else
+                                        jp--;
+                                }
+                                if (((Bxt.CommandExecution) t.Value).command.ToUpper().Contains("-JUMP"))
+                                {
+                                    if (jm == 0)
+                                        ret += ("\t" + "Possible autojump: " + ((Bxt.CommandExecution)t.Value).command + " Frame: " + i + "\n");
+                                    else
+                                        jm--;
+                                }
+                                if (((Bxt.CommandExecution) t.Value).command.ToUpper().Contains("+DUCK"))
+                                {
+                                    if (dp == 0)
                                         ret += ("\t" + "Possible ducktap: " + ((Bxt.CommandExecution)t.Value).command + " Frame: " + i + "\n");
+                                    else
+                                        dp--;
+                                }
                                 if (((Bxt.CommandExecution)t.Value).command.ToUpper().Contains("-DUCK"))
-                                    if (dm)
-                                        dm = false;
-                                    else
+                                {
+                                    if (dm == 0)
                                         ret += ("\t" + "Possible ducktap: " + ((Bxt.CommandExecution)t.Value).command + " Frame: " + i + "\n");
+                                    else
+                                        dm--;
+                                }
                                 if (((Bxt.CommandExecution) t.Value).command.ToUpper().ToUpper().Contains("BXT"))
                                 {
                                     ret +=("\t" + "Disallowed bxt command: " + ((Bxt.CommandExecution)t.Value).command + " Frame: " + i + "\n");
@@ -358,6 +366,7 @@ Human readable time:        {TimeSpan.FromSeconds(Df.Sum(x => x.Value.GsDemoInfo
                 demonode.Nodes.Add(datanode);
             }
             BXTTreeView.Nodes.Add(demonode);
+            ret += "\n";
             return ret;
         }
 

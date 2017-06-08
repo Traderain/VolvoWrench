@@ -52,7 +52,7 @@ namespace VolvoWrench.Demo_stuff.GoldSource
 
 			public override string ToString()
 			{
-				return hours + ":" + minutes + ":" + (seconds + remainder).ToString("F");
+			    return hours + ":" + minutes + ":" + (seconds + remainder).ToString("F4");
 			}
 
 
