@@ -202,15 +202,10 @@ Human readable time:        {TimeSpan.FromSeconds(Df.Sum(x => x.Value.GsDemoInfo
                 {"SV_WATERFRICTION", "1"},
                 {"S_SHOW", "0"}
             };
-            var bxtcommands = new List<string>
-            {
-                "BXT_TIMER_STOP",
-                "BXT_TIMER_START",
-                "BXT_TIMER_RESET"
-            };
             var demonode = new TreeNode(Path.GetFileName(info.Key)) { ForeColor = Color.White };
             for (int i = 0; i < info.Value.GsDemoInfo.IncludedBXtData.Count; i++)
             {
+                bool jp = false, jm = false, dp = false, dm = false;
                 var datanode = new TreeNode("\nBXT Data Frame [" + i + "]") { ForeColor = Color.White };
                 for (int index = 0; index < info.Value.GsDemoInfo.IncludedBXtData[i].Objects.Count; index++)
                 {
@@ -262,6 +257,14 @@ Human readable time:        {TimeSpan.FromSeconds(Df.Sum(x => x.Value.GsDemoInfo
                             }
                         case Bxt.RuntimeDataType.BOUND_COMMAND:
                             {
+                                if (((Bxt.BoundCommand)t.Value).command.Contains("+JUMP"))
+                                    jp = true;
+                                if (((Bxt.BoundCommand)t.Value).command.Contains("-JUMP"))
+                                    jm = true;
+                                if (((Bxt.BoundCommand)t.Value).command.Contains("+DUCK"))
+                                    dp = true;
+                                if (((Bxt.BoundCommand)t.Value).command.Contains("-DUCK"))
+                                    dm = true;
                                 if (((Bxt.BoundCommand) t.Value).command.Contains(";"))
                                 {
                                     ret +=("\t" + "Possible script: " + ((Bxt.BoundCommand)t.Value).command + "\n");
@@ -292,40 +295,27 @@ Human readable time:        {TimeSpan.FromSeconds(Df.Sum(x => x.Value.GsDemoInfo
                             }
                         case Bxt.RuntimeDataType.COMMAND_EXECUTION:
                             {
-                                //TODO: Figure out a better way for this. This way it laggs like hell.
-                                //if (((Bxt.CommandExecution)t.Value).command.ToUpper().Contains("+JUMP") ||
-                                //    ((Bxt.CommandExecution)t.Value).command.ToUpper().Contains("-JUMP") ||
-                                //    ((Bxt.CommandExecution)t.Value).command.ToUpper().Contains("+DUCK") ||
-                                //    ((Bxt.CommandExecution)t.Value).command.ToUpper().Contains("-DUCK"))
-                                //{
-                                //    var ccmds = Enumerable.Reverse(info.Value.GsDemoInfo.IncludedBXtData[i].Objects.Take(index))
-                                //        .SkipUntil(x => x.Key != Bxt.RuntimeDataType.BOUND_COMMAND).Where(x=> x.Key != Bxt.RuntimeDataType.BOUND_COMMAND);
-                                //    if (ccmds.Any())
-                                //    {
-                                //        if (ccmds.First().Key == Bxt.RuntimeDataType.BOUND_COMMAND)
-                                //        {
-                                //            var boundc = ((Bxt.BoundCommand)(ccmds.First().Value)).command;
-                                //            var cecommand = ((Bxt.CommandExecution)t.Value).command;
-                                //            if (cecommand.Split(' ')[0] == boundc.Split(' ')[0])
-                                //            {
-                                //                //GOOD
-                                //            }
-                                //            else
-                                //            {
-                                //                ret += ("\t" + "Bound command/console command missmatch:\n\t\tBound command: " + ((Bxt.BoundCommand)t.Value).command + "\n\t\tConsole command:" + ((Bxt.CommandExecution)(info.Value.GsDemoInfo.IncludedBXtData[i].Objects[index + 1].Value)).command + "\n");
-                                //            }
-                                //        }
-                                //        else
-                                //        {
-                                //            Main.Log("Something went really wrong. In BXT Bound command check!");
-                                //        }
-                                //    }
-                                //    else
-                                //    {
-                                //        ret += ("\t" + "Bound command without command execution!\n");
-                                //    }
-                                //}
-                                if (bxtcommands.Contains(((Bxt.CommandExecution) t.Value).command.ToUpper()))
+                                if (((Bxt.CommandExecution) t.Value).command.Contains("+JUMP"))
+                                    if (jp)
+                                        jp = false;
+                                    else
+                                        ret += ("\t" + "Possible autojump: " + ((Bxt.CommandExecution) t.Value).command + "\n");
+                                if (((Bxt.CommandExecution)t.Value).command.Contains("-JUMP"))
+                                    if (jm)
+                                        jm = false;
+                                    else
+                                        ret += ("\t" + "Possible autojump: " + ((Bxt.CommandExecution)t.Value).command + "\n");
+                                if (((Bxt.CommandExecution)t.Value).command.Contains("+DUCK"))
+                                    if (dp)
+                                        dp = false;
+                                    else
+                                        ret += ("\t" + "Possible autojump: " + ((Bxt.CommandExecution)t.Value).command + "\n");
+                                if (((Bxt.CommandExecution)t.Value).command.Contains("-DUCK"))
+                                    if (dm)
+                                        dm = false;
+                                    else
+                                        ret += ("\t" + "Possible autojump: " + ((Bxt.CommandExecution)t.Value).command + "\n");
+                                if (((Bxt.CommandExecution) t.Value).command.ToUpper().Contains("BXT"))
                                 {
                                     ret +=("\t" + "Disallowed bxt command: " + ((Bxt.CommandExecution)t.Value).command + "\n");
                                 }
