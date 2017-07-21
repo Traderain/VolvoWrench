@@ -1,7 +1,7 @@
 before_build:
   - nuget restore
 after_build:
-  7z a Portable.zip %APPVEYOR_BUILD_FOLDER%\VolvoWrench\bin\Release\*.*
+  7z a Portable.zip VolvoWrench\bin\Release\*.*
 artifacts:
   - path: Portable.zip
     name: Portable
