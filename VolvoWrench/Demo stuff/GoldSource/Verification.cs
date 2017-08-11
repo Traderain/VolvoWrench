@@ -162,7 +162,7 @@ Human readable time:        {TimeSpan.FromSeconds(Df.Sum(x => x.Value.GsDemoInfo
         public string ParseBxtData(KeyValuePair<string, CrossParseResult> info)
         {
             string ret = "\n";
-            const string bxtVersion = "81b1d25d52f3c2673516800f332ec821d09c19f8-CLEAN based on aug-1-2017";
+            const string bxtVersion = "a5ae33e572c7828d965b5a934ac5d7c8d13e171b-CLEAN based on aug-11-2017";
             const string bxxVersion = "";
             var cvarRules = new Dictionary<string, string>()
             {
