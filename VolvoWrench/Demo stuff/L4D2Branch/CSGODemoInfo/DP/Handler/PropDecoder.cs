@@ -300,7 +300,7 @@ namespace VolvoWrench.Demo_Stuff.L4D2Branch.CSGODemoInfo.DP.Handler
                 fractval = (int) reader.ReadInt(isLowPrecision ? 3 : 5);
 
                 // Calculate the correct floating point value
-                value = intval + (fractval*(isLowPrecision ? COORD_RESOLUTION_LOWPRECISION : COORD_RESOLUTION));
+                value = (float)(intval + (fractval*(isLowPrecision ? COORD_RESOLUTION_LOWPRECISION : COORD_RESOLUTION)));
             }
 
             if (isNegative)
