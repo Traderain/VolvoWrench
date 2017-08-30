@@ -288,11 +288,11 @@ namespace VolvoWrench.Demo_Stuff.L4D2Branch.CSGODemoInfo.DP.Handler
                     // Adjust the integers from [0..MAX_COORD_VALUE-1] to [1..MAX_COORD_VALUE]
                     if (inBounds)
                     {
-                        intval = reader.ReadInt(11) + 1;
+                        intval = (int)reader.ReadInt(11) + 1;
                     }
                     else
                     {
-                        intval = reader.ReadInt(14) + 1;
+                        intval = (int)reader.ReadInt(14) + 1;
                     }
                 }
 
