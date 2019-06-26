@@ -5,8 +5,8 @@ skip_commits:
    - README.md
 
 init:
-  - ps: '$env:WK_BUILD_TIME = "[UTC+2]: " + $(Get-Date).ToLongDateString() + " " + $((Get-Date).ToUniversalTime().AddHours(+2).ToLongTimeString())'
-  - ps: $env:WK_VERSION = "$(Get-Date -format yyyy.MM.dd)-$env:APPVEYOR_REPO_COMMIT"
+  - ps: '$env:VW_BUILD_TIME = "[UTC+2]: " + $(Get-Date).ToLongDateString() + " " + $((Get-Date).ToUniversalTime().AddHours(+2).ToLongTimeString())'
+  - ps: $env:VW_VERSION = "$(Get-Date -format yyyy.MM.dd)-$env:APPVEYOR_REPO_COMMIT"
   - ps: Update-AppveyorBuild -Version $env:VW_VERSION
 
 clone_script:
@@ -18,7 +18,7 @@ image: Visual Studio 2017
 
 build:
   parallel: true   
-  project: WolvenKit.sln
+  project: VolvoWrench.sln
   verbosity: minimal
 
 platform: Any CPU
@@ -38,7 +38,7 @@ after_build:
 deploy:
   release: VolvoWrench-v$(appveyor_build_version)
   tag: Latest
-  description: This is a beta release so you may encounter bugs. Please report them. This build was generated on $(WK_BUILD_TIME)
+  description: This is a beta release so you may encounter bugs. Please report them. This build was generated on $(VW_BUILD_TIME)
   provider: GitHub
   auth_token:
     secure: PVcjhc6iNEsA28A1clj8BTACho8kddrMQXuFtLoTnJo9wgaQ8erwBvwGd+tMFQT6
