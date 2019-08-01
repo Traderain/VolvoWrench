@@ -44,6 +44,7 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.BXTTreeView = new System.Windows.Forms.TreeView();
             this.mrtb = new System.Windows.Forms.RichTextBox();
+            this.viewRulesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -86,7 +87,8 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.categoryToolStripMenuItem,
-            this.CategoryCB});
+            this.CategoryCB,
+            this.viewRulesToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
@@ -151,7 +153,7 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
             // 
             // BXTTreeView
             // 
-            this.BXTTreeView.BackColor = System.Drawing.SystemColors.Desktop;
+            this.BXTTreeView.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.BXTTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.BXTTreeView.ForeColor = System.Drawing.SystemColors.InactiveBorder;
             this.BXTTreeView.LineColor = System.Drawing.Color.White;
@@ -173,6 +175,14 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
             this.mrtb.Size = new System.Drawing.Size(560, 423);
             this.mrtb.TabIndex = 0;
             this.mrtb.Text = "";
+            // 
+            // viewRulesToolStripMenuItem
+            // 
+            this.viewRulesToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
+            this.viewRulesToolStripMenuItem.Name = "viewRulesToolStripMenuItem";
+            this.viewRulesToolStripMenuItem.Size = new System.Drawing.Size(72, 23);
+            this.viewRulesToolStripMenuItem.Text = "View rules";
+            this.viewRulesToolStripMenuItem.Click += new System.EventHandler(this.ViewRulesToolStripMenuItem_Click);
             // 
             // Verification
             // 
@@ -219,5 +229,6 @@ namespace VolvoWrench.Demo_Stuff.GoldSource
         private RichTextBox mrtb;
         private ToolStripMenuItem categoryToolStripMenuItem;
         private ToolStripComboBox CategoryCB;
+        private ToolStripMenuItem viewRulesToolStripMenuItem;
     }
 }

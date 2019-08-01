@@ -116,7 +116,7 @@ namespace VolvoWrench
             {
                 SourceToolsToolStripMenuItem.Enabled = false;
                 goldSourceToolsToolStripMenuItem.Enabled = false;
-                richTextBox1.Text = @"^ Use demo_file->Open to open a correct .dem file or drop the file here!";
+                richTextBox1.Text = @"^ Use File->Open to open a correct .dem file or drop the file here!";
                 UpdateForm();
             }
         }

@@ -9,5 +9,11 @@ namespace VolvoWrench.Demo_stuff.GoldSource.Verify
     class Category
     {
         public string name;
+        public List<Tuple<String,Commandtype>> CommandRules;
+
+        public Category()
+        {
+            CommandRules = new List<Tuple<string, Commandtype>>();
+        }
     }
 }

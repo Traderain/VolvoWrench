@@ -13,14 +13,22 @@ namespace VolvoWrench.Demo_stuff.GoldSource.Verify
     {
         public string bxt_version = "";
 
+        public List<Tuple<String, Commandtype>> BaseRules;
+
         public List<Category> categories;
 
         public Config(string file)
         {
+            BaseRules = new List<Tuple<string, Commandtype>>();
             categories = new List<Category>();
             JObject jsonfile = (JObject)JsonConvert.DeserializeObject(File.ReadAllText(file));
             jsonfile["bxt_version"] = bxt_version;
             var cats = (JArray)jsonfile["categories"];
+            foreach(var rule in (JArray)jsonfile["base_command_rules"])
+            {
+                BaseRules.Add(new Tuple<string, Commandtype>(rule["command"].ToString(),
+                    (Commandtype)Enum.Parse(typeof(Commandtype), rule["rule"].ToString())));
+            }
             foreach(var category in cats)
             {
                 Category c = new Category();

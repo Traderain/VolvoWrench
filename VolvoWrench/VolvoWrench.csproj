@@ -46,12 +46,13 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>0</WarningLevel>
+    <WarningLevel>1</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DocumentationFile>
     </DocumentationFile>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <CodeAnalysisIgnoreGeneratedCode>false</CodeAnalysisIgnoreGeneratedCode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -160,6 +161,7 @@
       <DependentUpon>frmFrameView.cs</DependentUpon>
     </Compile>
     <Compile Include="Demo stuff\GoldSource\Verify\Category.cs" />
+    <Compile Include="Demo stuff\GoldSource\Verify\Commandtype.cs" />
     <Compile Include="Demo stuff\GoldSource\Verify\Config.cs" />
     <Compile Include="Demo stuff\GoldSource\Verify\TEA.cs" />
     <Compile Include="Demo stuff\L4D2Branch\Category.cs" />

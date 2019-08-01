@@ -409,5 +409,10 @@ Human readable time:        {TimeSpan.FromSeconds(Df.Sum(x => x.Value.GsDemoInfo
             }
             
         }
+
+        private void ViewRulesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://www.speedrun.com/hl1");
+        }
     }
 }
