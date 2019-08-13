@@ -7,6 +7,7 @@ skip_commits:
 init:
   - ps: '$env:VW_BUILD_TIME = "[UTC+2]: " + $(Get-Date).ToLongDateString() + " " + $((Get-Date).ToUniversalTime().AddHours(+2).ToLongTimeString())'
   - ps: $env:VW_VERSION = "$(Get-Date -format yyyy.MM.dd)-$env:APPVEYOR_REPO_COMMIT"
+  - ps: $env:ExternalCompilerOptions = "-d:NOVERIFY"
   - ps: Update-AppveyorBuild -Version $env:VW_VERSION
 
 clone_script:
@@ -26,10 +27,6 @@ configuration: Release
 
 before_build:
   - nuget restore
-
-build_script: 
-  - msbuild /define:NOVERIFY /m /verbosity:minimal /logger:"C:\\Program Files\\AppVeyor\\BuildAgent\\Appveyor.MSBuildLogger.dll" %APPVEYOR_BUILD_FOLDER%/VolvoWrench.sln
-
 after_build:
   - cd %APPVEYOR_BUILD_FOLDER%\VolvoWrench\bin\Release\
   - rm *.xml
