@@ -22,14 +22,5 @@ namespace VolvoWrench.Properties {
                 return defaultInstance;
             }
         }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0x71")]
-        public string Key {
-            get {
-                return ((string)(this["Key"]));
-            }
-        }
     }
 }
