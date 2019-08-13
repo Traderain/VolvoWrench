@@ -729,10 +729,14 @@ namespace VolvoWrench
         /// <param name="e"></param>
         private void demoVerificationToolToolStripMenuItem_Click(object sender, EventArgs e)
         {
+#if !NOVERIFY
             AllowDrop = false;
             using (var a = new Verification())
                 a.ShowDialog();
             AllowDrop = true;
+#else
+            MessageBox.Show("Unavaliable!", "Unauthorized", MessageBoxButtons.OK, MessageBoxIcon.Error);
+#endif
         }
 
         #endregion
