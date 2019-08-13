@@ -28,7 +28,7 @@ before_build:
   - nuget restore
 
 build_script: 
-  - "msbuild -define:NOVERIFY %APPVEYOR_BUILD_FOLDER%\VolvoWrench.sln" /m /verbosity:minimal /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"""
+  - "msbuild -define:NOVERIFY %APPVEYOR_BUILD_FOLDER%/VolvoWrench.sln /m /verbosity:minimal /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"""
 
 after_build:
   - cd %APPVEYOR_BUILD_FOLDER%\VolvoWrench\bin\Release\
