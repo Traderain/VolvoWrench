@@ -20,7 +20,7 @@ image: Visual Studio 2017
 build:
   parallel: true   
   project: VolvoWrench.sln
-  verbosity: detailed
+  verbosity: normal
 
 platform: Any CPU
 configuration: Release
