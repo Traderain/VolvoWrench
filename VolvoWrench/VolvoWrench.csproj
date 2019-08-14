@@ -433,7 +433,7 @@
       <DependentUpon>Stats.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
-    <None Include="Demo stuff\GoldSource\Verify\verifyconfig.json">
+    <None Include="verifyconfig.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <CustomToolNamespace>VolvoWrench</CustomToolNamespace>
     </None>
