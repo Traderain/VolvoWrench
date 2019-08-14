@@ -35,9 +35,9 @@ build_script:
 
 after_build:
   - cd %APPVEYOR_BUILD_FOLDER%\VolvoWrench\bin\Release\
-  - rm *.xml
-  - rm *.config
-  - rm *.pdb
+  - if *.xml ( rm *.xml ) else (echo "No xmls found!")
+  - if *.config ( rm *.config ) else (echo "No configs found!")
+  - if *.pdb ( rm *.pdb ) else (echo "No pdbs found!")
   - cd /
   - 7z a Portable.zip %APPVEYOR_BUILD_FOLDER%\VolvoWrench\bin\Release\*
   - appveyor PushArtifact Portable.zip
