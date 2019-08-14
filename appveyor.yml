@@ -30,8 +30,8 @@ before_build:
 build: off
 
 build_script:
-  - cd c:\projects\volvowrench
-  - msbuild /nologo /t:Rebuild/verbosity:normal /logger:"C:\\Program Files\\AppVeyor\\BuildAgent\\Appveyor.MSBuildLogger.dll"  /p:DefineConstants="NOVERIFY" VolvoWrench.sln
+  - cd c:\projects\volvowrench\VolvoWrench\
+  - msbuild /m /nologo /t:Rebuild/verbosity:normal /logger:"C:\\Program Files\\AppVeyor\\BuildAgent\\Appveyor.MSBuildLogger.dll"  /p:DefineConstants="NOVERIFY" VolvoWrench.sln
 
 after_build:
   - cd %APPVEYOR_BUILD_FOLDER%\VolvoWrench\bin\Release\
