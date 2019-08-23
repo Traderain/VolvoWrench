@@ -11,11 +11,17 @@
       "name": "Scripted w/ SW"
     },
     {
-      "name" : "Thirdperson",
-      "command_rules" : [
+      "name": "Thirdperson",
+      "command_rules": [
         {
-          "command" : "thirdperson",
-          "rule" : "ALLOWED"
+          "command": "thirdperson",
+          "rule": "ALLOWED"
+        }
+      ],
+      "cvar_rules": [
+        {
+          "cvar": "sv_cheats",
+          "value": "0"
         }
       ]
     }

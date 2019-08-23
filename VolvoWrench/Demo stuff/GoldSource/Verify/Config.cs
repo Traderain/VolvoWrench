@@ -32,6 +32,22 @@ namespace VolvoWrench.Demo_stuff.GoldSource.Verify
             foreach(var category in cats)
             {
                 Category c = new Category();
+                if(category["command_rules"] != null)
+                {
+                    foreach (var rule in (JArray)category["command_rules"])
+                    {
+                        c.CommandRules.Add(new Tuple<string, Commandtype>(rule["command"].ToString(),
+                            (Commandtype)Enum.Parse(typeof(Commandtype), rule["rule"].ToString())));
+                    }
+                }
+                if(category["cvar_rules"] != null)
+                {
+                    foreach (var rule in (JArray)category["cvar_rules"])
+                    {
+                        c.CvarRules.Add(new Tuple<string, string>(rule["cvar"].ToString(),
+                            rule["value"].ToString()));
+                    }
+                }
                 c.name = category["name"].ToString();
                 categories.Add(c);
             }

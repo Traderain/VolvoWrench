@@ -396,14 +396,14 @@ Human readable time:        {TimeSpan.FromSeconds(Df.Sum(x => x.Value.GsDemoInfo
         {
             try
             {
-                config = new Config("Demo stuff\\GoldSource\\Verify\\verifyconfig.json");
+                config = new Config("verifyconfig.json");
                 CategoryCB.Items.Clear();
                 config.categories.ForEach(x =>
                 {
                     CategoryCB.Items.Add(x.name);
                 });
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 MessageBox.Show("Failed to load config!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
