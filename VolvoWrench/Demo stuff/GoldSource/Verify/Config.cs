@@ -9,7 +9,7 @@ using System.IO;
 
 namespace VolvoWrench.Demo_stuff.GoldSource.Verify
 {
-    class Config
+    public class Config
     {
         public string bxt_version = "";
 

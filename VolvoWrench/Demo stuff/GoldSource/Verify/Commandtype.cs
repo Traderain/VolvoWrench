@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace VolvoWrench.Demo_stuff.GoldSource.Verify
 {
-    enum Commandtype
+    public enum Commandtype
     {
         ALLOWED,
         DISALLOWED,

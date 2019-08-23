@@ -156,6 +156,7 @@
     <Compile Include="Demo stuff\GoldSource\frmFrameView.Designer.cs">
       <DependentUpon>frmFrameView.cs</DependentUpon>
     </Compile>
+    <Compile Include="Demo stuff\GoldSource\Verify\BXTVerify.cs" />
     <Compile Include="Demo stuff\GoldSource\Verify\Category.cs" />
     <Compile Include="Demo stuff\GoldSource\Verify\Commandtype.cs" />
     <Compile Include="Demo stuff\GoldSource\Verify\Config.cs" />

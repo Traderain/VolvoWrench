@@ -22,6 +22,10 @@
         {
           "cvar": "sv_cheats",
           "value": "0"
+        },
+        {
+          "cvar": "fps_max",
+          "value": "99.5"
         }
       ]
     }
