@@ -16,14 +16,6 @@ clone_script:
 # Update to the most recent VS.
 image: Visual Studio 2019
 
-#build:
-#  parallel: true   
-#  project: VolvoWrench.sln
-#  verbosity: normal
-
-#platform: Any CPU
-#configuration: Release
-
 before_build:
   - nuget restore
 

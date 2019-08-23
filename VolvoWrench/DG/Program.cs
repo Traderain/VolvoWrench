@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
-using CrashReporterDotNET;
 using VolvoWrench.SaveStuff;
 
 namespace VolvoWrench.DG
@@ -20,10 +19,6 @@ namespace VolvoWrench.DG
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-#if !DEBUG
-            Application.ThreadException += ApplicationThreadException;
-            AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
-#endif
             if (Debugger.IsAttached)
                 CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.GetCultureInfo("en-US");
             var argsappended = args.ToList();
@@ -39,15 +34,5 @@ namespace VolvoWrench.DG
             else
                 Application.Run(new Main());
         }
-
-        private static void CurrentDomainOnUnhandledException(object sender, UnhandledExceptionEventArgs unhandledExceptionEventArgs)
-        {
-            ReportCrash((Exception)unhandledExceptionEventArgs.ExceptionObject);
-            Environment.Exit(0);
-        }
-
-        private static void ApplicationThreadException(object sender, ThreadExceptionEventArgs e) => ReportCrash(e.Exception);
-
-        private static void ReportCrash(Exception exception) => new ReportCrash { ToEmail = "hambalko.bence@gmail.com" }.Send(exception);
     }
 }
