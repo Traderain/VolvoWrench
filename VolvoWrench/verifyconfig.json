@@ -4,7 +4,7 @@
     {
       "name": "Scriptless",
 	  "command_rules": [
-	    {
+		{
           "command" : "exec",
           "rule" : "DISALLOWED"
 		},
@@ -39,10 +39,10 @@
 		{
           "command" : "+bxt_tas_jumpbug",
           "rule" : "DISALLOWED"
-		},
+		}
 	],
 	  "cvar_rules": [
-	    {
+		{
           "cvar" : "bxt_autojump",
           "value" : "0"
 		},
@@ -62,12 +62,12 @@
           "cvar" : "w",
           "value" : "0"
 		}
-	  ]
-	}
+	]
+    },
     {
       "name": "Scripted",
 	  "command_rules": [
-	    {
+		{
           "command" : "bxt_append",
           "rule" : "ALLOWED"
 		},
@@ -98,34 +98,34 @@
 		{
           "command" : "wait",
           "rule" : "ALLOWED"
-		},
-	  ],
-	  "cvar_rules": [
-	    {
-          "cvar" : "w",
-          "value" : ("from" "0" "to" "3600000")
 		}
-	  ]
-	}
+	],
+	  "cvar_rules": [
+		{
+          "cvar" : "w",
+          "value" : "(from: 0 to: 36000000)"
+		}
+	]
+	},
     {
       "name": "Scripted w/ SW"
     },
     {
       "name": "Thirdperson",
       "command_rules": [
-        {
+		{
           "command": "thirdperson",
           "rule": "ALLOWED"
-        }
-      ],
+		}
+    ],
 	  "cvar_rules": [
-	    {
+		{
 		  "cvar": "cam_idealyaw",
 		  "value": "0"
 		}
-	  ]
+	]
 	}
-]
+],
   "base_command_rules": [
     
     {
@@ -1316,7 +1316,7 @@
 	},
 	{
 		"cvar" : "contimes",
-		"value" : ("from": "4" "to": "64")
+		"value" : "(from: 4 to: 64)"
 	},
 	{
 		"cvar" : "_bxt_bunnysplit_time_update_frequency",
@@ -1340,35 +1340,35 @@
 	},
 	{
 		"cvar" : "ati_npatch",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "bgmvolume",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "bitmapfonts",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "bottomcolor",
-		"value" : ("from": "0" "to":"255")
+		"value" : "(from: 0 to: 255)"
 	},
 	{
 		"cvar" : "brightness",
-		"value" : ("from": "0" "to":"2")
+		"value" : "(from: 0 to: 2)"
 	},
 	{
 		"cvar" : "bxt_autojump",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "bxt_autojump_prediction",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "bxt_autopause",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "bxt_bhopcap",
@@ -1380,7 +1380,7 @@
 	},
 	{
 		"cvar" : "bxt_hud",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "bxt_hud_distance",
@@ -1392,11 +1392,11 @@
 	},
 	{
 		"cvar" : "bxt_hud_incorrect_fps_indicator",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "bxt_hud_jumpspeed",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "bxt_hud_origin",
@@ -1412,11 +1412,11 @@
 	},
 	{
 		"cvar" : "bxt_hud_speedometer",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "bxt_hud_timer",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "bxt_hud_useables",
@@ -1432,7 +1432,7 @@
 	},
 	{
 		"cvar" : "bxt_hud_viewangles",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "bxt_hud_visible_landmarks",
@@ -1528,11 +1528,11 @@
 	},
 	{
 		"cvar" : "cl_allowdownload",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "cl_allowupload",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "cl_anglespeedkey",
@@ -1544,7 +1544,7 @@
 	},
 	{
 		"cvar" : "cl_bob",
-		"value" : ("from": "0" "to": "1")
+		"value" : "(from: 0 to: 1)"
 	},
 	{
 		"cvar" : "cl_bobcycle",
@@ -1568,11 +1568,11 @@
 	},
 	{
 		"cvar" : "cl_dlmax",
-		"value" : ("from": "16" "to": "1024")
+		"value" : "(from: 16 to: 1024)"
 	},
 	{
 		"cvar" : "cl_download_ingame",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "cl_filterstuffcmd",
@@ -1596,7 +1596,7 @@
 	},
 	{
 		"cvar" : "cl_himodels",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "cl_idealpitchscale",
@@ -1608,7 +1608,7 @@
 	},
 	{
 		"cvar" : "cl_lw",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "cl_mousegrab",
@@ -1632,23 +1632,23 @@
 	},
 	{
 		"cvar" : "cl_resend",
-		"value" : ("from": "1.5" "to": "20")
+		"value" : "(from: 1.5 to: 20)"
 	},
 	{
 		"cvar" : "cl_showerror",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "cl_showevents",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "cl_showfps",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "cl_showmessages",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "cl_shownet",
@@ -1672,7 +1672,7 @@
 	},
 	{
 		"cvar" : "cl_updaterate",
-		"value" : ("from": "10" "to": "102")
+		"value" : "(from: 10 to: 102)"
 	},
 	{
 		"cvar" : "cl_upspeed",
@@ -1700,27 +1700,27 @@
 	},
 	{
 		"cvar" : "clockwindow",
-		"value" : (0;0.5)
+		"value" : "(0;0.5)"
 	},
 	{
 		"cvar" : "con_fastmode",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "con_mono",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "con_notifytime",
-		"value" : ("from": "0" "to": "300")
+		"value" : "(from: 0 to: 300)"
 	},
 	{
 		"cvar" : "con_shifttoggleconsole",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "console",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "coop",
@@ -1728,7 +1728,7 @@
 	},
 	{
 		"cvar" : "crosshair",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "d_spriteskip",
@@ -1740,11 +1740,11 @@
 	},
 	{
 		"cvar" : "decalfrequency",
-		"value" : ("from": "0" "to": "300")
+		"value" : "(from: 0 to: 300)"
 	},
 	{
 		"cvar" : "default_fov",
-		"value" : ("from": "10" "to": "150")
+		"value" : "(from: 10 to: 150)"
 	},
 	{
 		"cvar" : "dev_overview",
@@ -1752,7 +1752,7 @@
 	},
 	{
 		"cvar" : "developer",
-		"value" : (0;1;2)
+		"value" : "(0;1;2)"
 	},
 	{
 		"cvar" : "direct",
@@ -1780,7 +1780,7 @@
 	},
 	{
 		"cvar" : "fps_max",
-		"value" : ("from": "0" "to": "2000")
+		"value" : "(from: 0 to: 3000)"
 	},
 	{
 		"cvar" : "fps_override",
@@ -1804,7 +1804,7 @@
 	},
 	{
 		"cvar" : "gamma",
-		"value" : ("from": "1.8" "to": "3")
+		"value" : "(from: 1.8 to: 3)"
 	},
 	{
 		"cvar" : "gl_affinemodels",
@@ -1816,11 +1816,11 @@
 	},
 	{
 		"cvar" : "gl_ansio",
-		"value" : ("from": "0" "to": "16")
+		"value" : "(from: 0 to: 16)"
 	},
 	{
 		"cvar" : "gl_clear",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "gl_cull",
@@ -1848,7 +1848,7 @@
 	},
 	{
 		"cvar" : "gl_max_size",
-		"value" : ("from": "256" "to": "512")
+		"value" : "(from: 256 to: 512)"
 	},
 	{
 		"cvar" : "gl_monolights",
@@ -1860,27 +1860,27 @@
 	},
 	{
 		"cvar" : "gl_palette_tex",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "gl_picmip",
-		"value" : (0;1;2)
+		"value" : "(0;1;2)"
 	},
 	{
 		"cvar" : "gl_polyoffset",
-		"value" : ("from": "0.1" "to": "25")
+		"value" : "(from: 0.1 to: 25)"
 	},
 	{
 		"cvar" : "gl_round_down",
-		"value" : ("from": "0" "to": "5")
+		"value" : "(from: 0 to: 5)"
 	},
 	{
 		"cvar" : "gl_spriteblend",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "gl_vsync",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "gl_wateramp",
@@ -1896,11 +1896,11 @@
 	},
 	{
 		"cvar" : "gl_ztrick_old",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "hisound",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "host_framerate",
@@ -1928,23 +1928,23 @@
 	},
 	{
 		"cvar" : "hpk_maxsize",
-		"value" : (0;4)
+		"value" : "(0;4)"
 	},
 	{
 		"cvar" : "hud_capturemouse",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "hud_centerid",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "hud_classautokill",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "hud_fastswitch",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "hud_saytext_time",
@@ -1952,7 +1952,7 @@
 	},
 	{
 		"cvar" : "hud_takesshots",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "ip",
@@ -2060,7 +2060,7 @@
 	},
 	{
 		"cvar" : "loadas8bit",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "logsdir",
@@ -2080,11 +2080,11 @@
 	},
 	{
 		"cvar" : "m_filter",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "m_rawinput",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "mapchangecfgfile",
@@ -2120,7 +2120,7 @@
 	},
 	{
 		"cvar" : "mp_autocrosshair",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "mp_chattime",
@@ -2208,11 +2208,11 @@
 	},
 	{
 		"cvar" : "net_graph",
-		"value" : ("from": "0" "to": "3")
+		"value" : "(0;1;2;3)"
 	},
 	{
 		"cvar" : "net_graphpos",
-		"value" : (0;1;2)
+		"value" : "(0;1;2)"
 	},
 	{
 		"cvar" : "net_log",
@@ -2228,32 +2228,32 @@
 	},
 	{
 		"cvar" : "nosound",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "pausable",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	
 	{
 		"cvar" : "r_bmodelinterp",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "r_cachestudio",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "r_cullsequencebox",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "r_detailtextures",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "r_detailtexturessupported",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "r_drawentities",
@@ -2261,11 +2261,11 @@
 	},
 	{
 		"cvar" : "r_drawviewmodel",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "r_dynamic",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "r_fullbright",
@@ -2281,15 +2281,15 @@
 	},
 	{
 		"cvar" : "r_mmx",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "r_norefresh",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "r_novis",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "r_speeds",
@@ -2297,19 +2297,19 @@
 	},
 	{
 		"cvar" : "r_traceglow",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "r_wadtextures",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "r_wateralpha",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "rate",
-		"value" : ("from": "1000" "to": "25000")
+		"value" : "(from: 1000 to: 25000)"
 	},    
 	{
 		"cvar" : "s_show",
@@ -2357,7 +2357,7 @@
 	},
 	{
 		"cvar" : "sensitivity",
-		"value" : ("from": "0" "to": "20")
+		"value" : "(from: 0 to: 20)"
 	},
 	{
 		"cvar" : "servercfgfile",
@@ -2365,7 +2365,7 @@
 	},
 	{
 		"cvar" : "showpause",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "sk_12mm_bullet1",
@@ -3041,7 +3041,7 @@
 	},
 	{
 		"cvar" : "sk_player_stomach1",
-		"value" : "1
+		"value" : "1"
 	},
 	{
 		"cvar" : "sk_player_stomach2",
@@ -3365,7 +3365,7 @@
 	},
 	{
 		"cvar" : "skill",
-		"value" : (1;2;3)
+		"value" : "(1;2;3)"
 	},
 	{
 		"cvar" : "skin",
@@ -3373,7 +3373,7 @@
 	},
 	{
 		"cvar" : "snd_noextraupdate",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "snd_show",
@@ -3381,11 +3381,11 @@
 	},
 	{
 		"cvar" : "speak_enabled",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "suitvolume",
-		"value" : ("from": "0" "to": "2")
+		"value" : "(from: 0 to: 2)"
 	},
 	{
 		"cvar" : "sv_accelerate",
@@ -3393,7 +3393,7 @@
 	},
 	{
 		"cvar" : "sv_aim",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "sv_airaccelerate",
@@ -3401,15 +3401,15 @@
 	},
 	{
 		"cvar" : "sv_allow_dlfile",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "sv_allowdownload",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "sv_allowupload",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "sv_bounce",
@@ -3421,15 +3421,15 @@
 	},
 	{
 		"cvar" : "sv_enableoldqueries",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "sv_filetransfercompression",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "sv_filterban",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "sv_friction",
@@ -3441,15 +3441,15 @@
 	},
 	{
 		"cvar" : "sv_instancedbaseline",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "sv_lan",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "sv_lan_rate",
-		"value" : ("from": "1001" "to": "20000")
+		"value" : "(from: 1001 to: 20000)"
 	},
 	{
 		"cvar" : "sv_log_onefile",
@@ -3537,23 +3537,23 @@
 	},
 	{
 		"cvar" : "sv_send_logos",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "sv_send_resources",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "sv_skycolor_b",
-		"value" : ("from": "0" "to": "255")
+		"value" : "(from: 0 to: 255)"
 	},
 	{
 		"cvar" : "sv_skycolor_g",
-		"value" : ("from": "0" "to": "255")
+		"value" : "(from: 0 to: 255)"
 	},
 	{
 		"cvar" : "sv_skycolor_r",
-		"value" : ("from": "0" "to": "255")
+		"value" : "(from: 0 to: 255)"
 	},
 	{
 		"cvar" : "sv_spectatormaxspeed",
@@ -3573,7 +3573,7 @@
 	},
 	{
 		"cvar" : "sv_unlag",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "sv_unlagpush",
@@ -3581,11 +3581,11 @@
 	},
 	{
 		"cvar" : "sv_unlagsamples",
-		"value" : (1;2)
+		"value" : "(1;2)"
 	},
 	{
 		"cvar" : "sv_voiceenable",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "sv_wateraccelerate",
@@ -3605,35 +3605,35 @@
 	},
 	{
 		"cvar" : "texgamma",
-		"value" : ("from": "0" "to": "2")
+		"value" : "(from: 0 to: 2)"
 	},
 	{
 		"cvar" : "tfc_newmodels",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "topcolor",
-		"value" : ("from": "0" "to": "255")
+		"value" : "(from: 0 to: 255)"
 	},
 	{
 		"cvar" : "traceralpha",
-		"value" : ("from": "0" "to": "1")
+		"value" : "(from: 0 to: 1)"
 	},
 	{
 		"cvar" : "tracerblue",
-		"value" : ("from": "0" "to": "1")
+		"value" : "(from: 0 to: 1)"
 	},
 	{
 		"cvar" : "tracergreen",
-		"value" : ("from": "0" "to": "1")
+		"value" : "(from: 0 to: 1)"
 	},
 	{
 		"cvar" : "tracerlength",
-		"value" : ("from": "0" "to": "1")
+		"value" : "(from: 0 to: 1)"
 	},
 	{
 		"cvar" : "tracerred",
-		"value" : ("from": "0" "to": "1")
+		"value" : "(from: 0 to: 1)"
 	},
 	{
 		"cvar" : "v_centermove",
@@ -3649,31 +3649,31 @@
 	},
 	{
 		"cvar" : "viewsize",
-		"value" : ("from": "30" "to": "120")
+		"value" : "(from: 30 to: 120)"
 	},
 	{
 		"cvar" : "violence_ablood",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "violence_agibs",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "violence_hblood",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "violence_hgibs",
-		"value" : (0;1)
+		"value" : "(0;1)"
 	},
 	{
 		"cvar" : "volume",
-		"value" : ("from": "0" "to": "2")
+		"value" : "(from: 0 to: 2)"
 	},
 	{
 		"cvar" : "waterroom_type",
-		"value" : ("from": "0" "to": "28")
+		"value" : "(from: 0 to: 28)"
 	}
   ]
 }
