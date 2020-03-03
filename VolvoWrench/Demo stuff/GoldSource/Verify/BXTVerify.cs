@@ -26,7 +26,7 @@ namespace VolvoWrench.Demo_stuff.GoldSource.Verify
         public Tuple<TreeNode,string> ParseBxtData(KeyValuePair<string, CrossParseResult> info)
         {
             string ret = "\n";
-            const string bxtVersion = "34ecc635d8a4ac9a210614374af66ebffa36c656-CLEAN based on mar-27-2019";
+            const string bxtVersion = "0d48fff0f9621c18097642b69cf55102483e4427-CLEAN based on jan-30-2020";
             var cvarRules = new Dictionary<string, string>()
             {
                 {"BXT_AUTOJUMP", "0"},
