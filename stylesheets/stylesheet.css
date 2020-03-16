@@ -195,7 +195,7 @@ hr {
   border-radius: 50px;
   border: 2px solid rgba(0, 0, 0, 0.7);
   border-bottom: 2px solid rgba(0, 0, 0, 0.7);
-  border-top: 2px solid rgba(0, 0, 0, 1);
+  border-top: 2px solid black;
   color: rgba(255, 255, 255, 0.8);
   font-family: Helvetica, Arial, sans-serif;
   font-weight: bold;
@@ -234,14 +234,14 @@ a {
 /* Clearfix */
 
 .cf:before, .cf:after {
-  content:"";
-  display:table;
+  content: "";
+  display: table;
 }
 
 .cf:after {
-  clear:both;
+  clear: both;
 }
 
 .cf {
-  zoom:1;
+  zoom: 1;
 }
