@@ -1,3679 +1,3679 @@
 ﻿{
-  "bxt_version": "0d48fff0f9621c18097642b69cf55102483e4427-CLEAN based on jan-30-2020",
-  "categories": [
-    {
-      "name": "Scriptless",
-	  "command_rules": [
+	"bxt_version": "f0c92ed4fd32ec77882007db58d826f81ffe4dc4-CLEAN based on mar-21-2020-1-gf0c92ed",
+	"categories": [
 		{
-          "command" : "exec",
-          "rule" : "DISALLOWED"
+			"name": "Scriptless",
+			"command_rules": [
+				{
+					"command": "exec",
+					"rule": "DISALLOWED"
+				},
+				{
+					"command": "wait",
+					"rule": "DISALLOWED"
+				},
+				{
+					"command": "bxt_append",
+					"rule": "DISALLOWED"
+				},
+				{
+					"command": "-bxt_tas_ducktap",
+					"rule": "DISALLOWED"
+				},
+				{
+					"command": "+bxt_tas_ducktap",
+					"rule": "DISALLOWED"
+				},
+				{
+					"command": "-bxt_tas_autojump",
+					"rule": "DISALLOWED"
+				},
+				{
+					"command": "+bxt_tas_autojump",
+					"rule": "DISALLOWED"
+				},
+				{
+					"command": "-bxt_tas_jumpbug",
+					"rule": "DISALLOWED"
+				},
+				{
+					"command": "+bxt_tas_jumpbug",
+					"rule": "DISALLOWED"
+				}
+			],
+			"cvar_rules": [
+				{
+					"cvar": "bxt_autojump",
+					"value": "0"
+				},
+				{
+					"cvar": "bxt_autojump_prediction",
+					"value": "0"
+				},
+				{
+					"cvar": "cl_pitchdown",
+					"value": "89"
+				},
+				{
+					"cvar": "cl_pitchup",
+					"value": "89"
+				},
+				{
+					"cvar": "w",
+					"value": "0"
+				}
+			]
 		},
 		{
-          "command" : "wait",
-          "rule" : "DISALLOWED"
+			"name": "Scripted",
+			"command_rules": [
+				{
+					"command": "bxt_append",
+					"rule": "ALLOWED"
+				},
+				{
+					"command": "-bxt_tas_ducktap",
+					"rule": "ALLOWED"
+				},
+				{
+					"command": "+bxt_tas_ducktap",
+					"rule": "ALLOWED"
+				},
+				{
+					"command": "-bxt_tas_autojump",
+					"rule": "ALLOWED"
+				},
+				{
+					"command": "+bxt_tas_autojump",
+					"rule": "ALLOWED"
+				},
+				{
+					"command": "-bxt_tas_jumpbug",
+					"rule": "ALLOWED"
+				},
+				{
+					"command": "+bxt_tas_jumpbug",
+					"rule": "ALLOWED"
+				},
+				{
+					"command": "wait",
+					"rule": "ALLOWED"
+				}
+			],
+			"cvar_rules": [
+				{
+					"cvar": "w",
+					"value": "(from: 0 to: 36000000)"
+				}
+			]
 		},
 		{
-          "command" : "bxt_append",
-          "rule" : "DISALLOWED"
+			"name": "Scripted w/ SW"
 		},
 		{
-          "command" : "-bxt_tas_ducktap",
-          "rule" : "DISALLOWED"
-		},
-		{
-          "command" : "+bxt_tas_ducktap",
-          "rule" : "DISALLOWED"
-		},
-		{
-          "command" : "-bxt_tas_autojump",
-          "rule" : "DISALLOWED"
-		},
-		{
-          "command" : "+bxt_tas_autojump",
-          "rule" : "DISALLOWED"
-		},
-		{
-          "command" : "-bxt_tas_jumpbug",
-          "rule" : "DISALLOWED"
-		},
-		{
-          "command" : "+bxt_tas_jumpbug",
-          "rule" : "DISALLOWED"
+			"name": "Thirdperson",
+			"command_rules": [
+				{
+					"command": "thirdperson",
+					"rule": "ALLOWED"
+				}
+			],
+			"cvar_rules": [
+				{
+					"cvar": "cam_idealyaw",
+					"value": "0"
+				}
+			]
 		}
 	],
-	  "cvar_rules": [
+	"base_command_rules": [
+
 		{
-          "cvar" : "bxt_autojump",
-          "value" : "0"
+			"command": "_bxt_reset_frametime_remainder",
+			"rule": "DISALLOWED"
 		},
 		{
-          "cvar" : "bxt_autojump_prediction",
-          "value" : "0"
+			"command": "_bxt_interprocess_reset",
+			"rule": "ALLOWED"
 		},
 		{
-          "cvar" : "cl_pitchdown",
-          "value" : "89"
+			"command": "_bxt_load",
+			"rule": "DISALLOWED"
 		},
 		{
-          "cvar" : "cl_pitchup",
-          "value" : "89"
+			"command": "_bxt_map",
+			"rule": "DISALLOWED"
 		},
 		{
-          "cvar" : "w",
-          "value" : "0"
-		}
-	]
-    },
-    {
-      "name": "Scripted",
-	  "command_rules": [
-		{
-          "command" : "bxt_append",
-          "rule" : "ALLOWED"
+			"command": "bxt_autorecord",
+			"rule": "ALLOWED"
 		},
 		{
-          "command" : "-bxt_tas_ducktap",
-          "rule" : "ALLOWED"
+			"command": "bxt_record",
+			"rule": "ALLOWED"
 		},
 		{
-          "command" : "+bxt_tas_ducktap",
-          "rule" : "ALLOWED"
+			"command": "bxt_timer_reset",
+			"rule": "DISALLOWED"
 		},
 		{
-          "command" : "-bxt_tas_autojump",
-          "rule" : "ALLOWED"
+			"command": "bxt_timer_stop",
+			"rule": "DISALLOWED"
 		},
 		{
-          "command" : "+bxt_tas_autojump",
-          "rule" : "ALLOWED"
+			"command": "bxt_timer_start",
+			"rule": "DISALLOWED"
 		},
 		{
-          "command" : "-bxt_tas_jumpbug",
-          "rule" : "ALLOWED"
+			"command": "bxt_triggers_setcommand",
+			"rule": "DISALLOWED"
 		},
 		{
-          "command" : "+bxt_tas_jumpbug",
-          "rule" : "ALLOWED"
+			"command": "bxt_triggers_list",
+			"rule": "DISALLOWED"
 		},
 		{
-          "command" : "wait",
-          "rule" : "ALLOWED"
+			"command": "bxt_triggers_export",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "bxt_triggers_delete",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "bxt_triggers_clear",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "bxt_triggers_add",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "bxt_cam_clear",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "bxt_cam_offset",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "bxt_cam_fixed",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "bxt_ch_set_vel_angles",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "bxt_ch_set_vel",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "bxt_ch_set_pos_offset",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "bxt_ch_set_pos",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "bxt_ch_set_armor",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "bxt_ch_set_health",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "bxt_tas_loadscript",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "appenddemo",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "cl_messages",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "commentator",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "connect",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "disconnect",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "endmovie",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "entities",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "fullserverinfo",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "gamedir",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "gg",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "httpstop",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "list",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "listdemo",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "listen",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "pingservers",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "playdemo",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "ppdemostart",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "invprev",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "invnext",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "cancelselect",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "rcon",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "record",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "removedemo",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "retry",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "setdemoinfo",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "slist",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "slot10",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "slot9",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "slot8",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "slot7",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "slot6",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "slot5",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "slot4",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "slot3",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "slot2",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "slot1",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "snapshot",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "spec_pos",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "startmovie",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "stop",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "swapdemo",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "timedemo",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "togglebrowser",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "special",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "ForceCloseCommandMenu",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "-commandmenu",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "+commandmenu",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "centerview",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "joyadvancedupdate",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "force_centerview",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "snapto",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "-camdistance",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "+camdistance",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "-cammousemove",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "+cammousemove",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "firstperson",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "thirdperson",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "-camout",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "+camout",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "-camin",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "+camin",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "-camyawright",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "+camyawright",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "-camyawleft",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "+camyawleft",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "-campitchdown",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "+campitchdown",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "-campitchup",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "+campitchup",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "-break",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "+break",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "-graph",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "+graph",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "-showscores",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "+showscores",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "-score",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "+score",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "-alt1",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "+ALT1",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "-reload",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "+reload",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "-duck",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "+duck",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "-jlook",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "+jlook",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "-mlook",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "+mlook",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "-klook",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "+klook",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "impulse",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "-jump",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "+jump",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "-use",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "+use",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "-attack2",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "+attack2",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "-attack",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "+attack",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "-speed",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "+speed",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "-moveright",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "+moveright",
+			"rule": "NOSEQUENCE"
+		},
+		{
+			"command": "-moveleft",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "+moveleft",
+			"rule": "NOSEQUENCE"
+		},
+		{
+			"command": "-strafe",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "+strafe",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "-lookdown",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "+lookdown",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "-lookup",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "+lookup",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "-back",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "+back",
+			"rule": "NOSEQUENCE"
+		},
+		{
+			"command": "-forward",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "+forward",
+			"rule": "NOSEQUENCE"
+		},
+		{
+			"command": "-right",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "+right",
+			"rule": "NOSEQUENCE"
+		},
+		{
+			"command": "-left",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "+left",
+			"rule": "NOSEQUENCE"
+		},
+		{
+			"command": "-movedown",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "+movedown",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "-moveup",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "+moveup",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "dem_save",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "dem_start",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "dem_speed",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "dem_pause",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "dem_forcehltv",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "dem_jump",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "condump",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "+voicerecord",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "-voicerecord",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "_careeraudio",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "_restart",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "_set_vid_level",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "_setaddons_folder",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "_setgamedir",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "_sethdmodels",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "_setrenderer",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "_setvideomode",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "addip",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "alias",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "autosave",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "banid",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "bind",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "career",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "cd",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "changelevel",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "changelevel2",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "clear",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "cmd",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "cmdlist",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "condebug",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "cvarlist",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "delta_clear",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "delta_stats",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "demos",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "dlfile",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "dropclient",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "echo",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "envmap",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "escape",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "exec",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "exit",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "flush",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "fly",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "fullinfo",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "fullupdate",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "gl_dump",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "gl_texels",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "gl_texturemode",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "god",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "heartbeat",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "hideconsole",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "hpkextract",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "hpklist",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "hpkremove",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "hpkval",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "interp",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "kick",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "kill",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "listid",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "listip",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "load",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "localinfo",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "log",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "logaddress",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "logaddress_add",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "logaddress_del",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "map c1a0",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "maps",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "maxplayers",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "mcache",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "messagemode",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "messagemode2",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "motd",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "motd_write",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "mp3",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "new",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "noclip",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "notarget",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "pause",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "ping",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "play",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "playvol",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "pointfile",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "quit",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "reconnect",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "reload",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "removeid",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "removeip",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "resetrcon",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "restart",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "save",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "say",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "say_team",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "screenshot",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "sendents",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "sendres",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "serverinfo",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "setinfo",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "setmaster",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "setpause",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "showinfo",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "shutdownserver",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "sizedown",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "sizeup",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "soundfade",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "soundinfo",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "soundlist",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "spawn",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "speak",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "spk",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "startdemos",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "stat",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "stats",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "status",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "stopdemo",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "stopsound",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "stuffcmds",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "tell",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "timerefresh",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "toggleconsole",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "unbind",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "unbindall",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "unpause",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "upload",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "user",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "users",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "version",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "viewdemo",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "viewframe",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "viewmodel",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "viewnext",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "viewprev",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "waveplaylen",
+			"rule": "DISALLOWED"
+		},
+		{
+			"command": "weapon_",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "writecfg",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "writeid",
+			"rule": "ALLOWED"
+		},
+		{
+			"command": "writeip",
+			"rule": "ALLOWED"
 		}
 	],
-	  "cvar_rules": [
+	"cvar_rules": [
 		{
-          "cvar" : "w",
-          "value" : "(from: 0 to: 36000000)"
+			"cvar": "bxt_taslog",
+			"value": "0"
+		},
+		{
+			"cvar": "bxt_hud_nihilanth",
+			"value": "0"
+		},
+		{
+			"cvar": "bxt_hud_health",
+			"value": "0"
+		},
+		{
+			"cvar": "bxt_wallhack",
+			"value": "0"
+		},
+		{
+			"cvar": "bxt_wallhack_additive",
+			"value": "0"
+		},
+		{
+			"cvar": "bxt_wallhack_alpha",
+			"value": "0.6"
+		},
+		{
+			"cvar": "bxt_novis",
+			"value": "0"
+		},
+		{
+			"cvar": "bxt_collision_depth_map",
+			"value": "0"
+		},
+		{
+			"cvar": "bxt_collision_depth_map_hull",
+			"value": "2"
+		},
+		{
+			"cvar": "bxt_collision_depth_map_max_depth",
+			"value": "1000"
+		},
+		{
+			"cvar": "bxt_collision_depth_map_colors",
+			"value": "0"
+		},
+		{
+			"cvar": "bxt_show_triggers_legacy",
+			"value": "0"
+		},
+		{
+			"cvar": "contimes",
+			"value": "(from: 4 to: 64)"
+		},
+		{
+			"cvar": "_bxt_bunnysplit_time_update_frequency",
+			"value": "41"
+		},
+		{
+			"cvar": "_bxt_min_frametime",
+			"value": "0"
+		},
+		{
+			"cvar": "_bxt_norefresh",
+			"value": "0"
+		},
+		{
+			"cvar": "_bxt_save_runtime_data_in_demos",
+			"value": "1"
+		},
+		{
+			"cvar": "_bxt_taslog",
+			"value": "0"
+		},
+		{
+			"cvar": "ati_npatch",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "bgmvolume",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "bitmapfonts",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "bottomcolor",
+			"value": "(from: 0 to: 255)"
+		},
+		{
+			"cvar": "brightness",
+			"value": "(from: 0 to: 2)"
+		},
+		{
+			"cvar": "bxt_autojump",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "bxt_autojump_prediction",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "bxt_autopause",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "bxt_bhopcap",
+			"value": "0"
+		},
+		{
+			"cvar": "bxt_fade_remove",
+			"value": "0"
+		},
+		{
+			"cvar": "bxt_hud",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "bxt_hud_distance",
+			"value": "0"
+		},
+		{
+			"cvar": "bxt_hud_entity_hp",
+			"value": "0"
+		},
+		{
+			"cvar": "bxt_hud_incorrect_fps_indicator",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "bxt_hud_jumpspeed",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "bxt_hud_origin",
+			"value": "0"
+		},
+		{
+			"cvar": "bxt_hud_precision",
+			"value": "6"
+		},
+		{
+			"cvar": "bxt_hud_selfgauss",
+			"value": "0"
+		},
+		{
+			"cvar": "bxt_hud_speedometer",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "bxt_hud_timer",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "bxt_hud_useables",
+			"value": "0"
+		},
+		{
+			"cvar": "bxt_hud_useables_radius",
+			"value": "64"
+		},
+		{
+			"cvar": "bxt_hud_velocity",
+			"value": "0"
+		},
+		{
+			"cvar": "bxt_hud_viewangles",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "bxt_hud_visible_landmarks",
+			"value": "0"
+		},
+		{
+			"cvar": "bxt_interprocess_enable",
+			"value": "0"
+		},
+		{
+			"cvar": "bxt_show_hidden_entities",
+			"value": "0"
+		},
+		{
+			"cvar": "bxt_show_nodes",
+			"value": "0"
+		},
+		{
+			"cvar": "bxt_show_triggers",
+			"value": "0"
+		},
+		{
+			"cvar": "bxt_stop_demo_on_changelevel",
+			"value": "0"
+		},
+		{
+			"cvar": "bxt_timer_autostop",
+			"value": "1"
+		},
+		{
+			"cvar": "c_maxdistance",
+			"value": "200"
+		},
+		{
+			"cvar": "c_maxpitch",
+			"value": "90"
+		},
+		{
+			"cvar": "c_maxyaw",
+			"value": "135"
+		},
+		{
+			"cvar": "c_mindistance",
+			"value": "30"
+		},
+		{
+			"cvar": "c_minpitch",
+			"value": "0"
+		},
+		{
+			"cvar": "c_minyaw",
+			"value": "-135"
+		},
+		{
+			"cvar": "cam_cvar",
+			"value": "0"
+		},
+		{
+			"cvar": "cam_contain",
+			"value": "0"
+		},
+		{
+			"cvar": "cam_idealdist",
+			"value": "64"
+		},
+		{
+			"cvar": "cam_idealpitch",
+			"value": "0"
+		},
+		{
+			"cvar": "cam_idealyaw",
+			"value": "90"
+		},
+		{
+			"cvar": "cam_snapto",
+			"value": "0"
+		},
+		{
+			"cvar": "chase_active",
+			"value": "0"
+		},
+		{
+			"cvar": "chase_back",
+			"value": "100"
+		},
+		{
+			"cvar": "chase_right",
+			"value": "0"
+		},
+		{
+			"cvar": "chase_up",
+			"value": "16"
+		},
+		{
+			"cvar": "cl_allowdownload",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "cl_allowupload",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "cl_anglespeedkey",
+			"value": "0.67"
+		},
+		{
+			"cvar": "cl_backspeed",
+			"value": "400"
+		},
+		{
+			"cvar": "cl_bob",
+			"value": "(from: 0 to: 1)"
+		},
+		{
+			"cvar": "cl_bobcycle",
+			"value": "0.8"
+		},
+		{
+			"cvar": "cl_bobup",
+			"value": "0.5"
+		},
+		{
+			"cvar": "cl_clockreset",
+			"value": "0.1"
+		},
+		{
+			"cvar": "cl_cmdbackup",
+			"value": "2"
+		},
+		{
+			"cvar": "cl_cmdrate",
+			"value": "60"
+		},
+		{
+			"cvar": "cl_dlmax",
+			"value": "(from: 16 to: 1024)"
+		},
+		{
+			"cvar": "cl_download_ingame",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "cl_filterstuffcmd",
+			"value": "0"
+		},
+		{
+			"cvar": "cl_fixtimerate",
+			"value": "7.5"
+		},
+		{
+			"cvar": "cl_forwardspeed",
+			"value": "400"
+		},
+		{
+			"cvar": "cl_gaitestimation",
+			"value": "1"
+		},
+		{
+			"cvar": "cl_gg",
+			"value": "0"
+		},
+		{
+			"cvar": "cl_himodels",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "cl_idealpitchscale",
+			"value": "0.8"
+		},
+		{
+			"cvar": "cl_lc",
+			"value": "1"
+		},
+		{
+			"cvar": "cl_lw",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "cl_mousegrab",
+			"value": "1"
+		},
+		{
+			"cvar": "cl_movespeedkey",
+			"value": "0.3"
+		},
+		{
+			"cvar": "cl_needinstanced",
+			"value": "0"
+		},
+		{
+			"cvar": "cl_nosmooth",
+			"value": "0"
+		},
+		{
+			"cvar": "cl_pitchspeed",
+			"value": "225"
+		},
+		{
+			"cvar": "cl_resend",
+			"value": "(from: 1.5 to: 20)"
+		},
+		{
+			"cvar": "cl_showerror",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "cl_showevents",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "cl_showfps",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "cl_showmessages",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "cl_shownet",
+			"value": "0"
+		},
+		{
+			"cvar": "cl_sidespeed",
+			"value": "400"
+		},
+		{
+			"cvar": "cl_slist",
+			"value": "10"
+		},
+		{
+			"cvar": "cl_smoothtime",
+			"value": "0.1"
+		},
+		{
+			"cvar": "cl_solid_players",
+			"value": "1"
+		},
+		{
+			"cvar": "cl_updaterate",
+			"value": "(from: 10 to: 102)"
+		},
+		{
+			"cvar": "cl_upspeed",
+			"value": "320"
+		},
+		{
+			"cvar": "cl_vsmoothing",
+			"value": "0.05"
+		},
+		{
+			"cvar": "cl_waterdist",
+			"value": "4"
+		},
+		{
+			"cvar": "cl_weaponlistfix",
+			"value": "0"
+		},
+		{
+			"cvar": "cl_yawspeed",
+			"value": "210"
+		},
+		{
+			"cvar": "clientport",
+			"value": "27005"
+		},
+		{
+			"cvar": "clockwindow",
+			"value": "(0;0.5)"
+		},
+		{
+			"cvar": "con_fastmode",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "con_mono",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "con_notifytime",
+			"value": "(from: 0 to: 300)"
+		},
+		{
+			"cvar": "con_shifttoggleconsole",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "console",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "coop",
+			"value": "0"
+		},
+		{
+			"cvar": "crosshair",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "d_spriteskip",
+			"value": "0"
+		},
+		{
+			"cvar": "deathmatch",
+			"value": "0"
+		},
+		{
+			"cvar": "decalfrequency",
+			"value": "(from: 0 to: 300)"
+		},
+		{
+			"cvar": "default_fov",
+			"value": "(from: 10 to: 150)"
+		},
+		{
+			"cvar": "dev_overview",
+			"value": "0"
+		},
+		{
+			"cvar": "developer",
+			"value": "(0;1;2)"
+		},
+		{
+			"cvar": "direct",
+			"value": "0.9"
+		},
+		{
+			"cvar": "displaysoundlist",
+			"value": "0"
+		},
+		{
+			"cvar": "edgefriction",
+			"value": "2"
+		},
+		{
+			"cvar": "ex_interp",
+			"value": "0.1"
+		},
+		{
+			"cvar": "fakelag",
+			"value": "0"
+		},
+		{
+			"cvar": "fakeloss",
+			"value": "0"
+		},
+		{
+			"cvar": "fps_max",
+			"value": "(from: 0 to: 3000)"
+		},
+		{
+			"cvar": "fps_override",
+			"value": "1"
+		},
+		{
+			"cvar": "fs_lazy_precache",
+			"value": "0"
+		},
+		{
+			"cvar": "fs_perf_warnings",
+			"value": "0"
+		},
+		{
+			"cvar": "fs_precache_timings",
+			"value": "0"
+		},
+		{
+			"cvar": "fs_startup_timings",
+			"value": "0"
+		},
+		{
+			"cvar": "gamma",
+			"value": "(from: 1.8 to: 3)"
+		},
+		{
+			"cvar": "gl_affinemodels",
+			"value": "0"
+		},
+		{
+			"cvar": "gl_alphamin",
+			"value": "0.25"
+		},
+		{
+			"cvar": "gl_ansio",
+			"value": "(from: 0 to: 16)"
+		},
+		{
+			"cvar": "gl_clear",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "gl_cull",
+			"value": "1"
+		},
+		{
+			"cvar": "gl_dither",
+			"value": "1"
+		},
+		{
+			"cvar": "gl_flipmatrix",
+			"value": "0"
+		},
+		{
+			"cvar": "gl_fog",
+			"value": "1"
+		},
+		{
+			"cvar": "gl_keeptjunctions",
+			"value": "1"
+		},
+		{
+			"cvar": "gl_lightholes",
+			"value": "1"
+		},
+		{
+			"cvar": "gl_max_size",
+			"value": "(from: 256 to: 512)"
+		},
+		{
+			"cvar": "gl_monolights",
+			"value": "0"
+		},
+		{
+			"cvar": "gl_overbright",
+			"value": "0"
+		},
+		{
+			"cvar": "gl_palette_tex",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "gl_picmip",
+			"value": "(0;1;2)"
+		},
+		{
+			"cvar": "gl_polyoffset",
+			"value": "(from: 0.1 to: 25)"
+		},
+		{
+			"cvar": "gl_round_down",
+			"value": "(from: 0 to: 5)"
+		},
+		{
+			"cvar": "gl_spriteblend",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "gl_vsync",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "gl_wateramp",
+			"value": "0"
+		},
+		{
+			"cvar": "gl_wireframe",
+			"value": "0"
+		},
+		{
+			"cvar": "gl_zmax",
+			"value": "4096"
+		},
+		{
+			"cvar": "gl_ztrick_old",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "hisound",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "host_framerate",
+			"value": "0"
+		},
+		{
+			"cvar": "host_limitlocal",
+			"value": "0"
+		},
+		{
+			"cvar": "host_profile",
+			"value": "0"
+		},
+		{
+			"cvar": "host_speeds",
+			"value": "0"
+		},
+		{
+			"cvar": "HostMap",
+			"value": "C1A0"
+		},
+		{
+			"cvar": "hostport",
+			"value": "0"
+		},
+		{
+			"cvar": "hpk_maxsize",
+			"value": "(0;4)"
+		},
+		{
+			"cvar": "hud_capturemouse",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "hud_centerid",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "hud_classautokill",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "hud_fastswitch",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "hud_saytext_time",
+			"value": "5"
+		},
+		{
+			"cvar": "hud_takesshots",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "ip",
+			"value": "localhost"
+		},
+		{
+			"cvar": "ip_clientport",
+			"value": "0"
+		},
+		{
+			"cvar": "ip_hostport",
+			"value": "0"
+		},
+		{
+			"cvar": "ipx_clientport",
+			"value": "0"
+		},
+		{
+			"cvar": "ipx_hostport",
+			"value": "0"
+		},
+		{
+			"cvar": "joyadvanced",
+			"value": "0"
+		},
+		{
+			"cvar": "joyadvaxisr",
+			"value": "0"
+		},
+		{
+			"cvar": "joyadvaxisu",
+			"value": "0"
+		},
+		{
+			"cvar": "joyadvaxisv",
+			"value": "0"
+		},
+		{
+			"cvar": "joyadvaxisx",
+			"value": "0"
+		},
+		{
+			"cvar": "joyadvaxisy",
+			"value": "0"
+		},
+		{
+			"cvar": "joyadvaxisz",
+			"value": "0"
+		},
+		{
+			"cvar": "joyforwardsensitivity",
+			"value": "-1"
+		},
+		{
+			"cvar": "joyforwardthreshold",
+			"value": "0.15"
+		},
+		{
+			"cvar": "joyname",
+			"value": "joystick"
+		},
+		{
+			"cvar": "joypitchsensitivity",
+			"value": "1"
+		},
+		{
+			"cvar": "joypitchthreshold",
+			"value": "0.15"
+		},
+		{
+			"cvar": "joysidesensitivity",
+			"value": "-1"
+		},
+		{
+			"cvar": "joysidethreshold",
+			"value": "0.15"
+		},
+		{
+			"cvar": "joystick",
+			"value": "0"
+		},
+		{
+			"cvar": "joywwhack1",
+			"value": "0"
+		},
+		{
+			"cvar": "joywwhack2",
+			"value": "0"
+		},
+		{
+			"cvar": "joyyawsensitivity",
+			"value": "-1"
+		},
+		{
+			"cvar": "joyyawthreshold",
+			"value": "0.15"
+		},
+		{
+			"cvar": "lambert",
+			"value": "1.5"
+		},
+		{
+			"cvar": "lightgamma",
+			"value": "2.5"
+		},
+		{
+			"cvar": "loadas8bit",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "logsdir",
+			"value": "logs"
+		},
+		{
+			"cvar": "lookspring",
+			"value": "0"
+		},
+		{
+			"cvar": "lookstrafe",
+			"value": "0"
+		},
+		{
+			"cvar": "lservercfgfile",
+			"value": "listenserver.cfg"
+		},
+		{
+			"cvar": "m_filter",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "m_rawinput",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "mapchangecfgfile",
+			"value": ""
+		},
+		{
+			"cvar": "mapcyclefile",
+			"value": "mapcycle.txt"
+		},
+		{
+			"cvar": "max_queries_sec",
+			"value": "3"
+		},
+		{
+			"cvar": "max_queries_sec_global",
+			"value": "30"
+		},
+		{
+			"cvar": "max_queries_window",
+			"value": "60"
+		},
+		{
+			"cvar": "model",
+			"value": "gordon"
+		},
+		{
+			"cvar": "motdfile",
+			"value": "motd.txt"
+		},
+		{
+			"cvar": "mp_allowmonsters",
+			"value": "0"
+		},
+		{
+			"cvar": "mp_autocrosshair",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "mp_chattime",
+			"value": "10"
+		},
+		{
+			"cvar": "mp_consistency",
+			"value": "1"
+		},
+		{
+			"cvar": "mp_defaultteam",
+			"value": "0"
+		},
+		{
+			"cvar": "mp_falldamage",
+			"value": "0"
+		},
+		{
+			"cvar": "mp_flashlight",
+			"value": "0"
+		},
+		{
+			"cvar": "mp_footsteps",
+			"value": "1"
+		},
+		{
+			"cvar": "mp_forcerespawn",
+			"value": "1"
+		},
+		{
+			"cvar": "mp_fraglimit",
+			"value": "0"
+		},
+		{
+			"cvar": "mp_fragsleft",
+			"value": "0"
+		},
+		{
+			"cvar": "mp_friendlyfire",
+			"value": "0"
+		},
+		{
+			"cvar": "mp_logecho",
+			"value": "1"
+		},
+		{
+			"cvar": "mp_logfile",
+			"value": "1"
+		},
+		{
+			"cvar": "mp_teamlist",
+			"value": "hgrunt;scientist"
+		},
+		{
+			"cvar": "mp_teamoverride",
+			"value": "1"
+		},
+		{
+			"cvar": "mp_teamplay",
+			"value": "0"
+		},
+		{
+			"cvar": "mp_timeleft",
+			"value": "0"
+		},
+		{
+			"cvar": "mp_timelimit",
+			"value": "0"
+		},
+		{
+			"cvar": "mp_weaponstay",
+			"value": "0"
+		},
+		{
+			"cvar": "multicastport",
+			"value": "27025"
+		},
+		{
+			"cvar": "net_chokeloop",
+			"value": "0"
+		},
+		{
+			"cvar": "net_drawslider",
+			"value": "0"
+		},
+		{
+			"cvar": "net_graph",
+			"value": "(0;1;2;3)"
+		},
+		{
+			"cvar": "net_graphpos",
+			"value": "(0;1;2)"
+		},
+		{
+			"cvar": "net_log",
+			"value": "0"
+		},
+		{
+			"cvar": "net_showdrop",
+			"value": "0"
+		},
+		{
+			"cvar": "net_showpackets",
+			"value": "0"
+		},
+		{
+			"cvar": "nosound",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "pausable",
+			"value": "(0;1)"
+		},
+
+		{
+			"cvar": "r_bmodelinterp",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "r_cachestudio",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "r_cullsequencebox",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "r_detailtextures",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "r_detailtexturessupported",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "r_drawentities",
+			"value": "1"
+		},
+		{
+			"cvar": "r_drawviewmodel",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "r_dynamic",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "r_fullbright",
+			"value": "0"
+		},
+		{
+			"cvar": "r_lightmap",
+			"value": "0"
+		},
+		{
+			"cvar": "r_mirroralpha",
+			"value": "1"
+		},
+		{
+			"cvar": "r_mmx",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "r_norefresh",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "r_novis",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "r_speeds",
+			"value": "0"
+		},
+		{
+			"cvar": "r_traceglow",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "r_wadtextures",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "r_wateralpha",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "rate",
+			"value": "(from: 1000 to: 25000)"
+		},
+		{
+			"cvar": "s_show",
+			"value": "0"
+		},
+		{
+			"cvar": "scr_centertime",
+			"value": "2"
+		},
+		{
+			"cvar": "scr_connectmsg",
+			"value": "0"
+		},
+		{
+			"cvar": "scr_connectmsg1",
+			"value": "0"
+		},
+		{
+			"cvar": "scr_connectmsg2",
+			"value": "0"
+		},
+		{
+			"cvar": "scr_ofsx",
+			"value": "0"
+		},
+		{
+			"cvar": "scr_ofsy",
+			"value": "0"
+		},
+		{
+			"cvar": "scr_ofsz",
+			"value": "0"
+		},
+		{
+			"cvar": "scr_printspeed",
+			"value": "0"
+		},
+		{
+			"cvar": "sdl_double_click_size",
+			"value": "2"
+		},
+		{
+			"cvar": "sdl_double_click_time",
+			"value": "400"
+		},
+		{
+			"cvar": "sensitivity",
+			"value": "(from: 0 to: 20)"
+		},
+		{
+			"cvar": "servercfgfile",
+			"value": "server.cfg"
+		},
+		{
+			"cvar": "showpause",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "sk_12mm_bullet1",
+			"value": "8"
+		},
+		{
+			"cvar": "sk_12mm_bullet2",
+			"value": "10"
+		},
+		{
+			"cvar": "sk_12mm_bullet3",
+			"value": "10"
+		},
+		{
+			"cvar": "sk_9mm_bullet1",
+			"value": "5"
+		},
+		{
+			"cvar": "sk_9mm_bullet2",
+			"value": "5"
+		},
+		{
+			"cvar": "sk_9mm_bullet3",
+			"value": "8"
+		},
+		{
+			"cvar": "sk_9mmAR_bullet1",
+			"value": "3"
+		},
+		{
+			"cvar": "sk_9mmAR_bullet2",
+			"value": "4"
+		},
+		{
+			"cvar": "sk_9mmAR_bullet3",
+			"value": "5"
+		},
+		{
+			"cvar": "sk_agrunt_dmg_punch1",
+			"value": "10"
+		},
+		{
+			"cvar": "sk_agrunt_dmg_punch2",
+			"value": "20"
+		},
+		{
+			"cvar": "sk_agrunt_dmg_punch3",
+			"value": "20"
+		},
+		{
+			"cvar": "sk_agrunt_health1",
+			"value": "60"
+		},
+		{
+			"cvar": "sk_agrunt_health2",
+			"value": "90"
+		},
+		{
+			"cvar": "sk_agrunt_health3",
+			"value": "120"
+		},
+		{
+			"cvar": "sk_apache_health1",
+			"value": "150"
+		},
+		{
+			"cvar": "sk_apache_health2",
+			"value": "250"
+		},
+		{
+			"cvar": "sk_apache_health3",
+			"value": "400"
+		},
+		{
+			"cvar": "sk_barney_health1",
+			"value": "35"
+		},
+		{
+			"cvar": "sk_barney_health2",
+			"value": "35"
+		},
+		{
+			"cvar": "sk_barney_health3",
+			"value": "35"
+		},
+		{
+			"cvar": "sk_battery1",
+			"value": "15"
+		},
+		{
+			"cvar": "sk_battery2",
+			"value": "15"
+		},
+		{
+			"cvar": "sk_battery3",
+			"value": "10"
+		},
+		{
+			"cvar": "sk_bigmomma_dmg_blast1",
+			"value": "100"
+		},
+		{
+			"cvar": "sk_bigmomma_dmg_blast2",
+			"value": "120"
+		},
+		{
+			"cvar": "sk_bigmomma_dmg_blast3",
+			"value": "160"
+		},
+		{
+			"cvar": "sk_bigmomma_dmg_slash1",
+			"value": "50"
+		},
+		{
+			"cvar": "sk_bigmomma_dmg_slash2",
+			"value": "60"
+		},
+		{
+			"cvar": "sk_bigmomma_dmg_slash3",
+			"value": "70"
+		},
+		{
+			"cvar": "sk_bigmomma_health_factor1",
+			"value": "1"
+		},
+		{
+			"cvar": "sk_bigmomma_health_factor2",
+			"value": "1.500"
+		},
+		{
+			"cvar": "sk_bigmomma_health_factor3",
+			"value": "2"
+		},
+		{
+			"cvar": "sk_bigmomma_radius_blast1",
+			"value": "250"
+		},
+		{
+			"cvar": "sk_bigmomma_radius_blast2",
+			"value": "250"
+		},
+		{
+			"cvar": "sk_bigmomma_radius_blast3",
+			"value": "275"
+		},
+		{
+			"cvar": "sk_bullsquid_dmg_bite1",
+			"value": "15"
+		},
+		{
+			"cvar": "sk_bullsquid_dmg_bite2",
+			"value": "25"
+		},
+		{
+			"cvar": "sk_bullsquid_dmg_bite3",
+			"value": "25"
+		},
+		{
+			"cvar": "sk_bullsquid_dmg_spit1",
+			"value": "10"
+		},
+		{
+			"cvar": "sk_bullsquid_dmg_spit2",
+			"value": "10"
+		},
+		{
+			"cvar": "sk_bullsquid_dmg_spit3",
+			"value": "15"
+		},
+		{
+			"cvar": "sk_bullsquid_dmg_whip1",
+			"value": "25"
+		},
+		{
+			"cvar": "sk_bullsquid_dmg_whip2",
+			"value": "35"
+		},
+		{
+			"cvar": "sk_bullsquid_dmg_whip3",
+			"value": "35"
+		},
+		{
+			"cvar": "sk_bullsquid_health1",
+			"value": "40"
+		},
+		{
+			"cvar": "sk_bullsquid_health2",
+			"value": "40"
+		},
+		{
+			"cvar": "sk_bullsquid_health3",
+			"value": "120"
+		},
+		{
+			"cvar": "sk_controller_dmgball1",
+			"value": "3"
+		},
+		{
+			"cvar": "sk_controller_dmgball2",
+			"value": "4"
+		},
+		{
+			"cvar": "sk_controller_dmgball3",
+			"value": "5"
+		},
+		{
+			"cvar": "sk_controller_dmgzap1",
+			"value": "15"
+		},
+		{
+			"cvar": "sk_controller_dmgzap2",
+			"value": "25"
+		},
+		{
+			"cvar": "sk_controller_dmgzap3",
+			"value": "35"
+		},
+		{
+			"cvar": "sk_controller_health1",
+			"value": "60"
+		},
+		{
+			"cvar": "sk_controller_health2",
+			"value": "60"
+		},
+		{
+			"cvar": "sk_controller_health3",
+			"value": "100"
+		},
+		{
+			"cvar": "sk_controller_speedball1",
+			"value": "650"
+		},
+		{
+			"cvar": "sk_controller_speedball2",
+			"value": "800"
+		},
+		{
+			"cvar": "sk_controller_speedball3",
+			"value": "1000"
+		},
+		{
+			"cvar": "sk_gargantua_dmg_fire1",
+			"value": "3"
+		},
+		{
+			"cvar": "sk_gargantua_dmg_fire2",
+			"value": "5"
+		},
+		{
+			"cvar": "sk_gargantua_dmg_fire3",
+			"value": "5"
+		},
+		{
+			"cvar": "sk_gargantua_dmg_slash1",
+			"value": "10"
+		},
+		{
+			"cvar": "sk_gargantua_dmg_slash2",
+			"value": "30"
+		},
+		{
+			"cvar": "sk_gargantua_dmg_slash3",
+			"value": "30"
+		},
+		{
+			"cvar": "sk_gargantua_dmg_stomp1",
+			"value": "50"
+		},
+		{
+			"cvar": "sk_gargantua_dmg_stomp2",
+			"value": "100"
+		},
+		{
+			"cvar": "sk_gargantua_dmg_stomp3",
+			"value": "100"
+		},
+		{
+			"cvar": "sk_gargantua_health1",
+			"value": "800"
+		},
+		{
+			"cvar": "sk_gargantua_health2",
+			"value": "800"
+		},
+		{
+			"cvar": "sk_gargantua_health3",
+			"value": "1000"
+		},
+		{
+			"cvar": "sk_hassassin_health1",
+			"value": "30"
+		},
+		{
+			"cvar": "sk_hassassin_health2",
+			"value": "50"
+		},
+		{
+			"cvar": "sk_hassassin_health3",
+			"value": "50"
+		},
+		{
+			"cvar": "sk_headcrab_dmg_bite1",
+			"value": "5"
+		},
+		{
+			"cvar": "sk_headcrab_dmg_bite2",
+			"value": "10"
+		},
+		{
+			"cvar": "sk_headcrab_dmg_bite3",
+			"value": "10"
+		},
+		{
+			"cvar": "sk_headcrab_health1",
+			"value": "10"
+		},
+		{
+			"cvar": "sk_headcrab_health2",
+			"value": "10"
+		},
+		{
+			"cvar": "sk_headcrab_health3",
+			"value": "20"
+		},
+		{
+			"cvar": "sk_healthcharger1",
+			"value": "50"
+		},
+		{
+			"cvar": "sk_healthcharger2",
+			"value": "40"
+		},
+		{
+			"cvar": "sk_healthcharger3",
+			"value": "25"
+		},
+		{
+			"cvar": "sk_healthkit1",
+			"value": "15"
+		},
+		{
+			"cvar": "sk_healthkit2",
+			"value": "15"
+		},
+		{
+			"cvar": "sk_healthkit3",
+			"value": "10"
+		},
+		{
+			"cvar": "sk_hgrunt_gspeed1",
+			"value": "400"
+		},
+		{
+			"cvar": "sk_hgrunt_gspeed2",
+			"value": "600"
+		},
+		{
+			"cvar": "sk_hgrunt_gspeed3",
+			"value": "800"
+		},
+		{
+			"cvar": "sk_hgrunt_health1",
+			"value": "50"
+		},
+		{
+			"cvar": "sk_hgrunt_health2",
+			"value": "50"
+		},
+		{
+			"cvar": "sk_hgrunt_health3",
+			"value": "80"
+		},
+		{
+			"cvar": "sk_hgrunt_kick1",
+			"value": "5"
+		},
+		{
+			"cvar": "sk_hgrunt_kick2",
+			"value": "10"
+		},
+		{
+			"cvar": "sk_hgrunt_kick3",
+			"value": "10"
+		},
+		{
+			"cvar": "sk_hgrunt_pellets1",
+			"value": "3"
+		},
+		{
+			"cvar": "sk_hgrunt_pellets2",
+			"value": "5"
+		},
+		{
+			"cvar": "sk_hgrunt_pellets3",
+			"value": "6"
+		},
+		{
+			"cvar": "sk_hornet_dmg1",
+			"value": "4"
+		},
+		{
+			"cvar": "sk_hornet_dmg2",
+			"value": "5"
+		},
+		{
+			"cvar": "sk_hornet_dmg3",
+			"value": "8"
+		},
+		{
+			"cvar": "sk_houndeye_dmg_blast1",
+			"value": "10"
+		},
+		{
+			"cvar": "sk_houndeye_dmg_blast2",
+			"value": "15"
+		},
+		{
+			"cvar": "sk_houndeye_dmg_blast3",
+			"value": "15"
+		},
+		{
+			"cvar": "sk_houndeye_health1",
+			"value": "20"
+		},
+		{
+			"cvar": "sk_houndeye_health2",
+			"value": "20"
+		},
+		{
+			"cvar": "sk_houndeye_health3",
+			"value": "30"
+		},
+		{
+			"cvar": "sk_ichthyosaur_health1",
+			"value": "200"
+		},
+		{
+			"cvar": "sk_ichthyosaur_health2",
+			"value": "200"
+		},
+		{
+			"cvar": "sk_ichthyosaur_health3",
+			"value": "400"
+		},
+		{
+			"cvar": "sk_ichthyosaur_shake1",
+			"value": "20"
+		},
+		{
+			"cvar": "sk_ichthyosaur_shake2",
+			"value": "35"
+		},
+		{
+			"cvar": "sk_ichthyosaur_shake3",
+			"value": "50"
+		},
+		{
+			"cvar": "sk_islave_dmg_claw1",
+			"value": "8"
+		},
+		{
+			"cvar": "sk_islave_dmg_claw2",
+			"value": "10"
+		},
+		{
+			"cvar": "sk_islave_dmg_claw3",
+			"value": "10"
+		},
+		{
+			"cvar": "sk_islave_dmg_clawrake1",
+			"value": "25"
+		},
+		{
+			"cvar": "sk_islave_dmg_clawrake2",
+			"value": "25"
+		},
+		{
+			"cvar": "sk_islave_dmg_clawrake3",
+			"value": "25"
+		},
+		{
+			"cvar": "sk_islave_dmg_zap1",
+			"value": "10"
+		},
+		{
+			"cvar": "sk_islave_dmg_zap2",
+			"value": "10"
+		},
+		{
+			"cvar": "sk_islave_dmg_zap3",
+			"value": "15"
+		},
+		{
+			"cvar": "sk_islave_health1",
+			"value": "30"
+		},
+		{
+			"cvar": "sk_islave_health2",
+			"value": "30"
+		},
+		{
+			"cvar": "sk_islave_health3",
+			"value": "60"
+		},
+		{
+			"cvar": "sk_leech_dmg_bite1",
+			"value": "2"
+		},
+		{
+			"cvar": "sk_leech_dmg_bite2",
+			"value": "2"
+		},
+		{
+			"cvar": "sk_leech_dmg_bite3",
+			"value": "2"
+		},
+		{
+			"cvar": "sk_leech_health1",
+			"value": "2"
+		},
+		{
+			"cvar": "sk_leech_health2",
+			"value": "2"
+		},
+		{
+			"cvar": "sk_leech_health3",
+			"value": "2"
+		},
+		{
+			"cvar": "sk_miniturret_health1",
+			"value": "40"
+		},
+		{
+			"cvar": "sk_miniturret_health2",
+			"value": "40"
+		},
+		{
+			"cvar": "sk_miniturret_health3",
+			"value": "50"
+		},
+		{
+			"cvar": "sk_monster_arm1",
+			"value": "1"
+		},
+		{
+			"cvar": "sk_monster_arm2",
+			"value": "1"
+		},
+		{
+			"cvar": "sk_monster_arm3",
+			"value": "1"
+		},
+		{
+			"cvar": "sk_monster_chest1",
+			"value": "1"
+		},
+		{
+			"cvar": "sk_monster_chest2",
+			"value": "1"
+		},
+		{
+			"cvar": "sk_monster_chest3",
+			"value": "1"
+		},
+		{
+			"cvar": "sk_monster_head1",
+			"value": "3"
+		},
+		{
+			"cvar": "sk_monster_head2",
+			"value": "3"
+		},
+		{
+			"cvar": "sk_monster_head3",
+			"value": "3"
+		},
+		{
+			"cvar": "sk_monster_leg1",
+			"value": "1"
+		},
+		{
+			"cvar": "sk_monster_leg2",
+			"value": "1"
+		},
+		{
+			"cvar": "sk_monster_leg3",
+			"value": "1"
+		},
+		{
+			"cvar": "sk_monster_stomach1",
+			"value": "1"
+		},
+		{
+			"cvar": "sk_monster_stomach2",
+			"value": "1"
+		},
+		{
+			"cvar": "sk_monster_stomach3",
+			"value": "1"
+		},
+		{
+			"cvar": "sk_nihilanth_health1",
+			"value": "800"
+		},
+		{
+			"cvar": "sk_nihilanth_health2",
+			"value": "800"
+		},
+		{
+			"cvar": "sk_nihilanth_health3",
+			"value": "1000"
+		},
+		{
+			"cvar": "sk_nihilanth_zap1",
+			"value": "30"
+		},
+		{
+			"cvar": "sk_nihilanth_zap2",
+			"value": "30"
+		},
+		{
+			"cvar": "sk_nihilanth_zap3",
+			"value": "50"
+		},
+		{
+			"cvar": "sk_player_arm1",
+			"value": "1"
+		},
+		{
+			"cvar": "sk_player_arm2",
+			"value": "1"
+		},
+		{
+			"cvar": "sk_player_arm3",
+			"value": "1"
+		},
+		{
+			"cvar": "sk_player_chest1",
+			"value": "1"
+		},
+		{
+			"cvar": "sk_player_chest2",
+			"value": "1"
+		},
+		{
+			"cvar": "sk_player_chest3",
+			"value": "1"
+		},
+		{
+			"cvar": "sk_player_head1",
+			"value": "3"
+		},
+		{
+			"cvar": "sk_player_head2",
+			"value": "3"
+		},
+		{
+			"cvar": "sk_player_head3",
+			"value": "3"
+		},
+		{
+			"cvar": "sk_player_leg1",
+			"value": "1"
+		},
+		{
+			"cvar": "sk_player_leg2",
+			"value": "1"
+		},
+		{
+			"cvar": "sk_player_leg3",
+			"value": "1"
+		},
+		{
+			"cvar": "sk_player_stomach1",
+			"value": "1"
+		},
+		{
+			"cvar": "sk_player_stomach2",
+			"value": "1"
+		},
+		{
+			"cvar": "sk_player_stomach3",
+			"value": "1"
+		},
+		{
+			"cvar": "sk_plr_357_bullet1",
+			"value": "40"
+		},
+		{
+			"cvar": "sk_plr_357_bullet2",
+			"value": "40"
+		},
+		{
+			"cvar": "sk_plr_357_bullet3",
+			"value": "40"
+		},
+		{
+			"cvar": "sk_plr_9mm_bullet1",
+			"value": "8"
+		},
+		{
+			"cvar": "sk_plr_9mm_bullet2",
+			"value": "8"
+		},
+		{
+			"cvar": "sk_plr_9mm_bullet3",
+			"value": "8"
+		},
+		{
+			"cvar": "sk_plr_9mmAR_bullet1",
+			"value": "5"
+		},
+		{
+			"cvar": "sk_plr_9mmAR_bullet2",
+			"value": "5"
+		},
+		{
+			"cvar": "sk_plr_9mmAR_bullet3",
+			"value": "5"
+		},
+		{
+			"cvar": "sk_plr_9mmAR_grenade1",
+			"value": "100"
+		},
+		{
+			"cvar": "sk_plr_9mmAR_grenade2",
+			"value": "100"
+		},
+		{
+			"cvar": "sk_plr_9mmAR_grenade3",
+			"value": "100"
+		},
+		{
+			"cvar": "sk_plr_buckshot1",
+			"value": "5"
+		},
+		{
+			"cvar": "sk_plr_buckshot2",
+			"value": "5"
+		},
+		{
+			"cvar": "sk_plr_buckshot3",
+			"value": "5"
+		},
+		{
+			"cvar": "sk_plr_crowbar1",
+			"value": "10"
+		},
+		{
+			"cvar": "sk_plr_crowbar2",
+			"value": "10"
+		},
+		{
+			"cvar": "sk_plr_crowbar3",
+			"value": "10"
+		},
+		{
+			"cvar": "sk_plr_egon_narrow1",
+			"value": "6"
+		},
+		{
+			"cvar": "sk_plr_egon_narrow2",
+			"value": "6"
+		},
+		{
+			"cvar": "sk_plr_egon_narrow3",
+			"value": "6"
+		},
+		{
+			"cvar": "sk_plr_egon_wide1",
+			"value": "14"
+		},
+		{
+			"cvar": "sk_plr_egon_wide2",
+			"value": "14"
+		},
+		{
+			"cvar": "sk_plr_egon_wide3",
+			"value": "14"
+		},
+		{
+			"cvar": "sk_plr_gauss1",
+			"value": "20"
+		},
+		{
+			"cvar": "sk_plr_gauss2",
+			"value": "20"
+		},
+		{
+			"cvar": "sk_plr_gauss3",
+			"value": "20"
+		},
+		{
+			"cvar": "sk_plr_hand_grenade1",
+			"value": "100"
+		},
+		{
+			"cvar": "sk_plr_hand_grenade2",
+			"value": "100"
+		},
+		{
+			"cvar": "sk_plr_hand_grenade3",
+			"value": "100"
+		},
+		{
+			"cvar": "sk_plr_rpg1",
+			"value": "100"
+		},
+		{
+			"cvar": "sk_plr_rpg2",
+			"value": "100"
+		},
+		{
+			"cvar": "sk_plr_rpg3",
+			"value": "100"
+		},
+		{
+			"cvar": "sk_plr_satchel1",
+			"value": "150"
+		},
+		{
+			"cvar": "sk_plr_satchel2",
+			"value": "150"
+		},
+		{
+			"cvar": "sk_plr_satchel3",
+			"value": "150"
+		},
+		{
+			"cvar": "sk_plr_tripmine1",
+			"value": "150"
+		},
+		{
+			"cvar": "sk_plr_tripmine2",
+			"value": "150"
+		},
+		{
+			"cvar": "sk_plr_tripmine3",
+			"value": "150"
+		},
+		{
+			"cvar": "sk_plr_xbow_bolt_client1",
+			"value": "10"
+		},
+		{
+			"cvar": "sk_plr_xbow_bolt_client2",
+			"value": "10"
+		},
+		{
+			"cvar": "sk_plr_xbow_bolt_client3",
+			"value": "10"
+		},
+		{
+			"cvar": "sk_plr_xbow_bolt_monster1",
+			"value": "50"
+		},
+		{
+			"cvar": "sk_plr_xbow_bolt_monster2",
+			"value": "50"
+		},
+		{
+			"cvar": "sk_plr_xbow_bolt_monster3",
+			"value": "50"
+		},
+		{
+			"cvar": "sk_scientist_heal1",
+			"value": "25"
+		},
+		{
+			"cvar": "sk_scientist_heal2",
+			"value": "25"
+		},
+		{
+			"cvar": "sk_scientist_heal3",
+			"value": "25"
+		},
+		{
+			"cvar": "sk_scientist_health1",
+			"value": "20"
+		},
+		{
+			"cvar": "sk_scientist_health2",
+			"value": "20"
+		},
+		{
+			"cvar": "sk_scientist_health3",
+			"value": "20"
+		},
+		{
+			"cvar": "sk_sentry_health1",
+			"value": "40"
+		},
+		{
+			"cvar": "sk_sentry_health2",
+			"value": "40"
+		},
+		{
+			"cvar": "sk_sentry_health3",
+			"value": "50"
+		},
+		{
+			"cvar": "sk_snark_dmg_bite1",
+			"value": "10"
+		},
+		{
+			"cvar": "sk_snark_dmg_bite2",
+			"value": "10"
+		},
+		{
+			"cvar": "sk_snark_dmg_bite3",
+			"value": "10"
+		},
+		{
+			"cvar": "sk_snark_dmg_pop1",
+			"value": "5"
+		},
+		{
+			"cvar": "sk_snark_dmg_pop2",
+			"value": "5"
+		},
+		{
+			"cvar": "sk_snark_dmg_pop3",
+			"value": "5"
+		},
+		{
+			"cvar": "sk_snark_health1",
+			"value": "2"
+		},
+		{
+			"cvar": "sk_snark_health2",
+			"value": "2"
+		},
+		{
+			"cvar": "sk_snark_health3",
+			"value": "2"
+		},
+		{
+			"cvar": "sk_suitcharger1",
+			"value": "75"
+		},
+		{
+			"cvar": "sk_suitcharger2",
+			"value": "50"
+		},
+		{
+			"cvar": "sk_suitcharger3",
+			"value": "35"
+		},
+		{
+			"cvar": "sk_turret_health1",
+			"value": "50"
+		},
+		{
+			"cvar": "sk_turret_health2",
+			"value": "50"
+		},
+		{
+			"cvar": "sk_turret_health3",
+			"value": "60"
+		},
+		{
+			"cvar": "sk_zombie_dmg_both_slash1",
+			"value": "25"
+		},
+		{
+			"cvar": "sk_zombie_dmg_both_slash2",
+			"value": "40"
+		},
+		{
+			"cvar": "sk_zombie_dmg_both_slash3",
+			"value": "40"
+		},
+		{
+			"cvar": "sk_zombie_dmg_one_slash1",
+			"value": "10"
+		},
+		{
+			"cvar": "sk_zombie_dmg_one_slash2",
+			"value": "20"
+		},
+		{
+			"cvar": "sk_zombie_dmg_one_slash3",
+			"value": "20"
+		},
+		{
+			"cvar": "sk_zombie_health1",
+			"value": "50"
+		},
+		{
+			"cvar": "sk_zombie_health2",
+			"value": "50"
+		},
+		{
+			"cvar": "sk_zombie_health3",
+			"value": "100"
+		},
+		{
+			"cvar": "skill",
+			"value": "(1;2;3)"
+		},
+		{
+			"cvar": "skin",
+			"value": "0"
+		},
+		{
+			"cvar": "snd_noextraupdate",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "snd_show",
+			"value": "0"
+		},
+		{
+			"cvar": "speak_enabled",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "suitvolume",
+			"value": "(from: 0 to: 2)"
+		},
+		{
+			"cvar": "sv_accelerate",
+			"value": "10"
+		},
+		{
+			"cvar": "sv_aim",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "sv_airaccelerate",
+			"value": "10"
+		},
+		{
+			"cvar": "sv_allow_dlfile",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "sv_allowdownload",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "sv_allowupload",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "sv_bounce",
+			"value": "1"
+		},
+		{
+			"cvar": "sv_cheats",
+			"value": "0"
+		},
+		{
+			"cvar": "sv_enableoldqueries",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "sv_filetransfercompression",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "sv_filterban",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "sv_friction",
+			"value": "4"
+		},
+		{
+			"cvar": "sv_gravity",
+			"value": "800"
+		},
+		{
+			"cvar": "sv_instancedbaseline",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "sv_lan",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "sv_lan_rate",
+			"value": "(from: 1001 to: 20000)"
+		},
+		{
+			"cvar": "sv_log_onefile",
+			"value": "0"
+		},
+		{
+			"cvar": "sv_log_singleplayer",
+			"value": "0"
+		},
+		{
+			"cvar": "sv_logbans",
+			"value": "0"
+		},
+		{
+			"cvar": "sv_logblocks",
+			"value": "0"
+		},
+		{
+			"cvar": "sv_logrelay",
+			"value": "0"
+		},
+		{
+			"cvar": "sv_logsecret",
+			"value": "0"
+		},
+		{
+			"cvar": "sv_maxrate",
+			"value": "0"
+		},
+		{
+			"cvar": "sv_maxspeed",
+			"value": "320"
+		},
+		{
+			"cvar": "sv_maxunlag",
+			"value": "0.5"
+		},
+		{
+			"cvar": "sv_maxupdaterate",
+			"value": "30"
+		},
+		{
+			"cvar": "sv_maxvelocity",
+			"value": "2000"
+		},
+		{
+			"cvar": "sv_minrate",
+			"value": "0"
+		},
+		{
+			"cvar": "sv_minupdaterate",
+			"value": "10"
+		},
+		{
+			"cvar": "sv_newunit",
+			"value": "0"
+		},
+		{
+			"cvar": "sv_outofdatetime",
+			"value": "1800"
+		},
+		{
+			"cvar": "sv_password",
+			"value": ""
+		},
+		{
+			"cvar": "sv_proxies",
+			"value": "1"
+		},
+		{
+			"cvar": "sv_rcon_banpenalty",
+			"value": "0"
+		},
+		{
+			"cvar": "sv_rcon_maxfailures",
+			"value": "10"
+		},
+		{
+			"cvar": "sv_rcon_minfailures",
+			"value": "5"
+		},
+		{
+			"cvar": "sv_rcon_minfailuretime",
+			"value": "30"
+		},
+		{
+			"cvar": "sv_send_logos",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "sv_send_resources",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "sv_skycolor_b",
+			"value": "(from: 0 to: 255)"
+		},
+		{
+			"cvar": "sv_skycolor_g",
+			"value": "(from: 0 to: 255)"
+		},
+		{
+			"cvar": "sv_skycolor_r",
+			"value": "(from: 0 to: 255)"
+		},
+		{
+			"cvar": "sv_spectatormaxspeed",
+			"value": "500"
+		},
+		{
+			"cvar": "sv_stats",
+			"value": "1"
+		},
+		{
+			"cvar": "sv_stepsize",
+			"value": "18"
+		},
+		{
+			"cvar": "sv_stopspeed",
+			"value": "100"
+		},
+		{
+			"cvar": "sv_unlag",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "sv_unlagpush",
+			"value": "0"
+		},
+		{
+			"cvar": "sv_unlagsamples",
+			"value": "(1;2)"
+		},
+		{
+			"cvar": "sv_voiceenable",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "sv_wateraccelerate",
+			"value": "10"
+		},
+		{
+			"cvar": "sv_wateramp",
+			"value": "0"
+		},
+		{
+			"cvar": "sv_waterfriction",
+			"value": "1"
+		},
+		{
+			"cvar": "sys_ticrate",
+			"value": "100"
+		},
+		{
+			"cvar": "texgamma",
+			"value": "(from: 0 to: 2)"
+		},
+		{
+			"cvar": "tfc_newmodels",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "topcolor",
+			"value": "(from: 0 to: 255)"
+		},
+		{
+			"cvar": "traceralpha",
+			"value": "(from: 0 to: 1)"
+		},
+		{
+			"cvar": "tracerblue",
+			"value": "(from: 0 to: 1)"
+		},
+		{
+			"cvar": "tracergreen",
+			"value": "(from: 0 to: 1)"
+		},
+		{
+			"cvar": "tracerlength",
+			"value": "(from: 0 to: 1)"
+		},
+		{
+			"cvar": "tracerred",
+			"value": "(from: 0 to: 1)"
+		},
+		{
+			"cvar": "v_centermove",
+			"value": "0.15"
+		},
+		{
+			"cvar": "v_centerspeed",
+			"value": "500"
+		},
+		{
+			"cvar": "v_dark",
+			"value": "0"
+		},
+		{
+			"cvar": "viewsize",
+			"value": "(from: 30 to: 120)"
+		},
+		{
+			"cvar": "violence_ablood",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "violence_agibs",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "violence_hblood",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "violence_hgibs",
+			"value": "(0;1)"
+		},
+		{
+			"cvar": "volume",
+			"value": "(from: 0 to: 2)"
+		},
+		{
+			"cvar": "waterroom_type",
+			"value": "(from: 0 to: 28)"
 		}
 	]
-	},
-    {
-      "name": "Scripted w/ SW"
-    },
-    {
-      "name": "Thirdperson",
-      "command_rules": [
-		{
-          "command": "thirdperson",
-          "rule": "ALLOWED"
-		}
-    ],
-	  "cvar_rules": [
-		{
-		  "cvar": "cam_idealyaw",
-		  "value": "0"
-		}
-	]
-	}
-],
-  "base_command_rules": [
-    
-    {
-        "command" : "_bxt_reset_frametime_remainder",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "_bxt_interprocess_reset",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "_bxt_load",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "_bxt_map",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "bxt_autorecord",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "bxt_record",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "bxt_timer_reset",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "bxt_timer_stop",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "bxt_timer_start",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "bxt_triggers_setcommand",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "bxt_triggers_list",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "bxt_triggers_export",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "bxt_triggers_delete",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "bxt_triggers_clear",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "bxt_triggers_add",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "bxt_cam_clear",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "bxt_cam_offset",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "bxt_cam_fixed",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "bxt_ch_set_vel_angles",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "bxt_ch_set_vel",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "bxt_ch_set_pos_offset",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "bxt_ch_set_pos",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "bxt_ch_set_armor",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "bxt_ch_set_health",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "bxt_tas_loadscript",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "appenddemo",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "cl_messages",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "commentator",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "connect",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "disconnect",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "endmovie",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "entities",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "fullserverinfo",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "gamedir",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "gg",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "httpstop",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "list",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "listdemo",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "listen",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "pingservers",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "playdemo",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "ppdemostart",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "invprev",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "invnext",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "cancelselect",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "rcon",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "record",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "removedemo",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "retry",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "setdemoinfo",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "slist",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "slot10",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "slot9",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "slot8",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "slot7",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "slot6",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "slot5",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "slot4",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "slot3",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "slot2",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "slot1",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "snapshot",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "spec_pos",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "startmovie",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "stop",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "swapdemo",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "timedemo",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "togglebrowser",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "special",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "ForceCloseCommandMenu",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "-commandmenu",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "+commandmenu",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "centerview",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "joyadvancedupdate",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "force_centerview",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "snapto",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "-camdistance",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "+camdistance",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "-cammousemove",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "+cammousemove",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "firstperson",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "thirdperson",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "-camout",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "+camout",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "-camin",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "+camin",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "-camyawright",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "+camyawright",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "-camyawleft",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "+camyawleft",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "-campitchdown",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "+campitchdown",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "-campitchup",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "+campitchup",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "-break",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "+break",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "-graph",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "+graph",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "-showscores",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "+showscores",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "-score",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "+score",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "-alt1",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "+ALT1",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "-reload",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "+reload",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "-duck",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "+duck",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "-jlook",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "+jlook",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "-mlook",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "+mlook",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "-klook",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "+klook",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "impulse",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "-jump",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "+jump",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "-use",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "+use",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "-attack2",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "+attack2",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "-attack",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "+attack",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "-speed",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "+speed",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "-moveright",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "+moveright",
-        "rule" : "NOSEQUENCE"
-    },
-    {
-        "command" : "-moveleft",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "+moveleft",
-        "rule" : "NOSEQUENCE"
-    },
-    {
-        "command" : "-strafe",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "+strafe",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "-lookdown",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "+lookdown",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "-lookup",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "+lookup",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "-back",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "+back",
-        "rule" : "NOSEQUENCE"
-    },
-    {
-        "command" : "-forward",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "+forward",
-        "rule" : "NOSEQUENCE"
-    },
-    {
-        "command" : "-right",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "+right",
-        "rule" : "NOSEQUENCE"
-    },
-    {
-        "command" : "-left",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "+left",
-        "rule" : "NOSEQUENCE"
-    },
-    {
-        "command" : "-movedown",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "+movedown",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "-moveup",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "+moveup",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "dem_save",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "dem_start",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "dem_speed",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "dem_pause",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "dem_forcehltv",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "dem_jump",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "condump",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "+voicerecord",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "-voicerecord",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "_careeraudio",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "_restart",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "_set_vid_level",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "_setaddons_folder",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "_setgamedir",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "_sethdmodels",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "_setrenderer",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "_setvideomode",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "addip",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "alias",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "autosave",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "banid",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "bind",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "career",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "cd",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "changelevel",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "changelevel2",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "clear",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "cmd",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "cmdlist",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "condebug",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "cvarlist",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "delta_clear",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "delta_stats",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "demos",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "dlfile",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "dropclient",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "echo",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "envmap",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "escape",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "exec",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "exit",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "flush",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "fly",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "fullinfo",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "fullupdate",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "gl_dump",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "gl_texels",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "gl_texturemode",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "god",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "heartbeat",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "hideconsole",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "hpkextract",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "hpklist",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "hpkremove",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "hpkval",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "interp",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "kick",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "kill",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "listid",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "listip",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "load",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "localinfo",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "log",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "logaddress",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "logaddress_add",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "logaddress_del",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "map c1a0",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "maps",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "maxplayers",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "mcache",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "messagemode",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "messagemode2",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "motd",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "motd_write",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "mp3",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "new",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "noclip",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "notarget",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "pause",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "ping",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "play",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "playvol",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "pointfile",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "quit",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "reconnect",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "reload",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "removeid",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "removeip",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "resetrcon",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "restart",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "save",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "say",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "say_team",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "screenshot",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "sendents",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "sendres",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "serverinfo",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "setinfo",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "setmaster",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "setpause",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "showinfo",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "shutdownserver",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "sizedown",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "sizeup",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "soundfade",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "soundinfo",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "soundlist",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "spawn",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "speak",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "spk",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "startdemos",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "stat",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "stats",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "status",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "stopdemo",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "stopsound",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "stuffcmds",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "tell",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "timerefresh",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "toggleconsole",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "unbind",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "unbindall",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "unpause",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "upload",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "user",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "users",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "version",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "viewdemo",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "viewframe",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "viewmodel",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "viewnext",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "viewprev",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "waveplaylen",
-        "rule" : "DISALLOWED"
-    },
-    {
-        "command" : "weapon_",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "writecfg",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "writeid",
-        "rule" : "ALLOWED"
-    },
-    {
-        "command" : "writeip",
-        "rule" : "ALLOWED"
-    }
-],
-  "cvar_rules": [
-	{
-		"cvar" : "bxt_taslog",
-		"value" : "0"
-	},
-	{
-		"cvar" : "bxt_hud_nihilanth",
-		"value" : "0"
-	},
-	{
-		"cvar" : "bxt_hud_health",
-		"value" : "0"
-	},
-	{
-		"cvar" : "bxt_wallhack",
-		"value" : "0"
-	},
-	{
-		"cvar" : "bxt_wallhack_additive",
-		"value" : "0"
-	},
-	{
-		"cvar" : "bxt_wallhack_alpha",
-		"value" : "0.6"
-	},
-	{
-		"cvar" : "bxt_novis",
-		"value" : "0"
-	},
-	{
-		"cvar" : "bxt_collision_depth_map",
-		"value" : "0"
-	},
-	{
-		"cvar" : "bxt_collision_depth_map_hull",
-		"value" : "2"
-	},
-	{
-		"cvar" : "bxt_collision_depth_map_max_depth",
-		"value" : "1000"
-	},
-	{
-		"cvar" : "bxt_collision_depth_map_colors",
-		"value" : "0"
-	},
-	{
-		"cvar" : "bxt_show_triggers_legacy",
-		"value" : "0"
-	},
-	{
-		"cvar" : "contimes",
-		"value" : "(from: 4 to: 64)"
-	},
-	{
-		"cvar" : "_bxt_bunnysplit_time_update_frequency",
-		"value" : "41"
-	},
-	{
-		"cvar" : "_bxt_min_frametime",
-		"value" : "0"
-	},
-	{
-		"cvar" : "_bxt_norefresh",
-		"value" : "0"
-	},
-	{
-		"cvar" : "_bxt_save_runtime_data_in_demos",
-		"value" : "1"
-	},
-	{
-		"cvar" : "_bxt_taslog",
-		"value" : "0"
-	},
-	{
-		"cvar" : "ati_npatch",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "bgmvolume",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "bitmapfonts",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "bottomcolor",
-		"value" : "(from: 0 to: 255)"
-	},
-	{
-		"cvar" : "brightness",
-		"value" : "(from: 0 to: 2)"
-	},
-	{
-		"cvar" : "bxt_autojump",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "bxt_autojump_prediction",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "bxt_autopause",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "bxt_bhopcap",
-		"value" : "0"
-	},
-	{
-		"cvar" : "bxt_fade_remove",
-		"value" : "0"
-	},
-	{
-		"cvar" : "bxt_hud",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "bxt_hud_distance",
-		"value" : "0"
-	},
-	{
-		"cvar" : "bxt_hud_entity_hp",
-		"value" : "0"
-	},
-	{
-		"cvar" : "bxt_hud_incorrect_fps_indicator",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "bxt_hud_jumpspeed",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "bxt_hud_origin",
-		"value" : "0"
-	},
-	{
-		"cvar" : "bxt_hud_precision",
-		"value" : "6"
-	},
-	{
-		"cvar" : "bxt_hud_selfgauss",
-		"value" : "0"
-	},
-	{
-		"cvar" : "bxt_hud_speedometer",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "bxt_hud_timer",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "bxt_hud_useables",
-		"value" : "0"
-	},
-	{
-		"cvar" : "bxt_hud_useables_radius",
-		"value" : "64"
-	},
-	{
-		"cvar" : "bxt_hud_velocity",
-		"value" : "0"
-	},
-	{
-		"cvar" : "bxt_hud_viewangles",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "bxt_hud_visible_landmarks",
-		"value" : "0"
-	},
-	{
-		"cvar" : "bxt_interprocess_enable",
-		"value" : "0"
-	},
-	{
-		"cvar" : "bxt_show_hidden_entities",
-		"value" : "0"
-	},
-	{
-		"cvar" : "bxt_show_nodes",
-		"value" : "0"
-	},
-	{
-		"cvar" : "bxt_show_triggers",
-		"value" : "0"
-	},
-	{
-		"cvar" : "bxt_stop_demo_on_changelevel",
-		"value" : "0"
-	},
-	{
-		"cvar" : "bxt_timer_autostop",
-		"value" : "1"
-	},
-	{
-		"cvar" : "c_maxdistance",
-		"value" : "200"
-	},
-	{
-		"cvar" : "c_maxpitch",
-		"value" : "90"
-	},
-	{
-		"cvar" : "c_maxyaw",
-		"value" : "135"
-	},
-	{
-		"cvar" : "c_mindistance",
-		"value" : "30"
-	},
-	{
-		"cvar" : "c_minpitch",
-		"value" : "0"
-	},
-	{
-		"cvar" : "c_minyaw",
-		"value" : "-135"
-	},
-	{
-		"cvar" : "cam_cvar",
-		"value" : "0"
-	},
-	{
-		"cvar" : "cam_contain",
-		"value" : "0"
-	},
-	{
-		"cvar" : "cam_idealdist",
-		"value" : "64"
-	},
-	{
-		"cvar" : "cam_idealpitch",
-		"value" : "0"
-	},
-	{
-		"cvar" : "cam_idealyaw",
-		"value" : "90"
-	},
-	{
-		"cvar" : "cam_snapto",
-		"value" : "0"
-	},
-	{
-		"cvar" : "chase_active",
-		"value" : "0"
-	},
-	{
-		"cvar" : "chase_back",
-		"value" : "100"
-	},
-	{
-		"cvar" : "chase_right",
-		"value" : "0"
-	},
-	{
-		"cvar" : "chase_up",
-		"value" : "16"
-	},
-	{
-		"cvar" : "cl_allowdownload",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "cl_allowupload",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "cl_anglespeedkey",
-		"value" : "0.67"
-	},
-	{
-		"cvar" : "cl_backspeed",
-		"value" : "400"
-	},
-	{
-		"cvar" : "cl_bob",
-		"value" : "(from: 0 to: 1)"
-	},
-	{
-		"cvar" : "cl_bobcycle",
-		"value" : "0.8"
-	},
-	{
-		"cvar" : "cl_bobup",
-		"value" : "0.5"
-	},
-	{
-		"cvar" : "cl_clockreset",
-		"value" : "0.1"
-	},
-	{
-		"cvar" : "cl_cmdbackup",
-		"value" : "2"
-	},
-	{
-		"cvar" : "cl_cmdrate",
-		"value" : "60"
-	},
-	{
-		"cvar" : "cl_dlmax",
-		"value" : "(from: 16 to: 1024)"
-	},
-	{
-		"cvar" : "cl_download_ingame",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "cl_filterstuffcmd",
-		"value" : "0"
-	},
-	{
-		"cvar" : "cl_fixtimerate",
-		"value" : "7.5"
-	},
-	{
-		"cvar" : "cl_forwardspeed",
-		"value" : "400"
-	},
-	{
-		"cvar" : "cl_gaitestimation",
-		"value" : "1"
-	},
-	{
-		"cvar" : "cl_gg",
-		"value" : "0"
-	},
-	{
-		"cvar" : "cl_himodels",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "cl_idealpitchscale",
-		"value" : "0.8"
-	},
-	{
-		"cvar" : "cl_lc",
-		"value" : "1"
-	},
-	{
-		"cvar" : "cl_lw",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "cl_mousegrab",
-		"value" : "1"
-	},
-	{
-		"cvar" : "cl_movespeedkey",
-		"value" : "0.3"
-	},
-	{
-		"cvar" : "cl_needinstanced",
-		"value" : "0"
-	},
-	{
-		"cvar" : "cl_nosmooth",
-		"value" : "0"
-	},   
-	{
-		"cvar" : "cl_pitchspeed",
-		"value" : "225"
-	},
-	{
-		"cvar" : "cl_resend",
-		"value" : "(from: 1.5 to: 20)"
-	},
-	{
-		"cvar" : "cl_showerror",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "cl_showevents",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "cl_showfps",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "cl_showmessages",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "cl_shownet",
-		"value" : "0"
-	},
-	{
-		"cvar" : "cl_sidespeed",
-		"value" : "400"
-	},
-	{
-		"cvar" : "cl_slist",
-		"value" : "10"
-	},
-	{
-		"cvar" : "cl_smoothtime",
-		"value" : "0.1"
-	},
-	{
-		"cvar" : "cl_solid_players",
-		"value" : "1"
-	},
-	{
-		"cvar" : "cl_updaterate",
-		"value" : "(from: 10 to: 102)"
-	},
-	{
-		"cvar" : "cl_upspeed",
-		"value" : "320"
-	},
-	{
-		"cvar" : "cl_vsmoothing",
-		"value" : "0.05"
-	},
-	{
-		"cvar" : "cl_waterdist",
-		"value" : "4"
-	},
-	{
-		"cvar" : "cl_weaponlistfix",
-		"value" : "0"
-	},
-	{
-		"cvar" : "cl_yawspeed",
-		"value" : "210"
-	},
-	{
-		"cvar" : "clientport",
-		"value" : "27005"
-	},
-	{
-		"cvar" : "clockwindow",
-		"value" : "(0;0.5)"
-	},
-	{
-		"cvar" : "con_fastmode",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "con_mono",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "con_notifytime",
-		"value" : "(from: 0 to: 300)"
-	},
-	{
-		"cvar" : "con_shifttoggleconsole",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "console",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "coop",
-		"value" : "0"
-	},
-	{
-		"cvar" : "crosshair",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "d_spriteskip",
-		"value" : "0"
-	},
-	{
-		"cvar" : "deathmatch",
-		"value" : "0"
-	},
-	{
-		"cvar" : "decalfrequency",
-		"value" : "(from: 0 to: 300)"
-	},
-	{
-		"cvar" : "default_fov",
-		"value" : "(from: 10 to: 150)"
-	},
-	{
-		"cvar" : "dev_overview",
-		"value" : "0"
-	},
-	{
-		"cvar" : "developer",
-		"value" : "(0;1;2)"
-	},
-	{
-		"cvar" : "direct",
-		"value" : "0.9"
-	},
-	{
-		"cvar" : "displaysoundlist",
-		"value" : "0"
-	},
-	{
-		"cvar" : "edgefriction",
-		"value" : "2"
-	},
-	{
-		"cvar" : "ex_interp",
-		"value" : "0.1"
-	},
-	{
-		"cvar" : "fakelag",
-		"value" : "0"
-	},
-	{
-		"cvar" : "fakeloss",
-		"value" : "0"
-	},
-	{
-		"cvar" : "fps_max",
-		"value" : "(from: 0 to: 3000)"
-	},
-	{
-		"cvar" : "fps_override",
-		"value" : "1"
-	},
-	{
-		"cvar" : "fs_lazy_precache",
-		"value" : "0"
-	},
-	{
-		"cvar" : "fs_perf_warnings",
-		"value" : "0"
-	},
-	{
-		"cvar" : "fs_precache_timings",
-		"value" : "0"
-	},
-	{
-		"cvar" : "fs_startup_timings",
-		"value" : "0"
-	},
-	{
-		"cvar" : "gamma",
-		"value" : "(from: 1.8 to: 3)"
-	},
-	{
-		"cvar" : "gl_affinemodels",
-		"value" : "0"
-	},
-	{
-		"cvar" : "gl_alphamin",
-		"value" : "0.25"
-	},
-	{
-		"cvar" : "gl_ansio",
-		"value" : "(from: 0 to: 16)"
-	},
-	{
-		"cvar" : "gl_clear",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "gl_cull",
-		"value" : "1"
-	},
-	{
-		"cvar" : "gl_dither",
-		"value" : "1"
-	},
-	{
-		"cvar" : "gl_flipmatrix",
-		"value" : "0"
-	},
-	{
-		"cvar" : "gl_fog",
-		"value" : "1"
-	},
-	{
-		"cvar" : "gl_keeptjunctions",
-		"value" : "1"
-	},
-	{
-		"cvar" : "gl_lightholes",
-		"value" : "1"
-	},
-	{
-		"cvar" : "gl_max_size",
-		"value" : "(from: 256 to: 512)"
-	},
-	{
-		"cvar" : "gl_monolights",
-		"value" : "0"
-	},
-	{
-		"cvar" : "gl_overbright",
-		"value" : "0"
-	},
-	{
-		"cvar" : "gl_palette_tex",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "gl_picmip",
-		"value" : "(0;1;2)"
-	},
-	{
-		"cvar" : "gl_polyoffset",
-		"value" : "(from: 0.1 to: 25)"
-	},
-	{
-		"cvar" : "gl_round_down",
-		"value" : "(from: 0 to: 5)"
-	},
-	{
-		"cvar" : "gl_spriteblend",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "gl_vsync",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "gl_wateramp",
-		"value" : "0"
-	},
-	{
-		"cvar" : "gl_wireframe",
-		"value" : "0"
-	},
-	{
-		"cvar" : "gl_zmax",
-		"value" : "4096"
-	},
-	{
-		"cvar" : "gl_ztrick_old",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "hisound",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "host_framerate",
-		"value" : "0"
-	},
-	{
-		"cvar" : "host_limitlocal",
-		"value" : "0"
-	},
-	{
-		"cvar" : "host_profile",
-		"value" : "0"
-	},
-	{
-		"cvar" : "host_speeds",
-		"value" : "0"
-	},
-	{
-		"cvar" : "HostMap",
-		"value" : "C1A0"
-	},
-	{
-		"cvar" : "hostport",
-		"value" : "0"
-	},
-	{
-		"cvar" : "hpk_maxsize",
-		"value" : "(0;4)"
-	},
-	{
-		"cvar" : "hud_capturemouse",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "hud_centerid",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "hud_classautokill",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "hud_fastswitch",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "hud_saytext_time",
-		"value" : "5"
-	},
-	{
-		"cvar" : "hud_takesshots",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "ip",
-		"value" : "localhost"
-	},
-	{
-		"cvar" : "ip_clientport",
-		"value" : "0"
-	},
-	{
-		"cvar" : "ip_hostport",
-		"value" : "0"
-	},
-	{
-		"cvar" : "ipx_clientport",
-		"value" : "0"
-	},
-	{
-		"cvar" : "ipx_hostport",
-		"value" : "0"
-	},
-	{
-		"cvar" : "joyadvanced",
-		"value" : "0"
-	},
-	{
-		"cvar" : "joyadvaxisr",
-		"value" : "0"
-	},
-	{
-		"cvar" : "joyadvaxisu",
-		"value" : "0"
-	},
-	{
-		"cvar" : "joyadvaxisv",
-		"value" : "0"
-	},
-	{
-		"cvar" : "joyadvaxisx",
-		"value" : "0"
-	},
-	{
-		"cvar" : "joyadvaxisy",
-		"value" : "0"
-	},
-	{
-		"cvar" : "joyadvaxisz",
-		"value" : "0"
-	},
-	{
-		"cvar" : "joyforwardsensitivity",
-		"value" : "-1"
-	},
-	{
-		"cvar" : "joyforwardthreshold",
-		"value" : "0.15"
-	},
-	{
-		"cvar" : "joyname",
-		"value" : "joystick"
-	},
-	{
-		"cvar" : "joypitchsensitivity",
-		"value" : "1"
-	},
-	{
-		"cvar" : "joypitchthreshold",
-		"value" : "0.15"
-	},
-	{
-		"cvar" : "joysidesensitivity",
-		"value" : "-1"
-	},
-	{
-		"cvar" : "joysidethreshold",
-		"value" : "0.15"
-	},
-	{
-		"cvar" : "joystick",
-		"value" : "0"
-	},
-	{
-		"cvar" : "joywwhack1",
-		"value" : "0"
-	},
-	{
-		"cvar" : "joywwhack2",
-		"value" : "0"
-	},
-	{
-		"cvar" : "joyyawsensitivity",
-		"value" : "-1"
-	},
-	{
-		"cvar" : "joyyawthreshold",
-		"value" : "0.15"
-	},
-	{
-		"cvar" : "lambert",
-		"value" : "1.5"
-	},
-	{
-		"cvar" : "lightgamma",
-		"value" : "2.5"
-	},
-	{
-		"cvar" : "loadas8bit",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "logsdir",
-		"value" : "logs"
-	},
-	{
-		"cvar" : "lookspring",
-		"value" : "0"
-	},
-	{
-		"cvar" : "lookstrafe",
-		"value" : "0"
-	},
-	{
-		"cvar" : "lservercfgfile",
-		"value" : "listenserver.cfg"
-	},
-	{
-		"cvar" : "m_filter",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "m_rawinput",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "mapchangecfgfile",
-		"value" : ""
-	},
-	{
-		"cvar" : "mapcyclefile",
-		"value" : "mapcycle.txt"
-	},
-	{
-		"cvar" : "max_queries_sec",
-		"value" : "3"
-	},
-	{
-		"cvar" : "max_queries_sec_global",
-		"value" : "30"
-	},
-	{
-		"cvar" : "max_queries_window",
-		"value" : "60"
-	},
-	{
-		"cvar" : "model",
-		"value" : "gordon"
-	},
-	{
-		"cvar" : "motdfile",
-		"value" : "motd.txt"
-	},
-	{
-		"cvar" : "mp_allowmonsters",
-		"value" : "0"
-	},
-	{
-		"cvar" : "mp_autocrosshair",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "mp_chattime",
-		"value" : "10"
-	},
-	{
-		"cvar" : "mp_consistency",
-		"value" : "1"
-	},
-	{
-		"cvar" : "mp_defaultteam",
-		"value" : "0"
-	},
-	{
-		"cvar" : "mp_falldamage",
-		"value" : "0"
-	},
-	{
-		"cvar" : "mp_flashlight",
-		"value" : "0"
-	},
-	{
-		"cvar" : "mp_footsteps",
-		"value" : "1"
-	},
-	{
-		"cvar" : "mp_forcerespawn",
-		"value" : "1"
-	},
-	{
-		"cvar" : "mp_fraglimit",
-		"value" : "0"
-	},
-	{
-		"cvar" : "mp_fragsleft",
-		"value" : "0"
-	},
-	{
-		"cvar" : "mp_friendlyfire",
-		"value" : "0"
-	},
-	{
-		"cvar" : "mp_logecho",
-		"value" : "1"
-	},
-	{
-		"cvar" : "mp_logfile",
-		"value" : "1"
-	},
-	{
-		"cvar" : "mp_teamlist",
-		"value" : "hgrunt;scientist"
-	},
-	{
-		"cvar" : "mp_teamoverride",
-		"value" : "1"
-	},
-	{
-		"cvar" : "mp_teamplay",
-		"value" : "0"
-	},
-	{
-		"cvar" : "mp_timeleft",
-		"value" : "0"
-	},
-	{
-		"cvar" : "mp_timelimit",
-		"value" : "0"
-	},
-	{
-		"cvar" : "mp_weaponstay",
-		"value" : "0"
-	},
-	{
-		"cvar" : "multicastport",
-		"value" : "27025"
-	},
-	{
-		"cvar" : "net_chokeloop",
-		"value" : "0"
-	},
-	{
-		"cvar" : "net_drawslider",
-		"value" : "0"
-	},
-	{
-		"cvar" : "net_graph",
-		"value" : "(0;1;2;3)"
-	},
-	{
-		"cvar" : "net_graphpos",
-		"value" : "(0;1;2)"
-	},
-	{
-		"cvar" : "net_log",
-		"value" : "0"
-	},
-	{
-		"cvar" : "net_showdrop",
-		"value" : "0"
-	},
-	{
-		"cvar" : "net_showpackets",
-		"value" : "0"
-	},
-	{
-		"cvar" : "nosound",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "pausable",
-		"value" : "(0;1)"
-	},
-	
-	{
-		"cvar" : "r_bmodelinterp",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "r_cachestudio",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "r_cullsequencebox",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "r_detailtextures",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "r_detailtexturessupported",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "r_drawentities",
-		"value" : "1"
-	},
-	{
-		"cvar" : "r_drawviewmodel",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "r_dynamic",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "r_fullbright",
-		"value" : "0"
-	},
-	{
-		"cvar" : "r_lightmap",
-		"value" : "0"
-	},
-	{
-		"cvar" : "r_mirroralpha",
-		"value" : "1"
-	},
-	{
-		"cvar" : "r_mmx",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "r_norefresh",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "r_novis",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "r_speeds",
-		"value" : "0"
-	},
-	{
-		"cvar" : "r_traceglow",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "r_wadtextures",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "r_wateralpha",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "rate",
-		"value" : "(from: 1000 to: 25000)"
-	},    
-	{
-		"cvar" : "s_show",
-		"value" : "0"
-	},
-	{
-		"cvar" : "scr_centertime",
-		"value" : "2"
-	},
-	{
-		"cvar" : "scr_connectmsg",
-		"value" : "0"
-	},
-	{
-		"cvar" : "scr_connectmsg1",
-		"value" : "0"
-	},
-	{
-		"cvar" : "scr_connectmsg2",
-		"value" : "0"
-	},
-	{
-		"cvar" : "scr_ofsx",
-		"value" : "0"
-	},
-	{
-		"cvar" : "scr_ofsy",
-		"value" : "0"
-	},
-	{
-		"cvar" : "scr_ofsz",
-		"value" : "0"
-	},
-	{
-		"cvar" : "scr_printspeed",
-		"value" : "0"
-	},
-	{
-		"cvar" : "sdl_double_click_size",
-		"value" : "2"
-	},
-	{
-		"cvar" : "sdl_double_click_time",
-		"value" : "400"
-	},
-	{
-		"cvar" : "sensitivity",
-		"value" : "(from: 0 to: 20)"
-	},
-	{
-		"cvar" : "servercfgfile",
-		"value" : "server.cfg"
-	},
-	{
-		"cvar" : "showpause",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "sk_12mm_bullet1",
-		"value" : "8"
-	},
-	{
-		"cvar" : "sk_12mm_bullet2",
-		"value" : "10"
-	},
-	{
-		"cvar" : "sk_12mm_bullet3",
-		"value" : "10"
-	},
-	{
-		"cvar" : "sk_9mm_bullet1",
-		"value" : "5"
-	},
-	{
-		"cvar" : "sk_9mm_bullet2",
-		"value" : "5"
-	},
-	{
-		"cvar" : "sk_9mm_bullet3",
-		"value" : "8"
-	},
-	{
-		"cvar" : "sk_9mmAR_bullet1",
-		"value" : "3"
-	},
-	{
-		"cvar" : "sk_9mmAR_bullet2",
-		"value" : "4"
-	},
-	{
-		"cvar" : "sk_9mmAR_bullet3",
-		"value" : "5"
-	},
-	{
-		"cvar" : "sk_agrunt_dmg_punch1",
-		"value" : "10"
-	},
-	{
-		"cvar" : "sk_agrunt_dmg_punch2",
-		"value" : "20"
-	},
-	{
-		"cvar" : "sk_agrunt_dmg_punch3",
-		"value" : "20"
-	},
-	{
-		"cvar" : "sk_agrunt_health1",
-		"value" : "60"
-	},
-	{
-		"cvar" : "sk_agrunt_health2",
-		"value" : "90"
-	},
-	{
-		"cvar" : "sk_agrunt_health3",
-		"value" : "120"
-	},
-	{
-		"cvar" : "sk_apache_health1",
-		"value" : "150"
-	},
-	{
-		"cvar" : "sk_apache_health2",
-		"value" : "250"
-	},
-	{
-		"cvar" : "sk_apache_health3",
-		"value" : "400"
-	},
-	{
-		"cvar" : "sk_barney_health1",
-		"value" : "35"
-	},
-	{
-		"cvar" : "sk_barney_health2",
-		"value" : "35"
-	},
-	{
-		"cvar" : "sk_barney_health3",
-		"value" : "35"
-	},
-	{
-		"cvar" : "sk_battery1",
-		"value" : "15"
-	},
-	{
-		"cvar" : "sk_battery2",
-		"value" : "15"
-	},
-	{
-		"cvar" : "sk_battery3",
-		"value" : "10"
-	},
-	{
-		"cvar" : "sk_bigmomma_dmg_blast1",
-		"value" : "100"
-	},
-	{
-		"cvar" : "sk_bigmomma_dmg_blast2",
-		"value" : "120"
-	},
-	{
-		"cvar" : "sk_bigmomma_dmg_blast3",
-		"value" : "160"
-	},
-	{
-		"cvar" : "sk_bigmomma_dmg_slash1",
-		"value" : "50"
-	},
-	{
-		"cvar" : "sk_bigmomma_dmg_slash2",
-		"value" : "60"
-	},
-	{
-		"cvar" : "sk_bigmomma_dmg_slash3",
-		"value" : "70"
-	},
-	{
-		"cvar" : "sk_bigmomma_health_factor1",
-		"value" : "1"
-	},
-	{
-		"cvar" : "sk_bigmomma_health_factor2",
-		"value" : "1.500"
-	},
-	{
-		"cvar" : "sk_bigmomma_health_factor3",
-		"value" : "2"
-	},
-	{
-		"cvar" : "sk_bigmomma_radius_blast1",
-		"value" : "250"
-	},
-	{
-		"cvar" : "sk_bigmomma_radius_blast2",
-		"value" : "250"
-	},
-	{
-		"cvar" : "sk_bigmomma_radius_blast3",
-		"value" : "275"
-	},
-	{
-		"cvar" : "sk_bullsquid_dmg_bite1",
-		"value" : "15"
-	},
-	{
-		"cvar" : "sk_bullsquid_dmg_bite2",
-		"value" : "25"
-	},
-	{
-		"cvar" : "sk_bullsquid_dmg_bite3",
-		"value" : "25"
-	},
-	{
-		"cvar" : "sk_bullsquid_dmg_spit1",
-		"value" : "10"
-	},
-	{
-		"cvar" : "sk_bullsquid_dmg_spit2",
-		"value" : "10"
-	},
-	{
-		"cvar" : "sk_bullsquid_dmg_spit3",
-		"value" : "15"
-	},
-	{
-		"cvar" : "sk_bullsquid_dmg_whip1",
-		"value" : "25"
-	},
-	{
-		"cvar" : "sk_bullsquid_dmg_whip2",
-		"value" : "35"
-	},
-	{
-		"cvar" : "sk_bullsquid_dmg_whip3",
-		"value" : "35"
-	},
-	{
-		"cvar" : "sk_bullsquid_health1",
-		"value" : "40"
-	},
-	{
-		"cvar" : "sk_bullsquid_health2",
-		"value" : "40"
-	},
-	{
-		"cvar" : "sk_bullsquid_health3",
-		"value" : "120"
-	},
-	{
-		"cvar" : "sk_controller_dmgball1",
-		"value" : "3"
-	},
-	{
-		"cvar" : "sk_controller_dmgball2",
-		"value" : "4"
-	},
-	{
-		"cvar" : "sk_controller_dmgball3",
-		"value" : "5"
-	},
-	{
-		"cvar" : "sk_controller_dmgzap1",
-		"value" : "15"
-	},
-	{
-		"cvar" : "sk_controller_dmgzap2",
-		"value" : "25"
-	},
-	{
-		"cvar" : "sk_controller_dmgzap3",
-		"value" : "35"
-	},
-	{
-		"cvar" : "sk_controller_health1",
-		"value" : "60"
-	},
-	{
-		"cvar" : "sk_controller_health2",
-		"value" : "60"
-	},
-	{
-		"cvar" : "sk_controller_health3",
-		"value" : "100"
-	},
-	{
-		"cvar" : "sk_controller_speedball1",
-		"value" : "650"
-	},
-	{
-		"cvar" : "sk_controller_speedball2",
-		"value" : "800"
-	},
-	{
-		"cvar" : "sk_controller_speedball3",
-		"value" : "1000"
-	},
-	{
-		"cvar" : "sk_gargantua_dmg_fire1",
-		"value" : "3"
-	},
-	{
-		"cvar" : "sk_gargantua_dmg_fire2",
-		"value" : "5"
-	},
-	{
-		"cvar" : "sk_gargantua_dmg_fire3",
-		"value" : "5"
-	},
-	{
-		"cvar" : "sk_gargantua_dmg_slash1",
-		"value" : "10"
-	},
-	{
-		"cvar" : "sk_gargantua_dmg_slash2",
-		"value" : "30"
-	},
-	{
-		"cvar" : "sk_gargantua_dmg_slash3",
-		"value" : "30"
-	},
-	{
-		"cvar" : "sk_gargantua_dmg_stomp1",
-		"value" : "50"
-	},
-	{
-		"cvar" : "sk_gargantua_dmg_stomp2",
-		"value" : "100"
-	},
-	{
-		"cvar" : "sk_gargantua_dmg_stomp3",
-		"value" : "100"
-	},
-	{
-		"cvar" : "sk_gargantua_health1",
-		"value" : "800"
-	},
-	{
-		"cvar" : "sk_gargantua_health2",
-		"value" : "800"
-	},
-	{
-		"cvar" : "sk_gargantua_health3",
-		"value" : "1000"
-	},
-	{
-		"cvar" : "sk_hassassin_health1",
-		"value" : "30"
-	},
-	{
-		"cvar" : "sk_hassassin_health2",
-		"value" : "50"
-	},
-	{
-		"cvar" : "sk_hassassin_health3",
-		"value" : "50"
-	},
-	{
-		"cvar" : "sk_headcrab_dmg_bite1",
-		"value" : "5"
-	},
-	{
-		"cvar" : "sk_headcrab_dmg_bite2",
-		"value" : "10"
-	},
-	{
-		"cvar" : "sk_headcrab_dmg_bite3",
-		"value" : "10"
-	},
-	{
-		"cvar" : "sk_headcrab_health1",
-		"value" : "10"
-	},
-	{
-		"cvar" : "sk_headcrab_health2",
-		"value" : "10"
-	},
-	{
-		"cvar" : "sk_headcrab_health3",
-		"value" : "20"
-	},
-	{
-		"cvar" : "sk_healthcharger1",
-		"value" : "50"
-	},
-	{
-		"cvar" : "sk_healthcharger2",
-		"value" : "40"
-	},
-	{
-		"cvar" : "sk_healthcharger3",
-		"value" : "25"
-	},
-	{
-		"cvar" : "sk_healthkit1",
-		"value" : "15"
-	},
-	{
-		"cvar" : "sk_healthkit2",
-		"value" : "15"
-	},
-	{
-		"cvar" : "sk_healthkit3",
-		"value" : "10"
-	},
-	{
-		"cvar" : "sk_hgrunt_gspeed1",
-		"value" : "400"
-	},
-	{
-		"cvar" : "sk_hgrunt_gspeed2",
-		"value" : "600"
-	},
-	{
-		"cvar" : "sk_hgrunt_gspeed3",
-		"value" : "800"
-	},
-	{
-		"cvar" : "sk_hgrunt_health1",
-		"value" : "50"
-	},
-	{
-		"cvar" : "sk_hgrunt_health2",
-		"value" : "50"
-	},
-	{
-		"cvar" : "sk_hgrunt_health3",
-		"value" : "80"
-	},
-	{
-		"cvar" : "sk_hgrunt_kick1",
-		"value" : "5"
-	},
-	{
-		"cvar" : "sk_hgrunt_kick2",
-		"value" : "10"
-	},
-	{
-		"cvar" : "sk_hgrunt_kick3",
-		"value" : "10"
-	},
-	{
-		"cvar" : "sk_hgrunt_pellets1",
-		"value" : "3"
-	},
-	{
-		"cvar" : "sk_hgrunt_pellets2",
-		"value" : "5"
-	},
-	{
-		"cvar" : "sk_hgrunt_pellets3",
-		"value" : "6"
-	},
-	{
-		"cvar" : "sk_hornet_dmg1",
-		"value" : "4"
-	},
-	{
-		"cvar" : "sk_hornet_dmg2",
-		"value" : "5"
-	},
-	{
-		"cvar" : "sk_hornet_dmg3",
-		"value" : "8"
-	},
-	{
-		"cvar" : "sk_houndeye_dmg_blast1",
-		"value" : "10"
-	},
-	{
-		"cvar" : "sk_houndeye_dmg_blast2",
-		"value" : "15"
-	},
-	{
-		"cvar" : "sk_houndeye_dmg_blast3",
-		"value" : "15"
-	},
-	{
-		"cvar" : "sk_houndeye_health1",
-		"value" : "20"
-	},
-	{
-		"cvar" : "sk_houndeye_health2",
-		"value" : "20"
-	},
-	{
-		"cvar" : "sk_houndeye_health3",
-		"value" : "30"
-	},
-	{
-		"cvar" : "sk_ichthyosaur_health1",
-		"value" : "200"
-	},
-	{
-		"cvar" : "sk_ichthyosaur_health2",
-		"value" : "200"
-	},
-	{
-		"cvar" : "sk_ichthyosaur_health3",
-		"value" : "400"
-	},
-	{
-		"cvar" : "sk_ichthyosaur_shake1",
-		"value" : "20"
-	},
-	{
-		"cvar" : "sk_ichthyosaur_shake2",
-		"value" : "35"
-	},
-	{
-		"cvar" : "sk_ichthyosaur_shake3",
-		"value" : "50"
-	},
-	{
-		"cvar" : "sk_islave_dmg_claw1",
-		"value" : "8"
-	},
-	{
-		"cvar" : "sk_islave_dmg_claw2",
-		"value" : "10"
-	},
-	{
-		"cvar" : "sk_islave_dmg_claw3",
-		"value" : "10"
-	},
-	{
-		"cvar" : "sk_islave_dmg_clawrake1",
-		"value" : "25"
-	},
-	{
-		"cvar" : "sk_islave_dmg_clawrake2",
-		"value" : "25"
-	},
-	{
-		"cvar" : "sk_islave_dmg_clawrake3",
-		"value" : "25"
-	},
-	{
-		"cvar" : "sk_islave_dmg_zap1",
-		"value" : "10"
-	},
-	{
-		"cvar" : "sk_islave_dmg_zap2",
-		"value" : "10"
-	},
-	{
-		"cvar" : "sk_islave_dmg_zap3",
-		"value" : "15"
-	},
-	{
-		"cvar" : "sk_islave_health1",
-		"value" : "30"
-	},
-	{
-		"cvar" : "sk_islave_health2",
-		"value" : "30"
-	},
-	{
-		"cvar" : "sk_islave_health3",
-		"value" : "60"
-	},
-	{
-		"cvar" : "sk_leech_dmg_bite1",
-		"value" : "2"
-	},
-	{
-		"cvar" : "sk_leech_dmg_bite2",
-		"value" : "2"
-	},
-	{
-		"cvar" : "sk_leech_dmg_bite3",
-		"value" : "2"
-	},
-	{
-		"cvar" : "sk_leech_health1",
-		"value" : "2"
-	},
-	{
-		"cvar" : "sk_leech_health2",
-		"value" : "2"
-	},
-	{
-		"cvar" : "sk_leech_health3",
-		"value" : "2"
-	},
-	{
-		"cvar" : "sk_miniturret_health1",
-		"value" : "40"
-	},
-	{
-		"cvar" : "sk_miniturret_health2",
-		"value" : "40"
-	},
-	{
-		"cvar" : "sk_miniturret_health3",
-		"value" : "50"
-	},
-	{
-		"cvar" : "sk_monster_arm1",
-		"value" : "1"
-	},
-	{
-		"cvar" : "sk_monster_arm2",
-		"value" : "1"
-	},
-	{
-		"cvar" : "sk_monster_arm3",
-		"value" : "1"
-	},
-	{
-		"cvar" : "sk_monster_chest1",
-		"value" : "1"
-	},
-	{
-		"cvar" : "sk_monster_chest2",
-		"value" : "1"
-	},
-	{
-		"cvar" : "sk_monster_chest3",
-		"value" : "1"
-	},
-	{
-		"cvar" : "sk_monster_head1",
-		"value" : "3"
-	},
-	{
-		"cvar" : "sk_monster_head2",
-		"value" : "3"
-	},
-	{
-		"cvar" : "sk_monster_head3",
-		"value" : "3"
-	},
-	{
-		"cvar" : "sk_monster_leg1",
-		"value" : "1"
-	},
-	{
-		"cvar" : "sk_monster_leg2",
-		"value" : "1"
-	},
-	{
-		"cvar" : "sk_monster_leg3",
-		"value" : "1"
-	},
-	{
-		"cvar" : "sk_monster_stomach1",
-		"value" : "1"
-	},
-	{
-		"cvar" : "sk_monster_stomach2",
-		"value" : "1"
-	},
-	{
-		"cvar" : "sk_monster_stomach3",
-		"value" : "1"
-	},
-	{
-		"cvar" : "sk_nihilanth_health1",
-		"value" : "800"
-	},
-	{
-		"cvar" : "sk_nihilanth_health2",
-		"value" : "800"
-	},
-	{
-		"cvar" : "sk_nihilanth_health3",
-		"value" : "1000"
-	},
-	{
-		"cvar" : "sk_nihilanth_zap1",
-		"value" : "30"
-	},
-	{
-		"cvar" : "sk_nihilanth_zap2",
-		"value" : "30"
-	},
-	{
-		"cvar" : "sk_nihilanth_zap3",
-		"value" : "50"
-	},
-	{
-		"cvar" : "sk_player_arm1",
-		"value" : "1"
-	},
-	{
-		"cvar" : "sk_player_arm2",
-		"value" : "1"
-	},
-	{
-		"cvar" : "sk_player_arm3",
-		"value" : "1"
-	},
-	{
-		"cvar" : "sk_player_chest1",
-		"value" : "1"
-	},
-	{
-		"cvar" : "sk_player_chest2",
-		"value" : "1"
-	},
-	{
-		"cvar" : "sk_player_chest3",
-		"value" : "1"
-	},
-	{
-		"cvar" : "sk_player_head1",
-		"value" : "3"
-	},
-	{
-		"cvar" : "sk_player_head2",
-		"value" : "3"
-	},
-	{
-		"cvar" : "sk_player_head3",
-		"value" : "3"
-	},
-	{
-		"cvar" : "sk_player_leg1",
-		"value" : "1"
-	},
-	{
-		"cvar" : "sk_player_leg2",
-		"value" : "1"
-	},
-	{
-		"cvar" : "sk_player_leg3",
-		"value" : "1"
-	},
-	{
-		"cvar" : "sk_player_stomach1",
-		"value" : "1"
-	},
-	{
-		"cvar" : "sk_player_stomach2",
-		"value" : "1"
-	},
-	{
-		"cvar" : "sk_player_stomach3",
-		"value" : "1"
-	},
-	{
-		"cvar" : "sk_plr_357_bullet1",
-		"value" : "40"
-	},
-	{
-		"cvar" : "sk_plr_357_bullet2",
-		"value" : "40"
-	},
-	{
-		"cvar" : "sk_plr_357_bullet3",
-		"value" : "40"
-	},
-	{
-		"cvar" : "sk_plr_9mm_bullet1",
-		"value" : "8"
-	},
-	{
-		"cvar" : "sk_plr_9mm_bullet2",
-		"value" : "8"
-	},
-	{
-		"cvar" : "sk_plr_9mm_bullet3",
-		"value" : "8"
-	},
-	{
-		"cvar" : "sk_plr_9mmAR_bullet1",
-		"value" : "5"
-	},
-	{
-		"cvar" : "sk_plr_9mmAR_bullet2",
-		"value" : "5"
-	},
-	{
-		"cvar" : "sk_plr_9mmAR_bullet3",
-		"value" : "5"
-	},
-	{
-		"cvar" : "sk_plr_9mmAR_grenade1",
-		"value" : "100"
-	},
-	{
-		"cvar" : "sk_plr_9mmAR_grenade2",
-		"value" : "100"
-	},
-	{
-		"cvar" : "sk_plr_9mmAR_grenade3",
-		"value" : "100"
-	},
-	{
-		"cvar" : "sk_plr_buckshot1",
-		"value" : "5"
-	},
-	{
-		"cvar" : "sk_plr_buckshot2",
-		"value" : "5"
-	},
-	{
-		"cvar" : "sk_plr_buckshot3",
-		"value" : "5"
-	},
-	{
-		"cvar" : "sk_plr_crowbar1",
-		"value" : "10"
-	},
-	{
-		"cvar" : "sk_plr_crowbar2",
-		"value" : "10"
-	},
-	{
-		"cvar" : "sk_plr_crowbar3",
-		"value" : "10"
-	},
-	{
-		"cvar" : "sk_plr_egon_narrow1",
-		"value" : "6"
-	},
-	{
-		"cvar" : "sk_plr_egon_narrow2",
-		"value" : "6"
-	},
-	{
-		"cvar" : "sk_plr_egon_narrow3",
-		"value" : "6"
-	},
-	{
-		"cvar" : "sk_plr_egon_wide1",
-		"value" : "14"
-	},
-	{
-		"cvar" : "sk_plr_egon_wide2",
-		"value" : "14"
-	},
-	{
-		"cvar" : "sk_plr_egon_wide3",
-		"value" : "14"
-	},
-	{
-		"cvar" : "sk_plr_gauss1",
-		"value" : "20"
-	},
-	{
-		"cvar" : "sk_plr_gauss2",
-		"value" : "20"
-	},
-	{
-		"cvar" : "sk_plr_gauss3",
-		"value" : "20"
-	},
-	{
-		"cvar" : "sk_plr_hand_grenade1",
-		"value" : "100"
-	},
-	{
-		"cvar" : "sk_plr_hand_grenade2",
-		"value" : "100"
-	},
-	{
-		"cvar" : "sk_plr_hand_grenade3",
-		"value" : "100"
-	},
-	{
-		"cvar" : "sk_plr_rpg1",
-		"value" : "100"
-	},
-	{
-		"cvar" : "sk_plr_rpg2",
-		"value" : "100"
-	},
-	{
-		"cvar" : "sk_plr_rpg3",
-		"value" : "100"
-	},
-	{
-		"cvar" : "sk_plr_satchel1",
-		"value" : "150"
-	},
-	{
-		"cvar" : "sk_plr_satchel2",
-		"value" : "150"
-	},
-	{
-		"cvar" : "sk_plr_satchel3",
-		"value" : "150"
-	},
-	{
-		"cvar" : "sk_plr_tripmine1",
-		"value" : "150"
-	},
-	{
-		"cvar" : "sk_plr_tripmine2",
-		"value" : "150"
-	},
-	{
-		"cvar" : "sk_plr_tripmine3",
-		"value" : "150"
-	},
-	{
-		"cvar" : "sk_plr_xbow_bolt_client1",
-		"value" : "10"
-	},
-	{
-		"cvar" : "sk_plr_xbow_bolt_client2",
-		"value" : "10"
-	},
-	{
-		"cvar" : "sk_plr_xbow_bolt_client3",
-		"value" : "10"
-	},
-	{
-		"cvar" : "sk_plr_xbow_bolt_monster1",
-		"value" : "50"
-	},
-	{
-		"cvar" : "sk_plr_xbow_bolt_monster2",
-		"value" : "50"
-	},
-	{
-		"cvar" : "sk_plr_xbow_bolt_monster3",
-		"value" : "50"
-	},
-	{
-		"cvar" : "sk_scientist_heal1",
-		"value" : "25"
-	},
-	{
-		"cvar" : "sk_scientist_heal2",
-		"value" : "25"
-	},
-	{
-		"cvar" : "sk_scientist_heal3",
-		"value" : "25"
-	},
-	{
-		"cvar" : "sk_scientist_health1",
-		"value" : "20"
-	},
-	{
-		"cvar" : "sk_scientist_health2",
-		"value" : "20"
-	},
-	{
-		"cvar" : "sk_scientist_health3",
-		"value" : "20"
-	},
-	{
-		"cvar" : "sk_sentry_health1",
-		"value" : "40"
-	},
-	{
-		"cvar" : "sk_sentry_health2",
-		"value" : "40"
-	},
-	{
-		"cvar" : "sk_sentry_health3",
-		"value" : "50"
-	},
-	{
-		"cvar" : "sk_snark_dmg_bite1",
-		"value" : "10"
-	},
-	{
-		"cvar" : "sk_snark_dmg_bite2",
-		"value" : "10"
-	},
-	{
-		"cvar" : "sk_snark_dmg_bite3",
-		"value" : "10"
-	},
-	{
-		"cvar" : "sk_snark_dmg_pop1",
-		"value" : "5"
-	},
-	{
-		"cvar" : "sk_snark_dmg_pop2",
-		"value" : "5"
-	},
-	{
-		"cvar" : "sk_snark_dmg_pop3",
-		"value" : "5"
-	},
-	{
-		"cvar" : "sk_snark_health1",
-		"value" : "2"
-	},
-	{
-		"cvar" : "sk_snark_health2",
-		"value" : "2"
-	},
-	{
-		"cvar" : "sk_snark_health3",
-		"value" : "2"
-	},
-	{
-		"cvar" : "sk_suitcharger1",
-		"value" : "75"
-	},
-	{
-		"cvar" : "sk_suitcharger2",
-		"value" : "50"
-	},
-	{
-		"cvar" : "sk_suitcharger3",
-		"value" : "35"
-	},
-	{
-		"cvar" : "sk_turret_health1",
-		"value" : "50"
-	},
-	{
-		"cvar" : "sk_turret_health2",
-		"value" : "50"
-	},
-	{
-		"cvar" : "sk_turret_health3",
-		"value" : "60"
-	},
-	{
-		"cvar" : "sk_zombie_dmg_both_slash1",
-		"value" : "25"
-	},
-	{
-		"cvar" : "sk_zombie_dmg_both_slash2",
-		"value" : "40"
-	},
-	{
-		"cvar" : "sk_zombie_dmg_both_slash3",
-		"value" : "40"
-	},
-	{
-		"cvar" : "sk_zombie_dmg_one_slash1",
-		"value" : "10"
-	},
-	{
-		"cvar" : "sk_zombie_dmg_one_slash2",
-		"value" : "20"
-	},
-	{
-		"cvar" : "sk_zombie_dmg_one_slash3",
-		"value" : "20"
-	},
-	{
-		"cvar" : "sk_zombie_health1",
-		"value" : "50"
-	},
-	{
-		"cvar" : "sk_zombie_health2",
-		"value" : "50"
-	},
-	{
-		"cvar" : "sk_zombie_health3",
-		"value" : "100"
-	},
-	{
-		"cvar" : "skill",
-		"value" : "(1;2;3)"
-	},
-	{
-		"cvar" : "skin",
-		"value" : "0"
-	},
-	{
-		"cvar" : "snd_noextraupdate",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "snd_show",
-		"value" : "0"
-	},
-	{
-		"cvar" : "speak_enabled",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "suitvolume",
-		"value" : "(from: 0 to: 2)"
-	},
-	{
-		"cvar" : "sv_accelerate",
-		"value" : "10"
-	},
-	{
-		"cvar" : "sv_aim",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "sv_airaccelerate",
-		"value" : "10"
-	},
-	{
-		"cvar" : "sv_allow_dlfile",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "sv_allowdownload",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "sv_allowupload",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "sv_bounce",
-		"value" : "1"
-	},
-	{
-		"cvar" : "sv_cheats",
-		"value" : "0"
-	},
-	{
-		"cvar" : "sv_enableoldqueries",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "sv_filetransfercompression",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "sv_filterban",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "sv_friction",
-		"value" : "4"
-	},
-	{
-		"cvar" : "sv_gravity",
-		"value" : "800"
-	},
-	{
-		"cvar" : "sv_instancedbaseline",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "sv_lan",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "sv_lan_rate",
-		"value" : "(from: 1001 to: 20000)"
-	},
-	{
-		"cvar" : "sv_log_onefile",
-		"value" : "0"
-	},
-	{
-		"cvar" : "sv_log_singleplayer",
-		"value" : "0"
-	},
-	{
-		"cvar" : "sv_logbans",
-		"value" : "0"
-	},
-	{
-		"cvar" : "sv_logblocks",
-		"value" : "0"
-	},
-	{
-		"cvar" : "sv_logrelay",
-		"value" : "0"
-	},
-	{
-		"cvar" : "sv_logsecret",
-		"value" : "0"
-	},
-	{
-		"cvar" : "sv_maxrate",
-		"value" : "0"
-	},
-	{
-		"cvar" : "sv_maxspeed",
-		"value" : "320"
-	},
-	{
-		"cvar" : "sv_maxunlag",
-		"value" : "0.5"
-	},
-	{
-		"cvar" : "sv_maxupdaterate",
-		"value" : "30"
-	},
-	{
-		"cvar" : "sv_maxvelocity",
-		"value" : "2000"
-	},
-	{
-		"cvar" : "sv_minrate",
-		"value" : "0"
-	},
-	{
-		"cvar" : "sv_minupdaterate",
-		"value" : "10"
-	},
-	{
-		"cvar" : "sv_newunit",
-		"value" : "0"
-	},
-	{
-		"cvar" : "sv_outofdatetime",
-		"value" : "1800"
-	},
-	{
-		"cvar" : "sv_password",
-		"value" : ""
-	},
-	{
-		"cvar" : "sv_proxies",
-		"value" : "1"
-	},
-	{
-		"cvar" : "sv_rcon_banpenalty",
-		"value" : "0"
-	},
-	{
-		"cvar" : "sv_rcon_maxfailures",
-		"value" : "10"
-	},
-	{
-		"cvar" : "sv_rcon_minfailures",
-		"value" : "5"
-	},
-	{
-		"cvar" : "sv_rcon_minfailuretime",
-		"value" : "30"
-	},
-	{
-		"cvar" : "sv_send_logos",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "sv_send_resources",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "sv_skycolor_b",
-		"value" : "(from: 0 to: 255)"
-	},
-	{
-		"cvar" : "sv_skycolor_g",
-		"value" : "(from: 0 to: 255)"
-	},
-	{
-		"cvar" : "sv_skycolor_r",
-		"value" : "(from: 0 to: 255)"
-	},
-	{
-		"cvar" : "sv_spectatormaxspeed",
-		"value" : "500"
-	},
-	{
-		"cvar" : "sv_stats",
-		"value" : "1"
-	},
-	{
-		"cvar" : "sv_stepsize",
-		"value" : "18"
-	},
-	{
-		"cvar" : "sv_stopspeed",
-		"value" : "100"
-	},
-	{
-		"cvar" : "sv_unlag",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "sv_unlagpush",
-		"value" : "0"
-	},
-	{
-		"cvar" : "sv_unlagsamples",
-		"value" : "(1;2)"
-	},
-	{
-		"cvar" : "sv_voiceenable",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "sv_wateraccelerate",
-		"value" : "10"
-	},
-	{
-		"cvar" : "sv_wateramp",
-		"value" : "0"
-	},
-	{
-		"cvar" : "sv_waterfriction",
-		"value" : "1"
-	},
-	{
-		"cvar" : "sys_ticrate",
-		"value" : "100"
-	},
-	{
-		"cvar" : "texgamma",
-		"value" : "(from: 0 to: 2)"
-	},
-	{
-		"cvar" : "tfc_newmodels",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "topcolor",
-		"value" : "(from: 0 to: 255)"
-	},
-	{
-		"cvar" : "traceralpha",
-		"value" : "(from: 0 to: 1)"
-	},
-	{
-		"cvar" : "tracerblue",
-		"value" : "(from: 0 to: 1)"
-	},
-	{
-		"cvar" : "tracergreen",
-		"value" : "(from: 0 to: 1)"
-	},
-	{
-		"cvar" : "tracerlength",
-		"value" : "(from: 0 to: 1)"
-	},
-	{
-		"cvar" : "tracerred",
-		"value" : "(from: 0 to: 1)"
-	},
-	{
-		"cvar" : "v_centermove",
-		"value" : "0.15"
-	},
-	{
-		"cvar" : "v_centerspeed",
-		"value" : "500"
-	},
-	{
-		"cvar" : "v_dark",
-		"value" : "0"
-	},
-	{
-		"cvar" : "viewsize",
-		"value" : "(from: 30 to: 120)"
-	},
-	{
-		"cvar" : "violence_ablood",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "violence_agibs",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "violence_hblood",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "violence_hgibs",
-		"value" : "(0;1)"
-	},
-	{
-		"cvar" : "volume",
-		"value" : "(from: 0 to: 2)"
-	},
-	{
-		"cvar" : "waterroom_type",
-		"value" : "(from: 0 to: 28)"
-	}
-  ]
 }
