@@ -10,12 +10,12 @@ namespace VolvoWrench.Demo_stuff.GoldSource.Verify
     {
         public string name;
         public List<Tuple<String,Commandtype>> CommandRules;
-        public List<Tuple<String,String>> CvarRules;
+        public List<Cvar> CvarRules;
 
         public Category()
         {
             CommandRules = new List<Tuple<string, Commandtype>>();
-            CvarRules = new List<Tuple<string, String>>();
+            CvarRules = new List<Cvar>();
         }
     }
 }

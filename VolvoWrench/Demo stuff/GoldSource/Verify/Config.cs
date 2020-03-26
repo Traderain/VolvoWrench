@@ -14,6 +14,7 @@ namespace VolvoWrench.Demo_stuff.GoldSource.Verify
         public string bxt_version = "";
 
         public List<Tuple<String, Commandtype>> BaseRules;
+        public List<Cvar> BaseCvarRules;
 
         public List<Category> categories;
 
@@ -21,13 +22,21 @@ namespace VolvoWrench.Demo_stuff.GoldSource.Verify
         {
             BaseRules = new List<Tuple<string, Commandtype>>();
             categories = new List<Category>();
+            BaseCvarRules = new List<Cvar>();
             JObject jsonfile = (JObject)JsonConvert.DeserializeObject(File.ReadAllText(file));
             jsonfile["bxt_version"] = bxt_version;
             var cats = (JArray)jsonfile["categories"];
             foreach(var rule in (JArray)jsonfile["base_command_rules"])
             {
-                BaseRules.Add(new Tuple<string, Commandtype>(rule["command"].ToString(),
+                if(rule["rule"] != null)
+                {
+                    BaseRules.Add(new Tuple<string, Commandtype>(rule["command"].ToString(),
                     (Commandtype)Enum.Parse(typeof(Commandtype), rule["rule"].ToString())));
+                }
+                else
+                {
+                    BaseCvarRules.Add(new Cvar(rule as JObject));
+                }
             }
             foreach(var category in cats)
             {
@@ -44,8 +53,7 @@ namespace VolvoWrench.Demo_stuff.GoldSource.Verify
                 {
                     foreach (var rule in (JArray)category["cvar_rules"])
                     {
-                        c.CvarRules.Add(new Tuple<string, string>(rule["cvar"].ToString(),
-                            rule["value"].ToString()));
+                        c.CvarRules.Add(new Cvar(rule as JObject));
                     }
                 }
                 c.name = category["name"].ToString();
