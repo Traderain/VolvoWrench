@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  push:
+    paths-ignore:
+      - .gitignore
+      - README.md
+  pull_request:
+    paths-ignore:
+      - .gitignore
+      - README.md
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: recursive
+    - uses: nuget/setup-nuget@v1
+    - name: nuget restore
+      run: nuget restore
+    - uses: microsoft/setup-msbuild@v1
+    - name: Build
+      run: msbuild /m /nologo /t:Build /p:Configuration=Release /p:AllowedReferenceRelatedFileExtensions=none /p:DefineConstants="NOVERIFY" VolvoWrench.sln
+    - name: Prepare artifacts
+      run: rm VolvoWrench\bin\Release\* -Include *.config, *.pdb, *.xml
+    - uses: actions/upload-artifact@v2
+      with:
+        name: Portable
+        path: VolvoWrench\bin\Release
