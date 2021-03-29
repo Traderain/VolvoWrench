@@ -69,11 +69,10 @@ namespace VolvoWrench.Demo_Stuff.Source
             }
 
             Info.NetProtocol = reader.ReadInt32();
-
-            Info.ServerName = new string(reader.ReadChars(260)).Replace("\0", "");
-            Info.ClientName = new string(reader.ReadChars(260)).Replace("\0", "");
-            Info.MapName = new string(reader.ReadChars(260)).Replace("\0", "");
-            Info.GameDirectory = new string(reader.ReadChars(260)).Replace("\0", "");
+            Info.ServerName = Encoding.UTF8.GetString(reader.ReadBytes(260)).Replace("\0", "");
+            Info.ClientName = Encoding.UTF8.GetString(reader.ReadBytes(260)).Replace("\0", "");
+            Info.MapName = Encoding.UTF8.GetString(reader.ReadBytes(260)).Replace("\0", "");
+            Info.GameDirectory = Encoding.UTF8.GetString(reader.ReadBytes(260)).Replace("\0", "");
 
             Info.Seconds = Math.Abs(reader.ReadSingle());
             Info.TickCount = Math.Abs(reader.ReadInt32());
