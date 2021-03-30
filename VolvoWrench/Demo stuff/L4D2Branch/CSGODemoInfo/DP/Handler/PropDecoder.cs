@@ -288,11 +288,11 @@ namespace VolvoWrench.Demo_Stuff.L4D2Branch.CSGODemoInfo.DP.Handler
                     // Adjust the integers from [0..MAX_COORD_VALUE-1] to [1..MAX_COORD_VALUE]
                     if (inBounds)
                     {
-                        value = reader.ReadInt(11) + 1;
+                        intval = (int)reader.ReadInt(11) + 1;
                     }
                     else
                     {
-                        value = reader.ReadInt(14) + 1;
+                        intval = (int)reader.ReadInt(14) + 1;
                     }
                 }
 
@@ -300,7 +300,7 @@ namespace VolvoWrench.Demo_Stuff.L4D2Branch.CSGODemoInfo.DP.Handler
                 fractval = (int) reader.ReadInt(isLowPrecision ? 3 : 5);
 
                 // Calculate the correct floating point value
-                value = intval + (fractval*(isLowPrecision ? COORD_RESOLUTION_LOWPRECISION : COORD_RESOLUTION));
+                value = (float)(intval + (fractval*(isLowPrecision ? COORD_RESOLUTION_LOWPRECISION : COORD_RESOLUTION)));
             }
 
             if (isNegative)
